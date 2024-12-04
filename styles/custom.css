@@ -29,3 +29,14 @@
 .custom-swiper-button-next {
   position: absolute;
 }
+
+/* Input Number Arrows Styles */
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

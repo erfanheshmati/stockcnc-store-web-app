@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
 import "@/styles/custom.css";
+import { APP_DESCRIPTION, APP_TITLE } from "@/lib/constants";
 
 const yekanFont = localFont({
   src: [
@@ -17,9 +18,8 @@ const yekanFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: process.env.NEXT_PUBLIC_APP_TITLE || "سی ان سی استوک",
-  description:
-    process.env.NEXT_PUBLIC_APP_DESCRIPTION || "ماشین آلات و تجهیزات سی ان سی",
+  title: process.env.NEXT_PUBLIC_APP_TITLE || `${APP_TITLE}`,
+  description: process.env.NEXT_PUBLIC_APP_DESCRIPTION || `${APP_DESCRIPTION}`,
   icons: {
     icon: "/icons/favicon.ico",
   },

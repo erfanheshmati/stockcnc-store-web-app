@@ -72,4 +72,7 @@
   .wrapper {
     @apply w-full max-w-[1364px] px-4 2xl:px-0 md:mx-auto;
   }
+  .wrapper-about {
+    @apply w-full max-w-[950px] px-4 2xl:px-0 md:mx-auto;
+  }
 }

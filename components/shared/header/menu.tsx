@@ -9,7 +9,7 @@ const navLinks = [
   { title: "درباره ما", href: "/about" },
   { title: "تماس با ما", href: "/contact" },
   { title: "سوالات متداول", href: "/frequent-asked-questions" },
-  { title: "استعلام قیمت", href: "/price-inquiry" },
+  { title: "استعلام قیمت", href: "/inquiry" },
 ];
 
 export default function Menu() {
@@ -73,7 +73,7 @@ export default function Menu() {
                 >
                   <Link href={item.href} onClick={toggleMobileMenu}>
                     {item.title}
-                    {item.href === "/price-inquiry" && (
+                    {item.href === "/inquiry" && (
                       <Image
                         src="/images/Group.png"
                         alt="item badge"
@@ -107,7 +107,7 @@ export default function Menu() {
             >
               <Link href={item.href}>
                 {item.title}
-                {item.href === "/price-inquiry" && (
+                {item.href === "/inquiry" && (
                   <Image
                     src="/images/Group.png"
                     alt="item badge"

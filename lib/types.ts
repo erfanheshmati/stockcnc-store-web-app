@@ -40,3 +40,13 @@ export type Blog = {
   author: string;
   date: string;
 };
+
+export type Member = {
+  id: number;
+  name: string;
+  position: string;
+  image: string;
+  twitter: string;
+  telegram: string;
+  instagram: string;
+};

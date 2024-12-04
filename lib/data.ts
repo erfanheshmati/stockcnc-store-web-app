@@ -1,4 +1,4 @@
-import { Blog, Brand, Category, Help, Product } from "./types";
+import { Blog, Brand, Category, Help, Member, Product } from "./types";
 
 export const categoriesData: Category[] = [
   {
@@ -211,5 +211,44 @@ export const blogsData: Blog[] = [
       "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم تست شده از صنعت چاپ و با استفاده از طراحان گرافیک است که در میان همه متن ها استفاده های روزمره ای را به عنوان تست",
     author: "محمدرضا",
     date: "23 اردیبهشت 1403",
+  },
+];
+
+export const membersData: Member[] = [
+  {
+    id: 1,
+    name: "محمدرضا اسپروز",
+    position: "مدیر عامل سی ان سی استوک",
+    image: "/images/members/member-1.png",
+    twitter: "#",
+    telegram: "#",
+    instagram: "#",
+  },
+  {
+    id: 2,
+    name: "محمدرضا اسپروز",
+    position: "مدیر عامل سی ان سی استوک",
+    image: "/images/members/member-2.png",
+    twitter: "#",
+    telegram: "#",
+    instagram: "#",
+  },
+  {
+    id: 3,
+    name: "محمدرضا اسپروز",
+    position: "مدیر عامل سی ان سی استوک",
+    image: "/images/members/member-3.png",
+    twitter: "#",
+    telegram: "#",
+    instagram: "#",
+  },
+  {
+    id: 4,
+    name: "محمدرضا اسپروز",
+    position: "مدیر عامل سی ان سی استوک",
+    image: "/images/members/member-4.png",
+    twitter: "#",
+    telegram: "#",
+    instagram: "#",
   },
 ];

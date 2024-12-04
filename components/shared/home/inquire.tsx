@@ -6,7 +6,7 @@ export default function Inquire() {
   return (
     <>
       {/* Mobile View */}
-      <Link href="#">
+      <Link href="/inquiry">
         <div className="md:hidden flex items-center wrapper justify-center w-[328px] h-[87px] bg-secondary rounded-xl mt-2 relative">
           {/* Background Layer */}
           <div className="absolute inset-0 bg-consultation-background bg-no-repeat opacity-[50%]"></div>
@@ -55,7 +55,7 @@ export default function Inquire() {
             />
           </div>
           <div className="flex items-center">
-            <Link href="#">
+            <Link href="/inquiry">
               <div className="flex items-center justify-end gap-8 px-5 w-[262px] h-[69px] rounded-full hover:bg-[#8497B5]/20 hover:shadow transition-colors duration-300 ease-in-out">
                 <span className="text-white font-bold text-[15px]">
                   استعلام قیمت فوری
