@@ -5,10 +5,6 @@ import Link from "next/link";
 import { BiPhoneCall } from "react-icons/bi";
 import { PiMapPinFill } from "react-icons/pi";
 import ContactForm from "./contact-form";
-import NeshanSvg from "./neshan-svg";
-import MapSvg from "./map-svg";
-import MapSvgMobile from "./map-svg-mobile";
-import NeshanSvgMobile from "./neshan-svg-mobile";
 
 export const metadata = {
   title: `تماس با ما - ${APP_TITLE}`,
@@ -259,7 +255,12 @@ export default function ContactPage() {
                   <span className="text-primary font-bold text-[12px]">
                     مشاهده در نشان
                   </span>
-                  <NeshanSvgMobile />
+                  <Image
+                    src="/icons/neshan.png"
+                    alt="Neshan Logo"
+                    width={20}
+                    height={20}
+                  />
                 </Link>
               </div>
               <div className="flex items-center py-4">
@@ -270,7 +271,12 @@ export default function ContactPage() {
               </div>
               {/* Google Map */}
               <div className="flex items-center justify-center relative">
-                <MapSvgMobile />
+                <Image
+                  src="/images/map.png"
+                  alt="Map Image"
+                  width={754}
+                  height={193}
+                />
                 <PiMapPinFill
                   color="white"
                   className="absolute w-[45px] h-[55px]"
@@ -403,7 +409,12 @@ export default function ContactPage() {
                   href="#"
                   className="flex items-center gap-1 hover:underline"
                 >
-                  <NeshanSvg />
+                  <Image
+                    src="/icons/neshan.png"
+                    alt="Neshan Logo"
+                    width={24}
+                    height={24}
+                  />
                   <span className="text-primary font-bold text-[12px]">
                     مشاهده در نشان
                   </span>
@@ -411,7 +422,12 @@ export default function ContactPage() {
               </div>
               {/* Google Map */}
               <div className="flex items-center justify-center mt-6 relative">
-                <MapSvg />
+                <Image
+                  src="/images/map.png"
+                  alt="Map Image"
+                  width={754}
+                  height={193}
+                />
                 <PiMapPinFill
                   color="white"
                   className="absolute w-[45px] h-[55px]"
