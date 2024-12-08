@@ -50,3 +50,11 @@ export type Member = {
   telegram: string;
   instagram: string;
 };
+
+export type Social = {
+  id: number;
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+};

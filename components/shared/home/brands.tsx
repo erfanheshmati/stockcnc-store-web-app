@@ -13,7 +13,7 @@ export default function Brands() {
           </span>
         </div>
         <ul
-          className="flex items-center gap-4 min-h-[50px] overflow-x-scroll"
+          className="flex items-center gap-4 min-h-[50px] wrapper overflow-auto"
           style={{ scrollbarWidth: "none" }}
         >
           {brandsData.map((data) => (
@@ -27,6 +27,8 @@ export default function Brands() {
         </ul>
       </div>
 
+      {/* ******************************************************************************************************************** */}
+
       {/* Desktop View */}
       <div className="hidden md:flex flex-col">
         <div className="flex items-center justify-start gap-1">
@@ -35,8 +37,8 @@ export default function Brands() {
             سی ان سی استوک
           </span>
         </div>
-        <hr className="mt-6" />
-        <div className="flex flex-col gap-4 mt-10">
+        <hr className="mt-6 ml-8" />
+        <div className="flex flex-col gap-4 pt-10 pb-2 h-[530px] overflow-auto custom-scroll px-1 pl-6">
           {brandsData.map((data) => (
             <BrandCard data={data} key={data.id} />
           ))}

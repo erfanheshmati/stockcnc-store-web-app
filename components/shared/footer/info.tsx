@@ -1,9 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { BiAward, BiChevronDown } from "react-icons/bi";
+import { FaWhatsapp } from "react-icons/fa";
+import { IoLogoInstagram } from "react-icons/io5";
+import { LiaTelegramPlane } from "react-icons/lia";
 
 const accordionItems = [
   {
@@ -41,19 +43,23 @@ export default function Info() {
             {/* Accordion Title */}
             <button
               onClick={() => toggleAccordion(index)}
-              className="w-full flex justify-between items-center px-4 py-2"
+              className="w-full flex justify-between items-center px-4 py-2 cursor-pointer"
             >
-              <span className="text-white font-bold text-[13px]">
-                {item.title}
-              </span>
-              <BiChevronDown
-                color="#00D45A"
-                width={5}
-                height={8}
-                className={`transform transition-transform duration-300 ${
-                  openIndex === index ? "rotate-180" : ""
-                }`}
-              />
+              <div className="flex items-center justify-between w-full z-[9]">
+                <span className="text-white font-bold text-[13px] pointer-events-none">
+                  {item.title}
+                </span>
+                <div className="flex items-center">
+                  <BiChevronDown
+                    color="#00D45A"
+                    width={5}
+                    height={8}
+                    className={`transform transition-transform duration-300 ${
+                      openIndex === index ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+              </div>
             </button>
             {/* Accordion Content */}
             <div
@@ -69,37 +75,19 @@ export default function Info() {
                       href="#"
                       className="flex items-center justify-center w-[80px] h-[54px] bg-gradient-to-l from-[#5d6d85] to-[#4b5b72] rounded-3xl shadow-lg border-l border-white/30 z-10"
                     >
-                      <Image
-                        src="/icons/telegram.png"
-                        alt="Telegram Icon"
-                        width={20}
-                        height={20}
-                        className=""
-                      />
+                      <LiaTelegramPlane size={25} className="text-white" />
                     </Link>
                     <Link
                       href="#"
                       className="flex items-center justify-center w-[80px] h-[54px] bg-gradient-to-l from-[#5d6d85] to-[#4b5b72] rounded-3xl shadow-lg border-l border-white/30 z-10"
                     >
-                      <Image
-                        src="/icons/whatsapp.png"
-                        alt="Whatsapp Icon"
-                        width={20}
-                        height={20}
-                        className=""
-                      />
+                      <FaWhatsapp size={25} className="text-white" />
                     </Link>
                     <Link
                       href="#"
                       className="flex items-center justify-center w-[80px] h-[54px] bg-gradient-to-l from-[#5d6d85] to-[#4b5b72] rounded-3xl shadow-lg border-l border-white/30 z-10"
                     >
-                      <Image
-                        src="/icons/instagram.png"
-                        alt="Instagram Icon"
-                        width={20}
-                        height={20}
-                        className=""
-                      />
+                      <IoLogoInstagram size={25} className="text-white" />
                     </Link>
                   </div>
                 )}
@@ -143,27 +131,21 @@ export default function Info() {
           </div>
           <div className="flex items-center gap-8">
             <Link href="#">
-              <Image
-                src="/icons/telegram.png"
-                alt="Telegram Icon"
-                width={24}
-                height={24}
+              <LiaTelegramPlane
+                size={30}
+                className="text-white hover:text-blue-400 transition-colors duration-300 ease-in-out"
               />
             </Link>
             <Link href="#">
-              <Image
-                src="/icons/whatsapp.png"
-                alt="Telegram Icon"
-                width={24}
-                height={24}
+              <FaWhatsapp
+                size={30}
+                className="text-white hover:text-green-500 transition-colors duration-300 ease-in-out"
               />
             </Link>
             <Link href="#">
-              <Image
-                src="/icons/instagram.png"
-                alt="Telegram Icon"
-                width={24}
-                height={24}
+              <IoLogoInstagram
+                size={30}
+                className="text-white hover:text-pink-600 transition-colors duration-300 ease-in-out"
               />
             </Link>
           </div>

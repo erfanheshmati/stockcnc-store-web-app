@@ -1,3 +1,6 @@
+"use client";
+
+import DialogBox from "@/components/shared/dialog-box";
 import Banner from "@/components/shared/home/banner";
 import Blogs from "@/components/shared/home/blogs";
 import Brands from "@/components/shared/home/brands";
@@ -7,8 +10,11 @@ import Helps from "@/components/shared/home/helps";
 import Inquire from "@/components/shared/home/inquire";
 import Products from "@/components/shared/home/products";
 import Search from "@/components/shared/home/search";
+import { useDialog } from "@/contexts/dialog-context";
 
 export default function Home() {
+  const { isDialogOpen, closeDialog } = useDialog();
+
   return (
     <div className="relative">
       <Banner>
@@ -17,7 +23,7 @@ export default function Home() {
       <div className="wrapper">
         <Categories />
         <Consultation />
-        <div className="flex flex-col md:flex-row gap-8 md:gap-6 mt-10 mb-2 md:mt-24 md:wrapper -mx-4 md:mx-0">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-4 mt-10 mb-2 md:mt-24 md:wrapper -mx-4 md:mx-0">
           <Brands />
           <Products />
         </div>
@@ -27,6 +33,7 @@ export default function Home() {
           <Blogs />
         </div>
       </div>
+      <DialogBox isOpen={isDialogOpen} onClose={closeDialog} />
     </div>
   );
 }

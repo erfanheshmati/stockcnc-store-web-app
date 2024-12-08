@@ -7,7 +7,7 @@ export default function BlogCard({ data }: { data: Blog }) {
   return (
     <>
       {/* Mobile View */}
-      <div className="md:hidden flex flex-col gap-1 w-[242px] h-[281px] shadow-xl rounded-lg">
+      <div className="md:hidden w-[242px] h-[281px] shadow-xl rounded-lg">
         <div className="flex w-full h-[128px] rounded-t-lg">
           <Image
             src={data.image}
@@ -17,7 +17,7 @@ export default function BlogCard({ data }: { data: Blog }) {
             className="rounded-t-lg"
           />
         </div>
-        <div className="flex flex-col gap-3 p-4">
+        <div className="flex flex-col gap-2 p-4">
           <div className="flex items-center">
             <span className="text-primary font-semibold text-[14px] line-clamp-2">
               {data.title}
@@ -35,6 +35,8 @@ export default function BlogCard({ data }: { data: Blog }) {
           </div>
         </div>
       </div>
+
+      {/* ********************************************************************************************************************** */}
 
       {/* Desktop View */}
       <div

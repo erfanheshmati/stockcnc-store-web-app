@@ -5,16 +5,18 @@ export default function Info() {
   return (
     <>
       {/* Mobile Info */}
-      <div className="md:hidden flex text-white z-10">
-        <Link href="/inquiry">
+      <div className="md:hidden flex items-center text-white z-[9]">
+        <Link href="tel:+982122954000">
           <BiSupport size={24} />
         </Link>
       </div>
 
       {/* Desktop Info */}
-      <div className="hidden md:flex items-center gap-4 text-white z-10">
-        <p className="font-bold text-[14px]">تلفن مشاوره</p>
-        <p className="font-bold text-[18px]">021-22954000</p>
+      <div className="hidden md:flex text-white hover:text-white/70 z-10 transition-all duration-300 ease-in-out">
+        <Link href="tel:+982122954000" className="flex items-center gap-4 ">
+          <span className="font-bold text-[14px]">تلفن مشاوره</span>
+          <span className="font-bold text-[18px]">021-22954000</span>
+        </Link>
       </div>
     </>
   );

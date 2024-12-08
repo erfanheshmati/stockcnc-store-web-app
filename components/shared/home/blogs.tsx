@@ -86,9 +86,11 @@ export default function Blogs() {
         </div>
       </div>
 
+      {/* ****************************************************************************************************************** */}
+
       {/* Desktop View */}
-      <div className="hidden md:flex flex-col w-full">
-        <div className="flex items-center justify-between pr-6 lg:pr-16 xl:pr-28 2xl:pr-36">
+      <div className="hidden md:flex flex-col md:w-6/12 lg:w-7/12 xl:w-8/12">
+        <div className="flex items-center justify-between pr-6 lg:pr-20">
           <h2 className="text-primary flex items-center gap-1">
             <span className="font-bold text-[24px]">مجله آموزشی و خبری</span>
             <span className="font-semibold text-[17px] hidden lg:block">
@@ -96,20 +98,50 @@ export default function Blogs() {
             </span>
           </h2>
           <Link href="#" className="flex items-center gap-4 hover:underline">
-            <span>مشاهده همه مطالب</span>
-            <span className="flex items-center justify-center w-[18px] h-[18px] bg-secondary">
+            <span className="pt-1">مشاهده همه مطالب</span>
+            <span className="flex items-center justify-center bg-secondary">
               <BiChevronLeft size={18} color="white" />
             </span>
           </Link>
         </div>
         <hr className="mt-6" />
-        <div
-          className="grid grid-cols-1 lg:grid-cols-2 gap-10 h-[445px] pr-6 py-6 lg:mx-0 overflow-x-hidden overflow-y-auto custom-scroll"
-          dir="ltr"
-        >
-          {blogsData.map((data) => (
-            <BlogCard key={data.id} data={data} />
-          ))}
+        <div className="pr-2 lg:pr-20">
+          <Swiper
+            slidesPerView={2}
+            spaceBetween={0}
+            breakpoints={{
+              768: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+              },
+              980: {
+                slidesPerView: 1,
+                spaceBetween: -10,
+              },
+              1020: {
+                slidesPerView: 1,
+                spaceBetween: -100,
+              },
+              1080: {
+                slidesPerView: 1,
+                spaceBetween: -150,
+              },
+              1200: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+              },
+              1280: {
+                slidesPerView: 2,
+                spaceBetween: 100,
+              },
+            }}
+          >
+            {blogsData.map((data) => (
+              <SwiperSlide className="py-6" key={data.id}>
+                <BlogCard data={data} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
     </>

@@ -75,4 +75,7 @@
   .wrapper-about {
     @apply w-full max-w-[950px] px-4 2xl:px-0 md:mx-auto;
   }
+  .wrapper-contact {
+    @apply w-full max-w-[1200px] px-4 2xl:px-0 md:mx-auto;
+  }
 }

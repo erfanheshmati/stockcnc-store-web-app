@@ -9,7 +9,7 @@ export default function Header() {
       <div className="absolute inset-0 bg-header-background bg-center opacity-[2%]"></div>
 
       {/* Navigation Bar */}
-      <div className="wrapper flex items-center justify-between h-[58px] sm:h-[76px]">
+      <div className="wrapper flex items-center justify-between h-[58px] md:h-[76px]">
         <Menu />
         <Logo />
         <Info />

@@ -32,8 +32,6 @@ export default function Products() {
               modules={[Navigation, FreeMode]}
               slidesPerView={1}
               spaceBetween={0}
-              // centeredSlides={true}
-              // slidesPerView={"auto"}
               navigation={{
                 prevEl: ".custom-swiper-button-prev",
                 nextEl: ".custom-swiper-button-next",
@@ -91,27 +89,62 @@ export default function Products() {
         </div>
       </div>
 
+      {/* *********************************************************************************************************************** */}
+
       {/* Desktop View */}
-      <div className="hidden md:flex flex-col w-full">
-        <div className="flex items-center justify-between mr-7">
-          <h2 className="text-primary font-bold text-[24px]">
+      <div className="hidden md:flex flex-col md:w-7/12 lg:w-8/12 xl:w-9/12">
+        <div className="flex items-center justify-between">
+          <h2 className="text-primary font-bold text-[24px] mr-2">
             محصولات برند داوو
           </h2>
-          <Link href="#" className="flex items-center gap-4 hover:underline">
-            <span>مشاهده همه محصولات</span>
-            <span className="flex items-center justify-center w-[18px] h-[18px] bg-secondary">
+          <Link
+            href="/products"
+            className="flex items-center gap-4 hover:underline"
+          >
+            <span className="pt-1">مشاهده همه محصولات</span>
+            <span className="flex items-center justify-center bg-secondary">
               <BiChevronLeft size={18} color="white" />
             </span>
           </Link>
         </div>
-        <hr className="mt-6 mr-7" />
-        <div
-          className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5 h-[590px] pr-6 pl-2 py-10 overflow-x-hidden overflow-y-auto custom-scroll"
-          dir="ltr"
-        >
-          {productsData.map((data) => (
-            <ProductCard data={data} key={data.id} />
-          ))}
+        <hr className="mt-6 mr-2" />
+        <div>
+          <Swiper
+            slidesPerView={3}
+            spaceBetween={0}
+            breakpoints={{
+              768: {
+                slidesPerView: 1,
+                spaceBetween: -80,
+              },
+              830: {
+                slidesPerView: 1,
+                spaceBetween: -100,
+              },
+              900: {
+                slidesPerView: 1,
+                spaceBetween: -120,
+              },
+              1024: {
+                slidesPerView: 2,
+                spaceBetween: 0,
+              },
+              1200: {
+                slidesPerView: 2,
+                spaceBetween: -50,
+              },
+              1280: {
+                slidesPerView: 3,
+                spaceBetween: 0,
+              },
+            }}
+          >
+            {productsData.map((data) => (
+              <SwiperSlide className="py-10 px-3" key={data.id}>
+                <ProductCard data={data} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
     </>

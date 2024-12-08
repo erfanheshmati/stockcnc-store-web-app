@@ -15,7 +15,7 @@ export default function Helps() {
             دستگاه های سی ان سی
           </span>
         </div>
-        <div className="wrapper my-6">
+        <div className="wrapper my-6 h-[400px] overflow-auto">
           {helpsData.map((data, index) => (
             <React.Fragment key={data.id}>
               <HelpCard data={data} />
@@ -29,6 +29,8 @@ export default function Helps() {
         </div>
       </div>
 
+      {/* ********************************************************************************************************************* */}
+
       {/* Desktop View */}
       <div className="hidden md:flex flex-col max-w-md">
         <div className="flex items-center justify-start gap-1">
@@ -40,7 +42,7 @@ export default function Helps() {
           </span>
         </div>
         <hr className="mt-6" />
-        <div className="flex flex-col gap-4 mt-6 pl-8">
+        <div className="flex flex-col gap-4 mt-6 pr-1 pl-6 h-[400px] overflow-auto custom-scroll">
           {helpsData.map((data, index) => (
             <React.Fragment key={data.id}>
               <HelpCard data={data} />

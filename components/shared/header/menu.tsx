@@ -1,21 +1,24 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { BiMenu, BiX } from "react-icons/bi";
+import { useDialog } from "@/contexts/dialog-context";
+import Logo1 from "../logo-1";
 
 const navLinks = [
   { title: "درباره ما", href: "/about" },
   { title: "تماس با ما", href: "/contact" },
   { title: "سوالات متداول", href: "/frequent-asked-questions" },
-  { title: "استعلام قیمت", href: "/inquiry" },
+  // { title: "استعلام قیمت", href: "/inquiry" },
 ];
 
 export default function Menu() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen);
+
+  const { openDialog } = useDialog();
 
   return (
     <div className="flex items-center z-10">
@@ -43,27 +46,12 @@ export default function Menu() {
               <BiX size={24} />
             </button>
             {/* Nav Links */}
-            <ul className="flex flex-col gap-5 px-4 pt-4">
+            <ul className="flex flex-col gap-6 px-4 pt-6">
               {/* Logo */}
-              <div className="flex flex-col items-center gap-2">
-                <Image
-                  src="/icons/icon.png"
-                  alt="CNC Icon"
-                  width={40}
-                  height={50}
-                />
-                <Image
-                  src="/icons/logo-blue.png"
-                  alt="Logo Icon"
-                  width={95}
-                  height={27}
-                />
-                <Image
-                  src="/icons/cnc-stock.png"
-                  alt="CNC Stock"
-                  width={70}
-                  height={10}
-                />
+              <div className="flex flex-col items-center">
+                <Link href="/">
+                  <Logo1 />
+                </Link>
               </div>
               <hr className="opacity-20" />
               {navLinks.map((item) => (
@@ -71,20 +59,49 @@ export default function Menu() {
                   key={item.href}
                   className="text-white font-bold text-[14px] z-10"
                 >
-                  <Link href={item.href} onClick={toggleMobileMenu}>
+                  <Link
+                    href={item.href}
+                    onClick={toggleMobileMenu}
+                    className="flex items-center gap-1"
+                  >
                     {item.title}
-                    {item.href === "/inquiry" && (
-                      <Image
-                        src="/images/Group.png"
-                        alt="item badge"
-                        width={30}
-                        height={30}
-                        className="inline-block"
-                      />
-                    )}
                   </Link>
                 </li>
               ))}
+              <button
+                onClick={openDialog}
+                className="flex items-center text-white font-bold text-[14px] z-10"
+              >
+                <span>استعلام قیمت</span>
+                <svg
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  viewBox="0 0 32 32"
+                  className="inline-block"
+                >
+                  <path
+                    fill="#21b074"
+                    opacity="0.05"
+                    d="M0 15.921c0-8.755 7.164-15.921 15.92-15.921s15.921 7.166 15.921 15.921c0 8.757-7.165 15.922-15.921 15.922s-15.92-7.164-15.92-15.922z"
+                  ></path>
+                  <path
+                    fill="#21b074"
+                    opacity="0.1"
+                    d="M4.899 15.922c0-6.061 4.96-11.022 11.022-11.022s11.022 4.961 11.022 11.022c0 6.063-4.96 11.023-11.022 11.023s-11.022-4.96-11.022-11.023z"
+                  ></path>
+                  <path
+                    fill="#21b074"
+                    opacity="0.3"
+                    d="M9.030 15.923c0-3.789 3.101-6.89 6.891-6.89s6.891 3.102 6.891 6.89c0 3.791-3.101 6.892-6.891 6.892s-6.891-3.101-6.891-6.892z"
+                  ></path>
+                  <path
+                    fill="#21b074"
+                    d="M12.595 15.925c0-1.829 1.496-3.326 3.326-3.326s3.326 1.497 3.326 3.326c0 1.828-1.497 3.325-3.326 3.325s-3.326-1.497-3.326-3.325z"
+                  ></path>
+                </svg>
+              </button>
             </ul>
           </div>
         </div>
@@ -97,28 +114,54 @@ export default function Menu() {
         )}
       </div>
 
+      {/* ******************************************************************************************************************** */}
+
       {/* Desktop Menu */}
       <div className="hidden md:flex">
         <ul className="flex items-center gap-6 z-10">
           {navLinks.map((item) => (
             <li
               key={item.href}
-              className="flex items-center text-white hover:text-white/70 font-bold text-[14px]"
+              className="text-white hover:text-white/70 font-bold text-[14px] transition-all duration-300 ease-in-out"
             >
-              <Link href={item.href}>
+              <Link href={item.href} className="flex items-center">
                 {item.title}
-                {item.href === "/inquiry" && (
-                  <Image
-                    src="/images/Group.png"
-                    alt="item badge"
-                    width={35}
-                    height={35}
-                    className="inline-block"
-                  />
-                )}
               </Link>
             </li>
           ))}
+          <button
+            onClick={openDialog}
+            className="flex items-center text-white hover:text-white/70 font-bold text-[14px] transition-all duration-300 ease-in-out"
+          >
+            <span>استعلام قیمت</span>
+            <svg
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 33 33"
+            >
+              <path
+                fill="#21b074"
+                opacity="0.05"
+                d="M0 15.921c0-8.755 7.164-15.921 15.92-15.921s15.921 7.166 15.921 15.921c0 8.757-7.165 15.922-15.921 15.922s-15.92-7.164-15.92-15.922z"
+              ></path>
+              <path
+                fill="#21b074"
+                opacity="0.1"
+                d="M4.899 15.922c0-6.061 4.96-11.022 11.022-11.022s11.022 4.961 11.022 11.022c0 6.063-4.96 11.023-11.022 11.023s-11.022-4.96-11.022-11.023z"
+              ></path>
+              <path
+                fill="#21b074"
+                opacity="0.3"
+                d="M9.030 15.923c0-3.789 3.101-6.89 6.891-6.89s6.891 3.102 6.891 6.89c0 3.791-3.101 6.892-6.891 6.892s-6.891-3.101-6.891-6.892z"
+              ></path>
+              <path
+                fill="#21b074"
+                d="M12.595 15.925c0-1.829 1.496-3.326 3.326-3.326s3.326 1.497 3.326 3.326c0 1.828-1.497 3.325-3.326 3.325s-3.326-1.497-3.326-3.325z"
+              ></path>
+            </svg>
+          </button>
         </ul>
       </div>
     </div>
