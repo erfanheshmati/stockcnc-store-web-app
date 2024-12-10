@@ -5,6 +5,7 @@ import Link from "next/link";
 import { BiPhoneCall } from "react-icons/bi";
 import { PiMapPinFill } from "react-icons/pi";
 import ContactForm from "./contact-form";
+import Dialog from "../dialog";
 
 export const metadata = {
   title: `تماس با ما - ${APP_TITLE}`,
@@ -13,6 +14,8 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <>
+      <Dialog />
+
       {/* Mobile View */}
       <div className="relative block md:hidden">
         <BannerThin />

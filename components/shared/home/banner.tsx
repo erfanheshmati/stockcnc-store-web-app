@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { BiArrowFromLeft, BiArrowFromRight } from "react-icons/bi";
+import Link from "next/link";
 
 // import Swiper core and required modules, styles
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
@@ -49,7 +50,7 @@ export default function Banner({ children }: { children: React.ReactNode }) {
             }}
           >
             <SwiperSlide>
-              <div className="flex flex-col items-center gap-4 py-8">
+              <Link href="/" className="flex flex-col items-center gap-4 py-8">
                 <Image
                   src="/images/products/cnc.png"
                   alt="Product Image"
@@ -64,10 +65,10 @@ export default function Banner({ children }: { children: React.ReactNode }) {
                     انواع دستگاه های سی ان سی
                   </span>
                 </div>
-              </div>
+              </Link>
             </SwiperSlide>
             <SwiperSlide>
-              <div className="flex flex-col items-center gap-4 py-8">
+              <Link href="/" className="flex flex-col items-center gap-4 py-8">
                 <Image
                   src="/images/products/cnc.png"
                   alt="Product Image"
@@ -82,7 +83,7 @@ export default function Banner({ children }: { children: React.ReactNode }) {
                     انواع دستگاه های سی ان سی
                   </span>
                 </div>
-              </div>
+              </Link>
             </SwiperSlide>
           </Swiper>
         </div>

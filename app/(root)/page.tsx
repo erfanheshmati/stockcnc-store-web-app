@@ -16,24 +16,27 @@ export default function Home() {
   const { isDialogOpen, closeDialog } = useDialog();
 
   return (
-    <div className="relative">
-      <Banner>
-        <Search />
-      </Banner>
-      <div className="wrapper">
-        <Categories />
-        <Consultation />
-        <div className="flex flex-col md:flex-row gap-8 md:gap-4 mt-10 mb-2 md:mt-24 md:wrapper -mx-4 md:mx-0">
-          <Brands />
-          <Products />
-        </div>
-        <Inquire />
-        <div className="flex flex-col md:flex-row gap-8 md:gap-0 mt-10 mb-4 md:my-24 md:wrapper -mx-4 md:mx-0">
-          <Helps />
-          <Blogs />
+    <>
+      <DialogBox isOpen={isDialogOpen} onClose={closeDialog} />
+
+      <div className="relative">
+        <Banner>
+          <Search />
+        </Banner>
+        <div className="wrapper">
+          <Categories />
+          <Consultation />
+          <div className="flex flex-col md:flex-row gap-8 md:gap-4 mt-10 mb-2 md:mt-24 md:wrapper -mx-4 md:mx-0">
+            <Brands />
+            <Products />
+          </div>
+          <Inquire />
+          <div className="flex flex-col md:flex-row gap-8 md:gap-0 mt-10 mb-4 md:my-24 md:wrapper -mx-4 md:mx-0">
+            <Helps />
+            <Blogs />
+          </div>
         </div>
       </div>
-      <DialogBox isOpen={isDialogOpen} onClose={closeDialog} />
-    </div>
+    </>
   );
 }

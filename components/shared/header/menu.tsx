@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { BiMenu, BiX } from "react-icons/bi";
+import { BiMenu } from "react-icons/bi";
 import { useDialog } from "@/contexts/dialog-context";
 import Logo1 from "../logo-1";
 
@@ -21,7 +21,7 @@ export default function Menu() {
   const { openDialog } = useDialog();
 
   return (
-    <div className="flex items-center z-10">
+    <div className="flex items-center z-20">
       {/* Mobile Menu */}
       <div className="md:hidden relative">
         {/* Hamburger Button */}
@@ -39,19 +39,18 @@ export default function Menu() {
         >
           <div className="relative h-full">
             {/* Close Button */}
-            <button
+            {/* <button
               onClick={toggleMobileMenu}
               className="text-white/50 absolute left-2 top-4"
             >
               <BiX size={24} />
-            </button>
+            </button> */}
+
             {/* Nav Links */}
-            <ul className="flex flex-col gap-6 px-4 pt-6">
+            <ul className="flex flex-col gap-5 px-4 pt-5">
               {/* Logo */}
               <div className="flex flex-col items-center">
-                <Link href="/">
-                  <Logo1 />
-                </Link>
+                <Logo1 className="w-[120px]" />
               </div>
               <hr className="opacity-20" />
               {navLinks.map((item) => (
@@ -79,7 +78,7 @@ export default function Menu() {
                   width="25"
                   height="25"
                   viewBox="0 0 32 32"
-                  className="inline-block"
+                  className="flashing-light"
                 >
                   <path
                     fill="#21b074"
@@ -140,6 +139,7 @@ export default function Menu() {
               width="30"
               height="30"
               viewBox="0 0 33 33"
+              className=" flashing-light"
             >
               <path
                 fill="#21b074"

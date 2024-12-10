@@ -1,5 +1,5 @@
-import Image from "next/image";
 import React from "react";
+import Logo1 from "../logo-1";
 
 export default function About() {
   return (
@@ -8,7 +8,7 @@ export default function About() {
         <h2 className="text-white font-bold text-[15px]">
           درباره سی ان سی استوک
         </h2>
-        <Image src="/icons/logo.png" alt="CNC Logo" width={106} height={15} />
+        <Logo1 className="w-[130px]" />
       </div>
       <p className="text-white/75 font-light text-[13px] leading-9 mt-4 text-justify line-clamp-4">
         لورم ایپسوم متنی ساختگی ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با

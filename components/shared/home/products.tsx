@@ -80,7 +80,7 @@ export default function Products() {
               }}
             >
               {productsData.map((data) => (
-                <SwiperSlide className="pb-10" key={data.id}>
+                <SwiperSlide className="pb-10" key={data.slug}>
                   <ProductCard data={data} />
                 </SwiperSlide>
               ))}
@@ -140,7 +140,7 @@ export default function Products() {
             }}
           >
             {productsData.map((data) => (
-              <SwiperSlide className="py-10 px-3" key={data.id}>
+              <SwiperSlide className="py-10 px-3" key={data.slug}>
                 <ProductCard data={data} />
               </SwiperSlide>
             ))}

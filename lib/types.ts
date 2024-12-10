@@ -16,6 +16,7 @@ export type Brand = {
 
 export type Product = {
   id: number;
+  slug: string;
   brand: string;
   icon: string;
   country: string;

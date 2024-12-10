@@ -13,7 +13,7 @@ export default function Brands() {
           </span>
         </div>
         <ul
-          className="flex items-center gap-4 min-h-[50px] wrapper overflow-auto"
+          className="flex items-center gap-4 min-h-[50px] w-full px-4 overflow-auto"
           style={{ scrollbarWidth: "none" }}
         >
           {brandsData.map((data) => (
