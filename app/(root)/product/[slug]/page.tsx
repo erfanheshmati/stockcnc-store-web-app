@@ -1,7 +1,6 @@
 import BannerThin from "@/components/shared/banner-thin";
 import React from "react";
 import ProductImages from "./product-images";
-import Dialog from "../../dialog";
 import ShareButton from "./share-button";
 import Sitemap from "./sitemap";
 import ProductInfo from "./product-info";
@@ -10,11 +9,12 @@ import { AccordionProvider } from "@/contexts/accordion-context";
 import ProductHealthCard from "./product-health-card";
 import RelatedProducts from "./related-products";
 import PriceInquiryButton from "./price-inquiry-button";
+import DialogInquiry from "../../dialog-inquiry";
 
 export default async function ProductDetails() {
   return (
     <AccordionProvider>
-      <Dialog />
+      <DialogInquiry />
 
       {/* Mobile View */}
       <div className="flex flex-col md:hidden relative">

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PiTelegramLogo } from "react-icons/pi";
 import { SlSocialInstagram, SlSocialTwitter } from "react-icons/sl";
-import Dialog from "../dialog";
+import DialogInquiry from "../dialog-inquiry";
 
 export const metadata = {
   title: `درباره ما - ${APP_TITLE}`,
@@ -14,7 +14,7 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <>
-      <Dialog />
+      <DialogInquiry />
 
       {/* Mobile View */}
       <div className="relative block md:hidden">

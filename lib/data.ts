@@ -3,6 +3,7 @@ import { Blog, Brand, Category, Help, Member, Product, Social } from "./types";
 export const categoriesData: Category[] = [
   {
     id: 1,
+    slug: "tarash",
     title: "ماشین های تراش",
     content:
       "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون ...",
@@ -15,6 +16,7 @@ export const categoriesData: Category[] = [
   },
   {
     id: 2,
+    slug: "ferez",
     title: "ماشین های فرز",
     content:
       "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون ...",
@@ -23,6 +25,7 @@ export const categoriesData: Category[] = [
   },
   {
     id: 3,
+    slug: "boring",
     title: "ماشین های بورینگ",
     content:
       "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون ...",
@@ -31,6 +34,7 @@ export const categoriesData: Category[] = [
   },
   {
     id: 4,
+    slug: "center",
     title: "ماشین های سنتر",
     content:
       "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون ...",
@@ -43,6 +47,7 @@ export const categoriesData: Category[] = [
   },
   {
     id: 5,
+    slug: "punch",
     title: "ماشین های پانچ",
     content:
       "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون ...",
@@ -55,6 +60,7 @@ export const categoriesData: Category[] = [
   },
   {
     id: 6,
+    slug: "",
     title: "به زودی ...",
     content: "",
     image: "/images/categories/cnc-tarash.png",

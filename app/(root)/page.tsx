@@ -1,6 +1,6 @@
 "use client";
 
-import DialogBox from "@/components/shared/dialog-box";
+import DialogBoxInquiry from "@/components/shared/dialog-box-inquiry";
 import Banner from "@/components/shared/home/banner";
 import Blogs from "@/components/shared/home/blogs";
 import Brands from "@/components/shared/home/brands";
@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <>
-      <DialogBox isOpen={isDialogOpen} onClose={closeDialog} />
+      <DialogBoxInquiry isOpen={isDialogOpen} onClose={closeDialog} />
 
       <div className="relative">
         <Banner>

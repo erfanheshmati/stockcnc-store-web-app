@@ -38,7 +38,7 @@ export default function Categories() {
       </span>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5 mt-8">
         {filteredData.map((data) => (
-          <Link href={`/${data.id}`} key={data.id}>
+          <Link href={`/archiv/${data.slug}`} key={data.id}>
             <CategoryCard data={data} />
           </Link>
         ))}

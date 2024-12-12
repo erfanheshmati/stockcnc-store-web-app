@@ -1,11 +1,14 @@
 import InquiryForm from "@/components/shared/inquiry-form";
 
-interface DialogBoxProps {
+interface DialogBoxInquiryProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const DialogBox: React.FC<DialogBoxProps> = ({ isOpen, onClose }) => {
+const DialogBoxInquiry: React.FC<DialogBoxInquiryProps> = ({
+  isOpen,
+  onClose,
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -15,4 +18,4 @@ const DialogBox: React.FC<DialogBoxProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default DialogBox;
+export default DialogBoxInquiry;

@@ -242,7 +242,6 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
               </linearGradient>
             </defs>
           </svg>
-
           <div className="flex flex-col items-center gap-1">
             <div className="text-[#1F2D53] font-bold text-[16px]">
               دریافت قیمت از طریق پیامک
@@ -313,13 +312,13 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
 
       {/* Desktop View */}
       <div className="hidden md:flex flex-col w-[468px] rounded-2xl shadow-2xl relative">
-        <div className="flex items-center justify-center w-full h-[56px] 2xl:h-[76px] bg-secondary rounded-t-2xl">
+        <div className="flex items-center justify-center w-full h-[66px] 2xl:h-[76px] bg-secondary rounded-t-2xl">
           <div className="text-white font-semibold text-[20px]">
             استعلام قیمت
           </div>
         </div>
         <div className="bg-white rounded-b-2xl">
-          <div className="absolute right-3 2xl:right-5 top-3 2xl:top-6 w-6 h-6 rounded-full hover:bg-white hover:bg-white/20 transition-all duration-300 ease-in-out">
+          <div className="absolute right-3 2xl:right-5 top-5 2xl:top-6 w-6 h-6 rounded-full hover:bg-white hover:bg-white/20 transition-all duration-300 ease-in-out">
             <button onClick={onClose}>
               <BiX size={24} color="white" />
             </button>
