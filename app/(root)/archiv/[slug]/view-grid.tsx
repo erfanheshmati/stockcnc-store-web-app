@@ -1,22 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { productsData } from "@/lib/data";
 import { useView } from "@/contexts/view-context";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import ProductCardGrid from "./product-card-grid";
+import { Product } from "@/lib/types";
 
-export default function ViewGrid() {
+export default function ViewGrid({
+  productsList,
+}: {
+  productsList: Product[];
+}) {
   const { viewType } = useView();
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9; // Number of products per page
 
   // Calculate total pages
-  const totalPages = Math.ceil(productsData.length / productsPerPage);
+  const totalPages = Math.ceil(productsList.length / productsPerPage);
 
   // Get products for current page
-  const currentProducts = productsData.slice(
+  const currentProducts = productsList.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
   );
@@ -34,7 +38,7 @@ export default function ViewGrid() {
         <div className="flex flex-col gap-4 pt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
             {currentProducts.map((data) => (
-              <ProductCardGrid key={data.slug} data={data} />
+              <ProductCardGrid key={data._id} data={data} />
             ))}
           </div>
 
@@ -81,8 +85,8 @@ export default function ViewGrid() {
           </div>
           <div className="flex items-center justify-center text-secondary text-sm">
             نمایش {productsPerPage * (currentPage - 1) + 1} تا{" "}
-            {Math.min(productsPerPage * currentPage, productsData.length)} از{" "}
-            {productsData.length} مورد
+            {Math.min(productsPerPage * currentPage, productsList.length)} از{" "}
+            {productsList.length} مورد
           </div>
         </div>
       )}

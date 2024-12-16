@@ -1,5 +1,5 @@
 import BannerThin from "@/components/shared/banner-thin";
-import { APP_TITLE } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { BiPhoneCall } from "react-icons/bi";
@@ -7,11 +7,31 @@ import { PiMapPinFill } from "react-icons/pi";
 import ContactForm from "./contact-form";
 import DialogInquiry from "../dialog-inquiry";
 
-export const metadata = {
-  title: `تماس با ما - ${APP_TITLE}`,
-};
+export async function generateMetadata() {
+  const res = await fetch(`${BASE_URL}/web-text-plans`);
+  const data = await res.json();
 
-export default function ContactPage() {
+  if (!res.ok) {
+    return { title: "خطا در دریافت اطلاعات" };
+  }
+
+  return {
+    title: `${data.contactUsTitle} - ${data.title}`,
+    description: data.contactUsMetaData,
+  };
+}
+
+export default async function ContactPage() {
+  const res = await fetch(`${BASE_URL}/web-text-plans`);
+  const data = await res.json();
+  const telegram = data.telegram;
+  const whatsapp = data.whatsapp;
+  const instagram = data.instagram;
+  const supportTelephone = data.supportTelephone;
+  const address = data.address;
+  const latitude = data.latitude;
+  const longitude = data.longitude;
+
   return (
     <>
       <DialogInquiry />
@@ -73,7 +93,7 @@ export default function ContactPage() {
               </div>
               <div className="flex flex-col gap-5 py-6">
                 {/* Social Cards */}
-                <Link href="#">
+                <Link href={`${telegram}`} target="_blank">
                   <div className="border bg-gradient-to-b from-secondary/10 to-white px-6 py-5 rounded-xl text-secondary">
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col gap-2">
@@ -105,7 +125,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </Link>
-                <Link href="#">
+                <Link href={`${whatsapp}`} target="_blank">
                   <div className="border bg-gradient-to-b from-secondary/10 to-white px-6 py-5 rounded-xl text-secondary">
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col gap-2">
@@ -141,7 +161,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </Link>
-                <Link href="#">
+                <Link href={`${instagram}`} target="_blank">
                   <div className="border bg-gradient-to-b from-secondary/10 to-white px-6 py-5 rounded-xl text-secondary">
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col gap-2">
@@ -217,14 +237,16 @@ export default function ContactPage() {
                   </div>
                 </Link>
               </div>
-              <Link href="tel:+98212009030">
+              <Link href={`tel:${supportTelephone}`}>
                 <div className="border bg-gradient-to-b from-secondary/10 to-white px-6 py-5 rounded-xl text-secondary">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-2">
                       <span className="font-bold text-[14px]">
                         تلفن پشتیبانی
                       </span>
-                      <span className="font-bold text-[18px]">0212009030</span>
+                      <span className="font-bold text-[18px]">
+                        {supportTelephone}
+                      </span>
                     </div>
                     <span>
                       <BiPhoneCall size={32} className="text-primary" />
@@ -252,7 +274,8 @@ export default function ContactPage() {
                   </h3>
                 </div>
                 <Link
-                  href="#"
+                  href={`https://nshn.ir/?lat=${latitude}&lng=${longitude}`}
+                  target="_blank"
                   className="flex items-center gap-1 hover:underline"
                 >
                   <span className="text-primary font-bold text-[12px]">
@@ -268,12 +291,15 @@ export default function ContactPage() {
               </div>
               <div className="flex items-center py-4">
                 <span className="text-[#6F8397] font-[500] text-[12px] w-full">
-                  تهران - خیابان ظفر - بلوار کشاورز - انتهای خیابان سیداللهی -
-                  جنب بانک ملی - پلاک ۲۱۵
+                  {address}
                 </span>
               </div>
-              {/* Google Map */}
-              <div className="flex items-center justify-center relative">
+              {/* Map */}
+              <Link
+                href={`https://nshn.ir/?lat=${latitude}&lng=${longitude}`}
+                target="_blank"
+                className="flex items-center justify-center relative"
+              >
                 <Image
                   src="/images/map.png"
                   alt="Map Image"
@@ -284,7 +310,7 @@ export default function ContactPage() {
                   color="white"
                   className="absolute w-[45px] h-[55px]"
                 />
-              </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -402,14 +428,14 @@ export default function ContactPage() {
                     نشانی دفتر
                   </h3>
                   <div className="flex items-center">
-                    <span className="text-[#6F8397] font-[500] text-[13px] w-full">
-                      تهران - خیابان ظفر - بلوار کشاورز - انتهای خیابان سیداللهی
-                      - جنب بانک ملی - پلاک ۲۱۵
+                    <span className="text-[#6F8397] font-[500] text-[13px] w-full pt-1">
+                      {address}
                     </span>
                   </div>
                 </div>
                 <Link
-                  href="#"
+                  href={`https://nshn.ir/?lat=${latitude}&lng=${longitude}`}
+                  target="_blank"
                   className="flex items-center gap-1 hover:underline"
                 >
                   <Image
@@ -423,19 +449,24 @@ export default function ContactPage() {
                   </span>
                 </Link>
               </div>
-              {/* Google Map */}
-              <div className="flex items-center justify-center mt-6 relative">
+              {/* Map */}
+              <Link
+                href={`https://nshn.ir/?lat=${latitude}&lng=${longitude}`}
+                target="_blank"
+                className="flex items-center justify-center mt-6 relative"
+              >
                 <Image
                   src="/images/map.png"
                   alt="Map Image"
                   width={754}
                   height={193}
+                  className="h-[194px]"
                 />
                 <PiMapPinFill
                   color="white"
                   className="absolute w-[45px] h-[55px]"
                 />
-              </div>
+              </Link>
             </div>
 
             {/* Social Media */}
@@ -459,7 +490,7 @@ export default function ContactPage() {
               </div>
               <div className="flex flex-col gap-5 py-6">
                 {/* Social Cards */}
-                <Link href="#">
+                <Link href={`${telegram}`} target="_blank">
                   <div className="border bg-gradient-to-b from-secondary/10 to-white px-6 py-5 rounded-xl text-secondary hover:bg-none hover:bg-[#8E98AD] hover:text-white transition-all duration-300 ease-in-out">
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col gap-2">
@@ -491,7 +522,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </Link>
-                <Link href="#">
+                <Link href={`${whatsapp}`} target="_blank">
                   <div className="border bg-gradient-to-b from-secondary/10 to-white px-6 py-5 rounded-xl text-secondary hover:bg-none hover:bg-[#8E98AD] hover:text-white transition-all duration-300 ease-in-out">
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col gap-2">
@@ -527,7 +558,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </Link>
-                <Link href="#">
+                <Link href={`${instagram}`} target="_blank">
                   <div className="border bg-gradient-to-b from-secondary/10 to-white px-6 py-5 rounded-xl text-secondary hover:bg-none hover:bg-[#8E98AD] hover:text-white transition-all duration-300 ease-in-out">
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col gap-2">
@@ -603,15 +634,17 @@ export default function ContactPage() {
                   </div>
                 </Link>
               </div>
-              <Link href="tel:+98212009030">
-                <div className="flex flex-col items-center gap-4 border bg-gradient-to-b from-secondary/10 to-white p-8 mt-3 rounded-xl text-secondary hover:bg-none hover:bg-[#8E98AD] hover:text-white transition-all duration-300 ease-in-out">
+              <Link href={`tel:${supportTelephone}`}>
+                <div className="flex flex-col items-center gap-5 border bg-gradient-to-b from-secondary/10 to-white p-8 lg:mt-7  rounded-xl text-secondary hover:bg-none hover:bg-[#8E98AD] hover:text-white transition-all duration-300 ease-in-out">
                   <span>
                     <BiPhoneCall size={40} className="text-primary" />
                   </span>
                   <span className="font-semibold text-[14px]">
                     تلفن پشتیبانی
                   </span>
-                  <span className="font-bold text-[20px]">0212009030</span>
+                  <span className="font-bold text-[20px]">
+                    {supportTelephone}
+                  </span>
                 </div>
               </Link>
             </div>

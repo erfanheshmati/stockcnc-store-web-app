@@ -1,38 +1,78 @@
 "use client";
 
+import { BASE_URL } from "@/lib/constants";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiAward, BiChevronDown } from "react-icons/bi";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoLogoInstagram } from "react-icons/io5";
 import { LiaTelegramPlane } from "react-icons/lia";
 
-const accordionItems = [
-  {
-    title: "شماره های تماس",
-    content: "021-33450050 | 09126280415",
-  },
-  {
-    title: "نشانی ما",
-    content: "تهران - خیابان ولیعصر - خیابان شاه چراغی - پلاک 35",
-  },
-  {
-    title: "درباره ما",
-    content:
-      "لورم ایپسوم متنی ساختگی ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان ...",
-  },
-  {
-    title: "ما در شبکه های اجتماعی",
-    content: "",
-  },
-];
-
 export default function Info() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const [address, setAddress] = useState<string | null>();
+  const [telephone, setTelephone] = useState<string | null>();
+  const [mobile, setMobile] = useState<string | null>();
+  const [aboutUs, setAboutUs] = useState<string | null>();
+  const [telegram, setTelegram] = useState<string | null>();
+  const [instagram, setInstagram] = useState<string | null>();
+  const [whatsapp, setWhatsapp] = useState<string | null>();
+
+  useEffect(() => {
+    const fetchFooterInfo = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        setAddress(data.address);
+        setTelephone(data.telephone);
+        setMobile(data.mobile);
+        setAboutUs(data.footerAboutUs);
+        setTelegram(data.telegram);
+        setInstagram(data.instagram);
+        setWhatsapp(data.whatsapp);
+      } catch (error) {
+        console.log((error as Error).message);
+      }
+    };
+    fetchFooterInfo();
+  }, []);
 
   const toggleAccordion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  const accordionItems = [
+    {
+      title: "شماره های تماس",
+      content: `${telephone} | ${mobile}`,
+      telegram: "",
+      instagram: "",
+      whatsapp: "",
+    },
+    {
+      title: "نشانی ما",
+      content: `${address}`,
+      telegram: "",
+      instagram: "",
+      whatsapp: "",
+    },
+    {
+      title: "درباره ما",
+      content: `${aboutUs}`,
+      telegram: "",
+      instagram: "",
+      whatsapp: "",
+    },
+    {
+      title: "ما در شبکه های اجتماعی",
+      content: "",
+      telegram: `${telegram}`,
+      instagram: `${instagram}`,
+      whatsapp: `${whatsapp}`,
+    },
+  ];
 
   return (
     <>
@@ -72,19 +112,22 @@ export default function Info() {
                 {index === accordionItems.length - 1 && (
                   <div className="flex items-center justify-between">
                     <Link
-                      href="#"
+                      href={item.telegram}
+                      target="_blank"
                       className="flex items-center justify-center w-[80px] h-[54px] bg-gradient-to-l from-[#5d6d85] to-[#4b5b72] rounded-3xl shadow-lg border-l border-white/30 z-10"
                     >
                       <LiaTelegramPlane size={25} className="text-white" />
                     </Link>
                     <Link
-                      href="#"
+                      href={item.whatsapp}
+                      target="_blank"
                       className="flex items-center justify-center w-[80px] h-[54px] bg-gradient-to-l from-[#5d6d85] to-[#4b5b72] rounded-3xl shadow-lg border-l border-white/30 z-10"
                     >
                       <FaWhatsapp size={25} className="text-white" />
                     </Link>
                     <Link
-                      href="#"
+                      href={item.instagram}
+                      target="_blank"
                       className="flex items-center justify-center w-[80px] h-[54px] bg-gradient-to-l from-[#5d6d85] to-[#4b5b72] rounded-3xl shadow-lg border-l border-white/30 z-10"
                     >
                       <IoLogoInstagram size={25} className="text-white" />
@@ -97,6 +140,8 @@ export default function Info() {
         ))}
       </div>
 
+      {/* **************************************************************************************************************** */}
+
       {/* Desktop Mode */}
       <div className="hidden md:flex justify-center w-[1028px] h-[95px] bg-gradient-to-r from-[#5d6d85] to-[#4b5b72] rounded-full shadow-lg border-t border-r border-white/30 z-10">
         <div className="flex items-center justify-around w-full">
@@ -108,7 +153,7 @@ export default function Info() {
                   نشانی دفتر مرکزی
                 </span>
                 <span className="text-white font-bold text-[14px]">
-                  تهران - خیابان ولیعصر - خیابان شاه چراغی - پلاک 35
+                  {address}
                 </span>
               </div>
             </div>
@@ -120,29 +165,30 @@ export default function Info() {
                 </span>
                 <div className="flex items-center gap-5">
                   <span className="text-white font-bold text-[16px]">
-                    021-33450050
+                    {telephone}
                   </span>
+                  <span className="text-white text-[16px]">|</span>
                   <span className="text-white font-bold text-[16px]">
-                    09126280415
+                    {mobile}
                   </span>
                 </div>
               </div>
             </div>
           </div>
           <div className="flex items-center gap-8">
-            <Link href="#">
+            <Link href={`${telegram}`} target="_blank">
               <LiaTelegramPlane
                 size={30}
                 className="text-white hover:text-blue-400 transition-colors duration-300 ease-in-out"
               />
             </Link>
-            <Link href="#">
+            <Link href={`${whatsapp}`} target="_blank">
               <FaWhatsapp
                 size={30}
                 className="text-white hover:text-green-500 transition-colors duration-300 ease-in-out"
               />
             </Link>
-            <Link href="#">
+            <Link href={`${instagram}`} target="_blank">
               <IoLogoInstagram
                 size={30}
                 className="text-white hover:text-pink-600 transition-colors duration-300 ease-in-out"

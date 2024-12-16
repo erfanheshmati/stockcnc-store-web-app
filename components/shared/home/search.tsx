@@ -1,19 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { BASE_URL } from "@/lib/constants";
+import { Category, MostSearch } from "@/lib/types";
+import { useEffect, useState } from "react";
 import { BiChevronDown, BiRotateLeft } from "react-icons/bi";
 
 export default function Search() {
-  const [searchInput, setSearchInput] = useState("");
+  const [categoriesData, setCategoriesData] = useState<Category[]>([]);
+  const [mostSearchesData, setMostSearchesData] = useState<MostSearch[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const mostSearchedItems = [
-    "ماشین های تراش",
-    "ماشین های فرز",
-    "ماشین های بورینگ",
-    "ماشین های سنتر",
-    "ماشین های پانچ",
-  ];
+  const [searchInput, setSearchInput] = useState("");
+
+  useEffect(() => {
+    const fetchCategoriesData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/category`);
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        if (!data.categories) throw new Error("اطلاعاتی یافت نشد!");
+        setCategoriesData(data.categories);
+        setMostSearchesData(data.search);
+      } catch (error) {
+        setError((error as Error).message);
+      }
+    };
+    fetchCategoriesData();
+  }, []);
 
   // Filter suggestions based on user input
   const handleInputChange = (e: { target: { value: string } }) => {
@@ -21,14 +36,16 @@ export default function Search() {
     setSearchInput(input);
     if (input) {
       setSuggestions(
-        mostSearchedItems.filter((item) =>
-          item.toLowerCase().includes(input.toLowerCase())
-        )
+        mostSearchesData
+          .map((item) => item.title)
+          .filter((item) => item.toLowerCase().includes(input.toLowerCase()))
       );
     } else {
       setSuggestions([]);
     }
   };
+
+  const filteredData = categoriesData.slice(0, -1);
 
   return (
     // <div className="flex w-[328px] sm:w-[500px] md:w-[740px] lg:w-[995px] h-[75px] md:h-[92px] bg-white shadow-lg rounded-2xl absolute -bottom-8 md:-bottom-11">
@@ -53,13 +70,13 @@ export default function Search() {
             style={{ scrollbarWidth: "none" }}
           >
             {/* {suggestions.map((item, index) => ( */}
-            {mostSearchedItems.map((item, index) => (
+            {mostSearchesData.map((item) => (
               <li
-                key={index}
+                key={item._id}
                 className="min-w-fit py-3 px-4 sm:px-6 md:px-8 text-[#6B7F8E] text-[12px] lg:text-[14px] lg:border border-[#E6E9F2] bg-[#F1F3F8] lg:bg-white lg:hover:bg-gradient-to-tl from-[#eceff1] via-[#fefefe] to-[#fff] rounded-md cursor-pointer"
-                onClick={() => setSearchInput(item)}
+                onClick={() => setSearchInput(item.title)}
               >
-                {item}
+                {item.title}
               </li>
             ))}
           </ul>
@@ -72,11 +89,19 @@ export default function Search() {
             className="hidden md:flex px-4 focus:outline-none text-[14px] min-w-[150px] h-[55px] rounded-3xl border-l border-t text-[#536683] cursor-pointer appearance-none"
           >
             <option value="">دسته بندی</option>
-            <option value="">ماشین های تراش</option>
-            <option value="">ماشین های فرز</option>
-            <option value="">ماشین های بورینگ</option>
-            <option value="">ماشین های سنتر</option>
-            <option value="">ماشین های پانچ</option>
+
+            {error && (
+              <option className="text-red-500 text-center w-full mt-6">
+                {error}
+              </option>
+            )}
+
+            {!error &&
+              filteredData.map((data) => (
+                <option value="" key={data._id}>
+                  {data.title}
+                </option>
+              ))}
           </select>
           {/* Custom Arrow Icon */}
           <div className="hidden md:block absolute top-1/2 left-4 transform -translate-y-1/2 pointer-events-none">

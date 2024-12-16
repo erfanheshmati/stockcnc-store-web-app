@@ -1,18 +1,37 @@
 "use client";
 
-import Link from "next/link";
-import { BiChevronLeft } from "react-icons/bi";
-
 // import Swiper core and required modules, styles
-// import { Navigation, FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
+
+import Link from "next/link";
+import { BiChevronLeft } from "react-icons/bi";
 import ProductCard from "@/components/shared/home/product-card";
-import { productsData } from "@/lib/data";
 import ProductCardMobile from "./product-card-mobile";
+import { useEffect, useState } from "react";
+import { Product } from "@/lib/types";
+import { BASE_URL } from "@/lib/constants";
 
 export default function RelatedProducts() {
+  const [productsData, setProductsData] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProductsData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/product`, {
+          method: "POST",
+        });
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        setProductsData(data.docs);
+      } catch (error) {
+        console.log((error as Error).message);
+      }
+    };
+    fetchProductsData();
+  }, []);
+
   return (
     <>
       {/* Mobile View */}
@@ -22,9 +41,12 @@ export default function RelatedProducts() {
             محصولات مرتبط
           </h2>
         </div>
-        <div className="flex flex-col gap-4 h-[520px] overflow-auto">
+        <div
+          className="flex flex-col gap-4 h-[520px] overflow-auto"
+          style={{ scrollbarWidth: "none" }}
+        >
           {productsData.map((product) => (
-            <ProductCardMobile product={product} key={product.slug} />
+            <ProductCardMobile product={product} key={product._id} />
           ))}
         </div>
       </div>
@@ -78,7 +100,7 @@ export default function RelatedProducts() {
             }}
           >
             {productsData.map((data) => (
-              <SwiperSlide className="py-10 px-3" key={data.slug}>
+              <SwiperSlide className="py-10 px-3" key={data._id}>
                 <ProductCard data={data} />
               </SwiperSlide>
             ))}

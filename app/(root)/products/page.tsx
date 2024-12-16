@@ -1,64 +1,36 @@
 import BannerThin from "@/components/shared/banner-thin";
-import Sitemap from "./sitemap";
-import Filters from "./filters";
 import { ViewProvider } from "@/contexts/view-context";
-import ViewSwitch from "./view-switch";
-import ViewList from "./view-list";
-import ViewGrid from "./view-grid";
-import DialogInquiry from "../../dialog-inquiry";
-import ViewMobile from "./view-mobile";
-import DialogFilters from "./dialog-filters";
-import ButtonsMobile from "./buttons-mobile";
 import { FilterProvider } from "@/contexts/filter-context";
 import { BASE_URL } from "@/lib/constants";
-import { Category, Product } from "@/lib/types";
-import { notFound } from "next/navigation";
+import DialogInquiry from "../dialog-inquiry";
+import DialogFilters from "../archiv/[slug]/dialog-filters";
+import ButtonsMobile from "../archiv/[slug]/buttons-mobile";
+import ViewMobile from "../archiv/[slug]/view-mobile";
+import Filters from "../archiv/[slug]/filters";
+import ViewSwitch from "../archiv/[slug]/view-switch";
+import ViewList from "../archiv/[slug]/view-list";
+import ViewGrid from "../archiv/[slug]/view-grid";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const res1 = await fetch(`${BASE_URL}/category`);
-  const res2 = await fetch(`${BASE_URL}/web-text-plans`);
-  const data = await res1.json();
-  const info = await res2.json();
+export async function generateMetadata() {
+  const res = await fetch(`${BASE_URL}/web-text-plans`);
+  const info = await res.json();
 
-  const category = data.categories.find(
-    (cat: Category) => cat._id === params.slug
-  );
-
-  if (!res1.ok || !res2.ok) {
+  if (!res.ok) {
     return {
       title: "خطا در دریافت اطلاعات",
     };
   }
 
   return {
-    title: `${category.title} - ${info.title}`,
+    title: `محصولات - ${info.title}`,
     description: info.archiveProductMetaData,
   };
 }
 
-export default async function ArchivePage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const res1 = await fetch(`${BASE_URL}/category`);
-  const res2 = await fetch(`${BASE_URL}/product`, { method: "POST" });
-  const data = await res1.json();
-  const productsData = await res2.json();
-
-  if (!res1.ok || !res2.ok) return notFound();
-
-  const category = data.categories.find(
-    (cat: Category) => cat._id === params.slug
-  );
-
-  const productsList = productsData.docs.filter(
-    (pro: Product) => pro.category._id === params.slug
-  );
+export default async function ArchivePage() {
+  const res = await fetch(`${BASE_URL}/product`, { method: "POST" });
+  const productsData = await res.json();
+  const productsList = productsData.docs;
 
   return (
     <ViewProvider>
@@ -72,7 +44,7 @@ export default async function ArchivePage({
           {/* Heading */}
           <div className="absolute w-full flex justify-center top-24">
             <h2 className="text-primary font-bold text-[20px]">
-              {category.title}
+              محصولات سی ان سی استوک
             </h2>
           </div>
           {/* Content */}
@@ -81,15 +53,6 @@ export default async function ArchivePage({
             <ButtonsMobile />
             {/* Product View */}
             <ViewMobile productsList={productsList} />
-            {/* Description */}
-            <div className="flex flex-col gap-4 bg-[#618FB61A] -mx-4 px-4 py-8">
-              <h2 className="text-primary font-bold text-[16px] text-center">
-                {category.title}
-              </h2>
-              <p className="text-secondary font-medium text-[12px] leading-7 text-justify">
-                {category.description}
-              </p>
-            </div>
           </div>
         </div>
 
@@ -98,12 +61,6 @@ export default async function ArchivePage({
         {/* Desktop View */}
         <div className="hidden md:block relative">
           <BannerThin />
-          {/* Sitemap */}
-          <div className="flex items-center justify-center">
-            <div className="wrapper flex items-center justify-between absolute -mt-12 z-10">
-              <Sitemap category={category} />
-            </div>
-          </div>
           {/* Content */}
           <div className="wrapper flex flex-row md:gap-10 xl:gap-20 py-12">
             {/* Filters */}
@@ -119,7 +76,7 @@ export default async function ArchivePage({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <h2 className="text-primary font-bold text-[24px]">
-                    {category.title}
+                    محصولات سی ان سی استوک
                   </h2>
                 </div>
                 <div className="flex items-center gap-4">
@@ -136,15 +93,6 @@ export default async function ArchivePage({
               <ViewList productsList={productsList} />
               {/* Grid */}
               <ViewGrid productsList={productsList} />
-              {/* Description */}
-              <div className="flex flex-col gap-4 border rounded-xl shadow-md p-8 mt-14">
-                <h2 className="text-primary font-bold text-[20px]">
-                  {category.title}
-                </h2>
-                <p className="text-secondary font-medium text-[13px] leading-7 text-justify">
-                  {category.description}
-                </p>
-              </div>
             </div>
           </div>
         </div>

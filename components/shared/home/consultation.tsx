@@ -1,11 +1,29 @@
+import { BASE_URL } from "@/lib/constants";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { BiArrowFromRight } from "react-icons/bi";
 
 export default function Consultation() {
+  const [whatsapp, setWhatsapp] = useState<string | null>();
+
+  useEffect(() => {
+    const fetchFooterInfo = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        setWhatsapp(data.whatsapp);
+      } catch (error) {
+        console.log((error as Error).message);
+      }
+    };
+    fetchFooterInfo();
+  }, []);
+
   return (
     <>
       {/* Mobile View */}
-      <Link href="#">
+      <Link href={`${whatsapp}`} target="_blank">
         <div className="md:hidden flex items-center wrapper justify-center w-[328px] h-[87px] bg-primary rounded-xl mt-10 relative">
           {/* Background Layer */}
           <div className="absolute inset-0 bg-consultation-background bg-no-repeat opacity-[50%]"></div>
@@ -50,6 +68,8 @@ export default function Consultation() {
         </div>
       </Link>
 
+      {/* **************************************************************************************************************** */}
+
       {/* Desktop View */}
       <div className="hidden md:flex items-center wrapper justify-center w-[1364px] h-[95px] bg-primary rounded-full mt-24 relative">
         {/* Background Layer */}
@@ -92,7 +112,7 @@ export default function Consultation() {
             </svg>
           </div>
           <div className="flex items-center">
-            <Link href="#">
+            <Link href={`${whatsapp}`} target="_blank">
               <div className="flex items-center justify-end gap-8 px-5 w-[262px] h-[69px] rounded-full hover:bg-[#0084F1]/20 hover:shadow transition-colors duration-300 ease-in-out">
                 <span className="text-white font-bold text-[15px]">
                   شروع گفتگوی آنلاین

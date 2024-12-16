@@ -3,17 +3,15 @@
 import { useAccordion } from "@/contexts/accordion-context";
 import { useState } from "react";
 import { BiArrowFromTop } from "react-icons/bi";
+import { Product } from "@/lib/types";
 
-const specificationsData = [
-  { title: "تیپ تراش", description: "CNC" },
-  { title: "کنترل", description: "Oi-TA" },
-  { title: "مدل کنترل", description: "FANUC" },
-  { title: "محدوده طول گیر", description: "تا 500" },
-  { title: "ماکزیمم طول گیر", description: "450" },
-  { title: "محدوده طول گیر", description: "FANUC" },
-];
-
-export default function ProductInfo({ index }: { index: number }) {
+export default function ProductInfo({
+  index,
+  data,
+}: {
+  index: number;
+  data: Product;
+}) {
   const { openIndex, toggleAccordion } = useAccordion();
 
   const [activeTab, setActiveTab] = useState<string>("description");
@@ -45,17 +43,7 @@ export default function ProductInfo({ index }: { index: number }) {
         >
           <div className="flex flex-col gap-2">
             <p className="text-[#1F2D53] font-medium text-[12px] text-justify leading-7">
-              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
-              استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله
-              در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد
-              نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد،
-              کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان
-              جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای
-              طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان
-              فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری
-              موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد
-              نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل
-              دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+              {data.description}
             </p>
           </div>
         </div>
@@ -101,17 +89,7 @@ export default function ProductInfo({ index }: { index: number }) {
                 درباره این دستگاه
               </h3>
               <p className="text-[#1F2D53] font-medium text-[13px] text-justify leading-7">
-                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
-                استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله
-                در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد
-                نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد،
-                کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان
-                جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را
-                برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در
-                زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و
-                دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و
-                زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات
-                پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+                {data.description}
               </p>
             </div>
           )}
@@ -121,7 +99,13 @@ export default function ProductInfo({ index }: { index: number }) {
               <div className="flex items-center gap-14">
                 {/* Column 1 */}
                 <div className="flex flex-col gap-1 w-full">
-                  {specificationsData.map((item, idx) => {
+                  {data.attributes.length === 0 && (
+                    <p className="flex items-center justify-start text-secondary text-sm">
+                      مشخصاتی برای نمایش وجود ندارد
+                    </p>
+                  )}
+
+                  {data.attributes.map((item, idx) => {
                     // Render odd items in the first row
                     return idx % 2 === 0 ? (
                       <div
@@ -129,10 +113,10 @@ export default function ProductInfo({ index }: { index: number }) {
                         className="flex items-center justify-between p-4"
                       >
                         <span className="text-[#1F2329] font-medium text-[14px]">
-                          {item.title}
+                          {item.attribute.title}
                         </span>
                         <span className="text-primary font-bold text-[15px]">
-                          {item.description}
+                          {item.attribute.values[0]}
                         </span>
                       </div>
                     ) : (
@@ -142,10 +126,10 @@ export default function ProductInfo({ index }: { index: number }) {
                         className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
                       >
                         <span className="text-[#1F2329] font-medium text-[14px]">
-                          {item.title}
+                          {item.attribute.title}
                         </span>
                         <span className="text-primary font-bold text-[15px]">
-                          {item.description}
+                          {item.attribute.values[0]}
                         </span>
                       </div>
                     );
@@ -154,7 +138,7 @@ export default function ProductInfo({ index }: { index: number }) {
 
                 {/* Column 2 */}
                 <div className="flex flex-col gap-1 w-full">
-                  {specificationsData.map((item, idx) => {
+                  {data.attributes.map((item, idx) => {
                     // Render odd items in the first row
                     return idx % 2 === 0 ? (
                       <div
@@ -162,10 +146,10 @@ export default function ProductInfo({ index }: { index: number }) {
                         className="flex items-center justify-between p-4"
                       >
                         <span className="text-[#1F2329] font-medium text-[14px]">
-                          {item.title}
+                          {item.attribute.title}
                         </span>
                         <span className="text-primary font-bold text-[15px]">
-                          {item.description}
+                          {item.attribute.values[0]}
                         </span>
                       </div>
                     ) : (
@@ -175,10 +159,10 @@ export default function ProductInfo({ index }: { index: number }) {
                         className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
                       >
                         <span className="text-[#1F2329] font-medium text-[14px]">
-                          {item.title}
+                          {item.attribute.title}
                         </span>
                         <span className="text-primary font-bold text-[15px]">
-                          {item.description}
+                          {item.attribute.values[0]}
                         </span>
                       </div>
                     );
@@ -191,19 +175,19 @@ export default function ProductInfo({ index }: { index: number }) {
                 </h4>
                 <div className="flex items-center gap-2">
                   <span className="text-primary font-bold text-[14px]">
-                    محورها لینیر
+                    {data.options}
                   </span>
                   <span className="text-primary font-medium text-[10px]">
                     •
                   </span>
                   <span className="text-primary font-bold text-[14px]">
-                    تعداد ابزار:12
+                    {data.condition}
                   </span>
                   <span className="text-primary font-medium text-[10px]">
                     •
                   </span>
                   <span className="text-primary font-bold text-[14px]">
-                    دارای مرغک
+                    {data.yearOfManufacture}
                   </span>
                 </div>
               </div>

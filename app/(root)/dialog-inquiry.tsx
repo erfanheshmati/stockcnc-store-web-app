@@ -5,5 +5,6 @@ import { useDialog } from "@/contexts/dialog-context";
 
 export default function DialogInquiry() {
   const { isDialogOpen, closeDialog } = useDialog();
+
   return <DialogBoxInquiry isOpen={isDialogOpen} onClose={closeDialog} />;
 }

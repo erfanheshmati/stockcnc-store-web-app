@@ -1,22 +1,41 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Logo1 from "../logo-1";
+import { BASE_URL } from "@/lib/constants";
 
 export default function About() {
+  const [aboutUs, setAboutUs] = useState<string | null>();
+  const [title, setTitle] = useState<string | null>();
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchFooterAboutData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        setAboutUs(data.footerAboutUs);
+        setTitle(data.title);
+      } catch (error) {
+        setError((error as Error).message);
+      }
+    };
+    fetchFooterAboutData();
+  }, []);
+
   return (
     <div className="hidden lg:flex flex-col w-1/3 z-10">
       <div className="flex items-center justify-between">
-        <h2 className="text-white font-bold text-[15px]">
-          درباره سی ان سی استوک
-        </h2>
+        <h2 className="text-white font-bold text-[15px]">درباره {title}</h2>
         <Logo1 className="w-[130px]" />
       </div>
-      <p className="text-white/75 font-light text-[13px] leading-9 mt-4 text-justify line-clamp-4">
-        لورم ایپسوم متنی ساختگی ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-        استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون
-        و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای
-        متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه
-        درصد گذشته، حال و آینده شناخت فراوان ...
-      </p>
+      {error && <p className="text-red-500 text-center w-full">{error}</p>}
+      {!error && (
+        <p className="text-white/75 font-light text-[13px] leading-9 mt-4 text-justify line-clamp-4">
+          {aboutUs}
+        </p>
+      )}
     </div>
   );
 }

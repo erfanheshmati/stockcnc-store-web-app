@@ -1,8 +1,30 @@
+"use client";
+
 import { useDialog } from "@/contexts/dialog-context";
+import { BASE_URL } from "@/lib/constants";
+import { Product } from "@/lib/types";
+import { useEffect, useState } from "react";
 import { BiArrowFromRight } from "react-icons/bi";
 
 export default function Inquire() {
   const { openDialog } = useDialog();
+
+  const [productsData, setProductsData] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProductsData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/product`, { method: "POST" });
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        setProductsData(data.docs);
+      } catch (error) {
+        console.log((error as Error).message);
+      }
+    };
+    fetchProductsData();
+  }, []);
+
   return (
     <>
       {/* Mobile View */}
@@ -317,7 +339,7 @@ export default function Inquire() {
             </svg>
           </div>
           <div className="flex items-center">
-            <button onClick={openDialog}>
+            <button onClick={() => openDialog(productsData[0]._id)}>
               <div className="flex items-center justify-end gap-8 px-5 w-[262px] h-[69px] rounded-full hover:bg-[#8497B5]/20 hover:shadow transition-colors duration-300 ease-in-out">
                 <span className="text-white font-bold text-[15px]">
                   استعلام قیمت فوری

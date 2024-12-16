@@ -1,17 +1,24 @@
 "use client";
 
 import { useAccordion } from "@/contexts/accordion-context";
+import { Product } from "@/lib/types";
 import { BiArrowFromTop, BiAward, BiDetail } from "react-icons/bi";
 
-const healthData = [
-  { title: "سلامت ظاهری", percentage: 100 },
-  { title: "سلامت برقی", percentage: 80 },
-  { title: "سلامت اتصالات", percentage: 60 },
-  { title: "سلامت سوزن", percentage: 40 },
-];
-
-export default function ProductHealthCard({ index }: { index: number }) {
+export default function ProductHealthCard({
+  index,
+  data,
+}: {
+  index: number;
+  data: Product;
+}) {
   const { openIndex, toggleAccordion } = useAccordion();
+
+  const healthData = [
+    { title: "سلامت ظاهری", percentage: Number(data.appearanceHealth) },
+    { title: "سلامت برقی", percentage: Number(data.electricHealth) },
+    { title: "سلامت اتصالات", percentage: Number(data.metalJointsHealth) },
+    { title: "سلامت سوزن", percentage: Number(data.needleHealth) },
+  ];
 
   return (
     <>

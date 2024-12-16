@@ -2,21 +2,25 @@
 
 import { useState } from "react";
 import ProductCardList from "./product-card-list";
-import { productsData } from "@/lib/data";
 import { useView } from "@/contexts/view-context";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Product } from "@/lib/types";
 
-export default function ViewList() {
+export default function ViewList({
+  productsList,
+}: {
+  productsList: Product[];
+}) {
   const { viewType } = useView();
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6; // Number of products per page
 
   // Calculate total pages
-  const totalPages = Math.ceil(productsData.length / productsPerPage);
+  const totalPages = Math.ceil(productsList.length / productsPerPage);
 
   // Get products for current page
-  const currentProducts = productsData.slice(
+  const currentProducts = productsList.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
   );
@@ -33,7 +37,7 @@ export default function ViewList() {
       {viewType === "list" && (
         <div className="flex flex-col gap-4 pt-6">
           {currentProducts.map((data) => (
-            <ProductCardList key={data.slug} data={data} />
+            <ProductCardList key={data._id} data={data} />
           ))}
 
           {/* Pagination */}
@@ -79,8 +83,8 @@ export default function ViewList() {
           </div>
           <div className="flex items-center justify-center text-secondary text-sm">
             نمایش {productsPerPage * (currentPage - 1) + 1} تا{" "}
-            {Math.min(productsPerPage * currentPage, productsData.length)} از{" "}
-            {productsData.length} مورد
+            {Math.min(productsPerPage * currentPage, productsList.length)} از{" "}
+            {productsList.length} مورد
           </div>
         </div>
       )}

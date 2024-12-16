@@ -1,24 +1,51 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import { useDialog } from "@/contexts/dialog-context";
 import Logo1 from "../logo-1";
-
-const navLinks = [
-  { title: "درباره ما", href: "/about" },
-  { title: "تماس با ما", href: "/contact" },
-  { title: "سوالات متداول", href: "/frequent-asked-questions" },
-  // { title: "استعلام قیمت", href: "/inquiry" },
-];
+import { BASE_URL } from "@/lib/constants";
+import { HeaderMenu, Product } from "@/lib/types";
 
 export default function Menu() {
+  const [menusData, setMenusData] = useState<HeaderMenu[]>([]);
+  const [productsData, setProductsData] = useState<Product[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen);
 
   const { openDialog } = useDialog();
+
+  useEffect(() => {
+    const fetchMenusData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        setMenusData(data.headerMenu);
+      } catch (error) {
+        setError((error as Error).message);
+      }
+    };
+    fetchMenusData();
+  }, []);
+
+  useEffect(() => {
+    const fetchProductsData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/product`, { method: "POST" });
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        setProductsData(data.docs);
+      } catch (error) {
+        setError((error as Error).message);
+      }
+    };
+    fetchProductsData();
+  }, []);
 
   return (
     <div className="flex items-center z-20">
@@ -53,13 +80,15 @@ export default function Menu() {
                 <Logo1 className="w-[120px]" />
               </div>
               <hr className="opacity-20" />
-              {navLinks.map((item) => (
+              {error && <p className="text-red-500">{error}</p>}
+
+              {menusData.map((item) => (
                 <li
-                  key={item.href}
+                  key={item._id}
                   className="text-white font-bold text-[14px] z-10"
                 >
                   <Link
-                    href={item.href}
+                    href={item.url}
                     onClick={toggleMobileMenu}
                     className="flex items-center gap-1"
                   >
@@ -68,7 +97,7 @@ export default function Menu() {
                 </li>
               ))}
               <button
-                onClick={openDialog}
+                onClick={() => openDialog(productsData[0]._id)}
                 className="flex items-center text-white font-bold text-[14px] z-10"
               >
                 <span>استعلام قیمت</span>
@@ -118,18 +147,20 @@ export default function Menu() {
       {/* Desktop Menu */}
       <div className="hidden md:flex">
         <ul className="flex items-center gap-6 z-10">
-          {navLinks.map((item) => (
+          {error && <li className="text-red-500 pt-1">{error}</li>}
+
+          {menusData.map((item) => (
             <li
-              key={item.href}
+              key={item._id}
               className="text-white hover:text-white/70 font-bold text-[14px] transition-all duration-300 ease-in-out"
             >
-              <Link href={item.href} className="flex items-center">
+              <Link href={item.url} className="flex items-center">
                 {item.title}
               </Link>
             </li>
           ))}
           <button
-            onClick={openDialog}
+            onClick={() => openDialog(productsData[0]._id)}
             className="flex items-center text-white hover:text-white/70 font-bold text-[14px] transition-all duration-300 ease-in-out"
           >
             <span>استعلام قیمت</span>

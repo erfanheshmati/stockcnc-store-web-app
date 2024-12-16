@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
 import "@/styles/custom.css";
-import { APP_DESCRIPTION, APP_TITLE } from "@/lib/constants";
+import {
+  APP_DESCRIPTION,
+  APP_TITLE,
+  BASE_URL,
+  IMAGE_URL,
+} from "@/lib/constants";
 
 const yekanFont = localFont({
   src: [
@@ -17,13 +22,39 @@ const yekanFont = localFont({
   ],
 });
 
-export const metadata: Metadata = {
-  title: process.env.NEXT_PUBLIC_APP_TITLE || `${APP_TITLE}`,
-  description: process.env.NEXT_PUBLIC_APP_DESCRIPTION || `${APP_DESCRIPTION}`,
-  icons: {
-    icon: "/icons/favicon.ico",
-  },
-};
+async function fetchAppMetadata() {
+  try {
+    const res = await fetch(`${BASE_URL}/web-text-plans`, {
+      // Disable caching if data updates frequently
+      // cache: "no-store",
+    });
+    if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+    const data = await res.json();
+    return {
+      title: data.title || `${APP_TITLE}`,
+      description: data.defaultMetaData || `${APP_DESCRIPTION}`,
+      favicon: data.favicon || "/icons/favicon.ico",
+    };
+  } catch (error) {
+    console.error((error as Error).message);
+    return {
+      title: `${APP_TITLE}`,
+      description: `${APP_DESCRIPTION}`,
+      favicon: "/icons/favicon.ico",
+    };
+  }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const appMetadata = await fetchAppMetadata();
+  return {
+    title: appMetadata.title,
+    description: appMetadata.description,
+    icons: {
+      icon: `${IMAGE_URL}/${appMetadata.favicon}`,
+    },
+  };
+}
 
 export default function RootLayout({
   children,

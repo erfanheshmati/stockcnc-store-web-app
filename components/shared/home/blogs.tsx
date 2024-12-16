@@ -1,16 +1,35 @@
 "use client";
 
-import Link from "next/link";
-import BlogCard from "./blog-card";
-import { BiChevronLeft } from "react-icons/bi";
-import { blogsData } from "@/lib/data";
-
 // import Swiper core and required modules, styles
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 
+import Link from "next/link";
+import BlogCard from "./blog-card";
+import { BiChevronLeft } from "react-icons/bi";
+import { useEffect, useState } from "react";
+import { BASE_URL } from "@/lib/constants";
+import { Blog } from "@/lib/types";
+
 export default function Blogs() {
+  const [blogsData, setBlogsData] = useState<Blog[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchBlogsData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/blog?page=1&limit=10`);
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        setBlogsData(data.docs);
+      } catch (error) {
+        setError((error as Error).message);
+      }
+    };
+    fetchBlogsData();
+  }, []);
+
   return (
     <>
       {/* Mobile View */}
@@ -76,11 +95,16 @@ export default function Blogs() {
                 },
               }}
             >
-              {blogsData.map((data) => (
-                <SwiperSlide key={data.id} className="pb-10 pr-4">
-                  <BlogCard data={data} />
-                </SwiperSlide>
-              ))}
+              {error && (
+                <p className="text-red-500 text-center w-full">{error}</p>
+              )}
+
+              {!error &&
+                blogsData.map((data) => (
+                  <SwiperSlide key={data._id} className="pb-10 pr-4">
+                    <BlogCard data={data} />
+                  </SwiperSlide>
+                ))}
             </Swiper>
           </div>
         </div>
@@ -136,11 +160,14 @@ export default function Blogs() {
               },
             }}
           >
-            {blogsData.map((data) => (
-              <SwiperSlide className="py-6" key={data.id}>
-                <BlogCard data={data} />
-              </SwiperSlide>
-            ))}
+            {error && <p className="text-red-500 text-center mt-8">{error}</p>}
+
+            {!error &&
+              blogsData.map((data) => (
+                <SwiperSlide className="py-6" key={data._id}>
+                  <BlogCard data={data} />
+                </SwiperSlide>
+              ))}
           </Swiper>
         </div>
       </div>

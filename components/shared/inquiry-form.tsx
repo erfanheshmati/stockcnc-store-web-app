@@ -1,12 +1,18 @@
 "use client";
 
+import { useDialog } from "@/contexts/dialog-context";
+import { BASE_URL } from "@/lib/constants";
+import { notifyError, notifySuccess } from "@/lib/toast";
 import Link from "next/link";
 import { useState } from "react";
 import { BiPhoneCall, BiX } from "react-icons/bi";
 
 export default function InquiryForm({ onClose }: { onClose: () => void }) {
-  const [error, setError] = useState<string | null>(null);
+  const { productId } = useDialog();
+
   const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
@@ -21,7 +27,7 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
     }
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!phoneNumber) {
@@ -30,8 +36,34 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
       setError("شماره همراه باید 11 رقم باشد");
     } else {
       setError(null);
-      // Proceed with form submission
-      alert(`Form submitted successfully with phone number: ${phoneNumber}`);
+
+      setIsSubmitting(true);
+
+      // Send API request to get price for the product
+      try {
+        const response = await fetch(`${BASE_URL}/price-inquiry`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone: phoneNumber,
+            product: productId,
+          }),
+        });
+
+        const result = await response.json();
+        console.log(result);
+
+        if (response.ok) notifySuccess("استعلام قیمت با موفقیت ثبت شد");
+        else notifyError("محصول مورد نظر را انتخاب کنید");
+      } catch (err) {
+        console.log((err as Error).message);
+        notifyError("محصول مورد نظر را انتخاب کنید");
+      } finally {
+        setIsSubmitting(false);
+        setPhoneNumber("");
+      }
     }
   };
 
@@ -274,11 +306,12 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
           )}
           <button
             type="submit"
+            disabled={isSubmitting}
             className={`px-6 py-5 flex items-center justify-center bg-primary text-white font-semibold text-[14px] rounded-2xl ${
               error ? "mt-2" : "mt-8"
             }`}
           >
-            ثبت و استعلام قیمت
+            {isSubmitting ? "در حا ل ارسال..." : "ثبت و استعلام قیمت"}
           </button>
         </form>
         {/* Separator */}
@@ -535,7 +568,7 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
           >
             <input
               type="number"
-              placeholder="09...                                                       شماره همراه خود را وارد کنید"
+              placeholder="09...                                                    شماره همراه خود را وارد کنید *"
               id="numberInput"
               value={phoneNumber}
               onChange={handleInputChange}
@@ -555,11 +588,12 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
             )}
             <button
               type="submit"
+              disabled={isSubmitting}
               className={`p-6 flex items-center justify-center bg-primary text-white font-semibold rounded-lg hover:bg-primary/80 transition-colors duration-300 ease-in-out ${
                 error ? "mt-[6px]" : "mt-8"
               }`}
             >
-              ثبت و استعلام قیمت
+              {isSubmitting ? "در حا ل ارسال..." : "ثبت و استعلام قیمت"}
             </button>
           </form>
           {/* Separator */}

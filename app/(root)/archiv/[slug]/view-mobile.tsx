@@ -1,19 +1,23 @@
 "use client";
 
-import { productsData } from "@/lib/data";
 import ProductCardMobile from "./product-card-mobile";
 import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Product } from "@/lib/types";
 
-export default function ViewMobile() {
+export default function ViewMobile({
+  productsList,
+}: {
+  productsList: Product[];
+}) {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 4; // Number of products per page
 
   // Calculate total pages
-  const totalPages = Math.ceil(productsData.length / productsPerPage);
+  const totalPages = Math.ceil(productsList.length / productsPerPage);
 
   // Get products for current page
-  const currentProducts = productsData.slice(
+  const currentProducts = productsList.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
   );
@@ -29,7 +33,7 @@ export default function ViewMobile() {
     <div>
       <div className="flex flex-col gap-4">
         {currentProducts.map((product) => (
-          <ProductCardMobile key={product.slug} product={product} />
+          <ProductCardMobile key={product._id} product={product} />
         ))}
 
         {/* Pagination */}
@@ -72,8 +76,8 @@ export default function ViewMobile() {
         </div>
         <div className="flex items-center justify-center text-secondary text-sm">
           نمایش {productsPerPage * (currentPage - 1) + 1} تا{" "}
-          {Math.min(productsPerPage * currentPage, productsData.length)} از{" "}
-          {productsData.length} مورد
+          {Math.min(productsPerPage * currentPage, productsList.length)} از{" "}
+          {productsList.length} مورد
         </div>
       </div>
     </div>

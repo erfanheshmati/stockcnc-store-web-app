@@ -1,17 +1,32 @@
 import BannerThin from "@/components/shared/banner-thin";
-import { APP_TITLE } from "@/lib/constants";
-import { membersData } from "@/lib/data";
+import { BASE_URL, IMAGE_URL } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { PiTelegramLogo } from "react-icons/pi";
 import { SlSocialInstagram, SlSocialTwitter } from "react-icons/sl";
 import DialogInquiry from "../dialog-inquiry";
+import { AboutUsMember } from "@/lib/types";
 
-export const metadata = {
-  title: `درباره ما - ${APP_TITLE}`,
-};
+export async function generateMetadata() {
+  const res = await fetch(`${BASE_URL}/web-text-plans`);
+  const data = await res.json();
 
-export default function AboutPage() {
+  if (!res.ok) {
+    return { title: "خطا در دریافت اطلاعات" };
+  }
+
+  return {
+    title: `${data.aboutUsTitle} - ${data.title}`,
+    description: data.aboutUsMetaData,
+  };
+}
+
+export default async function AboutPage() {
+  const res = await fetch(`${BASE_URL}/web-text-plans`);
+  const data = await res.json();
+  const htmlContent = data.aboutUsHtmlContent;
+  const aboutUsMembers = data.aboutUsMembers;
+
   return (
     <>
       <DialogInquiry />
@@ -61,8 +76,11 @@ export default function AboutPage() {
           <h2 className="text-primary font-bold text-[22px] absolute top-24">
             درباره ما
           </h2>
+
+          <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+
           {/* Section 1 */}
-          <h3 className="text-primary font-bold text-[16px] border-t border-b w-full text-center py-4">
+          {/* <h3 className="text-primary font-bold text-[16px] border-t border-b w-full text-center py-4">
             درباره شرکت
           </h3>
           <div className="flex flex-col items-center gap-4 py-6">
@@ -97,9 +115,10 @@ export default function AboutPage() {
                 ></path>
               </svg>
             </div>
-          </div>
+          </div> */}
+
           {/* Section 2 */}
-          <h3 className="text-primary font-bold text-[16px] border-t border-b w-full text-center py-4">
+          {/* <h3 className="text-primary font-bold text-[16px] border-t border-b w-full text-center py-4">
             فروش عمده
           </h3>
           <p className="text-[#121215] font-semibold text-[11px] text-justify leading-6 py-6">
@@ -110,31 +129,33 @@ export default function AboutPage() {
             در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را
             می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی
             الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرده است...
-          </p>
+          </p> */}
+
           {/* Section 3 */}
-          <h3 className="text-primary font-bold text-[16px] border-t border-b w-full text-center py-4">
+          {/* <h3 className="text-primary font-bold text-[16px] border-t border-b w-full text-center py-4">
             واردات دستگاه های سی ان سی
           </h3>
           <p className="text-[#121215] font-semibold text-[11px] text-justify leading-6 py-6">
             نظر به درخواست زیاد از جانب مشتریان برای خرید محصولات شرکت، یدک صدرا
             اقدام به راه اندازی فروشگاه اینترنتی خود نمود تا هزینه و زمان دسترسی
             مشتریان مصرف کننده گرامی کاهش یابد و با اطمینان بیشتر خرید کنند.
-          </p>
-          {/* Section 4 */}
+          </p> */}
+
+          {/* Members Section */}
           <h3 className="text-primary font-bold text-[16px] border-t border-b w-full text-center py-4">
             اعضای شرکت
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 sm:gap-0 py-6 w-full">
-            {membersData.map((member) => (
+            {aboutUsMembers.map((member: AboutUsMember) => (
               <div
-                key={member.id}
+                key={member._id}
                 className="flex flex-col items-center gap-3 rounded-2xl px-6 py-6"
                 style={{ boxShadow: "34px -4px 79px -18px rgba(0,0,0,0.1)" }}
               >
                 <div className="relative">
                   <Image
-                    src={member.image}
-                    alt="Member Image"
+                    src={`${IMAGE_URL}/${member.avatar}`}
+                    alt={member.name}
                     width={55}
                     height={55}
                   />
@@ -162,7 +183,7 @@ export default function AboutPage() {
                 </div>
                 <hr className="w-full hidden sm:block" />
                 <div className="flex items-center justify-around w-full">
-                  <Link href={member.twitter}>
+                  <Link href={member.tweeter}>
                     <SlSocialTwitter
                       size={15}
                       className="text-secondary hover:text-cyan-500 transition-colors duration-300 ease-in-out"
@@ -186,6 +207,8 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
+
+      {/* *************************************************************************************************************** */}
 
       {/* Desktop View */}
       <div className="relative hidden md:block">
@@ -242,8 +265,11 @@ export default function AboutPage() {
           <h2 className="text-primary font-bold text-[32px] mb-10">
             درباره ما
           </h2>
+
+          <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+
           {/* Section 1 */}
-          <div className="flex items-center gap-6 w-full">
+          {/* <div className="flex items-center gap-6 w-full">
             <svg
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
@@ -292,9 +318,10 @@ export default function AboutPage() {
                 ></path>
               </svg>
             </div>
-          </div>
+          </div> */}
+
           {/* Section 2 */}
-          <div className="flex items-center gap-6 w-full">
+          {/* <div className="flex items-center gap-6 w-full">
             <svg
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
@@ -322,9 +349,10 @@ export default function AboutPage() {
               طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان
               فارسی ایجاد کرده است...
             </p>
-          </div>
+          </div> */}
+
           {/* Section 3 */}
-          <div className="flex items-center gap-6 w-full">
+          {/* <div className="flex items-center gap-6 w-full">
             <svg
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
@@ -348,8 +376,9 @@ export default function AboutPage() {
               دسترسی مشتریان مصرف کننده گرامی کاهش یابد و با اطمینان بیشتر خرید
               کنند.
             </p>
-          </div>
-          {/* Section 4 */}
+          </div> */}
+
+          {/* Members Section */}
           <div className="flex items-center gap-6 w-full">
             <svg
               version="1.1"
@@ -369,16 +398,16 @@ export default function AboutPage() {
           </div>
           <div className="flex flex-col items-center w-full mr-3 py-8 pr-9 pl-3">
             <div className="flex items-center">
-              {membersData.map((member) => (
+              {aboutUsMembers.map((member: AboutUsMember) => (
                 <div
-                  key={member.id}
+                  key={member._id}
                   className="flex flex-col items-center gap-6 rounded-2xl px-10 py-10"
                   style={{ boxShadow: "34px -4px 79px -18px rgba(0,0,0,0.1)" }}
                 >
                   <div className="relative">
                     <Image
-                      src={member.image}
-                      alt="Member Image"
+                      src={`${IMAGE_URL}/${member.avatar}`}
+                      alt={member.name}
                       width={100}
                       height={100}
                     />
@@ -406,19 +435,19 @@ export default function AboutPage() {
                   </div>
                   <hr className="w-full" />
                   <div className="flex items-center justify-between w-full">
-                    <Link href={member.twitter}>
+                    <Link href={member.tweeter} target="_blank">
                       <SlSocialTwitter
                         size={20}
                         className="text-secondary hover:text-cyan-500 transition-colors duration-300 ease-in-out"
                       />
                     </Link>
-                    <Link href={member.telegram}>
+                    <Link href={member.telegram} target="_blank">
                       <PiTelegramLogo
                         size={20}
                         className="text-secondary hover:text-blue-600 transition-colors duration-300 ease-in-out"
                       />
                     </Link>
-                    <Link href={member.instagram}>
+                    <Link href={member.instagram} target="_blank">
                       <SlSocialInstagram
                         size={20}
                         className="text-secondary hover:text-pink-800 transition-colors duration-300 ease-in-out"

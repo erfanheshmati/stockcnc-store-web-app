@@ -3,70 +3,15 @@
 import PriceInquiryButton from "./price-inquiry-button";
 import { BiArrowFromTop, BiChevronDown, BiLeftArrow } from "react-icons/bi";
 import { useAccordion } from "@/contexts/accordion-context";
+import { Product } from "@/lib/types";
 
-const specificationsItems = [
-  {
-    id: 1,
-    title: "کشور سازنده",
-    content: "کره جنوبی",
-    icon: `<svg width="22" height="22" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M13 26C20.1797 26 26 20.1797 26 13C26 5.8203 20.1797 0 13 0C5.8203 0 0 5.8203 0 13C0 20.1797 5.8203 26 13 26Z" fill="#F0F2F7"/>
-  <path d="M17.5216 13C17.5216 14.1304 15.4971 16.9565 12.9999 16.9565C10.5026 16.9565 8.47815 14.1304 8.47815 13C8.47815 10.5027 10.5026 8.47827 12.9999 8.47827C15.4971 8.47827 17.5216 10.5027 17.5216 13Z" fill="#D2405A"/>
-  <path d="M17.5216 13C17.5216 15.4973 15.4971 17.5217 12.9999 17.5217C10.5026 17.5217 8.47815 15.4973 8.47815 13" fill="#496C96"/>
-  <path d="M17.7919 16.9968L18.9907 15.798L19.7899 16.5972L18.5911 17.796L17.7919 16.9968Z" fill="#3B4249"/>
-  <path d="M15.7953 18.9954L16.9941 17.7965L17.7933 18.5958L16.5945 19.7946L15.7953 18.9954Z" fill="#3B4249"/>
-  <path d="M20.1902 19.3948L21.389 18.196L22.1882 18.9952L20.9894 20.194L20.1902 19.3948Z" fill="#3B4249"/>
-  <path d="M18.1913 21.3928L19.3901 20.194L20.1893 20.9932L18.9905 22.192L18.1913 21.3928Z" fill="#3B4249"/>
-  <path d="M18.9922 18.1956L20.191 16.9967L20.9902 17.796L19.7914 18.9948L18.9922 18.1956Z" fill="#3B4249"/>
-  <path d="M16.9956 20.1938L18.1944 18.995L18.9936 19.7943L17.7948 20.9931L16.9956 20.1938Z" fill="#3B4249"/>
-  <path d="M20.1948 9.00537L16.998 5.80852L17.7972 5.0093L20.994 8.20615L20.1948 9.00537Z" fill="#3B4249"/>
-  <path d="M16.9979 8.2063L15.7991 7.00748L16.5983 6.2083L17.7971 7.40711L16.9979 8.2063Z" fill="#3B4249"/>
-  <path d="M18.9968 10.2048L17.798 9.00602L18.5972 8.20683L19.796 9.40565L18.9968 10.2048Z" fill="#3B4249"/>
-  <path d="M19.3938 5.80835L18.195 4.60953L18.9942 3.81031L20.193 5.00913L19.3938 5.80835Z" fill="#3B4249"/>
-  <path d="M21.395 7.80713L20.1962 6.60831L20.9954 5.80909L22.1942 7.00791L21.395 7.80713Z" fill="#3B4249"/>
-  <path d="M4.6073 18.1936L7.80415 21.3905L7.00493 22.1897L3.80808 18.9928L4.6073 18.1936Z" fill="#3B4249"/>
-  <path d="M7.8042 18.9922L9.00301 20.191L8.20383 20.9902L7.00501 19.7914L7.8042 18.9922Z" fill="#3B4249"/>
-  <path d="M5.80518 16.9946L7.00399 18.1934L6.20477 18.9927L5.00595 17.7939L5.80518 16.9946Z" fill="#3B4249"/>
-  <path d="M7.00549 15.7952L10.2023 18.992L9.40312 19.7912L6.20627 16.5944L7.00549 15.7952Z" fill="#3B4249"/>
-  <path d="M7.8042 4.60718L4.60735 7.80403L3.80812 7.00481L7.00498 3.80796L7.8042 4.60718Z" fill="#3B4249"/>
-  <path d="M9.00439 5.80542L5.80754 9.00227L5.00832 8.20305L8.20517 5.0062L9.00439 5.80542Z" fill="#3B4249"/>
-  <path d="M10.2047 7.00513L7.00786 10.202L6.20867 9.40279L9.40553 6.20594L10.2047 7.00513Z" fill="#3B4249"/>
-  </svg>
-  `,
-  },
-  {
-    id: 2,
-    title: "کورس Z",
-    content: "500",
-    icon: "",
-  },
-  {
-    id: 3,
-    title: "مدل کنترل",
-    content: "Oi_TA",
-    icon: "",
-  },
-  {
-    id: 4,
-    title: "محدوده طول کارگیر",
-    content: "تا 500 میلیمتر",
-    icon: "",
-  },
-  {
-    id: 5,
-    title: "ماکزیمم طول کارگیر (mm)",
-    content: "تا 500 میلیمتر",
-    icon: "",
-  },
-  {
-    id: 6,
-    title: "تیپ تراش",
-    content: "تراش CNC",
-    icon: "",
-  },
-];
-
-export default function ProductIntroduce({ index }: { index: number }) {
+export default function ProductIntroduce({
+  index,
+  data,
+}: {
+  index: number;
+  data: Product;
+}) {
   const { openIndex, toggleAccordion } = useAccordion();
 
   return (
@@ -76,11 +21,9 @@ export default function ProductIntroduce({ index }: { index: number }) {
         {/* Product Title */}
         <div className="flex flex-col gap-2">
           <h2 className="text-primary font-bold text-[18px] line-clamp-1">
-            دستگاه تراش سی ان سی مدل پوما برند DOOSAN
+            {data.title}
           </h2>
-          <h3 className="text-secondary/70 text-[10px]">
-            two-axis horizontal CNC turning machine
-          </h3>
+          <h3 className="text-secondary/70 text-[10px]">{data.enTitle}</h3>
         </div>
         {/* Product Specifications */}
         <div className="flex flex-col gap-4 w-full">
@@ -104,12 +47,18 @@ export default function ProductIntroduce({ index }: { index: number }) {
               openIndex === index ? "max-h-screen mb-10" : "max-h-0"
             }`}
           >
-            {specificationsItems.map((item) => (
-              <div className="flex items-center justify-between" key={item.id}>
+            {data.attributes.length === 0 && (
+              <p className="flex items-center justify-center h-full text-secondary text-sm">
+                مشخصاتی برای نمایش وجود ندارد
+              </p>
+            )}
+
+            {data.attributes.map((item) => (
+              <div className="flex items-center justify-between" key={item._id}>
                 <div className="flex items-center gap-2">
                   <BiLeftArrow size={14} className="text-secondary/60" />
                   <span className="text-secondary font-semibold text-[12px]">
-                    {item.title}
+                    {item.attribute.title}
                   </span>
                 </div>
                 <div className="flex-grow relative mx-4">
@@ -122,11 +71,10 @@ export default function ProductIntroduce({ index }: { index: number }) {
                     }}
                   ></span>
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center">
                   <span className="text-primary font-bold text-[13px]">
-                    {item.content}
+                    {item.attribute.values[0]}
                   </span>
-                  <span dangerouslySetInnerHTML={{ __html: item.icon }} />
                 </div>
               </div>
             ))}
@@ -141,14 +89,12 @@ export default function ProductIntroduce({ index }: { index: number }) {
         {/* Product Title */}
         <div className="flex flex-col gap-4">
           <h2 className="text-primary font-bold text-[28px] line-clamp-1">
-            دستگاه تراش سی ان سی مدل پوما برند DOOSAN
+            {data.title}
           </h2>
-          <h3 className="text-secondary/70 text-[12px]">
-            two-axis horizontal CNC turning machine
-          </h3>
+          <h3 className="text-secondary/70 text-[12px]">{data.enTitle}</h3>
         </div>
         {/* Product Specifications */}
-        <div className="flex flex-col gap-6 w-full lg:max-w-md">
+        <div className="flex flex-col gap-6 w-full lg:max-w-md h-[300px]">
           <div className="flex items-center justify-between">
             <span className="font-semibold text-[16px]">مشخصات دستگاه</span>
             <button
@@ -170,12 +116,18 @@ export default function ProductIntroduce({ index }: { index: number }) {
             </button>
           </div>
           {/* Specifications Rows */}
-          {specificationsItems.map((item) => (
-            <div className="flex items-center justify-between" key={item.id}>
+          {data.attributes.length === 0 && (
+            <p className="flex items-center justify-center h-full text-secondary text-sm">
+              مشخصاتی برای نمایش وجود ندارد
+            </p>
+          )}
+
+          {data.attributes.slice(0, 6).map((item) => (
+            <div className="flex items-center justify-between" key={item._id}>
               <div className="flex items-center gap-2">
                 <BiLeftArrow size={14} className="text-secondary/60" />
                 <span className="text-secondary font-semibold text-[14px]">
-                  {item.title}
+                  {item.attribute.title}
                 </span>
               </div>
               <div className="flex-grow relative mx-4">
@@ -188,11 +140,10 @@ export default function ProductIntroduce({ index }: { index: number }) {
                   }}
                 ></span>
               </div>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center">
                 <span className="text-primary font-bold text-[15px]">
-                  {item.content}
+                  {item.attribute.values[0]}
                 </span>
-                <span dangerouslySetInnerHTML={{ __html: item.icon }} />
               </div>
             </div>
           ))}
@@ -220,7 +171,7 @@ export default function ProductIntroduce({ index }: { index: number }) {
               />
             </svg>
           </div>
-          <PriceInquiryButton />
+          <PriceInquiryButton data={data} />
         </div>
       </div>
     </>

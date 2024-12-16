@@ -1,24 +1,81 @@
 "use client";
 
-import Link from "next/link";
-import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-import ProductCard from "./product-card";
-import { productsData } from "@/lib/data";
-
 // import Swiper core and required modules, styles
 import { Navigation, FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 
-export default function Products() {
+import Link from "next/link";
+import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import ProductCard from "./product-card";
+import { BASE_URL } from "@/lib/constants";
+import { useEffect, useState } from "react";
+import { Product } from "@/lib/types";
+
+export default function Products({
+  selectedBrand,
+}: {
+  selectedBrand: string | null;
+}) {
+  const [productsData, setProductsData] = useState<Product[]>([]);
+  const [brandName, setBrandName] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProductsData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/product`, {
+          method: "POST",
+        });
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        if (selectedBrand) {
+          const filteredProducts = data.docs.filter(
+            (product: Product) => product.brand._id === selectedBrand
+          );
+          setProductsData(filteredProducts);
+        } else {
+          setProductsData(data.docs);
+        }
+      } catch (error) {
+        setError((error as Error).message);
+      }
+    };
+    fetchProductsData();
+  }, [selectedBrand]);
+
+  useEffect(() => {
+    const fetchBrandName = async () => {
+      if (selectedBrand) {
+        try {
+          const res = await fetch(`${BASE_URL}/brand`);
+          if (!res.ok) throw new Error("خطا در دریافت اطلاعات برند!");
+          const data = await res.json();
+
+          const brand = data.find(
+            (brand: { _id: string }) => brand._id === selectedBrand
+          );
+          setBrandName(brand ? brand.title : "");
+        } catch (error) {
+          console.error((error as Error).message);
+          setBrandName("");
+        }
+      } else {
+        setBrandName("");
+      }
+    };
+
+    fetchBrandName();
+  }, [selectedBrand]);
+
   return (
     <>
       {/* Mobile View */}
       <div className="md:hidden">
         <div className="flex flex-col items-center">
           <h2 className="text-primary font-bold text-[22px]">
-            محصولات برند داوو
+            محصولات {brandName}
           </h2>
           <div className="wrapper !px-0 relative pt-4">
             {/* Custom arrows */}
@@ -28,63 +85,77 @@ export default function Products() {
             <div className="custom-swiper-button-next right-4 inset-y-1/2 bg-primary flex items-center justify-center rounded-full w-10 h-10 z-[5]">
               <BiChevronRight size={19} color="white" />
             </div>
-            <Swiper
-              modules={[Navigation, FreeMode]}
-              slidesPerView={1}
-              spaceBetween={0}
-              navigation={{
-                prevEl: ".custom-swiper-button-prev",
-                nextEl: ".custom-swiper-button-next",
-              }}
-              breakpoints={{
-                0: {
-                  slidesPerView: 1,
-                  spaceBetween: -80,
-                },
-                330: {
-                  slidesPerView: 1,
-                  spaceBetween: -100,
-                },
-                350: {
-                  slidesPerView: 1,
-                  spaceBetween: -120,
-                },
-                380: {
-                  slidesPerView: 1,
-                  spaceBetween: -150,
-                },
-                450: {
-                  slidesPerView: 1,
-                  spaceBetween: -180,
-                },
-                500: {
-                  slidesPerView: 2,
-                  spaceBetween: -20,
-                },
-                550: {
-                  slidesPerView: 2,
-                  spaceBetween: -40,
-                },
-                600: {
-                  slidesPerView: 3,
-                  spaceBetween: 150,
-                },
-                650: {
-                  slidesPerView: 3,
-                  spaceBetween: 100,
-                },
-                700: {
-                  slidesPerView: 3,
-                  spaceBetween: 20,
-                },
-              }}
-            >
-              {productsData.map((data) => (
-                <SwiperSlide className="pb-10" key={data.slug}>
-                  <ProductCard data={data} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            <div className="h-[362px]">
+              {!error && productsData.length === 0 && (
+                <p className="flex items-center justify-center text-secondary text-sm h-full">
+                  محصولی برای نمایش وجود ندارد
+                </p>
+              )}
+
+              <Swiper
+                modules={[Navigation, FreeMode]}
+                slidesPerView={1}
+                spaceBetween={0}
+                navigation={{
+                  prevEl: ".custom-swiper-button-prev",
+                  nextEl: ".custom-swiper-button-next",
+                }}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 1,
+                    spaceBetween: -80,
+                  },
+                  330: {
+                    slidesPerView: 1,
+                    spaceBetween: -100,
+                  },
+                  350: {
+                    slidesPerView: 1,
+                    spaceBetween: -120,
+                  },
+                  380: {
+                    slidesPerView: 1,
+                    spaceBetween: -150,
+                  },
+                  450: {
+                    slidesPerView: 1,
+                    spaceBetween: -180,
+                  },
+                  500: {
+                    slidesPerView: 2,
+                    spaceBetween: -20,
+                  },
+                  550: {
+                    slidesPerView: 2,
+                    spaceBetween: -40,
+                  },
+                  600: {
+                    slidesPerView: 3,
+                    spaceBetween: 150,
+                  },
+                  650: {
+                    slidesPerView: 3,
+                    spaceBetween: 100,
+                  },
+                  700: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                  },
+                }}
+                className="h-[362px]"
+              >
+                {error && (
+                  <p className="text-red-500 text-center w-full">{error}</p>
+                )}
+
+                {!error &&
+                  productsData.map((data) => (
+                    <SwiperSlide className="pb-10" key={data._id}>
+                      <ProductCard data={data} />
+                    </SwiperSlide>
+                  ))}
+              </Swiper>
+            </div>
           </div>
         </div>
       </div>
@@ -95,7 +166,7 @@ export default function Products() {
       <div className="hidden md:flex flex-col md:w-7/12 lg:w-8/12 xl:w-9/12">
         <div className="flex items-center justify-between">
           <h2 className="text-primary font-bold text-[24px] mr-2">
-            محصولات برند داوو
+            محصولات {brandName}
           </h2>
           <Link
             href="/products"
@@ -108,7 +179,13 @@ export default function Products() {
           </Link>
         </div>
         <hr className="mt-6 mr-2" />
-        <div>
+        <div className="h-[550px]">
+          {!error && productsData.length === 0 && (
+            <p className="flex items-center justify-center text-secondary text-sm h-full">
+              محصولی برای نمایش وجود ندارد
+            </p>
+          )}
+
           <Swiper
             slidesPerView={3}
             spaceBetween={0}
@@ -138,12 +215,18 @@ export default function Products() {
                 spaceBetween: 0,
               },
             }}
+            className="h-[550px]"
           >
-            {productsData.map((data) => (
-              <SwiperSlide className="py-10 px-3" key={data.slug}>
-                <ProductCard data={data} />
-              </SwiperSlide>
-            ))}
+            {error && (
+              <p className="text-red-500 text-center w-full">{error}</p>
+            )}
+
+            {!error &&
+              productsData.map((data) => (
+                <SwiperSlide className="pt-10 px-3" key={data._id}>
+                  <ProductCard data={data} />
+                </SwiperSlide>
+              ))}
           </Swiper>
         </div>
       </div>

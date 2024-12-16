@@ -1,62 +1,249 @@
-export type Category = {
-  id: number;
-  slug: string;
-  title: string;
-  content: string;
+export interface Category {
+  _id: string;
   image: string;
-  badge: string;
-};
-
-export type Brand = {
-  id: number;
   title: string;
   description: string;
-  brand: string;
+  sellerPhone: string;
+  view: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface MostSearch {
+  _id: string;
+  title: string;
+  url: string;
+  imageMobile: string;
+  imageWeb: string;
+  live: boolean;
+  sort: number;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface Brand {
+  _id: string;
   logo: string;
-};
+  title: string;
+  enTitle: string;
+  summary: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
-export type Product = {
-  id: number;
-  slug: string;
-  brand: string;
-  icon: string;
-  country: string;
+export interface Country {
+  _id: string;
+  logo: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface Product {
+  _id: string;
+  primaryImage: string;
+  gallery: string[];
+  title: string;
+  enTitle: string;
+  description: string;
+  country: Country;
+  brand: Brand;
+  category: Category;
+  options: string;
+  available: boolean;
+  condition: string;
+  yearOfManufacture: string;
+  appearanceHealth: number;
+  electricHealth: number;
+  metalJointsHealth: number;
+  needleHealth: number;
+  attributes: Attribute[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  metaData: string;
+}
+
+export interface Attribute {
+  _id: string;
+  attribute: AttributeType;
+  value: string;
+}
+
+export interface AttributeType {
+  _id: string;
+  title: string;
+  type: string;
+  values: string[];
+  isFilter: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  requiredAttribute: string | number | boolean | null;
+}
+
+export interface Blog {
+  _id: number;
+  metaData: string;
   image: string;
   title: string;
-  description: string;
-  tags: string[];
-};
-
-export type Help = {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-};
-
-export type Blog = {
-  id: number;
-  image: string;
-  title: string;
-  description: string;
+  metaTitle: string;
+  content: string;
   author: string;
-  date: string;
-};
+  createdAt: string;
+  summary: string;
+  tutorial: boolean;
+}
 
-export type Member = {
+// export interface Member {
+//   id: number;
+//   name: string;
+//   position: string;
+//   image: string;
+//   twitter: string;
+//   telegram: string;
+//   instagram: string;
+// }
+
+export interface Help {
   id: number;
-  name: string;
-  position: string;
+  title: string;
+  description: string;
   image: string;
-  twitter: string;
-  telegram: string;
-  instagram: string;
-};
+}
 
-export type Social = {
+export interface Social {
   id: number;
   title: string;
   description: string;
   href: string;
   icon: string;
-};
+}
+
+// *********************************************************************************************************************
+
+export interface Root {
+  _id: string;
+  favicon: string;
+  logo: string;
+  colorPrimary: string;
+  colorAccent: string;
+  colorSecond: string;
+  defaultMetaData: string;
+  address: string;
+  telephone: string;
+  mobile: string;
+  supportTelephone: string;
+  telegram: string;
+  instagram: string;
+  whatsapp: string;
+  footerAboutUs: string;
+  contactUsTitle: string;
+  contactUsMetaData: string;
+  latitude: number;
+  longitude: string;
+  aboutUsTitle: string;
+  aboutUsMetaData: string;
+  aboutUsHtmlContent: string;
+  archiveProductTitle: string;
+  archiveProductMetaData: string;
+  archiveBlogTitle: string;
+  archiveBlogMetaData: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  headerMenu: HeaderMenu[];
+  footerProducts: FooterProduct[];
+  footerBrands: FooterBrand[];
+  footerQuickAccess: FooterQuickAccess[];
+  banners: BannerSlider[];
+  aboutUsMembers: AboutUsMember[];
+}
+
+export interface HeaderMenu {
+  _id: string;
+  title: string;
+  url: string;
+  imageMobile: string;
+  imageWeb: string;
+  live: boolean;
+  sort: number;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface FooterProduct {
+  _id: string;
+  title: string;
+  url: string;
+  imageMobile: string;
+  imageWeb: string;
+  live: boolean;
+  sort: number;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface FooterBrand {
+  _id: string;
+  title: string;
+  url: string;
+  imageMobile: string;
+  imageWeb: string;
+  live: boolean;
+  sort: number;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface FooterQuickAccess {
+  _id: string;
+  title: string;
+  url: string;
+  imageMobile: string;
+  imageWeb: string;
+  live: boolean;
+  sort: number;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface BannerSlider {
+  _id: string;
+  title: string;
+  url: string;
+  imageMobile: string;
+  imageWeb: string;
+  live: boolean;
+  sort: number;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface AboutUsMember {
+  _id: string;
+  avatar: string;
+  name: string;
+  position: string;
+  instagram: string;
+  telegram: string;
+  tweeter: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}

@@ -15,7 +15,10 @@ export default function Helps() {
             دستگاه های سی ان سی
           </span>
         </div>
-        <div className="wrapper my-6 h-[300px] overflow-auto">
+        <div
+          className="wrapper my-6 h-[300px] overflow-auto"
+          style={{ scrollbarWidth: "none" }}
+        >
           {helpsData.map((data, index) => (
             <React.Fragment key={data.id}>
               <HelpCard data={data} />

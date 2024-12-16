@@ -1,9 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import { BiArrowFromLeft, BiArrowFromRight } from "react-icons/bi";
-import Link from "next/link";
-
 // import Swiper core and required modules, styles
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,7 +7,31 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+import Image from "next/image";
+import { BiArrowFromLeft, BiArrowFromRight } from "react-icons/bi";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { BASE_URL, IMAGE_URL } from "@/lib/constants";
+import { BannerSlider } from "@/lib/types";
+
 export default function Banner({ children }: { children: React.ReactNode }) {
+  const [bannersData, setBannersData] = useState<BannerSlider[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchBannersData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        setBannersData(data.banners);
+      } catch (error) {
+        setError((error as Error).message);
+      }
+    };
+    fetchBannersData();
+  }, []);
+
   return (
     <div className="h-[360px] md:h-[391px] bg-primary relative flex px-4 md:px-0">
       {/* Banner Background Layer */}
@@ -49,42 +69,34 @@ export default function Banner({ children }: { children: React.ReactNode }) {
               nextEl: ".custom-swiper-button-next",
             }}
           >
-            <SwiperSlide>
-              <Link href="/" className="flex flex-col items-center gap-4 py-8">
-                <Image
-                  src="/images/products/cnc.png"
-                  alt="Product Image"
-                  width={207}
-                  height={139}
-                />
-                <div className="flex flex-col items-start">
-                  <span className="text-white/60 text-[14px] md:text-[17px]">
-                    فروش عمده
-                  </span>
-                  <span className="text-white font-bold text-[17px] md:text-[22px]">
-                    انواع دستگاه های سی ان سی
-                  </span>
-                </div>
-              </Link>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Link href="/" className="flex flex-col items-center gap-4 py-8">
-                <Image
-                  src="/images/products/cnc.png"
-                  alt="Product Image"
-                  width={207}
-                  height={139}
-                />
-                <div className="flex flex-col items-start">
-                  <span className="text-white/60 text-[14px] md:text-[17px]">
-                    فروش عمده
-                  </span>
-                  <span className="text-white font-bold text-[17px] md:text-[22px]">
-                    انواع دستگاه های سی ان سی
-                  </span>
-                </div>
-              </Link>
-            </SwiperSlide>
+            {error && (
+              <p className="text-red-500 text-center w-full">{error}</p>
+            )}
+
+            {!error &&
+              bannersData.map((item) => (
+                <SwiperSlide key={item._id}>
+                  <Link
+                    href={item.url}
+                    className="flex flex-col items-center gap-4 py-6"
+                  >
+                    <Image
+                      src={`${IMAGE_URL}/${item.imageWeb}`}
+                      alt={item.title}
+                      width={207}
+                      height={139}
+                    />
+                    <div className="flex flex-col items-start">
+                      <span className="text-white/60 text-[14px] md:text-[17px]">
+                        فروش عمده
+                      </span>
+                      <span className="text-white font-bold text-[17px] md:text-[22px]">
+                        {item.title}
+                      </span>
+                    </div>
+                  </Link>
+                </SwiperSlide>
+              ))}
           </Swiper>
         </div>
         {children}

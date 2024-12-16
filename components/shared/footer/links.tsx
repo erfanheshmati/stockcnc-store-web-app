@@ -1,28 +1,33 @@
+"use client";
+
+import { BASE_URL } from "@/lib/constants";
+import { FooterBrand, FooterProduct, FooterQuickAccess } from "@/lib/types";
 import Link from "next/link";
-import React from "react";
-
-const machinLinks = [
-  { title: "ماشین های تراش سی ان سی", href: "#" },
-  { title: "ماشین های فرز سی ان سی", href: "#" },
-  { title: "ماشین های بورینگ سی ان سی", href: "#" },
-  { title: "ماشین های سنتر سی ان سی", href: "#" },
-];
-
-const brandLinks = [
-  { title: "انواع دستگاه سی ان سی Daewoo", href: "#" },
-  { title: "انواع دستگاه سی ان سی Chiron", href: "#" },
-  { title: "انواع دستگاه سی ان سی Makino", href: "#" },
-  { title: "انواع دستگاه سی ان سی Okuma", href: "#" },
-];
-
-const shortLinks = [
-  { title: "درباره ما", href: "#" },
-  { title: "تماس با ما", href: "#" },
-  { title: "سوالات متداول", href: "#" },
-  { title: "آرشیو محصولات", href: "#" },
-];
+import React, { useEffect, useState } from "react";
 
 export default function Links() {
+  const [footerQuickAccess, setFooterQuickAccess] = useState<
+    FooterQuickAccess[]
+  >([]);
+  const [footerBrands, setFooterBrands] = useState<FooterBrand[]>([]);
+  const [footerProducts, setFooterProducts] = useState<FooterProduct[]>([]);
+
+  useEffect(() => {
+    const fetchFooterLinks = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        setFooterQuickAccess(data.footerQuickAccess);
+        setFooterProducts(data.footerProducts);
+        setFooterBrands(data.footerBrands);
+      } catch (error) {
+        console.log((error as Error).message);
+      }
+    };
+    fetchFooterLinks();
+  }, []);
+
   return (
     <div className="flex gap-16 lg:gap-8 xl:gap-16 z-10 md:mx-auto lg:mx-0">
       <div className="flex flex-col pt-1">
@@ -30,24 +35,24 @@ export default function Links() {
           انواع ماشین های سی ان سی
         </h2>
         <ul className="flex flex-col gap-4 mt-6">
-          {machinLinks.map((item, index) => (
+          {footerProducts.slice(0, 4).map((item) => (
             <li
-              key={index}
+              key={item._id}
               className="text-white/75 text-[13px] hover:text-white hover:underline"
             >
-              <Link href={item.href}>{item.title}</Link>
+              <Link href={item.url}>{item.title}</Link>
             </li>
           ))}
         </ul>
       </div>
       <div className="flex flex-col pt-1">
         <ul className="flex flex-col gap-4 mt-12">
-          {machinLinks.map((item, index) => (
+          {footerProducts.slice(4, 8).map((item) => (
             <li
-              key={index}
+              key={item._id}
               className="text-white/75 text-[13px] hover:text-white hover:underline"
             >
-              <Link href={item.href}>{item.title}</Link>
+              <Link href={item.url}>{item.title}</Link>
             </li>
           ))}
         </ul>
@@ -57,12 +62,12 @@ export default function Links() {
           انواع برند دستگاه ها
         </h2>
         <ul className="flex flex-col gap-4 mt-6 ">
-          {brandLinks.map((item, index) => (
+          {footerBrands.slice(0, 4).map((item) => (
             <li
-              key={index}
+              key={item._id}
               className="text-white/75 text-[13px] hover:text-white hover:underline"
             >
-              <Link href={item.href}>{item.title}</Link>
+              <Link href={item.url}>{item.title}</Link>
             </li>
           ))}
         </ul>
@@ -70,12 +75,12 @@ export default function Links() {
       <div className="flex flex-col pt-1">
         <h2 className="text-white font-bold text-[15px]">دسترسی سریع</h2>
         <ul className="flex flex-col gap-4 mt-6">
-          {shortLinks.map((item, index) => (
+          {footerQuickAccess.slice(0, 4).map((item) => (
             <li
-              key={index}
+              key={item._id}
               className="text-white/75 text-[13px] hover:text-white hover:underline"
             >
-              <Link href={item.href}>{item.title}</Link>
+              <Link href={item.url}>{item.title}</Link>
             </li>
           ))}
         </ul>
