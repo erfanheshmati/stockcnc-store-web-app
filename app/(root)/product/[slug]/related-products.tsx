@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { Product } from "@/lib/types";
 import { BASE_URL } from "@/lib/constants";
 
-export default function RelatedProducts() {
+export default function RelatedProducts({ proCatId }: { proCatId: string }) {
   const [productsData, setProductsData] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -24,7 +24,10 @@ export default function RelatedProducts() {
         });
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
-        setProductsData(data.docs);
+        const filteredProducts = data.docs.filter(
+          (product: Product) => product.category._id === proCatId
+        );
+        setProductsData(filteredProducts);
       } catch (error) {
         console.log((error as Error).message);
       }

@@ -46,6 +46,8 @@ export default async function ProductDetails({
   const data = await res.json();
   if (!data) return notFound();
 
+  const proCatId = data.category._id;
+
   return (
     <AccordionProvider>
       <DialogInquiry />
@@ -59,7 +61,7 @@ export default async function ProductDetails({
 
         {/* Related Products */}
         <div className="wrapper">
-          <RelatedProducts />
+          <RelatedProducts proCatId={proCatId} />
         </div>
 
         {/* Price Inquiry */}
@@ -102,7 +104,7 @@ export default async function ProductDetails({
 
         {/* Related Products */}
         <div className="wrapper">
-          <RelatedProducts />
+          <RelatedProducts proCatId={proCatId} />
         </div>
       </div>
     </AccordionProvider>
