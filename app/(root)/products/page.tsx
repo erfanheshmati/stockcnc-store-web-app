@@ -10,8 +10,15 @@ import Filters from "../archiv/[slug]/filters";
 import ViewSwitch from "../archiv/[slug]/view-switch";
 import ViewList from "../archiv/[slug]/view-list";
 import ViewGrid from "../archiv/[slug]/view-grid";
+import { Product } from "@/lib/types";
 
-export async function generateMetadata() {
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string };
+}) {
+  const searchQuery = searchParams?.search || "محصولات";
+
   const res = await fetch(`${BASE_URL}/web-text-plans`);
   const info = await res.json();
 
@@ -22,15 +29,55 @@ export async function generateMetadata() {
   }
 
   return {
-    title: `محصولات - ${info.title}`,
+    title: `${searchQuery} - ${info.title}`,
     description: info.archiveProductMetaData,
   };
 }
 
-export default async function ArchivePage() {
-  const res = await fetch(`${BASE_URL}/product`, { method: "POST" });
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string };
+}) {
+  const searchQuery = searchParams?.search || "";
+  const catQuery = searchParams?.cat || "";
+  let error: string | null = null;
+
+  const res = await fetch(`${BASE_URL}/product`, {
+    method: "POST",
+  });
+
+  if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+
   const productsData = await res.json();
-  const productsList = productsData.docs;
+
+  // Normalize the search query by replacing any extra spaces with a single space
+  const normalizedSearchQuery = searchQuery.replace(/\s+/g, " ").trim();
+
+  // Split by space and handle search query parts
+  const searchParts = normalizedSearchQuery.split(" ");
+
+  const productsList = productsData.docs.filter((product: Product) => {
+    return (
+      searchParts.some((part) => {
+        return (
+          product.title.includes(part) ||
+          product.description.includes(part) ||
+          product.enTitle.includes(part) ||
+          product.country.title.includes(part) ||
+          product.brand.title.includes(part) ||
+          product.brand.enTitle.includes(part) ||
+          product.options.includes(part) ||
+          product.yearOfManufacture.includes(part) ||
+          product.condition.includes(part)
+        );
+      }) && product.category._id.includes(catQuery)
+    );
+  });
+
+  if (productsList.length === 0) {
+    error = "جستجو بی نتیجه بود";
+  }
 
   return (
     <ViewProvider>
@@ -44,15 +91,24 @@ export default async function ArchivePage() {
           {/* Heading */}
           <div className="absolute w-full flex justify-center top-24">
             <h2 className="text-primary font-bold text-[20px]">
-              محصولات سی ان سی استوک
+              {searchQuery || "محصولات سی ان سی استوک"}
             </h2>
           </div>
           {/* Content */}
-          <div className="flex flex-col gap-8 pt-8 wrapper">
+          <div className="flex flex-col gap-8 pt-8 wrapper min-h-screen">
             {/* Buttons */}
             <ButtonsMobile />
-            {/* Product View */}
-            <ViewMobile productsList={productsList} />
+            {/* Error */}
+            {error ? (
+              <div className="flex items-start justify-center pt-20 h-full text-secondary text-sm">
+                {error}
+              </div>
+            ) : (
+              <>
+                {/* Product View */}
+                <ViewMobile productsList={productsList} />
+              </>
+            )}
           </div>
         </div>
 
@@ -71,12 +127,12 @@ export default async function ArchivePage() {
               <Filters productsList={productsList} />
             </div>
             {/* Product View */}
-            <div className="flex flex-col w-9/12">
+            <div className="flex flex-col w-9/12 min-h-screen">
               {/* Heading */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <h2 className="text-primary font-bold text-[24px]">
-                    محصولات سی ان سی استوک
+                    {searchQuery || "محصولات سی ان سی استوک"}
                   </h2>
                 </div>
                 <div className="flex items-center gap-4">
@@ -89,10 +145,19 @@ export default async function ArchivePage() {
                 </div>
                 <ViewSwitch />
               </div>
-              {/* List */}
-              <ViewList productsList={productsList} />
-              {/* Grid */}
-              <ViewGrid productsList={productsList} />
+              {/* Error */}
+              {error ? (
+                <div className="flex items-start justify-center pt-20 h-full text-secondary text-sm">
+                  {error}
+                </div>
+              ) : (
+                <>
+                  {/* List */}
+                  <ViewList productsList={productsList} />
+                  {/* Grid */}
+                  <ViewGrid productsList={productsList} />
+                </>
+              )}
             </div>
           </div>
         </div>

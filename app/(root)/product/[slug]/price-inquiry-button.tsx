@@ -11,7 +11,7 @@ export default function PriceInquiryButton({ data }: { data: Product }) {
       {/* Mobile View */}
       <button
         onClick={() => openDialog(data._id)}
-        className="block md:hidden fixed bottom-0 w-full py-4 z-10 text-white font-bold text-[14px] bg-[#00D45A]"
+        className="block md:hidden fixed bottom-0 w-full py-4 z-15 text-white font-bold text-[14px] bg-[#00D45A]"
       >
         استعلام فوری قیمت
       </button>
