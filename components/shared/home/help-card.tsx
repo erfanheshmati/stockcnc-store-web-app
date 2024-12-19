@@ -13,9 +13,9 @@ export default function HelpCard({ data }: { data: Help }) {
           <h3 className="text-primary font-semibold text-[13px] line-clamp-1">
             {data.title}
           </h3>
-          <div className="text-[#A1AEBB] text-[10px] line-clamp-2 leading-4">
+          <p className="text-[#A1AEBB] text-[10px] line-clamp-2 leading-4">
             {data.description}
-          </div>
+          </p>
         </div>
       </div>
 
@@ -28,9 +28,9 @@ export default function HelpCard({ data }: { data: Help }) {
           <h3 className="text-primary font-bold text-[14px] line-clamp-1">
             {data.title}
           </h3>
-          <div className="text-[#A1AEBB] text-[10px] line-clamp-2 leading-4">
+          <p className="text-[#A1AEBB] text-[10px] line-clamp-2 leading-4">
             {data.description}
-          </div>
+          </p>
         </div>
       </div>
     </>

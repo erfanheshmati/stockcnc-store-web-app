@@ -30,12 +30,10 @@ export default function Consultation() {
           {/* Content */}
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-1">
-              <span className="text-white font-bold text-[12px]">
+              <h4 className="text-white font-bold text-[12px]">
                 مشاوره تلفنی و آنلاین
-              </span>
-              <span className="text-white/90 text-[12px]">
-                جهت انتخاب سرویس
-              </span>
+              </h4>
+              <h4 className="text-white/90 text-[12px]">جهت انتخاب سرویس</h4>
             </div>
             <div>
               <svg
@@ -77,12 +75,10 @@ export default function Consultation() {
         {/* Content */}
         <div className="flex items-center justify-between w-full pr-14 pl-5 relative">
           <div className="flex items-center gap-1">
-            <span className="text-white font-bold text-[19px]">
+            <h4 className="text-white font-bold text-[19px]">
               مشاوره تلفنی و آنلاین
-            </span>
-            <span className="text-white/90 text-[16px]">
-              جهت خرید دستگاه ها
-            </span>
+            </h4>
+            <h4 className="text-white/90 text-[16px]">جهت خرید دستگاه ها</h4>
           </div>
           <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <svg

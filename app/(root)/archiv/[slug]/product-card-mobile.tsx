@@ -20,9 +20,9 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           />
         </div>
         <div className="flex items-center justify-center gap-2">
-          <span className="text-secondary/60 font-bold text-[12px] pt-1">
+          <h3 className="text-secondary/60 font-bold text-[12px] pt-1">
             {product.brand.enTitle}
-          </span>
+          </h3>
           <Image
             src={`${IMAGE_URL}/${product.country.logo}`}
             alt={product.country.title}
@@ -32,15 +32,15 @@ export default function ProductCardMobile({ product }: { product: Product }) {
         </div>
       </div>
       <div className="flex items-center">
-        <h3 className="text-primary font-semibold text-[14px] leading-6">
+        <h2 className="text-primary font-semibold text-[14px] leading-6">
           {product.title}
-        </h3>
+        </h2>
       </div>
       <div className="flex items-center gap-4">
         <hr className="w-full" />
-        <span className="text-secondary text-[10px] min-w-fit">
+        <h2 className="text-secondary text-[10px] min-w-fit">
           {product.enTitle}
-        </span>
+        </h2>
       </div>
       <div className="flex items-center justify-between">
         <span className="text-secondary/90 font-semibold text-[11px]">

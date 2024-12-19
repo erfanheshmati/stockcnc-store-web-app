@@ -36,8 +36,8 @@ export default function Blogs() {
       <div className="md:hidden">
         <div className="flex flex-col items-center gap-1">
           <h2 className="text-primary flex items-center gap-1">
-            <span className="font-bold text-[22px]">مجله آموزشی و خبری</span>
-            <span className="font-semibold text-[15px]">سی ان سی استوک</span>
+            <h2 className="font-bold text-[22px]">مجله آموزشی و خبری</h2>
+            <h2 className="font-semibold text-[15px]">سی ان سی استوک</h2>
           </h2>
           <div className="wrapper !px-0 relative pt-4">
             <Swiper
@@ -116,10 +116,10 @@ export default function Blogs() {
       <div className="hidden md:flex flex-col md:w-6/12 lg:w-7/12 xl:w-8/12">
         <div className="flex items-center justify-between pr-6 lg:pr-20">
           <h2 className="text-primary flex items-center gap-1">
-            <span className="font-bold text-[24px]">مجله آموزشی و خبری</span>
-            <span className="font-semibold text-[17px] hidden lg:block">
+            <h2 className="font-bold text-[24px]">مجله آموزشی و خبری</h2>
+            <h2 className="font-semibold text-[17px] hidden lg:block">
               سی ان سی استوک
-            </span>
+            </h2>
           </h2>
           <Link href="#" className="flex items-center gap-4 hover:underline">
             <span className="pt-1">مشاهده همه مطالب</span>

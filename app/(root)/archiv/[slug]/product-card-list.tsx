@@ -21,12 +21,12 @@ export default function ProductCardList({ data }: { data: Product }) {
         />
       </div>
       <div className="flex flex-col items-start justify-between px-2 w-2/3">
-        <h3 className="text-primary font-semibold text-[18px] line-clamp-1">
+        <h2 className="text-primary font-semibold text-[18px] line-clamp-1">
           {data.title}
-        </h3>
-        <h4 className="text-secondary/70 font-medium text-[12px]">
+        </h2>
+        <h2 className="text-secondary/70 font-medium text-[12px]">
           {data.enTitle}
-        </h4>
+        </h2>
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-8">
             <span className="text-secondary font-semibold text-[13px]">
@@ -52,9 +52,9 @@ export default function ProductCardList({ data }: { data: Product }) {
           </div>
         </div>
         <div className="flex items-center justify-between w-full">
-          <span className="hidden lg:flex text-secondary/60 font-bold text-[14px] pt-1">
+          <h3 className="hidden lg:flex text-secondary/60 font-bold text-[14px] pt-1">
             {data.brand.enTitle}
-          </span>
+          </h3>
           <div className="flex items-center gap-4">
             <Link
               href={`/product/${data._id}`}

@@ -26,13 +26,13 @@ export default function CategoryCard({
             height={80}
           />
         </div>
-        <div className="flex flex-col items-center text-primary font-bold text-[14px]">
-          {data.title}
-          <span
+        <div className="flex flex-col items-center text-primary font-bold">
+          <h2 className="text-[14px]">{data.title}</h2>
+          <h2
             className={`${isLast ? "hidden" : ""} text-[12px] sm:text-[10px]`}
           >
             سی ان سی
-          </span>
+          </h2>
         </div>
       </div>
 
@@ -51,9 +51,9 @@ export default function CategoryCard({
             height={130}
           />
         </div>
-        <div className="flex items-center gap-1 text-primary font-bold text-[20px]">
-          {data.title}
-          <span className="text-[14px]">سی ان سی</span>
+        <div className="flex items-center gap-1 text-primary font-bold">
+          <h2 className="text-[20px]">{data.title}</h2>
+          <h2 className="text-[14px]">سی ان سی</h2>
         </div>
         <div className="text-secondary/80 text-[12px] leading-5 line-clamp-3 text-justify mt-2">
           {data.description}

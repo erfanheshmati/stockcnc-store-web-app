@@ -87,12 +87,12 @@ export default function Banner({ children }: { children: React.ReactNode }) {
                       height={139}
                     />
                     <div className="flex flex-col items-start">
-                      <span className="text-white/60 text-[14px] md:text-[17px]">
+                      <h3 className="text-white/60 text-[14px] md:text-[17px]">
                         فروش عمده
-                      </span>
-                      <span className="text-white font-bold text-[17px] md:text-[22px]">
+                      </h3>
+                      <h2 className="text-white font-bold text-[17px] md:text-[22px]">
                         {item.title}
-                      </span>
+                      </h2>
                     </div>
                   </Link>
                 </SwiperSlide>

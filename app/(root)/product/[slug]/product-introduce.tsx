@@ -20,10 +20,10 @@ export default function ProductIntroduce({
       <div className="flex md:hidden flex-col gap-6 mt-8 wrapper">
         {/* Product Title */}
         <div className="flex flex-col gap-2">
-          <h2 className="text-primary font-bold text-[18px] line-clamp-1">
+          <h1 className="text-primary font-bold text-[18px] line-clamp-1">
             {data.title}
-          </h2>
-          <h3 className="text-secondary/70 text-[10px]">{data.enTitle}</h3>
+          </h1>
+          <h2 className="text-secondary/70 text-[10px]">{data.enTitle}</h2>
         </div>
         {/* Product Specifications */}
         <div className="flex flex-col gap-4 w-full">
@@ -88,10 +88,10 @@ export default function ProductIntroduce({
       <div className="hidden md:flex flex-col gap-10">
         {/* Product Title */}
         <div className="flex flex-col gap-4">
-          <h2 className="text-primary font-bold text-[28px] line-clamp-1">
+          <h1 className="text-primary font-bold text-[28px] line-clamp-1">
             {data.title}
-          </h2>
-          <h3 className="text-secondary/70 text-[12px]">{data.enTitle}</h3>
+          </h1>
+          <h2 className="text-secondary/70 text-[12px]">{data.enTitle}</h2>
         </div>
         {/* Product Specifications */}
         <div className="flex flex-col gap-6 w-full lg:max-w-md h-[300px]">

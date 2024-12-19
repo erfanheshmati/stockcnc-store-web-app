@@ -23,14 +23,14 @@ export default function BlogCard({ data }: { data: Blog }) {
         </div>
         <div className="flex flex-col gap-2 p-4">
           <div className="flex items-center">
-            <span className="text-primary font-semibold text-[14px] line-clamp-2">
+            <h3 className="text-primary font-semibold text-[14px] line-clamp-2">
               {data.title}
-            </span>
+            </h3>
           </div>
           <div className="flex items-center">
-            <span className="text-[#8291A3] text-[10px] line-clamp-1">
+            <p className="text-[#8291A3] text-[10px] line-clamp-1">
               {data.content}
-            </span>
+            </p>
           </div>
           <hr />
           <div className="flex items-center justify-start gap-2">

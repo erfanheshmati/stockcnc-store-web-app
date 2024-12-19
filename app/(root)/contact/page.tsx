@@ -80,16 +80,16 @@ export default async function ContactPage() {
         </div>
         {/* Page Content */}
         <div className="wrapper-contact flex flex-col items-center py-20">
-          <h2 className="text-primary font-bold text-[22px] absolute top-24">
+          <h1 className="text-primary font-bold text-[22px] absolute top-24">
             تماس با ما
-          </h2>
+          </h1>
           <div className="flex flex-col w-full gap-10">
             {/* Social Media */}
             <div className="w-full flex flex-col">
               <div className="flex items-center border-b border-t gap-4">
-                <h3 className="text-primary font-bold text-[16px] w-full py-4 text-center">
+                <h2 className="text-primary font-bold text-[16px] w-full py-4 text-center">
                   شبکه های اجتماعی
-                </h3>
+                </h2>
               </div>
               <div className="flex flex-col gap-5 py-6">
                 {/* Social Cards */}
@@ -259,9 +259,9 @@ export default async function ContactPage() {
             {/* Contact Content */}
             <div className="w-full lg:w-8/12 flex flex-col">
               <div className="flex items-center border-b border-t gap-4">
-                <h3 className="text-primary font-bold text-[16px] w-full py-4 text-center">
+                <h2 className="text-primary font-bold text-[16px] w-full py-4 text-center">
                   فرم تماس با ما
-                </h3>
+                </h2>
               </div>
               {/* Contact Form */}
               <ContactForm />
@@ -382,9 +382,9 @@ export default async function ContactPage() {
         </div>
         {/* Page Content */}
         <div className="wrapper-contact flex flex-col items-center py-16">
-          <h2 className="text-primary font-bold text-[32px] mb-10">
+          <h1 className="text-primary font-bold text-[32px] mb-10">
             تماس با ما
-          </h2>
+          </h1>
           <div className="flex flex-col lg:flex-row w-full gap-20">
             {/* Right Content */}
             <div className="w-full lg:w-8/12 flex flex-col">
@@ -402,9 +402,9 @@ export default async function ContactPage() {
                     d="M0 16c0-8.837 7.163-16 16-16s16 7.163 16 16c0 8.837-7.163 16-16 16s-16-7.163-16-16z"
                   ></path>
                 </svg>
-                <h3 className="text-[#1F2D53] font-bold text-[22px] w-full py-4">
+                <h2 className="text-[#1F2D53] font-bold text-[22px] w-full py-4">
                   فرم تماس با ما
-                </h3>
+                </h2>
               </div>
               {/* Contact Form */}
               <ContactForm />
@@ -484,9 +484,9 @@ export default async function ContactPage() {
                     d="M0 16c0-8.837 7.163-16 16-16s16 7.163 16 16c0 8.837-7.163 16-16 16s-16-7.163-16-16z"
                   ></path>
                 </svg>
-                <h3 className="text-[#1F2D53] font-bold text-[22px] w-full py-4">
+                <h2 className="text-[#1F2D53] font-bold text-[22px] w-full py-4">
                   شبکه های اجتماعی
-                </h3>
+                </h2>
               </div>
               <div className="flex flex-col gap-5 py-6">
                 {/* Social Cards */}

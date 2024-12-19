@@ -25,9 +25,7 @@ export default function ProductInfo({
           onClick={() => toggleAccordion(index)}
           className="flex items-center justify-between border-b pb-5"
         >
-          <span className="text-primary font-bold text-[15px]">
-            توضیحات محصول
-          </span>
+          <h3 className="text-primary font-bold text-[15px]">توضیحات محصول</h3>
           <BiArrowFromTop
             size={15}
             className={`transform transition-transform duration-300 ${
@@ -59,7 +57,7 @@ export default function ProductInfo({
       >
         {/* Tabs Navigation */}
         <div className="flex items-center gap-10 border-b">
-          <span
+          <h3
             className={`text-[15px] cursor-pointer pb-4 ${
               activeTab === "description"
                 ? "text-primary font-bold border-b-[3px] border-primary"
@@ -68,8 +66,8 @@ export default function ProductInfo({
             onClick={() => setActiveTab("description")}
           >
             توضیحات محصول
-          </span>
-          <span
+          </h3>
+          <h3
             className={` text-[15px] cursor-pointer pb-4 ${
               activeTab === "specifications"
                 ? "text-primary font-bold border-b-[3px] border-primary"
@@ -78,7 +76,7 @@ export default function ProductInfo({
             onClick={() => setActiveTab("specifications")}
           >
             مشخصات محصول
-          </span>
+          </h3>
         </div>
 
         {/* Tabs Content */}
@@ -112,9 +110,9 @@ export default function ProductInfo({
                         key={idx}
                         className="flex items-center justify-between p-4"
                       >
-                        <span className="text-[#1F2329] font-medium text-[14px]">
+                        <h3 className="text-[#1F2329] font-medium text-[14px]">
                           {item.attribute.title}
-                        </span>
+                        </h3>
                         <span className="text-primary font-bold text-[15px]">
                           {item.attribute.values[0]}
                         </span>
@@ -125,9 +123,9 @@ export default function ProductInfo({
                         key={idx}
                         className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
                       >
-                        <span className="text-[#1F2329] font-medium text-[14px]">
+                        <h3 className="text-[#1F2329] font-medium text-[14px]">
                           {item.attribute.title}
-                        </span>
+                        </h3>
                         <span className="text-primary font-bold text-[15px]">
                           {item.attribute.values[0]}
                         </span>
@@ -145,9 +143,9 @@ export default function ProductInfo({
                         key={idx}
                         className="flex items-center justify-between p-4"
                       >
-                        <span className="text-[#1F2329] font-medium text-[14px]">
+                        <h3 className="text-[#1F2329] font-medium text-[14px]">
                           {item.attribute.title}
-                        </span>
+                        </h3>
                         <span className="text-primary font-bold text-[15px]">
                           {item.attribute.values[0]}
                         </span>
@@ -158,9 +156,9 @@ export default function ProductInfo({
                         key={idx}
                         className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
                       >
-                        <span className="text-[#1F2329] font-medium text-[14px]">
+                        <h3 className="text-[#1F2329] font-medium text-[14px]">
                           {item.attribute.title}
-                        </span>
+                        </h3>
                         <span className="text-primary font-bold text-[15px]">
                           {item.attribute.values[0]}
                         </span>
@@ -170,9 +168,9 @@ export default function ProductInfo({
                 </div>
               </div>
               <div className="flex items-center gap-8 p-6 rounded-lg border bg-gradient-to-r from-[#f9fafc] to-white">
-                <h4 className="text-black/80 font-semibold text-[14px]">
+                <h3 className="text-black/80 font-semibold text-[14px]">
                   آپشن های این دستگاه
-                </h4>
+                </h3>
                 <div className="flex items-center gap-2">
                   <span className="text-primary font-bold text-[14px]">
                     {data.options}

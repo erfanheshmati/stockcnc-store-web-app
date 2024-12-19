@@ -36,10 +36,10 @@ export default function Brands({
       {/* Mobile View */}
       <div className="md:hidden flex flex-col items-center w-full">
         <div className="flex items-center justify-start gap-1">
-          <span className="text-primary font-bold text-[22px]">برند های</span>
-          <span className="text-primary font-semibold text-[15px]">
+          <h2 className="text-primary font-bold text-[22px]">برند های</h2>
+          <h2 className="text-primary font-semibold text-[15px]">
             سی ان سی استوک
-          </span>
+          </h2>
         </div>
         <ul
           className="flex items-center gap-4 min-h-[50px] w-full px-4 overflow-auto"
@@ -65,10 +65,10 @@ export default function Brands({
       {/* Desktop View */}
       <div className="hidden md:flex flex-col min-w-[41%] lg:min-w-[33%] xl:min-w-[24%]">
         <div className="flex items-center justify-start gap-1">
-          <span className="text-primary font-bold text-[24px]">برند های</span>
-          <span className="text-primary font-semibold text-[17px]">
+          <h2 className="text-primary font-bold text-[24px]">برند های</h2>
+          <h2 className="text-primary font-semibold text-[17px]">
             سی ان سی استوک
-          </span>
+          </h2>
         </div>
         <hr className="mt-6 ml-8" />
         <div className="flex flex-col gap-8 pt-10 pb-2 h-[540px] overflow-auto custom-scroll px-1 pl-6">

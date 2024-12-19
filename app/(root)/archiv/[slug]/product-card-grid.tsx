@@ -26,9 +26,9 @@ export default function ProductCardGrid({ data }: { data: Product }) {
             <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1 h-1 border-l-8 border-r-8 border-t-8 border-t-[#7888A0] border-l-transparent border-r-transparent"></div>
           </div>
         </span>
-        <span className="text-secondary/40 font-semibold text-[14px]">
+        <h3 className="text-secondary/40 font-semibold text-[14px]">
           {data.brand.enTitle}
-        </span>
+        </h3>
       </div>
       <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
         <Image
@@ -39,9 +39,9 @@ export default function ProductCardGrid({ data }: { data: Product }) {
         />
       </div>
       <div className="flex items-center px-6">
-        <span className="text-primary font-semibold text-[17px] line-clamp-2">
+        <h2 className="text-primary font-semibold text-[17px] line-clamp-2">
           {data.title}
-        </span>
+        </h2>
       </div>
       <div className="flex items-center justify-between px-6 py-2">
         <span className="text-secondary font-semibold text-[13px]">

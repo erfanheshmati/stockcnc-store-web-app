@@ -90,9 +90,9 @@ export default async function ProductsPage({
           <BannerThin />
           {/* Heading */}
           <div className="absolute w-full flex justify-center top-24">
-            <h2 className="text-primary font-bold text-[20px]">
+            <h1 className="text-primary font-bold text-[20px]">
               {searchQuery || "محصولات سی ان سی استوک"}
-            </h2>
+            </h1>
           </div>
           {/* Content */}
           <div className="flex flex-col gap-8 pt-8 wrapper min-h-screen">
@@ -131,9 +131,9 @@ export default async function ProductsPage({
               {/* Heading */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <h2 className="text-primary font-bold text-[24px]">
+                  <h1 className="text-primary font-bold text-[24px]">
                     {searchQuery || "محصولات سی ان سی استوک"}
-                  </h2>
+                  </h1>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="text-secondary font-medium text-[14px] hover:font-semibold cursor-pointer">

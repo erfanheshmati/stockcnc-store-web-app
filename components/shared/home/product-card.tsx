@@ -14,9 +14,9 @@ export default function ProductCard({ data }: { data: Product }) {
       {/* Mobile View */}
       <div className="md:hidden flex flex-col justify-between w-[221px] h-[322px] px-4 py-2 mx-auto shadow-xl rounded-xl">
         <div className="flex items-center justify-end gap-2">
-          <span className="text-secondary/70 text-[12px]">
+          <h3 className="text-secondary/70 text-[12px]">
             {data.brand.enTitle}
-          </span>
+          </h3>
           <span className="relative group cursor-pointer">
             <Image
               src={`${IMAGE_URL}/${data.country.logo}`}
@@ -35,13 +35,13 @@ export default function ProductCard({ data }: { data: Product }) {
           />
         </div>
         <div className="flex items-center">
-          <span className="text-primary font-semibold text-[13px] line-clamp-2">
+          <h2 className="text-primary font-semibold text-[13px] line-clamp-2">
             {data.title}
-          </span>
+          </h2>
         </div>
         <hr />
         <div className="flex items-center justify-end">
-          <span className="text-secondary/80 text-[10px]">{data.enTitle}</span>
+          <h3 className="text-secondary/80 text-[10px]">{data.enTitle}</h3>
         </div>
         <div className="flex items-center justify-between py-2">
           <span className="text-black text-[11px]">{data.options}</span>
@@ -96,9 +96,9 @@ export default function ProductCard({ data }: { data: Product }) {
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1 h-1 border-l-8 border-r-8 border-t-8 border-t-[#7888A0] border-l-transparent border-r-transparent"></div>
             </div>
           </span>
-          <span className="text-secondary/40 font-semibold text-[14px]">
+          <h3 className="text-secondary/40 font-semibold text-[14px]">
             {data.brand.enTitle}
-          </span>
+          </h3>
         </div>
         <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
           <Image
@@ -109,9 +109,9 @@ export default function ProductCard({ data }: { data: Product }) {
           />
         </div>
         <div className="flex items-center px-6">
-          <span className="text-primary font-semibold text-[17px] line-clamp-2">
+          <h2 className="text-primary font-semibold text-[17px] line-clamp-2">
             {data.title}
-          </span>
+          </h2>
         </div>
         <div className="flex items-center justify-between px-6 py-2">
           <span className="text-secondary font-semibold text-[13px]">

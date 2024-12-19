@@ -73,9 +73,9 @@ export default async function AboutPage() {
         </div>
         {/* Page Content */}
         <div className="wrapper-about flex flex-col items-center py-20">
-          <h2 className="text-primary font-bold text-[22px] absolute top-24">
+          <h1 className="text-primary font-bold text-[22px] absolute top-24">
             درباره ما
-          </h2>
+          </h1>
 
           <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
 
@@ -142,9 +142,9 @@ export default async function AboutPage() {
           </p> */}
 
           {/* Members Section */}
-          <h3 className="text-primary font-bold text-[16px] border-t border-b w-full text-center py-4">
+          <h2 className="text-primary font-bold text-[16px] border-t border-b w-full text-center py-4">
             اعضای شرکت
-          </h3>
+          </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 sm:gap-0 py-6 w-full">
             {aboutUsMembers.map((member: AboutUsMember) => (
               <div
@@ -262,9 +262,9 @@ export default async function AboutPage() {
         </div>
         {/* Page Content */}
         <div className="wrapper-about flex flex-col items-center py-16">
-          <h2 className="text-primary font-bold text-[32px] mb-10">
+          <h1 className="text-primary font-bold text-[32px] mb-10">
             درباره ما
-          </h2>
+          </h1>
 
           <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
 
@@ -392,9 +392,9 @@ export default async function AboutPage() {
                 d="M0 16c0-8.837 7.163-16 16-16s16 7.163 16 16c0 8.837-7.163 16-16 16s-16-7.163-16-16z"
               ></path>
             </svg>
-            <h3 className="text-secondary font-bold text-[20px] border-t border-b w-full py-6">
+            <h2 className="text-secondary font-bold text-[20px] border-t border-b w-full py-6">
               اعضای شرکت
-            </h3>
+            </h2>
           </div>
           <div className="flex flex-col items-center w-full mr-3 py-8 pr-9 pl-3">
             <div className="flex items-center">
