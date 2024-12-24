@@ -9,7 +9,7 @@ export default function SortMobile({ onClose }: { onClose: () => void }) {
   return (
     <div
       className="md:hidden flex flex-col items-center w-full max-w-sm sm:max-w-md p-6 shadow-2xl rounded-2xl bg-white overflow-y-auto relative"
-      style={{ height: "calc(100vh - 150px)" }}
+      style={{ height: "calc(100vh - 200px)" }}
     >
       <div className="text-primary font-bold text-[16px]">مرتب سازی</div>
       <div className="absolute right-5 top-5">
