@@ -41,7 +41,6 @@ export default function Blogs() {
           </h2>
           <div className="wrapper !px-0 relative pt-4">
             <Swiper
-              loop={true}
               slidesPerView={1}
               spaceBetween={0}
               breakpoints={{
@@ -102,7 +101,9 @@ export default function Blogs() {
               {!error &&
                 blogsData.map((data) => (
                   <SwiperSlide key={data._id} className="pb-10 pr-4">
-                    <BlogCard data={data} />
+                    <Link href={`/blog/${data._id}`}>
+                      <BlogCard data={data} />
+                    </Link>
                   </SwiperSlide>
                 ))}
             </Swiper>

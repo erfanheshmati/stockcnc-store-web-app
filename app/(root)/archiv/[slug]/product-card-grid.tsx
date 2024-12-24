@@ -71,7 +71,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
         {data.available && (
           <button
             onClick={() => openDialog(data._id)}
-            className="flex items-center justify-center w-[130px] h-[45px] 2xl:w-[140px] xl:h-[55px] rounded-lg text-black hover:text-white border hover:border-none hover:bg-[#00D45A] transition-colors duration-300 ease-in-out"
+            className="flex items-center justify-center w-[130px] h-[45px] 2xl:w-[140px] xl:h-[55px] rounded-lg text-black hover:text-white border hover:border-none hover:bg-accent transition-colors duration-300 ease-in-out"
           >
             <span className="font-[500] text-[14px]">استعلام قیمت</span>
           </button>

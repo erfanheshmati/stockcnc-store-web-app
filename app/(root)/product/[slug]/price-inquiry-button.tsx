@@ -9,22 +9,44 @@ export default function PriceInquiryButton({ data }: { data: Product }) {
   return (
     <>
       {/* Mobile View */}
-      <button
-        onClick={() => openDialog(data._id)}
-        className="block md:hidden fixed bottom-0 w-full py-4 z-[19] text-white font-bold text-[14px] bg-[#00D45A]"
-      >
-        استعلام فوری قیمت
-      </button>
+      {!data.available && (
+        <button
+          onClick={() => openDialog(data._id)}
+          className="block md:hidden fixed bottom-0 w-full py-4 z-[19] text-white font-bold text-[14px] bg-primary"
+        >
+          موجود شد به من اطلاع بده
+        </button>
+      )}
+
+      {data.available && (
+        <button
+          onClick={() => openDialog(data._id)}
+          className="block md:hidden fixed bottom-0 w-full py-4 z-[19] text-white font-bold text-[14px] bg-accent"
+        >
+          استعلام فوری قیمت
+        </button>
+      )}
 
       {/* ************************************************************************************************************************* */}
 
       {/* Desktop View */}
-      <button
-        onClick={() => openDialog(data._id)}
-        className="hidden md:block text-white font-bold text-[17px] bg-[#00D45A] py-6 px-10 rounded-md hover:opacity-80 transition-all duration-300 ease-in-out"
-      >
-        استعلام فوری قیمت
-      </button>
+      {!data.available && (
+        <button
+          onClick={() => openDialog(data._id)}
+          className="hidden md:block text-white font-bold text-[17px] bg-primary py-6 px-10 rounded-md hover:opacity-80 transition-all duration-300 ease-in-out"
+        >
+          موجود شد به من اطلاع بده
+        </button>
+      )}
+
+      {data.available && (
+        <button
+          onClick={() => openDialog(data._id)}
+          className="hidden md:block text-white font-bold text-[17px] bg-accent py-6 px-10 rounded-md hover:opacity-80 transition-all duration-300 ease-in-out"
+        >
+          استعلام فوری قیمت
+        </button>
+      )}
     </>
   );
 }

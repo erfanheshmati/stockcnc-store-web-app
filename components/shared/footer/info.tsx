@@ -114,21 +114,21 @@ export default function Info() {
                     <Link
                       href={item.telegram}
                       target="_blank"
-                      className="flex items-center justify-center w-[80px] h-[54px] bg-gradient-to-l from-[#5d6d85] to-[#4b5b72] rounded-3xl shadow-lg border-l border-white/30 z-10"
+                      className="flex items-center justify-center w-[80px] h-[54px] bg-gradient-to-l from-[#5d6d85] to-secondary rounded-3xl shadow-lg border-l border-white/30 z-10"
                     >
                       <LiaTelegramPlane size={25} className="text-white" />
                     </Link>
                     <Link
                       href={item.whatsapp}
                       target="_blank"
-                      className="flex items-center justify-center w-[80px] h-[54px] bg-gradient-to-l from-[#5d6d85] to-[#4b5b72] rounded-3xl shadow-lg border-l border-white/30 z-10"
+                      className="flex items-center justify-center w-[80px] h-[54px] bg-gradient-to-l from-[#5d6d85] to-secondary rounded-3xl shadow-lg border-l border-white/30 z-10"
                     >
                       <FaWhatsapp size={25} className="text-white" />
                     </Link>
                     <Link
                       href={item.instagram}
                       target="_blank"
-                      className="flex items-center justify-center w-[80px] h-[54px] bg-gradient-to-l from-[#5d6d85] to-[#4b5b72] rounded-3xl shadow-lg border-l border-white/30 z-10"
+                      className="flex items-center justify-center w-[80px] h-[54px] bg-gradient-to-l from-[#5d6d85] to-secondary rounded-3xl shadow-lg border-l border-white/30 z-10"
                     >
                       <IoLogoInstagram size={25} className="text-white" />
                     </Link>

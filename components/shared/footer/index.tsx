@@ -7,7 +7,7 @@ import Price from "./price";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#3b4a5f] relative">
+    <footer className="w-full bg-secondary relative">
       {/* Footer Background Layer */}
       <div className="absolute inset-0 bg-header-background bg-center md:bg-cover opacity-[2%]"></div>
 

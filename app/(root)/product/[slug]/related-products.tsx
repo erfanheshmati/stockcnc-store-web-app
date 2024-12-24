@@ -13,7 +13,13 @@ import { useEffect, useState } from "react";
 import { Product } from "@/lib/types";
 import { BASE_URL } from "@/lib/constants";
 
-export default function RelatedProducts({ proCatId }: { proCatId: string }) {
+export default function RelatedProducts({
+  proCatId,
+  proId,
+}: {
+  proCatId: string;
+  proId: string;
+}) {
   const [productsData, setProductsData] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -25,7 +31,8 @@ export default function RelatedProducts({ proCatId }: { proCatId: string }) {
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         const filteredProducts = data.docs.filter(
-          (product: Product) => product.category._id === proCatId
+          (product: Product) =>
+            product.category._id === proCatId && product._id !== proId
         );
         setProductsData(filteredProducts);
       } catch (error) {
@@ -45,10 +52,15 @@ export default function RelatedProducts({ proCatId }: { proCatId: string }) {
           </h2>
         </div>
         <div
-          className="flex flex-col gap-4 h-[520px] overflow-auto"
+          className="flex gap-4 overflow-x-auto"
           style={{ scrollbarWidth: "none" }}
         >
-          {productsData.map((product) => (
+          {productsData.length === 0 && (
+            <p className="flex items-center justify-center w-full min-h-24 text-secondary text-sm">
+              محصولی برای نمایش وجود ندارد
+            </p>
+          )}
+          {productsData?.map((product) => (
             <ProductCardMobile product={product} key={product._id} />
           ))}
         </div>
@@ -72,6 +84,11 @@ export default function RelatedProducts({ proCatId }: { proCatId: string }) {
         </div>
         <hr className="mt-6" />
         <div>
+          {productsData.length === 0 && (
+            <p className="flex items-center justify-center min-h-40 text-secondary text-sm">
+              محصولی برای نمایش وجود ندارد
+            </p>
+          )}
           <Swiper
             slidesPerView={4}
             spaceBetween={0}
@@ -102,7 +119,7 @@ export default function RelatedProducts({ proCatId }: { proCatId: string }) {
               },
             }}
           >
-            {productsData.map((data) => (
+            {productsData?.map((data) => (
               <SwiperSlide className="py-10 px-3" key={data._id}>
                 <ProductCard data={data} />
               </SwiperSlide>

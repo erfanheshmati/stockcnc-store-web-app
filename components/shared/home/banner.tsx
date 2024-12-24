@@ -24,7 +24,10 @@ export default function Banner({ children }: { children: React.ReactNode }) {
         const res = await fetch(`${BASE_URL}/web-text-plans`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
-        setBannersData(data.banners);
+        const sortedBanners = data.banners.sort(
+          (a: { sort: number }, b: { sort: number }) => b.sort - a.sort
+        );
+        setBannersData(sortedBanners);
       } catch (error) {
         setError((error as Error).message);
       }
@@ -33,21 +36,21 @@ export default function Banner({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="h-[360px] md:h-[391px] bg-primary relative flex px-4 md:px-0">
+    <div className="h-[250px] sm:h-[300px] md:h-[391px] bg-primary relative flex">
       {/* Banner Background Layer */}
       <div className="absolute inset-0 bg-header-background bg-center bg-cover opacity-[2%]"></div>
 
       {/* Banner Content */}
-      <div className="flex items-center justify-center wrapper z-[1] relative">
+      <div className="flex justify-center w-full z-[1] relative">
         {/* Slider */}
         <div className="flex items-center justify-center w-full relative">
           {/* Custom Pagination */}
-          <div className="custom-swiper-pagination flex items-center justify-center bottom-0 gap-0 z-[5] cursor-pointer"></div>
+          {/* <div className="custom-swiper-pagination hidden md:flex items-center justify-center bottom-14 gap-1 z-[5] cursor-pointer"></div> */}
           {/* Custom Arrows */}
-          <div className="custom-swiper-button-prev -left-4 md:left-0 z-[5] cursor-pointer hover:opacity-70">
+          <div className="custom-swiper-button-prev left-4 z-[5] cursor-pointer hover:opacity-70">
             <BiArrowFromRight size={20} color="white" />
           </div>
-          <div className="custom-swiper-button-next -right-4 md:right-0 z-[5] cursor-pointer hover:opacity-70">
+          <div className="custom-swiper-button-next right-4 z-[5] cursor-pointer hover:opacity-70">
             <BiArrowFromLeft size={20} color="white" />
           </div>
           {/* Swiper */}
@@ -68,6 +71,7 @@ export default function Banner({ children }: { children: React.ReactNode }) {
               prevEl: ".custom-swiper-button-prev",
               nextEl: ".custom-swiper-button-next",
             }}
+            className="h-full"
           >
             {error && (
               <p className="text-red-500 text-center w-full">{error}</p>
@@ -76,24 +80,14 @@ export default function Banner({ children }: { children: React.ReactNode }) {
             {!error &&
               bannersData.map((item) => (
                 <SwiperSlide key={item._id}>
-                  <Link
-                    href={item.url}
-                    className="flex flex-col items-center gap-4 py-6"
-                  >
+                  <Link href={item.url} className="relative">
                     <Image
                       src={`${IMAGE_URL}/${item.imageWeb}`}
                       alt={item.title}
                       width={207}
                       height={139}
+                      className="w-full h-full"
                     />
-                    <div className="flex flex-col items-start">
-                      <h3 className="text-white/60 text-[14px] md:text-[17px]">
-                        فروش عمده
-                      </h3>
-                      <h2 className="text-white font-bold text-[17px] md:text-[22px]">
-                        {item.title}
-                      </h2>
-                    </div>
                   </Link>
                 </SwiperSlide>
               ))}

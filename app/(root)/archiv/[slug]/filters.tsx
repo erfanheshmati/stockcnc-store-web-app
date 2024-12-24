@@ -1,65 +1,30 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { BiArrowFromTop } from "react-icons/bi";
 import FiltersMobile from "./filters-mobile";
 import { useDialog } from "@/contexts/dialog-context";
-import { Product } from "@/lib/types";
 import clsx from "clsx";
+import { useFiltersLogic } from "@/contexts/filter-logic-context";
 
-type CheckedItems = {
-  [attributeTitle: string]: {
-    [value: string]: boolean;
-  };
-};
-
-export default function Filters({ productsList }: { productsList: Product[] }) {
+export default function Filters() {
   const { closeDialog } = useDialog();
 
-  const [openFilter, setOpenFilter] = useState<number | null>(null);
-  const [inStockOnly, setInStockOnly] = useState(false);
-  const [checkedItems, setCheckedItems] = useState<CheckedItems>({});
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const toggleFilter = (index: number | null) => {
-    setOpenFilter(openFilter === index ? null : index);
-  };
-
-  const handleCheck = (attributeTitle: string, value: string) => {
-    setCheckedItems((prev) => ({
-      ...prev,
-      [attributeTitle]: {
-        ...prev[attributeTitle],
-        [value]: !prev[attributeTitle]?.[value],
-      },
-    }));
-  };
-
-  // Extract attributes and their values
-  const attributes = useMemo(() => {
-    // Flatten all attributes from all products into one array
-    const allAttributes = productsList.flatMap((product) =>
-      product.attributes.filter((attr) => attr.attribute.isFilter)
-    );
-
-    // Deduplicate attributes by title
-    const uniqueAttributes: { [title: string]: string[] } = {};
-    allAttributes.forEach((attr) => {
-      const { title, values } = attr.attribute;
-      if (!uniqueAttributes[title]) {
-        uniqueAttributes[title] = values;
-      }
-    });
-
-    return Object.entries(uniqueAttributes).map(([title, values]) => ({
-      title,
-      values,
-    }));
-  }, [productsList]);
+  const {
+    attributes,
+    checkedItems,
+    inStockOnly,
+    setInStockOnly,
+    toggleFilter,
+    openFilter,
+    clearFilters,
+    handleCheck,
+    handleRangeChange,
+  } = useFiltersLogic();
 
   const renderedFilters = useMemo(() => {
     return attributes.map((attribute, index) => (
-      <div key={index}>
+      <div key={attribute._id}>
         <button
           className="flex justify-between items-center w-full border-b hover:bg-gradient-to-l from-[#DFE3EF4F] to-white"
           onClick={() => toggleFilter(index)}
@@ -77,28 +42,77 @@ export default function Filters({ productsList }: { productsList: Product[] }) {
             />
           </span>
         </button>
-        {attribute.values && openFilter === index && (
+        {openFilter === index && (
           <div className="py-4 border-b">
-            {attribute.values.map((value, idx) => (
-              <div key={idx} className="flex items-center gap-2 px-6 py-3">
-                <input
-                  type="checkbox"
-                  id={`filter-${index}-${idx}`}
-                  checked={checkedItems[attribute.title]?.[value] || false}
-                  onChange={() => handleCheck(attribute.title, value)}
-                  className="w-5 h-5 cursor-pointer"
-                />
-                <label
-                  htmlFor={`filter-${index}-${idx}`}
-                  className={clsx("font-semibold text-[14px] cursor-pointer", {
-                    "text-black": checkedItems[attribute.title]?.[value],
-                    "text-black/60": !checkedItems[attribute.title]?.[value],
-                  })}
-                >
-                  {value}
+            {attribute.type === "string" &&
+              attribute.values.map((value, idx) => (
+                <div key={idx} className="flex items-center gap-2 px-6 py-2">
+                  <input
+                    type="checkbox"
+                    id={`filter-${index}-${idx}`}
+                    checked={
+                      typeof checkedItems[attribute.title]?.[value] ===
+                      "boolean"
+                        ? (checkedItems[attribute.title]?.[value] as boolean)
+                        : false
+                    }
+                    onChange={() => handleCheck(attribute.title, value)}
+                    className="w-5 h-5 cursor-pointer"
+                  />
+                  <label
+                    htmlFor={`filter-${index}-${idx}`}
+                    className={clsx(
+                      "font-semibold text-[14px] cursor-pointer",
+                      {
+                        "text-black": checkedItems[attribute.title]?.[value],
+                        "text-black/60":
+                          !checkedItems[attribute.title]?.[value],
+                      }
+                    )}
+                  >
+                    {value}
+                  </label>
+                </div>
+              ))}
+
+            {attribute.type === "number" && (
+              <div className="px-6 py-2 text-black/80">
+                <label className="block mb-2 font-semibold text-[14px]">
+                  محدوده
                 </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    placeholder="حداقل"
+                    min={0}
+                    value={Number(checkedItems[attribute.title]?.min) || ""}
+                    // defaultValue={0}
+                    className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[13px]"
+                    onChange={(e) =>
+                      handleRangeChange(attribute.title, {
+                        min: Number(e.target.value),
+                        max: Number(checkedItems[attribute.title]?.max),
+                      })
+                    }
+                  />
+                  <span className="text-[14px]">تا</span>
+                  <input
+                    type="number"
+                    placeholder="حداکثر"
+                    value={Number(checkedItems[attribute.title]?.max) || ""}
+                    // max={1000}
+                    // defaultValue={1000}
+                    className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[13px]"
+                    onChange={(e) =>
+                      handleRangeChange(attribute.title, {
+                        min: Number(checkedItems[attribute.title]?.min),
+                        max: Number(e.target.value),
+                      })
+                    }
+                  />
+                </div>
               </div>
-            ))}
+            )}
           </div>
         )}
       </div>
@@ -107,49 +121,52 @@ export default function Filters({ productsList }: { productsList: Product[] }) {
 
   return (
     <>
-      {/* Mobile View */}
       <FiltersMobile onClose={closeDialog} />
 
-      {/* *************************************************************************************************************** */}
+      <div className="hidden md:block sticky top-10">
+        <div className="border rounded-lg">
+          {renderedFilters}
 
-      {/* Desktop View */}
-      <div className="hidden md:block border rounded-lg sticky top-10">
-        {attributes.length ? (
-          renderedFilters
-        ) : (
-          <div className="text-center py-4">هیچ فیلتری وجود ندارد</div>
-        )}
-        {/* In-Stock Toggle Switch */}
-        <label
-          htmlFor="in-stock-toggle"
-          className="flex items-center justify-between px-5 py-5 cursor-pointer hover:bg-gradient-to-l from-[#DFE3EF4F] to-white"
-        >
-          <span className="text-black/90 font-semibold text-[15px]">
-            فقط نمایش موجودها
-          </span>
-          <div
-            className={clsx(
-              "relative w-12 h-6 rounded-md shadow-inner",
-              { "bg-primary": inStockOnly },
-              { "bg-gray-200": !inStockOnly }
-            )}
+          {/* In-Stock Toggle Switch */}
+          <label
+            htmlFor="stock-toggle"
+            className="flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-gradient-to-l from-[#DFE3EF4F] to-white"
           >
-            <input
-              type="checkbox"
-              id="in-stock-toggle"
-              className="sr-only"
-              checked={inStockOnly}
-              onChange={() => setInStockOnly(!inStockOnly)}
-            />
+            <span className="text-black/90 font-semibold text-[15px]">
+              فقط نمایش موجودها
+            </span>
             <div
               className={clsx(
-                "absolute w-5 h-5 left-0.5 top-0.5 bg-white rounded-md shadow transition-transform",
-                { "translate-x-6": inStockOnly },
-                { "translate-x-0": !inStockOnly }
+                "relative w-12 h-6 rounded-md shadow-inner",
+                { "bg-primary": inStockOnly },
+                { "bg-gray-200": !inStockOnly }
               )}
-            ></div>
-          </div>
-        </label>
+            >
+              <input
+                type="checkbox"
+                id="stock-toggle"
+                className="sr-only"
+                checked={inStockOnly}
+                onChange={() => setInStockOnly(!inStockOnly)}
+              />
+              <div
+                className={clsx(
+                  "absolute w-5 h-5 left-0.5 top-0.5 bg-white rounded-md shadow transition-transform",
+                  { "translate-x-6": inStockOnly },
+                  { "translate-x-0": !inStockOnly }
+                )}
+              ></div>
+            </div>
+          </label>
+        </div>
+
+        {/* Clear Filters */}
+        <button
+          className="w-full text-center bg-red-500 text-white font-semibold text-md py-4 mt-3 rounded-lg hover:opacity-85 transition-all duration-300 ease-in-out"
+          onClick={clearFilters}
+        >
+          حذف فیلترها
+        </button>
       </div>
     </>
   );

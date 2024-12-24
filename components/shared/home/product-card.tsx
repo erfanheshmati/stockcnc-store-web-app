@@ -26,12 +26,13 @@ export default function ProductCard({ data }: { data: Product }) {
             />
           </span>
         </div>
-        <div className="flex items-center justify-center w-full h-[104px] rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
+        <div className="flex items-center justify-center w-full h-[110px] rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
           <Image
             src={`${IMAGE_URL}/${data.primaryImage}`}
             alt={data.title}
             width={127}
             height={68}
+            className="w-full h-[110px] rounded-xl"
           />
         </div>
         <div className="flex items-center">
@@ -85,6 +86,7 @@ export default function ProductCard({ data }: { data: Product }) {
           <span className="relative group cursor-pointer">
             <Image
               src={`${IMAGE_URL}/${data.country.logo}`}
+              // src={`https://flagcdn.com/eh.svg`}
               alt={data.country.title}
               width={22}
               height={22}
@@ -106,6 +108,7 @@ export default function ProductCard({ data }: { data: Product }) {
             alt={data.title}
             width={207}
             height={139}
+            className="w-full h-[216px]"
           />
         </div>
         <div className="flex items-center px-6">
@@ -141,7 +144,7 @@ export default function ProductCard({ data }: { data: Product }) {
           {data.available && (
             <button
               onClick={() => openDialog(data._id)}
-              className="flex items-center justify-center w-[130px] h-[45px] 2xl:w-[140px] xl:h-[55px] rounded-lg text-black hover:text-white border hover:border-none hover:bg-[#00D45A] transition-colors duration-300 ease-in-out"
+              className="flex items-center justify-center w-[130px] h-[45px] 2xl:w-[140px] xl:h-[55px] rounded-lg text-black hover:text-white border hover:border-none hover:bg-accent transition-colors duration-300 ease-in-out"
             >
               <span className="font-[500] text-[14px]">استعلام قیمت</span>
             </button>

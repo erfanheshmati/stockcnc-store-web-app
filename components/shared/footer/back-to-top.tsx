@@ -14,7 +14,7 @@ export default function BackToTop() {
   return (
     <button
       onClick={scrollToTop}
-      className="absolute right-0 bg-[#59677A] hover:scale-110 hover:shadow-xl transition-all duration-300 ease-in-out"
+      className="absolute right-0 bg-slate-500 rounded-sm hover:scale-110 hover:shadow-xl transition-all duration-300 ease-in-out"
     >
       <BiChevronUp size={24} color="white" />
     </button>

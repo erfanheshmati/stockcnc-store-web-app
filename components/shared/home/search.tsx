@@ -73,7 +73,7 @@ export default function Search() {
   const filteredData = categoriesData.slice(0, -1);
 
   return (
-    <div className="flex w-full md:w-[740px] lg:w-[995px] h-[75px] md:h-[92px] bg-white shadow-lg rounded-2xl absolute -bottom-8 md:-bottom-11">
+    <div className="flex w-[90%] md:w-[740px] lg:w-[995px] h-[75px] md:h-[92px] bg-white shadow-lg rounded-2xl absolute -bottom-8 md:-bottom-11 z-[1]">
       <form
         onSubmit={handleSearch}
         className="flex items-center justify-between gap-4 md:gap-14 xl:gap-16 w-full px-6 md:px-10"
@@ -93,7 +93,7 @@ export default function Search() {
             پر جستجو ترین ها
           </span>
           <ul
-            className="wrapper flex items-center gap-4 md:max-w-[730px] lg:max-w-4xl min-h-[50px] overflow-x-scroll"
+            className="wrapper flex items-center gap-4 sm:gap-8 lg:gap-4 md:max-w-[730px] lg:max-w-4xl min-h-[50px] overflow-x-scroll"
             style={{ scrollbarWidth: "none" }}
           >
             {/* {suggestions.map((item, index) => ( */}

@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface DialogContextProps {
   isDialogOpen: boolean;
-  openDialog: (productId: string) => void;
+  openDialog: (productId?: string) => void;
   closeDialog: () => void;
   productId: string | null;
 }
@@ -17,7 +17,7 @@ export const DialogProvider: React.FC<{ children: ReactNode }> = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [productId, setProductId] = useState<string | null>(null);
 
-  const openDialog = (id: string) => {
+  const openDialog = (id: string | null = null) => {
     setProductId(id);
     setIsDialogOpen(true);
   };

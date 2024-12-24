@@ -16,7 +16,7 @@ export async function generateMetadata() {
   }
 
   return {
-    title: `${data.contactUsTitle} - ${data.title}`,
+    title: `${data.contactUsSeoTitle} - ${data.title}`,
     description: data.contactUsMetaData,
   };
 }
@@ -24,6 +24,7 @@ export async function generateMetadata() {
 export default async function ContactPage() {
   const res = await fetch(`${BASE_URL}/web-text-plans`);
   const data = await res.json();
+  const contactUsTitle = data.contactUsTitle;
   const telegram = data.telegram;
   const whatsapp = data.whatsapp;
   const instagram = data.instagram;
@@ -47,7 +48,7 @@ export default async function ContactPage() {
             width="64"
             height="64"
             viewBox="0 0 32 32"
-            className="absolute top-[120px] left-[10%] z-[2]"
+            className="absolute top-16 left-[10%] z-[2]"
           >
             <path
               fill="#0071CD"
@@ -70,7 +71,7 @@ export default async function ContactPage() {
             width="80"
             height="62"
             viewBox="0 0 42 32"
-            className="absolute top-[150px] left-[8%] z-[-1]"
+            className="absolute top-24 left-[6%] z-[-1]"
           >
             <path
               fill="#e8ecf3"
@@ -80,8 +81,8 @@ export default async function ContactPage() {
         </div>
         {/* Page Content */}
         <div className="wrapper-contact flex flex-col items-center py-20">
-          <h1 className="text-primary font-bold text-[22px] absolute top-24">
-            تماس با ما
+          <h1 className="text-primary font-bold text-[22px] absolute top-10">
+            {contactUsTitle}
           </h1>
           <div className="flex flex-col w-full gap-10">
             {/* Social Media */}
@@ -383,7 +384,7 @@ export default async function ContactPage() {
         {/* Page Content */}
         <div className="wrapper-contact flex flex-col items-center py-16">
           <h1 className="text-primary font-bold text-[32px] mb-10">
-            تماس با ما
+            {contactUsTitle}
           </h1>
           <div className="flex flex-col lg:flex-row w-full gap-20">
             {/* Right Content */}

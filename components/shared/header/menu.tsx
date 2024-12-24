@@ -97,7 +97,7 @@ export default function Menu() {
                 </li>
               ))}
               <button
-                onClick={() => openDialog(productsData[0]._id)}
+                onClick={() => openDialog()}
                 className="flex items-center text-white font-bold text-[14px] z-10"
               >
                 <span>استعلام قیمت</span>
@@ -160,7 +160,7 @@ export default function Menu() {
             </li>
           ))}
           <button
-            onClick={() => openDialog(productsData[0]._id)}
+            onClick={() => openDialog()}
             className="flex items-center text-white hover:text-white/70 font-bold text-[14px] transition-all duration-300 ease-in-out"
           >
             <span>استعلام قیمت</span>

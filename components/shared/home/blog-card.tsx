@@ -11,7 +11,7 @@ export default function BlogCard({ data }: { data: Blog }) {
   return (
     <>
       {/* Mobile View */}
-      <div className="md:hidden w-[242px] h-[281px] shadow-xl rounded-lg">
+      <div className="md:hidden w-[242px] shadow-xl rounded-lg">
         <div className="flex w-full h-[128px] rounded-t-lg">
           <Image
             src={`${IMAGE_URL}/${data.image}`}
@@ -28,9 +28,10 @@ export default function BlogCard({ data }: { data: Blog }) {
             </h3>
           </div>
           <div className="flex items-center">
-            <p className="text-[#8291A3] text-[10px] line-clamp-1">
-              {data.content}
-            </p>
+            <p
+              dangerouslySetInnerHTML={{ __html: data.content }}
+              className="text-[#8291A3] text-[10px] line-clamp-1"
+            />
           </div>
           <hr />
           <div className="flex items-center justify-start gap-2">
@@ -49,7 +50,7 @@ export default function BlogCard({ data }: { data: Blog }) {
       >
         <div className="flex items-center justify-center w-full h-[223px] rounded-lg">
           <Link
-            href={`/${data._id}`}
+            href={`/blog/${data._id}`}
             className="group hover:brightness-75 transition-all duration-300 ease-in-out relative"
           >
             <div className="absolute inset-0 flex items-center justify-center">
@@ -64,7 +65,7 @@ export default function BlogCard({ data }: { data: Blog }) {
               alt={data.title}
               width={345}
               height={223}
-              className="rounded-lg"
+              className="rounded-lg h-[230px]"
             />
           </Link>
         </div>
@@ -79,7 +80,7 @@ export default function BlogCard({ data }: { data: Blog }) {
           </span> */}
           <span
             dangerouslySetInnerHTML={{ __html: data.content }}
-            className="text-[#8291A3] text-[12px] line-clamp-3"
+            className="text-[#8291A3] text-[12px] line-clamp-3 text-justify"
           />
         </div>
         <div className="flex items-center justify-between">
@@ -92,7 +93,7 @@ export default function BlogCard({ data }: { data: Blog }) {
             </span>
           </div>
           <Link
-            href={`/${data._id}`}
+            href={`/blog/${data._id}`}
             className="flex items-center justify-center rounded-lg border hover:bg-[#F0F2F7] transition-colors duration-300 ease-in-out"
           >
             <span className="text-[#1F2329] font-[500] text-[14px] px-5 py-3 truncate">

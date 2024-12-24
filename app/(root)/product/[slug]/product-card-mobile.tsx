@@ -8,15 +8,15 @@ export default function ProductCardMobile({ product }: { product: Product }) {
   const { openDialog } = useDialog();
 
   return (
-    <div className="flex flex-col p-5 m-1 gap-2 rounded-xl shadow-md">
+    <div className="flex flex-col p-5 m-1 gap-2 rounded-xl shadow-md min-w-[97%] sm:min-w-[70%]">
       <div className="flex items-start justify-between">
-        <div className="flex items-center justify-center w-3/5 h-[110px] sm:h-[150px] rounded-xl bg-[#EFF1F6]">
+        <div className="flex items-center justify-center w-8/12 h-[110px] sm:h-[150px] rounded-xl bg-[#EFF1F6]">
           <Image
             src={`${IMAGE_URL}/${product.primaryImage}`}
             alt={product.title}
-            width={130}
-            height={70}
-            className="h-[70px] object-cover"
+            width={170}
+            height={110}
+            className="w-fit h-[110px] sm:h-[150px] object-cover"
           />
         </div>
         <div className="flex items-center justify-center gap-2">
@@ -32,7 +32,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
         </div>
       </div>
       <div className="flex items-center">
-        <h3 className="text-primary font-semibold text-[14px] leading-8">
+        <h3 className="text-primary font-semibold text-[14px] leading-6 pt-2">
           {product.title}
         </h3>
       </div>

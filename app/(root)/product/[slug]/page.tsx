@@ -30,8 +30,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${data.title} - ${info.title}`,
-    description: data.metaData || "",
+    title: `${data.seoTitle} - ${info.title}`,
+    description: data.metaData,
   };
 }
 
@@ -61,7 +61,7 @@ export default async function ProductDetails({
 
         {/* Related Products */}
         <div className="wrapper">
-          <RelatedProducts proCatId={proCatId} />
+          <RelatedProducts proCatId={proCatId} proId={params.slug} />
         </div>
 
         {/* Price Inquiry */}
@@ -104,7 +104,7 @@ export default async function ProductDetails({
 
         {/* Related Products */}
         <div className="wrapper">
-          <RelatedProducts proCatId={proCatId} />
+          <RelatedProducts proCatId={proCatId} proId={params.slug} />
         </div>
       </div>
     </AccordionProvider>

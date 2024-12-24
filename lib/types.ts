@@ -1,6 +1,8 @@
 export interface Category {
   _id: string;
   image: string;
+  seoTitle: string;
+  metaData: string;
   title: string;
   description: string;
   sellerPhone: string;
@@ -48,6 +50,8 @@ export interface Product {
   _id: string;
   primaryImage: string;
   gallery: string[];
+  seoTitle: string;
+  metaData: string;
   title: string;
   enTitle: string;
   description: string;
@@ -63,10 +67,10 @@ export interface Product {
   metalJointsHealth: number;
   needleHealth: number;
   attributes: Attribute[];
+  view: number;
   createdAt: string;
   updatedAt: string;
   __v: number;
-  metaData: string;
 }
 
 export interface Attribute {
@@ -84,11 +88,12 @@ export interface AttributeType {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  requiredAttribute: string | number | boolean | null;
+  requiredAttribute?: string;
 }
 
 export interface Blog {
   _id: number;
+  seoTitle: string;
   metaData: string;
   image: string;
   title: string;
@@ -99,16 +104,6 @@ export interface Blog {
   summary: string;
   tutorial: boolean;
 }
-
-// export interface Member {
-//   id: number;
-//   name: string;
-//   position: string;
-//   image: string;
-//   twitter: string;
-//   telegram: string;
-//   instagram: string;
-// }
 
 export interface Help {
   id: number;
@@ -144,15 +139,19 @@ export interface Root {
   whatsapp: string;
   footerAboutUs: string;
   contactUsTitle: string;
+  contactUsSeoTitle: string;
   contactUsMetaData: string;
   latitude: number;
   longitude: string;
   aboutUsTitle: string;
+  aboutUsSeoTitle: string;
   aboutUsMetaData: string;
   aboutUsHtmlContent: string;
   archiveProductTitle: string;
+  archiveProductSeoTitle: string;
   archiveProductMetaData: string;
   archiveBlogTitle: string;
+  archiveBlogSeoTitle: string;
   archiveBlogMetaData: string;
   createdAt: string;
   updatedAt: string;

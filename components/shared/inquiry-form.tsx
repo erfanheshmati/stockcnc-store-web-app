@@ -41,25 +41,27 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
 
       // Send API request to get price for the product
       try {
+        const requestBody: Record<string, any> = {
+          phone: phoneNumber,
+          ...(productId && { product: productId }), // Conditionally add productId if it exists
+        };
+
         const response = await fetch(`${BASE_URL}/price-inquiry`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            phone: phoneNumber,
-            product: productId,
-          }),
+          body: JSON.stringify(requestBody),
         });
 
         const result = await response.json();
         console.log(result);
 
         if (response.ok) notifySuccess("استعلام قیمت با موفقیت ثبت شد");
-        else notifyError("محصول مورد نظر را انتخاب کنید");
+        else notifyError("خطا در ارسال! دوباره تلاش کنید");
       } catch (err) {
         console.log((err as Error).message);
-        notifyError("محصول مورد نظر را انتخاب کنید");
+        notifyError("خطا در ارسال! دوباره تلاش کنید");
       } finally {
         setIsSubmitting(false);
         setPhoneNumber("");
@@ -72,7 +74,7 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
       {/* Mobile View */}
       <div className="md:hidden flex flex-col items-center w-full max-w-sm sm:max-w-md p-6 shadow-2xl rounded-2xl bg-white relative">
         <div className="text-primary font-bold text-[16px]">استعلام قیمت</div>
-        <div className="absolute right-2 top-2 w-9 h-9 bg-secondary/10 rounded-lg p-2">
+        <div className="absolute right-4 top-4">
           <button onClick={onClose}>
             <BiX size={20} className="text-secondary/60" />
           </button>

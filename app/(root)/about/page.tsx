@@ -16,7 +16,7 @@ export async function generateMetadata() {
   }
 
   return {
-    title: `${data.aboutUsTitle} - ${data.title}`,
+    title: `${data.aboutUsSeoTitle} - ${data.title}`,
     description: data.aboutUsMetaData,
   };
 }
@@ -24,7 +24,8 @@ export async function generateMetadata() {
 export default async function AboutPage() {
   const res = await fetch(`${BASE_URL}/web-text-plans`);
   const data = await res.json();
-  const htmlContent = data.aboutUsHtmlContent;
+  const aboutUsTitle = data.aboutUsTitle;
+  const aboutUsHtmlContent = data.aboutUsHtmlContent;
   const aboutUsMembers = data.aboutUsMembers;
 
   return (
@@ -42,7 +43,7 @@ export default async function AboutPage() {
             width="64"
             height="64"
             viewBox="0 0 32 32"
-            className="absolute top-[120px] left-[10%] z-[2]"
+            className="absolute top-16 left-[10%] z-[2]"
           >
             <path
               fill="#0071CD"
@@ -63,7 +64,7 @@ export default async function AboutPage() {
             width="80"
             height="62"
             viewBox="0 0 42 32"
-            className="absolute top-[150px] left-[8%] z-[-1]"
+            className="absolute top-24 left-[6%] z-[-1]"
           >
             <path
               fill="#e8ecf3"
@@ -73,11 +74,11 @@ export default async function AboutPage() {
         </div>
         {/* Page Content */}
         <div className="wrapper-about flex flex-col items-center py-20">
-          <h1 className="text-primary font-bold text-[22px] absolute top-24">
-            درباره ما
+          <h1 className="text-primary font-bold text-[22px] absolute top-10">
+            {aboutUsTitle}
           </h1>
 
-          <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+          <div dangerouslySetInnerHTML={{ __html: aboutUsHtmlContent }} />
 
           {/* Section 1 */}
           {/* <h3 className="text-primary font-bold text-[16px] border-t border-b w-full text-center py-4">
@@ -263,10 +264,10 @@ export default async function AboutPage() {
         {/* Page Content */}
         <div className="wrapper-about flex flex-col items-center py-16">
           <h1 className="text-primary font-bold text-[32px] mb-10">
-            درباره ما
+            {aboutUsTitle}
           </h1>
 
-          <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+          <div dangerouslySetInnerHTML={{ __html: aboutUsHtmlContent }} />
 
           {/* Section 1 */}
           {/* <div className="flex items-center gap-6 w-full">

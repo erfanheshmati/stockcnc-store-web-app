@@ -1,33 +1,14 @@
 "use client";
 
 import { useDialog } from "@/contexts/dialog-context";
-import { BASE_URL } from "@/lib/constants";
-import { Product } from "@/lib/types";
-import { useEffect, useState } from "react";
 
 export default function Price() {
   const { openDialog } = useDialog();
 
-  const [productsData, setProductsData] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const fetchProductsData = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/product`, { method: "POST" });
-        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
-        const data = await res.json();
-        setProductsData(data.docs);
-      } catch (error) {
-        console.log((error as Error).message);
-      }
-    };
-    fetchProductsData();
-  }, []);
-
   return (
-    <div className="flex md:hidden lg:flex justify-center w-[277px] sm:w-[307px] h-[95px] bg-gradient-to-l from-[#5d6d85] to-[#4b5b72] rounded-full shadow-lg border-t border-l border-white/30 z-[1]">
+    <div className="flex md:hidden lg:flex justify-center w-[277px] sm:w-[307px] h-[95px] bg-gradient-to-l from-[#5d6d85] to-secondary rounded-full shadow-lg border-t border-l border-white/30 z-[1]">
       <button
-        onClick={() => openDialog(productsData[0]._id)}
+        onClick={() => openDialog()}
         className="flex items-center justify-center"
       >
         <div className="flex items-center gap-5">

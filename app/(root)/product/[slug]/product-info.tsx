@@ -94,7 +94,7 @@ export default function ProductInfo({
 
           {activeTab === "specifications" && (
             <div className="flex flex-col gap-8">
-              <div className="flex items-center gap-14">
+              <div className="flex items-start gap-14">
                 {/* Column 1 */}
                 <div className="flex flex-col gap-1 w-full">
                   {data.attributes.length === 0 && (
@@ -103,71 +103,131 @@ export default function ProductInfo({
                     </p>
                   )}
 
-                  {data.attributes.map((item, idx) => {
-                    // Render odd items in the first row
-                    return idx % 2 === 0 ? (
-                      <div
-                        key={idx}
-                        className="flex items-center justify-between p-4"
-                      >
-                        <h3 className="text-[#1F2329] font-medium text-[14px]">
-                          {item.attribute.title}
-                        </h3>
-                        <span className="text-primary font-bold text-[15px]">
-                          {item.attribute.values[0]}
-                        </span>
-                      </div>
-                    ) : (
-                      // Render even items in the second row
-                      <div
-                        key={idx}
-                        className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
-                      >
-                        <h3 className="text-[#1F2329] font-medium text-[14px]">
-                          {item.attribute.title}
-                        </h3>
-                        <span className="text-primary font-bold text-[15px]">
-                          {item.attribute.values[0]}
-                        </span>
-                      </div>
-                    );
-                  })}
+                  {data.attributes.length <= 8
+                    ? data.attributes.slice(0, 4).map((item, idx) => {
+                        // Render odd items in the first row
+                        return idx % 2 === 0 ? (
+                          <div
+                            key={idx}
+                            className="flex items-center justify-between p-4"
+                          >
+                            <h3 className="text-[#1F2329] font-medium text-[14px]">
+                              {item.attribute?.title}
+                            </h3>
+                            <span className="text-primary font-bold text-[15px]">
+                              {item.value}
+                            </span>
+                          </div>
+                        ) : (
+                          // Render even items in the second row
+                          <div
+                            key={idx}
+                            className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
+                          >
+                            <h3 className="text-[#1F2329] font-medium text-[14px]">
+                              {item.attribute?.title}
+                            </h3>
+                            <span className="text-primary font-bold text-[15px]">
+                              {item.value}
+                            </span>
+                          </div>
+                        );
+                      })
+                    : data.attributes.slice(0, 8).map((item, idx) => {
+                        // Render odd items in the first row
+                        return idx % 2 === 0 ? (
+                          <div
+                            key={idx}
+                            className="flex items-center justify-between p-4"
+                          >
+                            <h3 className="text-[#1F2329] font-medium text-[14px]">
+                              {item.attribute?.title}
+                            </h3>
+                            <span className="text-primary font-bold text-[15px]">
+                              {item.value}
+                            </span>
+                          </div>
+                        ) : (
+                          // Render even items in the second row
+                          <div
+                            key={idx}
+                            className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
+                          >
+                            <h3 className="text-[#1F2329] font-medium text-[14px]">
+                              {item.attribute?.title}
+                            </h3>
+                            <span className="text-primary font-bold text-[15px]">
+                              {item.value}
+                            </span>
+                          </div>
+                        );
+                      })}
                 </div>
 
                 {/* Column 2 */}
                 <div className="flex flex-col gap-1 w-full">
-                  {data.attributes.map((item, idx) => {
-                    // Render odd items in the first row
-                    return idx % 2 === 0 ? (
-                      <div
-                        key={idx}
-                        className="flex items-center justify-between p-4"
-                      >
-                        <h3 className="text-[#1F2329] font-medium text-[14px]">
-                          {item.attribute.title}
-                        </h3>
-                        <span className="text-primary font-bold text-[15px]">
-                          {item.attribute.values[0]}
-                        </span>
-                      </div>
-                    ) : (
-                      // Render even items in the second row
-                      <div
-                        key={idx}
-                        className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
-                      >
-                        <h3 className="text-[#1F2329] font-medium text-[14px]">
-                          {item.attribute.title}
-                        </h3>
-                        <span className="text-primary font-bold text-[15px]">
-                          {item.attribute.values[0]}
-                        </span>
-                      </div>
-                    );
-                  })}
+                  {data.attributes.length <= 8
+                    ? data.attributes.slice(4, 8).map((item, idx) => {
+                        // Render odd items in the first row
+                        return idx % 2 === 0 ? (
+                          <div
+                            key={idx}
+                            className="flex items-center justify-between p-4"
+                          >
+                            <h3 className="text-[#1F2329] font-medium text-[14px]">
+                              {item.attribute?.title}
+                            </h3>
+                            <span className="text-primary font-bold text-[15px]">
+                              {item.value}
+                            </span>
+                          </div>
+                        ) : (
+                          // Render even items in the second row
+                          <div
+                            key={idx}
+                            className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
+                          >
+                            <h3 className="text-[#1F2329] font-medium text-[14px]">
+                              {item.attribute.title}
+                            </h3>
+                            <span className="text-primary font-bold text-[15px]">
+                              {item.value}
+                            </span>
+                          </div>
+                        );
+                      })
+                    : data.attributes.slice(8, 16).map((item, idx) => {
+                        // Render odd items in the first row
+                        return idx % 2 === 0 ? (
+                          <div
+                            key={idx}
+                            className="flex items-center justify-between p-4"
+                          >
+                            <h3 className="text-[#1F2329] font-medium text-[14px]">
+                              {item.attribute?.title}
+                            </h3>
+                            <span className="text-primary font-bold text-[15px]">
+                              {item.value}
+                            </span>
+                          </div>
+                        ) : (
+                          // Render even items in the second row
+                          <div
+                            key={idx}
+                            className="flex items-center justify-between p-4 rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
+                          >
+                            <h3 className="text-[#1F2329] font-medium text-[14px]">
+                              {item.attribute.title}
+                            </h3>
+                            <span className="text-primary font-bold text-[15px]">
+                              {item.value}
+                            </span>
+                          </div>
+                        );
+                      })}
                 </div>
               </div>
-              <div className="flex items-center gap-8 p-6 rounded-lg border bg-gradient-to-r from-[#f9fafc] to-white">
+              <div className="flex items-center gap-8 mt-4 p-6 rounded-lg border bg-gradient-to-r from-[#f9fafc] to-white">
                 <h3 className="text-black/80 font-semibold text-[14px]">
                   آپشن های این دستگاه
                 </h3>
