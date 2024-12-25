@@ -15,105 +15,108 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
     clearFilters,
     handleCheck,
     handleRangeChange,
+    enabledAttributes,
   } = useFiltersLogic();
 
   const renderedFilters = useMemo(() => {
-    return attributes.map((attribute, index) => (
-      <div key={attribute._id} className="bg-secondary/10 rounded-xl my-2">
-        <button
-          className="flex justify-between items-center w-full"
-          onClick={() => toggleFilter(index)}
-        >
-          <span className="text-black/80 font-semibold text-[13px] px-5 py-4">
-            {attribute.title}
-          </span>
-          <span className="p-5">
-            <BiArrowFromTop
-              size={18}
-              className={`text-secondary transform transition-transform duration-300 ${
-                openFilter === index ? "rotate-180" : ""
-              }`}
-            />
-          </span>
-        </button>
-        {openFilter === index && (
-          <div className="py-1">
-            {attribute.type === "string" &&
-              attribute.values.map((value, idx) => (
-                <div key={idx} className="flex items-center gap-2 px-5 py-2">
-                  <input
-                    type="checkbox"
-                    id={`filter-${index}-${idx}`}
-                    checked={
-                      typeof checkedItems[attribute.title]?.[value] ===
-                      "boolean"
-                        ? (checkedItems[attribute.title]?.[value] as boolean)
-                        : false
-                    }
-                    onChange={() => handleCheck(attribute.title, value)}
-                    className="w-5 h-5 cursor-pointer"
-                  />
-                  <label
-                    htmlFor={`filter-${index}-${idx}`}
-                    className={`font-semibold text-[12px] cursor-pointer pt-0.5 ${
-                      checkedItems[attribute.title]?.[value]
-                        ? "text-black"
-                        : "text-black/60"
-                    }`}
-                  >
-                    {value}
-                  </label>
-                </div>
-              ))}
+    return attributes
+      .filter((attribute) => enabledAttributes.has(attribute._id))
+      .map((attribute, index) => (
+        <div key={attribute._id} className="bg-secondary/10 rounded-xl my-2">
+          <button
+            className="flex justify-between items-center w-full"
+            onClick={() => toggleFilter(index)}
+          >
+            <span className="text-black/80 font-semibold text-[13px] px-5 py-4">
+              {attribute.title}
+            </span>
+            <span className="p-5">
+              <BiArrowFromTop
+                size={18}
+                className={`text-secondary transform transition-transform duration-300 ${
+                  openFilter === index ? "rotate-180" : ""
+                }`}
+              />
+            </span>
+          </button>
+          {openFilter === index && (
+            <div className="py-1">
+              {attribute.type === "string" &&
+                attribute.values.map((value, idx) => (
+                  <div key={idx} className="flex items-center gap-2 px-5 py-2">
+                    <input
+                      type="checkbox"
+                      id={`filter-${index}-${idx}`}
+                      checked={
+                        typeof checkedItems[attribute.title]?.[value] ===
+                        "boolean"
+                          ? (checkedItems[attribute.title]?.[value] as boolean)
+                          : false
+                      }
+                      onChange={() => handleCheck(attribute.title, value)}
+                      className="w-5 h-5 cursor-pointer"
+                    />
+                    <label
+                      htmlFor={`filter-${index}-${idx}`}
+                      className={`font-semibold text-[12px] cursor-pointer pt-0.5 ${
+                        checkedItems[attribute.title]?.[value]
+                          ? "text-black"
+                          : "text-black/60"
+                      }`}
+                    >
+                      {value}
+                    </label>
+                  </div>
+                ))}
 
-            {attribute.type === "number" && (
-              <div className="px-5 py-2 text-black/60">
-                <label className="block mb-2 font-semibold text-[12px]">
-                  محدوده
-                </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    placeholder="حداقل"
-                    min={0}
-                    value={Number(checkedItems[attribute.title]?.min) || ""}
-                    // defaultValue={0}
-                    className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[12px]"
-                    onChange={(e) =>
-                      handleRangeChange(attribute.title, {
-                        min: Number(e.target.value),
-                        max: Number(checkedItems[attribute.title]?.max),
-                      })
-                    }
-                  />
-                  <span className="text-[12px]">تا</span>
-                  <input
-                    type="number"
-                    placeholder="حداکثر"
-                    value={Number(checkedItems[attribute.title]?.max) || ""}
-                    // max={1000}
-                    // defaultValue={1000}
-                    className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[12px]"
-                    onChange={(e) =>
-                      handleRangeChange(attribute.title, {
-                        min: Number(checkedItems[attribute.title]?.min),
-                        max: Number(e.target.value),
-                      })
-                    }
-                  />
+              {attribute.type === "number" && (
+                <div className="px-5 py-2 text-black/60">
+                  <label className="block mb-2 font-semibold text-[12px]">
+                    محدوده
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      placeholder="حداقل"
+                      min={0}
+                      value={Number(checkedItems[attribute.title]?.min) || ""}
+                      // defaultValue={0}
+                      className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[12px]"
+                      onChange={(e) =>
+                        handleRangeChange(attribute.title, {
+                          min: Number(e.target.value),
+                          max: Number(checkedItems[attribute.title]?.max),
+                        })
+                      }
+                    />
+                    <span className="text-[12px]">تا</span>
+                    <input
+                      type="number"
+                      placeholder="حداکثر"
+                      value={Number(checkedItems[attribute.title]?.max) || ""}
+                      // max={1000}
+                      // defaultValue={1000}
+                      className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[12px]"
+                      onChange={(e) =>
+                        handleRangeChange(attribute.title, {
+                          min: Number(checkedItems[attribute.title]?.min),
+                          max: Number(e.target.value),
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    ));
-  }, [attributes, openFilter, checkedItems, toggleFilter]);
+              )}
+            </div>
+          )}
+        </div>
+      ));
+  }, [attributes, openFilter, checkedItems, toggleFilter, enabledAttributes]);
 
   return (
     <div
       className="md:hidden flex flex-col items-center w-full max-w-sm sm:max-w-md p-6 shadow-2xl rounded-2xl bg-white overflow-y-auto relative"
-      style={{ height: "calc(100vh - 150px)" }}
+      style={{ height: "calc(100vh - 250px)" }}
     >
       <div className="text-primary font-bold text-[16px]">فیلترها</div>
       <div className="absolute right-5 top-5">

@@ -31,6 +31,7 @@ type FiltersContextType = {
     attributeTitle: string,
     range: { min: number; max: number }
   ) => void;
+  enabledAttributes: Set<string>;
 };
 
 const FiltersLogicContext = createContext<FiltersContextType | undefined>(
@@ -51,6 +52,9 @@ export function FiltersLogicProvider({
   const [sortOption, setSortOption] = useState<string>("latest");
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(initialProducts);
+  const [enabledAttributes, setEnabledAttributes] = useState<Set<string>>(
+    new Set()
+  );
 
   useEffect(() => {
     const fetchAttributes = async () => {
@@ -152,6 +156,31 @@ export function FiltersLogicProvider({
     filterAndSortProducts();
   }, [checkedItems, inStockOnly, initialProducts, sortOption]);
 
+  useEffect(() => {
+    const calculateEnabledAttributes = () => {
+      const enabled = new Set<string>();
+
+      attributes.forEach((attribute) => {
+        if (!attribute.requiredAttribute) {
+          enabled.add(attribute._id); // Always visible if no dependency
+        } else {
+          const parentAttribute = attributes.find(
+            (attr) => attr._id === attribute.requiredAttribute
+          );
+          if (
+            parentAttribute &&
+            checkedItems[parentAttribute.title] &&
+            Object.values(checkedItems[parentAttribute.title]).some(Boolean)
+          ) {
+            enabled.add(attribute._id);
+          }
+        }
+      });
+      setEnabledAttributes(enabled);
+    };
+    calculateEnabledAttributes();
+  }, [attributes, checkedItems]);
+
   return (
     <FiltersLogicContext.Provider
       value={{
@@ -169,6 +198,7 @@ export function FiltersLogicProvider({
         handleRangeChange,
         sortOption,
         setSortOption,
+        enabledAttributes,
       }}
     >
       {children}

@@ -20,104 +20,107 @@ export default function Filters() {
     clearFilters,
     handleCheck,
     handleRangeChange,
+    enabledAttributes,
   } = useFiltersLogic();
 
   const renderedFilters = useMemo(() => {
-    return attributes.map((attribute, index) => (
-      <div key={attribute._id}>
-        <button
-          className="flex justify-between items-center w-full border-b hover:bg-gradient-to-l from-[#DFE3EF4F] to-white"
-          onClick={() => toggleFilter(index)}
-        >
-          <span className="text-black/90 font-semibold text-[15px] px-5 py-4">
-            {attribute.title}
-          </span>
-          <span className="p-5 border-r">
-            <BiArrowFromTop
-              size={18}
-              className={clsx(
-                "text-secondary transform transition-transform duration-300",
-                { "rotate-180": openFilter === index }
-              )}
-            />
-          </span>
-        </button>
-        {openFilter === index && (
-          <div className="py-4 border-b">
-            {attribute.type === "string" &&
-              attribute.values.map((value, idx) => (
-                <div key={idx} className="flex items-center gap-2 px-6 py-2">
-                  <input
-                    type="checkbox"
-                    id={`filter-${index}-${idx}`}
-                    checked={
-                      typeof checkedItems[attribute.title]?.[value] ===
-                      "boolean"
-                        ? (checkedItems[attribute.title]?.[value] as boolean)
-                        : false
-                    }
-                    onChange={() => handleCheck(attribute.title, value)}
-                    className="w-5 h-5 cursor-pointer"
-                  />
-                  <label
-                    htmlFor={`filter-${index}-${idx}`}
-                    className={clsx(
-                      "font-semibold text-[14px] cursor-pointer",
-                      {
-                        "text-black": checkedItems[attribute.title]?.[value],
-                        "text-black/60":
-                          !checkedItems[attribute.title]?.[value],
+    return attributes
+      .filter((attribute) => enabledAttributes.has(attribute._id))
+      .map((attribute, index) => (
+        <div key={attribute._id}>
+          <button
+            className="flex justify-between items-center w-full border-b hover:bg-gradient-to-l from-[#DFE3EF4F] to-white"
+            onClick={() => toggleFilter(index)}
+          >
+            <span className="text-black/90 font-semibold text-[15px] px-5 py-4">
+              {attribute.title}
+            </span>
+            <span className="p-5 border-r">
+              <BiArrowFromTop
+                size={18}
+                className={clsx(
+                  "text-secondary transform transition-transform duration-300",
+                  { "rotate-180": openFilter === index }
+                )}
+              />
+            </span>
+          </button>
+          {openFilter === index && (
+            <div className="py-4 border-b">
+              {attribute.type === "string" &&
+                attribute.values.map((value, idx) => (
+                  <div key={idx} className="flex items-center gap-2 px-6 py-2">
+                    <input
+                      type="checkbox"
+                      id={`filter-${index}-${idx}`}
+                      checked={
+                        typeof checkedItems[attribute.title]?.[value] ===
+                        "boolean"
+                          ? (checkedItems[attribute.title]?.[value] as boolean)
+                          : false
                       }
-                    )}
-                  >
-                    {value}
-                  </label>
-                </div>
-              ))}
+                      onChange={() => handleCheck(attribute.title, value)}
+                      className="w-5 h-5 cursor-pointer"
+                    />
+                    <label
+                      htmlFor={`filter-${index}-${idx}`}
+                      className={clsx(
+                        "font-semibold text-[14px] cursor-pointer",
+                        {
+                          "text-black": checkedItems[attribute.title]?.[value],
+                          "text-black/60":
+                            !checkedItems[attribute.title]?.[value],
+                        }
+                      )}
+                    >
+                      {value}
+                    </label>
+                  </div>
+                ))}
 
-            {attribute.type === "number" && (
-              <div className="px-6 py-2 text-black/80">
-                <label className="block mb-2 font-semibold text-[14px]">
-                  محدوده
-                </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    placeholder="حداقل"
-                    min={0}
-                    value={Number(checkedItems[attribute.title]?.min) || ""}
-                    // defaultValue={0}
-                    className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[13px]"
-                    onChange={(e) =>
-                      handleRangeChange(attribute.title, {
-                        min: Number(e.target.value),
-                        max: Number(checkedItems[attribute.title]?.max),
-                      })
-                    }
-                  />
-                  <span className="text-[14px]">تا</span>
-                  <input
-                    type="number"
-                    placeholder="حداکثر"
-                    value={Number(checkedItems[attribute.title]?.max) || ""}
-                    // max={1000}
-                    // defaultValue={1000}
-                    className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[13px]"
-                    onChange={(e) =>
-                      handleRangeChange(attribute.title, {
-                        min: Number(checkedItems[attribute.title]?.min),
-                        max: Number(e.target.value),
-                      })
-                    }
-                  />
+              {attribute.type === "number" && (
+                <div className="px-6 py-2 text-black/80">
+                  <label className="block mb-2 font-semibold text-[14px]">
+                    محدوده
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      placeholder="حداقل"
+                      min={0}
+                      value={Number(checkedItems[attribute.title]?.min) || ""}
+                      // defaultValue={0}
+                      className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[13px]"
+                      onChange={(e) =>
+                        handleRangeChange(attribute.title, {
+                          min: Number(e.target.value),
+                          max: Number(checkedItems[attribute.title]?.max),
+                        })
+                      }
+                    />
+                    <span className="text-[14px]">تا</span>
+                    <input
+                      type="number"
+                      placeholder="حداکثر"
+                      value={Number(checkedItems[attribute.title]?.max) || ""}
+                      // max={1000}
+                      // defaultValue={1000}
+                      className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[13px]"
+                      onChange={(e) =>
+                        handleRangeChange(attribute.title, {
+                          min: Number(checkedItems[attribute.title]?.min),
+                          max: Number(e.target.value),
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    ));
-  }, [attributes, openFilter, checkedItems, toggleFilter]);
+              )}
+            </div>
+          )}
+        </div>
+      ));
+  }, [attributes, openFilter, checkedItems, toggleFilter, enabledAttributes]);
 
   return (
     <>
