@@ -105,13 +105,6 @@ export interface Blog {
   tutorial: boolean;
 }
 
-export interface Help {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-}
-
 export interface Social {
   id: number;
   title: string;

@@ -1,8 +1,30 @@
-import React from "react";
-import { helpsData } from "@/lib/data";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import HelpCard from "./help-card";
+import { Blog } from "@/lib/types";
+import { BASE_URL } from "@/lib/constants";
 
 export default function Helps() {
+  const [blogsData, setBlogsData] = useState<Blog[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchBlogsData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/blog`);
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        setBlogsData(data.docs);
+      } catch (error) {
+        setError((error as Error).message);
+      }
+    };
+    fetchBlogsData();
+  }, []);
+
+  const helpsData = blogsData.filter((blog) => blog.tutorial === true);
+
   return (
     <>
       {/* Mobile View */}
@@ -18,7 +40,7 @@ export default function Helps() {
           style={{ scrollbarWidth: "none" }}
         >
           {helpsData.map((data, index) => (
-            <React.Fragment key={data.id}>
+            <React.Fragment key={data._id}>
               <HelpCard data={data} />
               <hr
                 className={`${
@@ -41,9 +63,9 @@ export default function Helps() {
           </h2>
         </div>
         <hr className="mt-6" />
-        <div className="flex flex-col gap-4 mt-6 pr-1 pl-6 h-[400px] overflow-auto custom-scroll">
+        <div className="flex flex-col gap-4 mt-6 pr-1 pl-6 h-[370px] overflow-auto custom-scroll">
           {helpsData.map((data, index) => (
-            <React.Fragment key={data.id}>
+            <React.Fragment key={data._id}>
               <HelpCard data={data} />
               <hr
                 className={`${

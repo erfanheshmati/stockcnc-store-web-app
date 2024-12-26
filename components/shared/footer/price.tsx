@@ -6,11 +6,11 @@ export default function Price() {
   const { openDialog } = useDialog();
 
   return (
-    <div className="flex md:hidden lg:flex justify-center w-[277px] sm:w-[307px] h-[95px] bg-gradient-to-l from-[#5d6d85] to-secondary rounded-full shadow-lg border-t border-l border-white/30 z-[1]">
-      <button
-        onClick={() => openDialog()}
-        className="flex items-center justify-center"
-      >
+    <div
+      className="flex md:hidden lg:flex justify-center w-[277px] sm:w-[307px] h-[95px] bg-gradient-to-l from-[#5d6d85] to-secondary rounded-full shadow-lg border-t border-l border-white/30 hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer z-[1]"
+      onClick={() => openDialog()}
+    >
+      <button className="flex items-center justify-center">
         <div className="flex items-center gap-5">
           <svg
             version="1.1"

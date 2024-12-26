@@ -80,7 +80,7 @@ export default function BlogCard({ data }: { data: Blog }) {
           </span> */}
           <span
             dangerouslySetInnerHTML={{ __html: data.content }}
-            className="text-[#8291A3] text-[12px] line-clamp-3 text-justify"
+            className="text-[#8291A3] text-[12px] line-clamp-2 text-justify"
           />
         </div>
         <div className="flex items-center justify-between">

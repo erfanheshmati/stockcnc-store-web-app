@@ -41,7 +41,7 @@ export default function Banner({ children }: { children: React.ReactNode }) {
       <div className="absolute inset-0 bg-header-background bg-center bg-cover opacity-[2%]"></div>
 
       {/* Banner Content */}
-      <div className="flex justify-center w-full z-[1] relative">
+      <div className="flex justify-center w-full xl:wrapper z-[1] relative">
         {/* Slider */}
         <div className="flex items-center justify-center w-full relative">
           {/* Custom Pagination */}
@@ -86,7 +86,14 @@ export default function Banner({ children }: { children: React.ReactNode }) {
                       alt={item.title}
                       width={207}
                       height={139}
-                      className="w-full h-full"
+                      className="hidden md:block w-full h-full"
+                    />
+                    <Image
+                      src={`${IMAGE_URL}/${item.imageMobile}`}
+                      alt={item.title}
+                      width={207}
+                      height={139}
+                      className="block md:hidden w-full h-full"
                     />
                   </Link>
                 </SwiperSlide>

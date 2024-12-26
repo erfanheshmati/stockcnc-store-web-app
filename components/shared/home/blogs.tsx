@@ -122,7 +122,10 @@ export default function Blogs() {
               سی ان سی استوک
             </h2>
           </h2>
-          <Link href="#" className="flex items-center gap-4 hover:underline">
+          <Link
+            href="/blogs"
+            className="flex items-center gap-4 hover:underline"
+          >
             <span className="pt-1">مشاهده همه مطالب</span>
             <span className="flex items-center justify-center bg-secondary">
               <BiChevronLeft size={18} color="white" />

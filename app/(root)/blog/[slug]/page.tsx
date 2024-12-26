@@ -46,7 +46,7 @@ export default async function BlogDetails({
       <DialogInquiry />
 
       {/* Mobile View */}
-      <div className="flex flex-col md:hidden">
+      <div className="flex flex-col md:hidden min-h-screen">
         <Image
           src={`${IMAGE_URL}/${data.image}`}
           alt={data.title}
@@ -76,7 +76,7 @@ export default async function BlogDetails({
       {/* ************************************************************************************************************************ */}
 
       {/* Desktop View */}
-      <div className="hidden md:block">
+      <div className="hidden md:block min-h-screen">
         <BannerThin />
 
         <div className="flex flex-col gap-8 wrapper pt-10 pb-20">
