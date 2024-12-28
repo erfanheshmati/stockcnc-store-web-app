@@ -12,33 +12,37 @@ export default function BlogCard({ data }: { data: Blog }) {
     <>
       {/* Mobile View */}
       <div className="md:hidden w-[242px] shadow-xl rounded-lg">
-        <div className="flex w-full h-[128px] rounded-t-lg">
-          <Image
-            src={`${IMAGE_URL}/${data.image}`}
-            alt={data.title}
-            width={242}
-            height={128}
-            className="rounded-t-lg"
-          />
-        </div>
-        <div className="flex flex-col gap-2 p-4">
-          <div className="flex items-center">
-            <h3 className="text-primary font-semibold text-[14px] line-clamp-2">
-              {data.title}
-            </h3>
-          </div>
-          <div className="flex items-center">
-            <p
-              dangerouslySetInnerHTML={{ __html: data.content }}
-              className="text-[#8291A3] text-[10px] line-clamp-1"
+        <Link href={`/blog/${data._id}`}>
+          <div className="flex w-full h-[128px] rounded-t-lg">
+            <Image
+              src={`${IMAGE_URL}/${data.image}`}
+              alt={data.title}
+              width={242}
+              height={128}
+              className="rounded-t-lg"
             />
           </div>
-          <hr />
-          <div className="flex items-center justify-start gap-2">
-            <span className="text-[#4F5A6B] text-[10px]">{formattedDate}</span>
-            <span className="text-[#4F5A6B] text-[10px]">{data.author}</span>
+          <div className="flex flex-col gap-2 p-4">
+            <div className="flex items-center">
+              <h3 className="text-primary font-semibold text-[14px] line-clamp-2">
+                {data.title}
+              </h3>
+            </div>
+            <div className="flex items-center">
+              <p
+                dangerouslySetInnerHTML={{ __html: data.content }}
+                className="text-[#8291A3] text-[10px] line-clamp-1"
+              />
+            </div>
+            <hr />
+            <div className="flex items-center justify-start gap-2">
+              <span className="text-[#4F5A6B] text-[10px]">
+                {formattedDate}
+              </span>
+              <span className="text-[#4F5A6B] text-[10px]">{data.author}</span>
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
 
       {/* ********************************************************************************************************************** */}

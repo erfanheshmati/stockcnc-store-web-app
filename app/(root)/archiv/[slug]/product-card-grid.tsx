@@ -14,21 +14,21 @@ export default function ProductCardGrid({ data }: { data: Product }) {
       <div className="flex items-center justify-between px-6">
         <span className="relative group cursor-pointer">
           <Image
-            src={`${IMAGE_URL}/${data.country.logo}`}
-            alt={data.country.title}
+            src={`${IMAGE_URL}/${data?.country?.logo}`}
+            alt={data?.country?.title}
             width={22}
             height={22}
           />
           {/* Tooltip */}
           <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 w-max px-2 py-1 text-white bg-[#7888A0] text-[12px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            ساخت کشور {data.country.title}
+            ساخت کشور {data?.country?.title}
             {/* Tooltip Arrow */}
             <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1 h-1 border-l-8 border-r-8 border-t-8 border-t-[#7888A0] border-l-transparent border-r-transparent"></div>
           </div>
         </span>
-        <h3 className="text-secondary/40 font-semibold text-[14px]">
-          {data.brand.enTitle}
-        </h3>
+        <h4 className="text-secondary/40 font-semibold text-[14px]">
+          {data?.brand?.enTitle}
+        </h4>
       </div>
       <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
         <Image
@@ -36,22 +36,23 @@ export default function ProductCardGrid({ data }: { data: Product }) {
           alt={data.title}
           width={207}
           height={139}
+          className="w-full h-[216px]"
         />
       </div>
       <div className="flex items-center px-6">
-        <h2 className="text-primary font-semibold text-[17px] line-clamp-2">
+        <h3 className="text-primary font-semibold text-[17px] line-clamp-2">
           {data.title}
-        </h2>
+        </h3>
       </div>
       <div className="flex items-center justify-between px-6 py-2">
         <span className="text-secondary font-semibold text-[13px]">
-          #{data.options}
+          {data.options}
         </span>
         <span className="text-secondary font-semibold text-[13px]">
-          #سال ساخت{data.yearOfManufacture}
+          سال ساخت{data.yearOfManufacture}
         </span>
         <span className="text-secondary font-semibold text-[13px]">
-          #{data.condition}
+          {data.condition}
         </span>
       </div>
       <div className="flex items-center justify-between px-6 py-2">

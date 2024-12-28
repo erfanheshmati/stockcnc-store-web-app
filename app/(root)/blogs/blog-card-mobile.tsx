@@ -2,12 +2,16 @@ import { IMAGE_URL } from "@/lib/constants";
 import { Blog } from "@/lib/types";
 import moment from "moment-jalaali";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function BlogCardMobile({ blog }: { blog: Blog }) {
   const formattedDate = moment(blog.createdAt).format("jYYYY/jMM/jDD");
 
   return (
-    <div className="flex justify-between border rounded-lg p-2">
+    <Link
+      href={`/blog/${blog._id}`}
+      className="flex justify-between border rounded-lg p-2"
+    >
       <div className="flex gap-4 w-full">
         <Image
           src={`${IMAGE_URL}/${blog.image}`}
@@ -41,6 +45,6 @@ export default function BlogCardMobile({ blog }: { blog: Blog }) {
           </span>
         )}
       </div>
-    </div>
+    </Link>
   );
 }

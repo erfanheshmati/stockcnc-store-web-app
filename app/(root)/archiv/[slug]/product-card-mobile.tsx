@@ -10,47 +10,47 @@ export default function ProductCardMobile({ product }: { product: Product }) {
   return (
     <div className="flex flex-col p-5 gap-4 rounded-2xl shadow-md">
       <div className="flex items-start justify-between">
-        <div className="flex items-center justify-center w-8/12 h-[110px] sm:h-[150px] rounded-xl bg-[#EFF1F6]">
+        <div className="flex items-center justify-center w-8/12 h-[150px] sm:h-[180px] rounded-xl bg-[#EFF1F6]">
           <Image
             src={`${IMAGE_URL}/${product.primaryImage}`}
             alt={product.title}
             width={170}
             height={110}
-            className="w-fit h-[110px] sm:h-[150px] object-cover"
+            className="w-full h-[150px] sm:h-[180px] rounded-xl"
           />
         </div>
         <div className="flex items-center justify-center gap-2">
-          <h3 className="text-secondary/60 font-bold text-[12px] pt-1">
-            {product.brand.enTitle}
-          </h3>
+          <h4 className="text-secondary/60 font-bold text-[12px] pt-1">
+            {product?.brand?.enTitle}
+          </h4>
           <Image
-            src={`${IMAGE_URL}/${product.country.logo}`}
-            alt={product.country.title}
+            src={`${IMAGE_URL}/${product?.country?.logo}`}
+            alt={product?.country?.title}
             width={18}
             height={18}
           />
         </div>
       </div>
       <div className="flex items-center">
-        <h2 className="text-primary font-semibold text-[14px] leading-6">
+        <h3 className="text-primary font-semibold text-[14px] leading-6">
           {product.title}
-        </h2>
+        </h3>
       </div>
       <div className="flex items-center gap-4">
         <hr className="w-full" />
-        <h2 className="text-secondary text-[10px] min-w-fit">
+        <h3 className="text-secondary text-[10px] min-w-fit">
           {product.enTitle}
-        </h2>
+        </h3>
       </div>
       <div className="flex items-center justify-between">
         <span className="text-secondary/90 font-semibold text-[11px]">
-          #{product.options}
+          {product.options}
         </span>
         <span className="text-secondary/90 font-semibold text-[11px]">
-          #سال ساخت {product.yearOfManufacture}
+          سال ساخت {product.yearOfManufacture}
         </span>
         <span className="text-secondary/90 font-semibold text-[11px]">
-          #{product.condition}
+          {product.condition}
         </span>
       </div>
       <div className="flex items-center gap-6">

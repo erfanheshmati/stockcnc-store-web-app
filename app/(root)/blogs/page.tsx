@@ -43,9 +43,9 @@ export default async function BlogsPage() {
         <BannerThin />
         {/* Heading */}
         <div className="absolute w-full flex justify-center top-10">
-          <h1 className="text-primary font-bold text-[20px]">
+          <h2 className="text-primary font-bold text-[20px]">
             {info.archiveBlogTitle}
-          </h1>
+          </h2>
         </div>
         {/* Content */}
         <div className="flex flex-col gap-8 pt-8 wrapper min-h-screen">
@@ -85,9 +85,9 @@ export default async function BlogsPage() {
             {/* Heading */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <h1 className="text-primary font-bold text-[24px]">
+                <h2 className="text-primary font-bold text-[24px]">
                   {info.archiveBlogTitle}
-                </h1>
+                </h2>
               </div>
             </div>
             <ViewGrid blogsData={blogsData} />

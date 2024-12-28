@@ -17,44 +17,44 @@ export default function ProductCardList({ data }: { data: Product }) {
           alt={data.title}
           width={180}
           height={120}
-          className="h-[120px] object-cover"
+          className="w-full h-[200px] rounded-xl"
         />
       </div>
       <div className="flex flex-col items-start justify-between px-2 w-2/3">
-        <h2 className="text-primary font-semibold text-[18px] line-clamp-1">
+        <h3 className="text-primary font-semibold text-[18px] line-clamp-1">
           {data.title}
-        </h2>
-        <h2 className="text-secondary/70 font-medium text-[12px]">
+        </h3>
+        <h3 className="text-secondary/70 font-medium text-[12px]">
           {data.enTitle}
-        </h2>
+        </h3>
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-8">
             <span className="text-secondary font-semibold text-[13px]">
-              #{data.options}
+              {data.options}
             </span>
             <span className="text-secondary font-semibold text-[13px]">
-              #سال ساخت {data.yearOfManufacture}
+              سال ساخت {data.yearOfManufacture}
             </span>
             <span className="text-secondary font-semibold text-[13px]">
-              #{data.condition}
+              {data.condition}
             </span>
           </div>
           <div className="hidden lg:flex items-center gap-3">
             <Image
-              src={`${IMAGE_URL}/${data.country.logo}`}
-              alt={data.country.title}
+              src={`${IMAGE_URL}/${data?.country?.logo}`}
+              alt={data?.country?.title}
               width={22}
               height={22}
             />
             <span className="text-secondary font-semibold text-[13px] pt-0.5">
-              ساخت کشور {data.country.title}
+              ساخت کشور {data?.country?.title}
             </span>
           </div>
         </div>
         <div className="flex items-center justify-between w-full">
-          <h3 className="hidden lg:flex text-secondary/60 font-bold text-[14px] pt-1">
-            {data.brand.enTitle}
-          </h3>
+          <h4 className="hidden lg:flex text-secondary/60 font-bold text-[14px] pt-1">
+            {data?.brand?.enTitle}
+          </h4>
           <div className="flex items-center gap-4">
             <Link
               href={`/product/${data._id}`}

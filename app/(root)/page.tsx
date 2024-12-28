@@ -26,7 +26,7 @@ export default function Home() {
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         if (data.length > 0) {
-          setSelectedBrand(data[0]._id);
+          setSelectedBrand(data[0]._id); // Set first brand as default
         } else throw new Error("خطا در دریافت اطلاعات!");
       } catch (error) {
         console.log((error as Error).message);

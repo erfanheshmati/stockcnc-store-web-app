@@ -47,9 +47,9 @@ export default function RelatedProducts({
       {/* Mobile View */}
       <div className="flex md:hidden flex-col w-full gap-4 my-10">
         <div className="flex items-center justify-between">
-          <h2 className="text-primary font-bold text-[18px] w-full text-center">
+          <h3 className="text-primary font-bold text-[18px] w-full text-center">
             محصولات مرتبط
-          </h2>
+          </h3>
         </div>
         <div
           className="flex gap-4 overflow-x-auto"
@@ -71,7 +71,7 @@ export default function RelatedProducts({
       {/* Desktop View */}
       <div className="hidden md:flex flex-col w-full mb-20">
         <div className="flex items-center justify-between">
-          <h2 className="text-primary font-bold text-[24px]">محصولات مرتبط</h2>
+          <h3 className="text-primary font-bold text-[24px]">محصولات مرتبط</h3>
           <Link
             href="/products"
             className="flex items-center gap-4 hover:underline"

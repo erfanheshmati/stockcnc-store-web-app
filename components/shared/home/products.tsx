@@ -52,7 +52,6 @@ export default function Products({
           const res = await fetch(`${BASE_URL}/brand`);
           if (!res.ok) throw new Error("خطا در دریافت اطلاعات برند!");
           const data = await res.json();
-
           const brand = data.find(
             (brand: { _id: string }) => brand._id === selectedBrand
           );
@@ -65,7 +64,6 @@ export default function Products({
         setBrandName("");
       }
     };
-
     fetchBrandName();
   }, [selectedBrand]);
 

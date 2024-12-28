@@ -35,10 +35,10 @@ export default function Blogs() {
       {/* Mobile View */}
       <div className="md:hidden">
         <div className="flex flex-col items-center gap-1">
-          <h2 className="text-primary flex items-center gap-1">
+          <div className="text-primary flex items-center gap-1">
             <h2 className="font-bold text-[22px]">مجله آموزشی و خبری</h2>
             <h2 className="font-semibold text-[15px]">سی ان سی استوک</h2>
-          </h2>
+          </div>
           <div className="wrapper !px-0 relative pt-4">
             <Swiper
               slidesPerView={1}
@@ -101,9 +101,7 @@ export default function Blogs() {
               {!error &&
                 blogsData.map((data) => (
                   <SwiperSlide key={data._id} className="pb-10 pr-4">
-                    <Link href={`/blog/${data._id}`}>
-                      <BlogCard data={data} />
-                    </Link>
+                    <BlogCard data={data} />
                   </SwiperSlide>
                 ))}
             </Swiper>
@@ -116,12 +114,12 @@ export default function Blogs() {
       {/* Desktop View */}
       <div className="hidden md:flex flex-col md:w-6/12 lg:w-7/12 xl:w-8/12">
         <div className="flex items-center justify-between pr-6 lg:pr-20">
-          <h2 className="text-primary flex items-center gap-1">
+          <div className="text-primary flex items-center gap-1">
             <h2 className="font-bold text-[24px]">مجله آموزشی و خبری</h2>
             <h2 className="font-semibold text-[17px] hidden lg:block">
               سی ان سی استوک
             </h2>
-          </h2>
+          </div>
           <Link
             href="/blogs"
             className="flex items-center gap-4 hover:underline"
