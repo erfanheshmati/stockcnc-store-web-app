@@ -1,36 +1,44 @@
 "use client";
 
 import ProductCardMobile from "./product-card-mobile";
-import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
 
-export default function ViewMobile() {
+export default function ViewMobile({
+  currentPage,
+  totalPages,
+  limit,
+  search,
+  category,
+}: {
+  currentPage: number;
+  totalPages: number;
+  limit: number;
+  search: string;
+  category: string;
+}) {
   const { filteredProducts } = useFiltersLogic();
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 4; // Number of products per page
+  const productsPerPage = 10;
 
-  // Calculate total pages
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-
-  // Get products for current page
   const currentProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
   );
 
-  // Handle page change
   const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    window.history.pushState(
+      null,
+      "",
+      `?page=${page}&limit=${limit}&category=${category}&search=${search}`
+    );
+    window.location.reload();
   };
 
   return (
     <div>
       <div
-        className={`flex flex-col gap-4 pb-4 ${
+        className={`flex flex-col gap-4 pt-4 pb-8 ${
           !currentProducts.length && "pb-8"
         }`}
       >

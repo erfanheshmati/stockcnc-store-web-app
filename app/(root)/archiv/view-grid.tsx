@@ -1,57 +1,75 @@
 "use client";
 
-import { useState } from "react";
-import ProductCardList from "./product-card-list";
+// import { useState } from "react";
 import { useView } from "@/contexts/view-context";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import ProductCardGrid from "./product-card-grid";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
 
-export default function ViewList() {
-  const { viewType } = useView();
+export default function ViewGrid({
+  currentPage,
+  totalPages,
+  limit,
+  search,
+  category,
+  view,
+}: {
+  currentPage: number;
+  totalPages: number;
+  limit: number;
+  search: string;
+  category: string;
+  view: string;
+}) {
+  // const { viewType } = useView();
   const { filteredProducts } = useFiltersLogic();
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6; // Number of products per page
+  const productsPerPage = 10;
 
-  // Calculate total pages
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-
-  // Get products for current page
   const currentProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
   );
 
-  // Handle page change
   const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    window.history.pushState(
+      null,
+      "",
+      `?page=${page}&limit=${limit}&category=${category}&search=${search}&view=${view}`
+    );
+    window.location.reload();
   };
 
   return (
     <>
-      {viewType === "list" && (
+      {view === "grid" && (
         <div
           className={`flex flex-col gap-4 pt-6 ${
             !currentProducts.length && "h-full justify-center items-center"
           }`}
         >
-          {currentProducts.length ? (
-            currentProducts.map((data) => (
-              <ProductCardList key={data._id} data={data} />
-            ))
-          ) : (
-            <div className="text-secondary text-sm">
-              محصولی با این مشخصات وجود ندارد
-            </div>
-          )}
+          <div
+            className={`${
+              currentProducts.length &&
+              "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5"
+            }`}
+          >
+            {currentProducts.length ? (
+              currentProducts.map((data) => (
+                <ProductCardGrid key={data._id} data={data} />
+              ))
+            ) : (
+              <div className="text-secondary text-sm">
+                محصولی با این مشخصات وجود ندارد
+              </div>
+            )}
+          </div>
 
           {/* Pagination */}
           {currentProducts.length > 0 && (
             <>
               <div
-                className="flex justify-center items-center gap-3 mt-6"
+                className="flex items-center justify-center gap-3 mt-6"
                 dir="ltr"
               >
                 <button

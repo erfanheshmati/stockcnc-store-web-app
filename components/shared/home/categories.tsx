@@ -58,7 +58,7 @@ export default function Categories() {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5 mt-8">
         {!error &&
           filteredData.map((data, index) => (
-            <Link href={`/archiv/${data._id}`} key={data._id}>
+            <Link href={`/archiv?category=${data._id}`} key={data._id}>
               <CategoryCard
                 data={data}
                 isLast={index === filteredData.length - 1}

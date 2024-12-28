@@ -1,4 +1,4 @@
-import SortMobile from "@/app/(root)/archiv/[slug]/sort-mobile";
+import SortMobile from "@/app/(root)/archiv/sort-mobile";
 
 interface DialogBoxSortProps {
   isOpen: boolean;

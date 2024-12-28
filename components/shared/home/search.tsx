@@ -58,9 +58,9 @@ export default function Search() {
     if (searchInput.trim()) {
       queryParams.append("search", searchInput.trim());
       if (selectedCategory) {
-        queryParams.append("cat", selectedCategory);
+        queryParams.append("category", selectedCategory);
       }
-      router.push(`/products?${queryParams.toString()}`);
+      router.push(`/archiv?${queryParams.toString()}`);
     }
   };
 

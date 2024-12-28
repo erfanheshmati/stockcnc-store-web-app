@@ -167,7 +167,7 @@ export default function Products({
             محصولات {brandName}
           </h2>
           <Link
-            href="/products"
+            href="/archiv"
             className="flex items-center gap-4 hover:underline"
           >
             <span className="pt-1">مشاهده همه محصولات</span>

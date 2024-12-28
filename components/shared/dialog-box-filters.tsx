@@ -1,4 +1,4 @@
-import FiltersMobile from "@/app/(root)/archiv/[slug]/filters-mobile";
+import FiltersMobile from "@/app/(root)/archiv/filters-mobile";
 
 interface DialogBoxFiltersProps {
   isOpen: boolean;
