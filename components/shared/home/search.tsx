@@ -57,6 +57,7 @@ export default function Search() {
     const queryParams = new URLSearchParams();
     if (searchInput.trim()) {
       queryParams.append("search", searchInput.trim());
+      queryParams.append("q", searchInput.trim());
       if (selectedCategory) {
         queryParams.append("category", selectedCategory);
       }

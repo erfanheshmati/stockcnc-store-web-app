@@ -1,5 +1,5 @@
 import BannerThin from "@/components/shared/banner-thin";
-import Sitemap from "./sitemap";
+import Sitemap from "./site-map";
 import Filters from "./filters";
 import ViewSwitch from "./view-switch";
 import ViewList from "./view-list";
@@ -26,18 +26,19 @@ export async function generateMetadata({
 
   const res1 = await fetch(`${BASE_URL}/category`);
   const res2 = await fetch(`${BASE_URL}/web-text-plans`);
-  const data = await res1.json();
-  const info = await res2.json();
-
-  const category = data.categories.find(
-    (cat: Category) => cat._id === catQuery
-  );
 
   if (!res1.ok || !res2.ok) {
     return {
       title: "خطا در دریافت اطلاعات",
     };
   }
+
+  const categoriesData = await res1.json();
+  const info = await res2.json();
+
+  const category = categoriesData.categories.find(
+    (cat: Category) => cat._id === catQuery
+  );
 
   return {
     title: `${category?.seoTitle || info.archiveProductSeoTitle} - ${
@@ -69,17 +70,17 @@ export default async function ArchivePage({
   const res1 = await fetch(`${BASE_URL}/web-text-plans`);
   const res2 = await fetch(`${BASE_URL}/category`);
   const res3 = await fetch(
-    `${BASE_URL}/product?page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}`,
+    `${BASE_URL}/product?page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}&q=${searchQuery}`,
     { method: "POST" }
   );
 
   const info = await res1.json();
-  const catData = await res2.json();
+  const categoriesData = await res2.json();
   const productsData = await res3.json();
 
   if (!productsData) return notFound();
 
-  const category = catData?.categories.find(
+  const category = categoriesData?.categories.find(
     (cat: Category) => cat._id === categoryQuery
   );
 
