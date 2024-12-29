@@ -23,15 +23,30 @@ export async function generateMetadata() {
   };
 }
 
-export default async function BlogsPage() {
+export default async function BlogsPage({
+  searchParams,
+}: {
+  searchParams: {
+    page?: string;
+    limit?: string;
+  };
+}) {
+  const pageQuery = parseInt(searchParams?.page || "1", 10);
+  const limitQuery = parseInt(searchParams?.limit || "10", 10);
+
   const res1 = await fetch(`${BASE_URL}/web-text-plans`);
-  const res2 = await fetch(`${BASE_URL}/blog`);
+  const res2 = await fetch(
+    `${BASE_URL}/blog?page=${pageQuery}&limit=${limitQuery}`
+  );
 
   if (!res1.ok || !res2.ok) throw new Error("خطا در دریافت اطلاعات!");
 
   const info = await res1.json();
   const data = await res2.json();
+
   const blogsData = data.docs;
+  const totalDocs = data.totalDocs;
+  const totalPages = data.totalPages;
 
   return (
     <>
@@ -49,7 +64,13 @@ export default async function BlogsPage() {
         </div>
         {/* Content */}
         <div className="flex flex-col gap-8 pt-8 wrapper min-h-screen">
-          <ViewMobile blogsData={blogsData} />
+          <ViewMobile
+            blogsData={blogsData}
+            currentPage={pageQuery}
+            totalPages={totalPages}
+            totalDocs={totalDocs}
+            limit={limitQuery}
+          />
         </div>
       </div>
 
@@ -90,7 +111,13 @@ export default async function BlogsPage() {
                 </h2>
               </div>
             </div>
-            <ViewGrid blogsData={blogsData} />
+            <ViewGrid
+              blogsData={blogsData}
+              currentPage={pageQuery}
+              totalPages={totalPages}
+              totalDocs={totalDocs}
+              limit={limitQuery}
+            />
           </div>
         </div>
       </div>

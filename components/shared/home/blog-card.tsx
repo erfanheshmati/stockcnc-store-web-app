@@ -4,9 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { BiLinkExternal } from "react-icons/bi";
 import moment from "moment-jalaali";
+import parse from "html-react-parser";
+import DOMPurify from "dompurify";
 
 export default function BlogCard({ data }: { data: Blog }) {
   const formattedDate = moment(data.createdAt).format("jYYYY/jMM/jDD");
+
+  const sanitizedContent =
+    typeof window !== "undefined"
+      ? DOMPurify.sanitize(data.content)
+      : data.content;
 
   return (
     <>
@@ -29,10 +36,9 @@ export default function BlogCard({ data }: { data: Blog }) {
               </h3>
             </div>
             <div className="flex items-center">
-              <p
-                dangerouslySetInnerHTML={{ __html: data.content }}
-                className="text-[#8291A3] text-[10px] line-clamp-1"
-              />
+              <div className="text-[#8291A3] text-[10px] line-clamp-1">
+                {parse(sanitizedContent)}
+              </div>
             </div>
             <hr />
             <div className="flex items-center justify-start gap-2">
@@ -79,13 +85,9 @@ export default function BlogCard({ data }: { data: Blog }) {
           </span>
         </div>
         <div className="flex items-center">
-          {/* <span className="text-[#8291A3] text-[12px] line-clamp-3">
-            {data.content}
-          </span> */}
-          <span
-            dangerouslySetInnerHTML={{ __html: data.content }}
-            className="text-[#8291A3] text-[12px] line-clamp-2 text-justify"
-          />
+          <div className="text-[#8291A3] text-[12px] line-clamp-2 text-justify">
+            {parse(sanitizedContent)}
+          </div>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-1">

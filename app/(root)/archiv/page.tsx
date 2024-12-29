@@ -80,6 +80,9 @@ export default async function ArchivePage({
 
   if (!productsData) return notFound();
 
+  const totalDocs = productsData.totalDocs;
+  const totalPages = productsData.totalPages;
+
   const category = categoriesData?.categories.find(
     (cat: Category) => cat._id === categoryQuery
   );
@@ -132,7 +135,7 @@ export default async function ArchivePage({
               </h1>
             </div>
             {/* Content */}
-            <div className="flex flex-col justify-between pt-8 wrapper min-h-screen">
+            <div className="flex flex-col pt-8 wrapper min-h-screen">
               {/* Buttons */}
               <ButtonsMobile />
               {/* Product View */}
@@ -142,8 +145,9 @@ export default async function ArchivePage({
                 </div>
               ) : (
                 <ViewMobile
-                  currentPage={parseInt(searchParams.page || "1")}
-                  totalPages={Math.ceil(productsList.length / 10)}
+                  currentPage={pageQuery}
+                  totalPages={totalPages}
+                  totalDocs={totalDocs}
                   limit={limitQuery}
                   search={searchQuery}
                   category={categoryQuery}
@@ -194,7 +198,7 @@ export default async function ArchivePage({
                   </div>
                   <SortSwitch />
                   <ViewSwitch
-                    currentPage={parseInt(searchParams.page || "1")}
+                    currentPage={pageQuery}
                     limit={limitQuery}
                     search={searchQuery}
                     category={categoryQuery}
@@ -211,8 +215,9 @@ export default async function ArchivePage({
                     <>
                       {/* List */}
                       <ViewList
-                        currentPage={parseInt(searchParams.page || "1")}
-                        totalPages={Math.ceil(productsList.length / 10)}
+                        currentPage={pageQuery}
+                        totalPages={totalPages}
+                        totalDocs={totalDocs}
                         limit={limitQuery}
                         search={searchQuery}
                         category={categoryQuery}
@@ -220,8 +225,9 @@ export default async function ArchivePage({
                       />
                       {/* Grid */}
                       <ViewGrid
-                        currentPage={parseInt(searchParams.page || "1")}
-                        totalPages={Math.ceil(productsList.length / 10)}
+                        currentPage={pageQuery}
+                        totalPages={totalPages}
+                        totalDocs={totalDocs}
                         limit={limitQuery}
                         search={searchQuery}
                         category={categoryQuery}

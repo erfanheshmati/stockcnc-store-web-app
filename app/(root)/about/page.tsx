@@ -6,6 +6,8 @@ import { PiTelegramLogo } from "react-icons/pi";
 import { SlSocialInstagram, SlSocialTwitter } from "react-icons/sl";
 import DialogInquiry from "../dialog-inquiry";
 import { AboutUsMember } from "@/lib/types";
+import parse from "html-react-parser";
+import DOMPurify from "dompurify";
 
 export async function generateMetadata() {
   const res = await fetch(`${BASE_URL}/web-text-plans`);
@@ -27,6 +29,11 @@ export default async function AboutPage() {
   const aboutUsTitle = data.aboutUsTitle;
   const aboutUsHtmlContent = data.aboutUsHtmlContent;
   const aboutUsMembers = data.aboutUsMembers;
+
+  const sanitizedContent =
+    typeof window !== "undefined"
+      ? DOMPurify.sanitize(aboutUsHtmlContent)
+      : aboutUsHtmlContent;
 
   return (
     <>
@@ -78,7 +85,7 @@ export default async function AboutPage() {
             {aboutUsTitle}
           </h1>
 
-          <div dangerouslySetInnerHTML={{ __html: aboutUsHtmlContent }} />
+          <div>{parse(sanitizedContent)}</div>
 
           {/* Section 1 */}
           {/* <h3 className="text-primary font-bold text-[16px] border-t border-b w-full text-center py-4">
@@ -267,7 +274,7 @@ export default async function AboutPage() {
             {aboutUsTitle}
           </h1>
 
-          <div dangerouslySetInnerHTML={{ __html: aboutUsHtmlContent }} />
+          <div>{parse(sanitizedContent)}</div>
 
           {/* Section 1 */}
           {/* <div className="flex items-center gap-6 w-full">

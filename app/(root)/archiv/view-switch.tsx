@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { MdViewList, MdViewModule } from "react-icons/md";
 
 export default function ViewSwitch({
@@ -15,13 +16,16 @@ export default function ViewSwitch({
   category: string;
   view: string;
 }) {
+  const router = useRouter();
+
   const handleViewChange = (viewType: string = view) => {
-    window.history.pushState(
-      null,
-      "",
-      `?page=${currentPage}&limit=${limit}&category=${category}&search=${search}&view=${viewType}`
-    );
-    window.location.reload();
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("page", currentPage.toString());
+    searchParams.set("limit", limit.toString());
+    searchParams.set("category", category.toString());
+    searchParams.set("search", search.toString());
+    searchParams.set("view", viewType.toString());
+    router.push(`?${searchParams.toString()}`);
   };
 
   return (

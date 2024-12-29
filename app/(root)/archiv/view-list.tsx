@@ -1,13 +1,14 @@
 "use client";
 
 import ProductCardList from "./product-card-list";
-// import { useView } from "@/contexts/view-context";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
+import { useRouter } from "next/navigation";
 
 export default function ViewList({
   currentPage,
   totalPages,
+  totalDocs,
   limit,
   search,
   category,
@@ -15,28 +16,23 @@ export default function ViewList({
 }: {
   currentPage: number;
   totalPages: number;
+  totalDocs: number;
   limit: number;
   search: string;
   category: string;
   view: string;
 }) {
-  // const { viewType } = useView();
   const { filteredProducts } = useFiltersLogic();
-
-  const productsPerPage = 10;
-
-  const currentProducts = filteredProducts.slice(
-    (currentPage - 1) * productsPerPage,
-    currentPage * productsPerPage
-  );
+  const router = useRouter();
 
   const handlePageChange = (page: number) => {
-    window.history.pushState(
-      null,
-      "",
-      `?page=${page}&limit=${limit}&category=${category}&search=${search}&view=${view}`
-    );
-    window.location.reload();
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("page", page.toString());
+    searchParams.set("limit", limit.toString());
+    searchParams.set("category", category.toString());
+    searchParams.set("search", search.toString());
+    searchParams.set("view", view.toString());
+    router.push(`?${searchParams.toString()}`);
   };
 
   return (
@@ -44,11 +40,11 @@ export default function ViewList({
       {view === "list" && (
         <div
           className={`flex flex-col gap-4 pt-6 ${
-            !currentProducts.length && "h-full justify-center items-center"
+            !filteredProducts.length && "h-full justify-center items-center"
           }`}
         >
-          {currentProducts.length ? (
-            currentProducts.map((data) => (
+          {filteredProducts.length ? (
+            filteredProducts.map((data) => (
               <ProductCardList key={data._id} data={data} />
             ))
           ) : (
@@ -58,7 +54,7 @@ export default function ViewList({
           )}
 
           {/* Pagination */}
-          {currentProducts.length > 0 && (
+          {filteredProducts.length > 0 && (
             <>
               <div
                 className="flex justify-center items-center gap-3 mt-6"
@@ -101,12 +97,8 @@ export default function ViewList({
                 </button>
               </div>
               <div className="flex items-center justify-center text-secondary text-sm">
-                نمایش {productsPerPage * (currentPage - 1) + 1} تا{" "}
-                {Math.min(
-                  productsPerPage * currentPage,
-                  filteredProducts.length
-                )}{" "}
-                از {filteredProducts.length} مورد
+                نمایش {limit * (currentPage - 1) + 1} تا{" "}
+                {Math.min(limit * currentPage, totalDocs)} از {totalDocs} مورد
               </div>
             </>
           )}

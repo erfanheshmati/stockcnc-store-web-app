@@ -3,35 +3,35 @@
 import { Blog } from "@/lib/types";
 import BlogCardMobile from "./blog-card-mobile";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function ViewMobile({ blogsData }: { blogsData: Blog[] }) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const blogsPerPage = 8; // Number of blogs per page
+export default function ViewMobile({
+  blogsData,
+  currentPage,
+  totalPages,
+  totalDocs,
+  limit,
+}: {
+  blogsData: Blog[];
+  currentPage: number;
+  totalPages: number;
+  totalDocs: number;
+  limit: number;
+}) {
+  const router = useRouter();
 
-  // Calculate total pages
-  const totalPages = Math.ceil(blogsData.length / blogsPerPage);
-
-  // Get blogs for current page
-  const currentBlogs = blogsData.slice(
-    (currentPage - 1) * blogsPerPage,
-    currentPage * blogsPerPage
-  );
-
-  // Handle page change
   const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("page", page.toString());
+    searchParams.set("limit", limit.toString());
+    router.push(`?${searchParams.toString()}`);
   };
 
   return (
     <div className="pb-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {currentBlogs.length ? (
-          currentBlogs.map((blog) => (
-            <BlogCardMobile key={blog._id} blog={blog} />
-          ))
+        {blogsData.length ? (
+          blogsData.map((blog) => <BlogCardMobile blog={blog} key={blog._id} />)
         ) : (
           <div className="text-secondary text-sm text-center">
             مطلبی برای نمایش وجود ندارد
@@ -40,7 +40,7 @@ export default function ViewMobile({ blogsData }: { blogsData: Blog[] }) {
       </div>
 
       {/* Pagination */}
-      {currentBlogs.length > 0 && (
+      {blogsData.length > 0 && (
         <div className="flex flex-col gap-2">
           <div
             className="flex items-center justify-center gap-3 mt-8"
@@ -83,9 +83,8 @@ export default function ViewMobile({ blogsData }: { blogsData: Blog[] }) {
             </button>
           </div>
           <div className="flex items-center justify-center text-secondary text-sm">
-            نمایش {blogsPerPage * (currentPage - 1) + 1} تا{" "}
-            {Math.min(blogsPerPage * currentPage, blogsData.length)} از{" "}
-            {blogsData.length} مورد
+            نمایش {limit * (currentPage - 1) + 1} تا{" "}
+            {Math.min(limit * currentPage, totalDocs)} از {totalDocs} مورد
           </div>
         </div>
       )}

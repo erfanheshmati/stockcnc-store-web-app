@@ -2,37 +2,36 @@
 
 import BlogCard from "@/components/shared/home/blog-card";
 import { Blog } from "@/lib/types";
-import { Divide } from "lucide-react";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-export default function ViewGrid({ blogsData }: { blogsData: Blog[] }) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const blogsPerPage = 9; // Number of blogs per page
+export default function ViewGrid({
+  blogsData,
+  currentPage,
+  totalPages,
+  totalDocs,
+  limit,
+}: {
+  blogsData: Blog[];
+  currentPage: number;
+  totalPages: number;
+  totalDocs: number;
+  limit: number;
+}) {
+  const router = useRouter();
 
-  // Calculate total pages
-  const totalPages = Math.ceil(blogsData.length / blogsPerPage);
-
-  // Get blogs for current page
-  const currentBlogs = blogsData.slice(
-    (currentPage - 1) * blogsPerPage,
-    currentPage * blogsPerPage
-  );
-
-  // Handle page change
   const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("page", page.toString());
+    searchParams.set("limit", limit.toString());
+    router.push(`?${searchParams.toString()}`);
   };
 
   return (
     <div className="flex flex-col gap-8 pt-8">
       <div className="grid grid-cols-3 gap-x-5 gap-y-10">
-        {currentBlogs.length ? (
-          currentBlogs.map((blog: Blog) => (
-            <BlogCard key={blog._id} data={blog} />
-          ))
+        {blogsData.length ? (
+          blogsData.map((blog: Blog) => <BlogCard key={blog._id} data={blog} />)
         ) : (
           <div className="text-secondary text-sm">
             مطلبی برای نمایش وجود ندارد
@@ -41,7 +40,7 @@ export default function ViewGrid({ blogsData }: { blogsData: Blog[] }) {
       </div>
 
       {/* Pagination */}
-      {currentBlogs.length > 0 && (
+      {blogsData.length > 0 && (
         <div className="flex flex-col gap-2 mx-auto">
           <div
             className="flex items-center justify-center gap-3 mt-6"
@@ -84,9 +83,8 @@ export default function ViewGrid({ blogsData }: { blogsData: Blog[] }) {
             </button>
           </div>
           <div className="flex items-center justify-center text-secondary text-sm">
-            نمایش {blogsPerPage * (currentPage - 1) + 1} تا{" "}
-            {Math.min(blogsPerPage * currentPage, blogsData.length)} از{" "}
-            {blogsData.length} مورد
+            نمایش {limit * (currentPage - 1) + 1} تا{" "}
+            {Math.min(limit * currentPage, totalDocs)} از {totalDocs} مورد
           </div>
         </div>
       )}
