@@ -2,7 +2,7 @@ import BannerThin from "@/components/shared/banner-thin";
 import React from "react";
 import ProductImages from "./product-images";
 import ShareButton from "./share-button";
-import Sitemap from "./sitemap";
+import Sitemap from "./site-map";
 import ProductInfo from "./product-info";
 import ProductIntroduce from "./product-introduce";
 import { AccordionProvider } from "@/contexts/accordion-context";

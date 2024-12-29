@@ -1,6 +1,5 @@
 import { IMAGE_URL } from "@/lib/constants";
 import { Blog } from "@/lib/types";
-import Image from "next/image";
 import Link from "next/link";
 import moment from "moment-jalaali";
 import parse from "html-react-parser";
@@ -17,7 +16,7 @@ export default function BlogCardMobile({ blog }: { blog: Blog }) {
   return (
     <div className="flex justify-between border rounded-lg p-2">
       <Link href={`/blog/${blog._id}`} className="flex gap-4 w-full">
-        <Image
+        <img
           src={`${IMAGE_URL}/${blog.image}`}
           alt={blog.title}
           width={120}

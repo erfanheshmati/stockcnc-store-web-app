@@ -1,7 +1,6 @@
 import { useDialog } from "@/contexts/dialog-context";
 import { IMAGE_URL } from "@/lib/constants";
 import { Product } from "@/lib/types";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function ProductCardMobile({ product }: { product: Product }) {
@@ -11,7 +10,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
     <div className="flex flex-col p-5 m-1 gap-2 rounded-xl shadow-md min-w-[97%] sm:min-w-[70%]">
       <div className="flex items-start justify-between">
         <div className="flex items-center justify-center w-8/12 h-[110px] sm:h-[150px] rounded-xl bg-[#EFF1F6]">
-          <Image
+          <img
             src={`${IMAGE_URL}/${product.primaryImage}`}
             alt={product.title}
             width={170}
@@ -23,7 +22,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           <span className="text-secondary/60 font-bold text-[12px] pt-1">
             {product.brand.enTitle}
           </span>
-          <Image
+          <img
             src={`${IMAGE_URL}/${product.country.logo}`}
             alt={product.country.title}
             width={18}

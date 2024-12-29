@@ -7,7 +7,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import Image from "next/image";
 import { BiArrowFromLeft, BiArrowFromRight } from "react-icons/bi";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -81,18 +80,14 @@ export default function Banner({ children }: { children: React.ReactNode }) {
               bannersData.map((item) => (
                 <SwiperSlide key={item._id}>
                   <Link href={item.url} className="relative">
-                    <Image
+                    <img
                       src={`${IMAGE_URL}/${item.imageWeb}`}
                       alt={item.title}
-                      width={207}
-                      height={139}
                       className="hidden md:block w-full h-full"
                     />
-                    <Image
+                    <img
                       src={`${IMAGE_URL}/${item.imageMobile}`}
                       alt={item.title}
-                      width={207}
-                      height={139}
                       className="block md:hidden w-full h-full"
                     />
                   </Link>

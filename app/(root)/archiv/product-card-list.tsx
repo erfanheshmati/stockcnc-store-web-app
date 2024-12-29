@@ -12,7 +12,7 @@ export default function ProductCardList({ data }: { data: Product }) {
   return (
     <div className="flex p-5 gap-6 rounded-xl shadow-lg">
       <div className="flex items-center justify-center w-1/3 h-[200px] rounded-xl bg-[#EFF1F6]">
-        <Image
+        <img
           src={`${IMAGE_URL}/${data.primaryImage}`}
           alt={data.title}
           width={180}
@@ -40,7 +40,7 @@ export default function ProductCardList({ data }: { data: Product }) {
             </span>
           </div>
           <div className="hidden lg:flex items-center gap-3">
-            <Image
+            <img
               src={`${IMAGE_URL}/${data?.country?.logo}`}
               alt={data?.country?.title}
               width={22}

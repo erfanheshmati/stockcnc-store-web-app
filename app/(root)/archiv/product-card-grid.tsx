@@ -13,7 +13,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
     <div className="flex flex-col justify-between py-4 rounded-2xl shadow-lg h-[490px]">
       <div className="flex items-center justify-between px-6">
         <span className="relative group cursor-pointer">
-          <Image
+          <img
             src={`${IMAGE_URL}/${data?.country?.logo}`}
             alt={data?.country?.title}
             width={22}
@@ -31,7 +31,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
         </h4>
       </div>
       <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
-        <Image
+        <img
           src={`${IMAGE_URL}/${data.primaryImage}`}
           alt={data.title}
           width={207}

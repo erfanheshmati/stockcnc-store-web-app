@@ -1,6 +1,5 @@
 import { IMAGE_URL } from "@/lib/constants";
 import { Blog } from "@/lib/types";
-import Image from "next/image";
 import Link from "next/link";
 import { BiLinkExternal } from "react-icons/bi";
 import moment from "moment-jalaali";
@@ -21,12 +20,10 @@ export default function BlogCard({ data }: { data: Blog }) {
       <div className="md:hidden w-[242px] shadow-xl rounded-lg">
         <Link href={`/blog/${data._id}`}>
           <div className="flex w-full h-[128px] rounded-t-lg">
-            <Image
+            <img
               src={`${IMAGE_URL}/${data.image}`}
               alt={data.title}
-              width={242}
-              height={128}
-              className="rounded-t-lg"
+              className="rounded-t-lg w-full h-full"
             />
           </div>
           <div className="flex flex-col gap-2 p-4">
@@ -70,12 +67,10 @@ export default function BlogCard({ data }: { data: Blog }) {
                 className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               />
             </div>
-            <Image
+            <img
               src={`${IMAGE_URL}/${data.image}`}
               alt={data.title}
-              width={345}
-              height={223}
-              className="rounded-lg h-[230px]"
+              className="rounded-lg w-full h-[230px]"
             />
           </Link>
         </div>

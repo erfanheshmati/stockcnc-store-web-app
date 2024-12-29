@@ -1,6 +1,5 @@
 import { IMAGE_URL } from "@/lib/constants";
 import { Category } from "@/lib/types";
-import Image from "next/image";
 import { BiArrowFromRight } from "react-icons/bi";
 
 export default function CategoryCard({
@@ -19,11 +18,10 @@ export default function CategoryCard({
         }`}
       >
         <div className="flex items-center justify-center h-[110px]">
-          <Image
+          <img
             src={`${IMAGE_URL}/${data.image}`}
             alt={data.title}
-            width={80}
-            height={80}
+            className="w-[90px] h-[80px]"
           />
         </div>
         <div className="flex flex-col items-center text-primary font-bold">
@@ -44,11 +42,10 @@ export default function CategoryCard({
           {/* <span dangerouslySetInnerHTML={{ __html: data.badge }} /> */}
         </div>
         <div className="flex items-center justify-center h-[180px]">
-          <Image
+          <img
             src={`${IMAGE_URL}/${data.image}`}
             alt={data.title}
-            width={130}
-            height={130}
+            className="w-[140px] h-[130px]"
           />
         </div>
         <div className="flex items-center gap-1 text-primary font-bold">

@@ -1,6 +1,5 @@
 import { IMAGE_URL } from "@/lib/constants";
 import { Blog } from "@/lib/types";
-import Image from "next/image";
 import Link from "next/link";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
@@ -18,12 +17,10 @@ export default function HelpCard({ data }: { data: Blog }) {
         className="md:hidden flex items-center gap-4 my-2"
         href={`/blog/${data._id}`}
       >
-        <Image
+        <img
           src={`${IMAGE_URL}/${data.image}`}
           alt={data.title}
-          width={95}
-          height={85}
-          className="w-[70px] h-[60px] rounded-md"
+          className="w-[75px] h-[65px] rounded-md"
         />
         <div className="flex flex-col gap-2">
           <h3 className="text-primary font-semibold text-[13px] line-clamp-1">
@@ -42,11 +39,9 @@ export default function HelpCard({ data }: { data: Blog }) {
         href={`/blog/${data._id}`}
         className="hidden md:flex items-center gap-4 hover:opacity-80 transition-all duration-300 ease-in-out"
       >
-        <Image
+        <img
           src={`${IMAGE_URL}/${data.image}`}
           alt={data.title}
-          width={95}
-          height={85}
           className="min-w-[70px] max-w-[70px] h-[60px] rounded-md"
         />
         <div className="flex flex-col gap-2">

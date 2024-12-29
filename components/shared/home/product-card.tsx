@@ -3,7 +3,6 @@
 import { useDialog } from "@/contexts/dialog-context";
 import { IMAGE_URL } from "@/lib/constants";
 import { Product } from "@/lib/types";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function ProductCard({ data }: { data: Product }) {
@@ -18,20 +17,17 @@ export default function ProductCard({ data }: { data: Product }) {
             {data?.brand?.enTitle}
           </h3>
           <span className="relative group cursor-pointer">
-            <Image
+            <img
               src={`${IMAGE_URL}/${data?.country?.logo}`}
               alt={data?.country?.title}
-              width={18}
-              height={18}
+              className="w-[18px] h-[18px]"
             />
           </span>
         </div>
         <div className="flex items-center justify-center w-full h-[110px] rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
-          <Image
+          <img
             src={`${IMAGE_URL}/${data.primaryImage}`}
             alt={data.title}
-            width={127}
-            height={68}
             className="w-full h-[110px] rounded-xl"
           />
         </div>
@@ -84,11 +80,10 @@ export default function ProductCard({ data }: { data: Product }) {
       >
         <div className="flex items-center justify-between px-6">
           <span className="relative group cursor-pointer">
-            <Image
+            <img
               src={`${IMAGE_URL}/${data?.country?.logo}`}
               alt={data?.country?.title}
-              width={22}
-              height={22}
+              className="w-[22px] h-[22px]"
             />
             {/* Tooltip */}
             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 w-max px-2 py-1 text-white bg-[#7888A0] text-[12px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -102,11 +97,9 @@ export default function ProductCard({ data }: { data: Product }) {
           </h3>
         </div>
         <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
-          <Image
+          <img
             src={`${IMAGE_URL}/${data.primaryImage}`}
             alt={data.title}
-            width={207}
-            height={139}
             className="w-full h-[216px]"
           />
         </div>

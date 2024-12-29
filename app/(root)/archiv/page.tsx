@@ -52,14 +52,16 @@ export default async function ArchivePage({
   searchParams,
 }: {
   searchParams: {
-    search?: string;
+    // search?: string;
+    q?: string;
     category?: string;
     page?: string;
     limit?: string;
     view?: string;
   };
 }) {
-  const searchQuery = searchParams?.search || "";
+  // const searchQuery = searchParams?.search || "";
+  const searchQuery = searchParams?.q || "";
   const categoryQuery = searchParams?.category || "";
   const pageQuery = parseInt(searchParams?.page || "1", 10);
   const limitQuery = parseInt(searchParams?.limit || "10", 10);

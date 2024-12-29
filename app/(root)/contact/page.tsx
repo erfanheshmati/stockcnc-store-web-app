@@ -1,6 +1,5 @@
 import BannerThin from "@/components/shared/banner-thin";
 import { BASE_URL } from "@/lib/constants";
-import Image from "next/image";
 import Link from "next/link";
 import { BiPhoneCall } from "react-icons/bi";
 import { PiMapPinFill } from "react-icons/pi";
@@ -282,11 +281,10 @@ export default async function ContactPage() {
                   <span className="text-primary font-bold text-[12px]">
                     مشاهده در نشان
                   </span>
-                  <Image
+                  <img
                     src="/icons/neshan.png"
                     alt="Neshan Logo"
-                    width={20}
-                    height={20}
+                    className="w-[20px] h-[20px]"
                   />
                 </Link>
               </div>
@@ -301,11 +299,12 @@ export default async function ContactPage() {
                 target="_blank"
                 className="flex items-center justify-center relative"
               >
-                <Image
+                <img
                   src="/images/map.png"
                   alt="Map Image"
                   width={754}
                   height={193}
+                  className=" h-full w-full"
                 />
                 <PiMapPinFill
                   color="white"
@@ -317,12 +316,10 @@ export default async function ContactPage() {
         </div>
         {/* Page Layer Bottom-Left */}
         <div className="relative hidden xl:flex -z-10">
-          <Image
+          <img
             src="/images/circle-left.png"
             alt="Page Layer"
-            width={220}
-            height={220}
-            className="absolute left-0 bottom-40"
+            className="absolute left-0 bottom-40 w-[220px] h-[220px]"
           />
         </div>
       </div>
@@ -373,12 +370,10 @@ export default async function ContactPage() {
         </div>
         {/* Page Layer Top-Right */}
         <div className="relative hidden xl:flex -z-10">
-          <Image
+          <img
             src="/images/circle-right.png"
             alt="Page Layer"
-            width={220}
-            height={220}
-            className="absolute right-0 top-40"
+            className="absolute right-0 top-40 w-[220px] h-[220px]"
           />
         </div>
         {/* Page Content */}
@@ -439,11 +434,10 @@ export default async function ContactPage() {
                   target="_blank"
                   className="flex items-center gap-1 hover:underline"
                 >
-                  <Image
+                  <img
                     src="/icons/neshan.png"
                     alt="Neshan Logo"
-                    width={24}
-                    height={24}
+                    className="w-[22px] h-[22px]"
                   />
                   <span className="text-primary font-bold text-[12px]">
                     مشاهده در نشان
@@ -456,12 +450,10 @@ export default async function ContactPage() {
                 target="_blank"
                 className="flex items-center justify-center mt-6 relative"
               >
-                <Image
+                <img
                   src="/images/map.png"
                   alt="Map Image"
-                  width={754}
-                  height={193}
-                  className="h-[194px]"
+                  className="w-full h-[194px]"
                 />
                 <PiMapPinFill
                   color="white"
@@ -653,12 +645,10 @@ export default async function ContactPage() {
         </div>
         {/* Page Layer Bottom-Left */}
         <div className="relative hidden xl:flex -z-10">
-          <Image
+          <img
             src="/images/circle-left.png"
             alt="Page Layer"
-            width={220}
-            height={220}
-            className="absolute left-0 bottom-40"
+            className="absolute left-0 bottom-40 w-[220px] h-[220px]"
           />
         </div>
       </div>

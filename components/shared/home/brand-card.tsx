@@ -1,6 +1,5 @@
 import { IMAGE_URL } from "@/lib/constants";
 import { Brand } from "@/lib/types";
-import Image from "next/image";
 
 export default function BrandCard({ data }: { data: Brand }) {
   return (
@@ -10,11 +9,10 @@ export default function BrandCard({ data }: { data: Brand }) {
         <span className="text-[#A1AEBB] text-[12px]">{data.summary}</span>
       </div>
       <div>
-        <Image
+        <img
           src={`${IMAGE_URL}/${data.logo}`}
           alt={data.title}
-          width={85}
-          height={15}
+          className="w-[85px] h-full"
         />
       </div>
     </div>

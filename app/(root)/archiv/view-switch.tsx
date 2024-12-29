@@ -23,7 +23,7 @@ export default function ViewSwitch({
     searchParams.set("page", currentPage.toString());
     searchParams.set("limit", limit.toString());
     searchParams.set("category", category.toString());
-    searchParams.set("search", search.toString());
+    searchParams.set("q", search.toString());
     searchParams.set("view", viewType.toString());
     router.push(`?${searchParams.toString()}`);
   };

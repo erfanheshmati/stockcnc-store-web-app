@@ -3,7 +3,6 @@ import React from "react";
 import DialogInquiry from "../../dialog-inquiry";
 import { BASE_URL, IMAGE_URL } from "@/lib/constants";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import moment from "moment-jalaali";
 
 export async function generateMetadata({
@@ -47,7 +46,7 @@ export default async function BlogDetails({
 
       {/* Mobile View */}
       <div className="flex flex-col md:hidden min-h-screen">
-        <Image
+        <img
           src={`${IMAGE_URL}/${data.image}`}
           alt={data.title}
           width={800}
@@ -80,7 +79,7 @@ export default async function BlogDetails({
         <BannerThin />
 
         <div className="flex flex-col gap-8 wrapper pt-10 pb-20">
-          <Image
+          <img
             src={`${IMAGE_URL}/${data.image}`}
             alt={data.title}
             width={800}

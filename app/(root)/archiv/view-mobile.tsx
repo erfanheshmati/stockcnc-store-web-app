@@ -28,7 +28,7 @@ export default function ViewMobile({
     searchParams.set("page", page.toString());
     searchParams.set("limit", limit.toString());
     searchParams.set("category", category.toString());
-    searchParams.set("search", search.toString());
+    searchParams.set("q", search.toString());
     router.push(`?${searchParams.toString()}`);
   };
 

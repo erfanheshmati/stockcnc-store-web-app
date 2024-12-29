@@ -6,18 +6,17 @@ import { BiMenu } from "react-icons/bi";
 import { useDialog } from "@/contexts/dialog-context";
 import Logo1 from "../logo-1";
 import { BASE_URL } from "@/lib/constants";
-import { HeaderMenu, Product } from "@/lib/types";
+import { HeaderMenu } from "@/lib/types";
 
 export default function Menu() {
+  const { openDialog } = useDialog();
+
   const [menusData, setMenusData] = useState<HeaderMenu[]>([]);
-  const [productsData, setProductsData] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen);
-
-  const { openDialog } = useDialog();
 
   useEffect(() => {
     const fetchMenusData = async () => {
@@ -31,20 +30,6 @@ export default function Menu() {
       }
     };
     fetchMenusData();
-  }, []);
-
-  useEffect(() => {
-    const fetchProductsData = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/product`, { method: "POST" });
-        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
-        const data = await res.json();
-        setProductsData(data.docs);
-      } catch (error) {
-        setError((error as Error).message);
-      }
-    };
-    fetchProductsData();
   }, []);
 
   return (

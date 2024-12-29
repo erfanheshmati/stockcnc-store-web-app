@@ -30,7 +30,7 @@ export default function ViewList({
     searchParams.set("page", page.toString());
     searchParams.set("limit", limit.toString());
     searchParams.set("category", category.toString());
-    searchParams.set("search", search.toString());
+    searchParams.set("q", search.toString());
     searchParams.set("view", view.toString());
     router.push(`?${searchParams.toString()}`);
   };

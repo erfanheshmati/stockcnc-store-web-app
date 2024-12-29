@@ -1,6 +1,5 @@
 import BannerThin from "@/components/shared/banner-thin";
 import { BASE_URL, IMAGE_URL } from "@/lib/constants";
-import Image from "next/image";
 import Link from "next/link";
 import { PiTelegramLogo } from "react-icons/pi";
 import { SlSocialInstagram, SlSocialTwitter } from "react-icons/sl";
@@ -161,11 +160,10 @@ export default async function AboutPage() {
                 style={{ boxShadow: "34px -4px 79px -18px rgba(0,0,0,0.1)" }}
               >
                 <div className="relative">
-                  <Image
+                  <img
                     src={`${IMAGE_URL}/${member.avatar}`}
                     alt={member.name}
-                    width={55}
-                    height={55}
+                    className="w-[55px] h-[55px]"
                   />
                   <svg
                     version="1.1"
@@ -260,12 +258,10 @@ export default async function AboutPage() {
         </div>
         {/* Page Layer Top-Right */}
         <div className="relative hidden xl:flex">
-          <Image
+          <img
             src="/images/circle-right.png"
             alt="Page Layer"
-            width={220}
-            height={220}
-            className="absolute right-0 top-40"
+            className="absolute right-0 top-40 w-[220px] h-[220px]"
           />
         </div>
         {/* Page Content */}
@@ -413,11 +409,10 @@ export default async function AboutPage() {
                   style={{ boxShadow: "34px -4px 79px -18px rgba(0,0,0,0.1)" }}
                 >
                   <div className="relative">
-                    <Image
+                    <img
                       src={`${IMAGE_URL}/${member.avatar}`}
                       alt={member.name}
-                      width={100}
-                      height={100}
+                      className="w-[100px] h-[100px]"
                     />
                     <svg
                       version="1.1"
@@ -469,12 +464,10 @@ export default async function AboutPage() {
         </div>
         {/* Page Layer Bottom-Left */}
         <div className="relative hidden xl:flex">
-          <Image
+          <img
             src="/images/circle-left.png"
             alt="Page Layer"
-            width={220}
-            height={220}
-            className="absolute left-0 bottom-40"
+            className="absolute left-0 bottom-40 w-[220px] h-[220px]"
           />
         </div>
       </div>

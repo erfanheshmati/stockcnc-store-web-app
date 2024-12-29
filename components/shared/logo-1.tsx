@@ -2,7 +2,6 @@
 
 import { BASE_URL, IMAGE_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -29,11 +28,9 @@ export default function Logo1({ className }: { className: string }) {
       {error && <p className="text-red-500 pt-1">{error}</p>}
 
       {!error && (
-        <Image
+        <img
           src={`${IMAGE_URL}/${logo}`}
           alt="Logo Icon"
-          width={282}
-          height={74}
           className={cn("w-[100px]", className)}
         />
       )}

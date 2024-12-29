@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import Image from "next/image";
 import { useState } from "react";
 import { BiX } from "react-icons/bi";
 import { SlSizeFullscreen } from "react-icons/sl";
@@ -37,7 +36,7 @@ export default function ProductImages({ data }: { data: Product }) {
             >
               {data.gallery.map((image, index) => (
                 <SwiperSlide key={index} className="py-12">
-                  <Image
+                  <img
                     src={`${IMAGE_URL}/${image}`}
                     alt="Product Image"
                     width={250}
@@ -67,7 +66,7 @@ export default function ProductImages({ data }: { data: Product }) {
             className={`flex items-center justify-center bg-secondary/10 rounded-xl
             ${!isFullScreen && "h-[400px]"}`}
           >
-            <Image
+            <img
               src={`${IMAGE_URL}/${data.gallery[current]}`}
               alt="Product Image"
               width={isFullScreen ? 800 : 344}
@@ -110,7 +109,7 @@ export default function ProductImages({ data }: { data: Product }) {
             ${current === index && "border border-[#B7C5DA]"}`}
               onClick={() => setCurrent(index)}
             >
-              <Image
+              <img
                 src={`${IMAGE_URL}/${image}`}
                 alt="Product Thumbnail"
                 width={85}
@@ -123,7 +122,7 @@ export default function ProductImages({ data }: { data: Product }) {
               onClick={() => setShowGallery(true)}
               className="relative w-[120px] h-[120px] flex items-center justify-center rounded-xl bg-secondary hover:opacity-90 transition-all duration-300 ease-in-out"
             >
-              <Image
+              <img
                 src={`${IMAGE_URL}/${data.gallery[3]}`}
                 alt="Product Thumbnail"
                 width={85}
@@ -158,7 +157,7 @@ export default function ProductImages({ data }: { data: Product }) {
                     className={`w-[120px] h-[120px] flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out
                     ${current === index && "border border-[#B7C5DA]"}`}
                   >
-                    <Image
+                    <img
                       src={`${IMAGE_URL}/${image}`}
                       alt="Gallery Image"
                       width={85}

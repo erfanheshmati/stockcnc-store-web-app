@@ -11,7 +11,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
     <div className="flex flex-col p-5 gap-4 rounded-2xl shadow-md">
       <div className="flex items-start justify-between">
         <div className="flex items-center justify-center w-8/12 h-[150px] sm:h-[180px] rounded-xl bg-[#EFF1F6]">
-          <Image
+          <img
             src={`${IMAGE_URL}/${product.primaryImage}`}
             alt={product.title}
             width={170}
@@ -23,7 +23,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           <h4 className="text-secondary/60 font-bold text-[12px] pt-1">
             {product?.brand?.enTitle}
           </h4>
-          <Image
+          <img
             src={`${IMAGE_URL}/${product?.country?.logo}`}
             alt={product?.country?.title}
             width={18}
