@@ -32,7 +32,9 @@ export default async function BlogDetails({
 }: {
   params: { slug: string };
 }) {
-  const res = await fetch(`${BASE_URL}/blog/${params.slug}`);
+  const res = await fetch(`${BASE_URL}/blog/${params.slug}`, {
+    cache: "no-store",
+  });
   if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
 
   const data = await res.json();
