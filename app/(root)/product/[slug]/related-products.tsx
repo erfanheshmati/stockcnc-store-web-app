@@ -73,7 +73,7 @@ export default function RelatedProducts({
         <div className="flex items-center justify-between">
           <h3 className="text-primary font-bold text-[24px]">محصولات مرتبط</h3>
           <Link
-            href="/products"
+            href="/archiv"
             className="flex items-center gap-4 hover:underline"
           >
             <span className="pt-1">مشاهده همه محصولات</span>

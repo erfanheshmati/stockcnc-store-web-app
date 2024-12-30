@@ -73,7 +73,7 @@ export default async function ArchivePage({
   const res2 = await fetch(`${BASE_URL}/category`);
   const res3 = await fetch(
     `${BASE_URL}/product?page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}&q=${searchQuery}`,
-    { method: "POST" }
+    { method: "POST", cache: "no-store" }
   );
 
   const info = await res1.json();

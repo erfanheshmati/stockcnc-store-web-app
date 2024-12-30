@@ -36,7 +36,10 @@ export default async function BlogsPage({
 
   const res1 = await fetch(`${BASE_URL}/web-text-plans`);
   const res2 = await fetch(
-    `${BASE_URL}/blog?page=${pageQuery}&limit=${limitQuery}`
+    `${BASE_URL}/blog?page=${pageQuery}&limit=${limitQuery}`,
+    {
+      cache: "no-store",
+    }
   );
 
   if (!res1.ok || !res2.ok) throw new Error("خطا در دریافت اطلاعات!");

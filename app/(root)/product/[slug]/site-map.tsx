@@ -13,7 +13,7 @@ export default function Sitemap({ data }: { data: Product }) {
       </Link>
       <BiChevronLeft size={16} />
       <Link
-        href={`/archiv/${data.category._id}`}
+        href={`/archiv?category=${data.category._id}`}
         className="hover:opacity-70 transition-all duration-300 ease-in-out"
       >
         {data.category.title}
