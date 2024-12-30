@@ -1,15 +1,8 @@
 import { IMAGE_URL } from "@/lib/constants";
 import { Blog } from "@/lib/types";
 import Link from "next/link";
-import parse from "html-react-parser";
-import DOMPurify from "dompurify";
 
 export default function HelpCard({ data }: { data: Blog }) {
-  const sanitizedContent =
-    typeof window !== "undefined"
-      ? DOMPurify.sanitize(data.content)
-      : data.content;
-
   return (
     <>
       {/* Mobile View */}
@@ -26,8 +19,8 @@ export default function HelpCard({ data }: { data: Blog }) {
           <h3 className="text-primary font-semibold text-[13px] line-clamp-1">
             {data.title}
           </h3>
-          <div className="text-[#A1AEBB] text-[10px] line-clamp-2 leading-4">
-            {parse(sanitizedContent)}
+          <div className="text-[#A1AEBB] text-[10px] line-clamp-1 leading-4">
+            {data.summary}
           </div>
         </div>
       </Link>
@@ -48,8 +41,8 @@ export default function HelpCard({ data }: { data: Blog }) {
           <h3 className="text-primary font-bold text-[14px] line-clamp-1">
             {data.title}
           </h3>
-          <div className="text-[#A1AEBB] text-[10px] line-clamp-2 leading-4">
-            {parse(sanitizedContent)}
+          <div className="text-[#A1AEBB] text-[10px] line-clamp-1 leading-4">
+            {data.summary}
           </div>
         </div>
       </Link>

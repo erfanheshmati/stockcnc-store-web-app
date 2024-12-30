@@ -2,16 +2,9 @@ import { IMAGE_URL } from "@/lib/constants";
 import { Blog } from "@/lib/types";
 import Link from "next/link";
 import moment from "moment-jalaali";
-import parse from "html-react-parser";
-import DOMPurify from "dompurify";
 
 export default function BlogCardMobile({ blog }: { blog: Blog }) {
   const formattedDate = moment(blog.createdAt).format("jYYYY/jMM/jDD");
-
-  const sanitizedContent =
-    typeof window !== "undefined"
-      ? DOMPurify.sanitize(blog.content)
-      : blog.content;
 
   return (
     <div className="flex justify-between border rounded-lg p-2">
@@ -34,8 +27,8 @@ export default function BlogCardMobile({ blog }: { blog: Blog }) {
               </span>
             )}
           </div>
-          <div className="text-[#A1AEBB] text-[10px] line-clamp-2">
-            {parse(sanitizedContent)}
+          <div className="text-[#A1AEBB] text-[10px] line-clamp-1">
+            {blog.summary}
           </div>
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-1">

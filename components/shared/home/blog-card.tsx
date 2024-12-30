@@ -3,16 +3,9 @@ import { Blog } from "@/lib/types";
 import Link from "next/link";
 import { BiLinkExternal } from "react-icons/bi";
 import moment from "moment-jalaali";
-import parse from "html-react-parser";
-import DOMPurify from "dompurify";
 
 export default function BlogCard({ data }: { data: Blog }) {
   const formattedDate = moment(data.createdAt).format("jYYYY/jMM/jDD");
-
-  const sanitizedContent =
-    typeof window !== "undefined"
-      ? DOMPurify.sanitize(data.content)
-      : data.content;
 
   return (
     <>
@@ -34,7 +27,7 @@ export default function BlogCard({ data }: { data: Blog }) {
             </div>
             <div className="flex items-center">
               <div className="text-[#8291A3] text-[10px] line-clamp-1">
-                {parse(sanitizedContent)}
+                {data.summary}
               </div>
             </div>
             <hr />
@@ -80,8 +73,8 @@ export default function BlogCard({ data }: { data: Blog }) {
           </span>
         </div>
         <div className="flex items-center">
-          <div className="text-[#8291A3] text-[12px] line-clamp-2 text-justify">
-            {parse(sanitizedContent)}
+          <div className="text-[#8291A3] text-[12px] line-clamp-1 text-justify">
+            {data.summary}
           </div>
         </div>
         <div className="flex items-center justify-between">

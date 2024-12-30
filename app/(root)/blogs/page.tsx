@@ -35,7 +35,10 @@ export default async function BlogsPage({
   const limitQuery = parseInt(searchParams?.limit || "10", 10);
 
   const res1 = await fetch(`${BASE_URL}/web-text-plans`);
-  const res2 = await fetch(
+  const res2 = await fetch(`${BASE_URL}/blog?tutorial=true`, {
+    cache: "no-store",
+  });
+  const res3 = await fetch(
     `${BASE_URL}/blog?page=${pageQuery}&limit=${limitQuery}`,
     {
       cache: "no-store",
@@ -45,11 +48,13 @@ export default async function BlogsPage({
   if (!res1.ok || !res2.ok) throw new Error("خطا در دریافت اطلاعات!");
 
   const info = await res1.json();
-  const data = await res2.json();
+  const data1 = await res2.json();
+  const data2 = await res3.json();
 
-  const blogsData = data.docs;
-  const totalDocs = data.totalDocs;
-  const totalPages = data.totalPages;
+  const helpsData = data1.docs;
+  const blogsData = data2.docs;
+  const totalDocs = data2.totalDocs;
+  const totalPages = data2.totalPages;
 
   return (
     <>
@@ -90,9 +95,8 @@ export default async function BlogsPage({
               راهنمای خرید
             </h3>
             <div className="flex flex-col gap-4 sticky top-10">
-              {blogsData
-                .filter((blog: Blog) => blog.tutorial === true)
-                .map((blog: Blog, index: number, filteredBlogs: Blog[]) => (
+              {helpsData.map(
+                (blog: Blog, index: number, filteredBlogs: Blog[]) => (
                   <React.Fragment key={blog._id}>
                     <HelpCard data={blog} />
                     <hr
@@ -101,7 +105,8 @@ export default async function BlogsPage({
                       } flex items-center justify-end mr-20`}
                     />
                   </React.Fragment>
-                ))}
+                )
+              )}
             </div>
           </div>
           {/* Product View */}

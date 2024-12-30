@@ -6,24 +6,22 @@ import { Blog } from "@/lib/types";
 import { BASE_URL } from "@/lib/constants";
 
 export default function Helps() {
-  const [blogsData, setBlogsData] = useState<Blog[]>([]);
+  const [helpsData, setHelpsData] = useState<Blog[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchBlogsData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/blog`);
+        const res = await fetch(`${BASE_URL}/blog?tutorial=true`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
-        setBlogsData(data.docs);
+        setHelpsData(data.docs);
       } catch (error) {
         setError((error as Error).message);
       }
     };
     fetchBlogsData();
   }, []);
-
-  const helpsData = blogsData.filter((blog) => blog.tutorial === true);
 
   return (
     <>
@@ -55,7 +53,7 @@ export default function Helps() {
       {/* ********************************************************************************************************************* */}
 
       {/* Desktop View */}
-      <div className="hidden md:flex flex-col max-w-md">
+      <div className="hidden md:flex flex-col w-6/12 lg:w-5/12 xl:w-4/12">
         <div className="flex items-center justify-start gap-1">
           <h2 className="text-primary font-bold text-[24px]">راهنمای خرید</h2>
           <h2 className="text-primary font-semibold text-[17px]">
