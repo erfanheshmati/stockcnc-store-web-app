@@ -40,7 +40,9 @@ export default async function ProductDetails({
 }: {
   params: { slug: string };
 }) {
-  const res = await fetch(`${BASE_URL}/product/${params.slug}`);
+  const res = await fetch(`${BASE_URL}/product/${params.slug}`, {
+    cache: "no-store",
+  });
   if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
 
   const data = await res.json();

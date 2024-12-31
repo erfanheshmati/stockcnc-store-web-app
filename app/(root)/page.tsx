@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const { isDialogOpen, closeDialog } = useDialog();
 
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [selectedBrand, setSelectedBrand] = useState<string>("");
 
   useEffect(() => {
     const fetchBrandsData = async () => {
@@ -27,7 +27,7 @@ export default function Home() {
         const data = await res.json();
         if (data.length > 0) {
           setSelectedBrand(data[0]._id); // Set first brand as default
-        } else throw new Error("خطا در دریافت اطلاعات!");
+        } else throw new Error("برندی وجود ندارد");
       } catch (error) {
         console.log((error as Error).message);
       }

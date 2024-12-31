@@ -25,19 +25,13 @@ export default function Products({
   useEffect(() => {
     const fetchProductsData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/product`, {
+        const res = await fetch(`${BASE_URL}/product?brand=${selectedBrand}`, {
           method: "POST",
+          cache: "no-store",
         });
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
-        if (selectedBrand) {
-          const filteredProducts = data.docs.filter(
-            (product: Product) => product.brand._id === selectedBrand
-          );
-          setProductsData(filteredProducts);
-        } else {
-          setProductsData(data.docs);
-        }
+        setProductsData(data.docs);
       } catch (error) {
         setError((error as Error).message);
       }
