@@ -21,7 +21,7 @@ export async function generateMetadata() {
 }
 
 export default async function ContactPage() {
-  const res = await fetch(`${BASE_URL}/web-text-plans`);
+  const res = await fetch(`${BASE_URL}/web-text-plans`, { cache: "no-store" });
   const data = await res.json();
   const contactUsTitle = data.contactUsTitle;
   const telegram = data.telegram;
