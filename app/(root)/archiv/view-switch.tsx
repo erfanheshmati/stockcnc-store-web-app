@@ -9,12 +9,14 @@ export default function ViewSwitch({
   search,
   category,
   view,
+  sort,
 }: {
   currentPage: number;
   limit: number;
   search: string;
   category: string;
   view: string;
+  sort: string;
 }) {
   const router = useRouter();
 
@@ -24,6 +26,7 @@ export default function ViewSwitch({
     searchParams.set("limit", limit.toString());
     searchParams.set("category", category.toString());
     searchParams.set("q", search.toString());
+    searchParams.set("sort", sort.toString());
     searchParams.set("view", viewType.toString());
     router.push(`?${searchParams.toString()}`);
   };

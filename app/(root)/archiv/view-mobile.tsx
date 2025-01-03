@@ -3,25 +3,32 @@
 import ProductCardMobile from "./product-card-mobile";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ViewMobile({
   currentPage,
-  totalPages,
-  totalDocs,
+  // totalPages,
+  // totalDocs,
   limit,
   search,
   category,
+  sort,
 }: {
   currentPage: number;
-  totalPages: number;
-  totalDocs: number;
+  // totalPages: number;
+  // totalDocs: number;
   limit: number;
   search: string;
   category: string;
+  sort: string;
 }) {
   const { filteredProducts } = useFiltersLogic();
+  const searchParams = useSearchParams();
   const router = useRouter();
+
+  // Extract `totalDocs` and `totalPages` from query parameters
+  const totalDocs = parseInt(searchParams.get("totalDocs") || "0", 10);
+  const totalPages = parseInt(searchParams.get("totalPages") || "0", 10);
 
   const handlePageChange = (page: number) => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -29,6 +36,7 @@ export default function ViewMobile({
     searchParams.set("limit", limit.toString());
     searchParams.set("category", category.toString());
     searchParams.set("q", search.toString());
+    searchParams.set("sort", sort.toString());
     router.push(`?${searchParams.toString()}`);
   };
 

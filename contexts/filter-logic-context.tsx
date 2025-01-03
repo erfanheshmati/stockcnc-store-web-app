@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { Attribute, AttributeType, Product } from "@/lib/types";
 import { BASE_URL } from "@/lib/constants";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type CheckedItems = {
   [attributeTitle: string]: {
@@ -14,15 +15,15 @@ type FiltersContextType = {
   attributes: AttributeType[];
   checkedItems: CheckedItems;
   setCheckedItems: (items: CheckedItems) => void;
-  inStockOnly: boolean;
-  setInStockOnly: (value: boolean) => void;
+  inStockOnly: boolean | null;
+  setInStockOnly: (value: boolean | null) => void;
   filteredProducts: Product[];
   toggleFilter: (index: number | null) => void;
   openFilter: number | null;
   setOpenFilter: (index: number | null) => void;
   clearFilters: () => void;
-  sortOption: string;
-  setSortOption: (value: string) => void;
+  // sortOption: string;
+  // setSortOption: (value: string) => void;
   handleCheck: (
     attributeTitle: string,
     value: string | number | [number, number]
@@ -47,14 +48,17 @@ export function FiltersLogicProvider({
 }) {
   const [attributes, setAttributes] = useState<AttributeType[]>([]);
   const [checkedItems, setCheckedItems] = useState<CheckedItems>({});
-  const [inStockOnly, setInStockOnly] = useState(false);
+  const [inStockOnly, setInStockOnly] = useState<boolean | null>(null);
   const [openFilter, setOpenFilter] = useState<number | null>(null);
-  const [sortOption, setSortOption] = useState<string>("latest");
+  // const [sortOption, setSortOption] = useState<string>("latest");
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(initialProducts);
   const [enabledAttributes, setEnabledAttributes] = useState<Set<string>>(
     new Set()
   );
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const fetchAttributes = async () => {
@@ -70,26 +74,122 @@ export function FiltersLogicProvider({
     fetchAttributes();
   }, []);
 
+  useEffect(() => {
+    const updateUrlParams = () => {
+      // Get existing query params from the URL
+      const currentParams = new URLSearchParams(window.location.search);
+      // Update or clear filter parameters based on `checkedItems`
+      Object.keys(checkedItems).forEach((attributeId) => {
+        const selectedValues = Object.keys(checkedItems[attributeId]).filter(
+          (key) => checkedItems[attributeId][key]
+        );
+
+        if (selectedValues.length > 0) {
+          currentParams.set(attributeId, selectedValues.join(","));
+        } else {
+          currentParams.delete(attributeId);
+        }
+      });
+
+      // Object.entries(checkedItems).forEach(([attributeId, values]) => {
+      //   Object.entries(values).forEach(([value, isSelected]) => {
+      //     if (isSelected) {
+      //       params.append(attributeId, value);
+      //     }
+      //   });
+      // });
+
+      if (inStockOnly) {
+        currentParams.set("available", "true");
+      } else {
+        currentParams.delete("available");
+      }
+
+      // if (sortOption) {
+      //   params.set("sort", sortOption);
+      // }
+
+      // Push the updated parameters back to the router
+      // router.push(`?${currentParams.toString()}`);
+
+      // Push the updated parameters back to the router
+      const newQueryString = currentParams.toString();
+      if (window.location.search !== `?${newQueryString}`) {
+        router.push(`?${newQueryString}`);
+      }
+    };
+
+    updateUrlParams();
+  }, [checkedItems, inStockOnly, router]);
+
+  const fetchFilteredProducts = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/product?${searchParams.toString()}`);
+      // const res = await fetch(
+      //   `${BASE_URL}/product?${searchParams.toString()}&page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}&q=${searchQuery}&sort=${sortQuery}&view=${viewQuery}`
+      // );
+      if (!res.ok) throw new Error("Failed to fetch filtered products!");
+
+      const data = await res.json();
+      const totalDocs = data.totalDocs;
+      const totalPages = data.totalPages;
+
+      setFilteredProducts(data.docs);
+
+      // Update URL params to include totalDocs and totalPages
+      const updatedParams = new URLSearchParams(searchParams.toString());
+      updatedParams.set("totalDocs", totalDocs.toString());
+      updatedParams.set("totalPages", totalPages.toString());
+
+      // Push the updated URL back to the router
+      router.push(`?${updatedParams.toString()}`);
+    } catch (error) {
+      console.error("Error fetching filtered products:", error);
+    }
+  };
+
   const handleCheck = (
     attributeTitle: string,
     value: string | number | [number, number]
   ) => {
-    setCheckedItems((prev) => ({
-      ...prev,
-      [attributeTitle]: {
-        ...prev[attributeTitle],
-        [value.toString()]: !prev[attributeTitle]?.[value.toString()],
-      },
-    }));
+    setCheckedItems((prev) => {
+      const updated = {
+        ...prev,
+        [attributeTitle]: {
+          ...prev[attributeTitle],
+          [value.toString()]: !prev[attributeTitle]?.[value.toString()],
+        },
+      };
+      // Remove the attribute entirely if no values are selected
+      if (
+        Object.values(updated[attributeTitle]).every((selected) => !selected)
+      ) {
+        delete updated[attributeTitle];
+      }
+      return updated;
+    });
   };
 
+  // const handleRangeChange = (
+  //   attributeTitle: string,
+  //   range: { min: number; max: number }
+  // ) => {
+  //   setCheckedItems((prev) => ({
+  //     ...prev,
+  //     [attributeTitle]: {
+  //       min: range.min,
+  //       max: range.max,
+  //     },
+  //   }));
+  // };
+
   const handleRangeChange = (
-    attributeTitle: string,
+    attributeId: string,
     range: { min: number; max: number }
   ) => {
     setCheckedItems((prev) => ({
       ...prev,
-      [attributeTitle]: {
+      [attributeId]: {
         min: range.min,
         max: range.max,
       },
@@ -98,9 +198,13 @@ export function FiltersLogicProvider({
 
   const clearFilters = () => {
     setCheckedItems({});
-    setInStockOnly(false);
+    setInStockOnly(null);
     setOpenFilter(null);
-    setSortOption("latest");
+    // updateUrlParams();
+    // setSortOption("latest");
+    const params = new URLSearchParams();
+    router.push(`?${params.toString()}`);
+    // fetchFilteredProducts();
   };
 
   const toggleFilter = (index: number | null) => {
@@ -108,53 +212,59 @@ export function FiltersLogicProvider({
   };
 
   useEffect(() => {
-    const filterAndSortProducts = () => {
-      let filtered = [...initialProducts];
-      // Apply attribute filters
-      Object.keys(checkedItems).forEach((attributeTitle) => {
-        const selectedValues = Object.keys(checkedItems[attributeTitle]).filter(
-          (key) => checkedItems[attributeTitle][key]
-        );
-        if (selectedValues.length > 0) {
-          filtered = filtered.filter((product) =>
-            product.attributes.some((attr) => {
-              // Range-based filtering for numeric attributes
-              if (
-                typeof checkedItems[attributeTitle]?.min === "number" &&
-                typeof checkedItems[attributeTitle]?.max === "number"
-              ) {
-                const { min, max } = checkedItems[attributeTitle] as {
-                  min: number;
-                  max: number;
-                };
-                const value = parseFloat(attr.value.toString());
-                return value >= min && value <= max;
-              }
-              // Regular filtering for other attributes
-              return (
-                attr.attribute?.title === attributeTitle &&
-                selectedValues.includes(attr.value.toString())
-              );
-            })
-          );
-        }
-      });
-      if (inStockOnly) {
-        filtered = filtered.filter((product) => product.available);
-      }
-      // Apply sorting
-      if (sortOption === "latest") {
-        filtered.sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-      } else if (sortOption === "mostViewed") {
-        filtered.sort((a, b) => b.view - a.view);
-      }
-      setFilteredProducts(filtered);
-    };
-    filterAndSortProducts();
-  }, [checkedItems, inStockOnly, initialProducts, sortOption]);
+    fetchFilteredProducts();
+  }, [searchParams]);
+
+  // useEffect(() => {
+  //   const filterAndSortProducts = () => {
+  //     let filtered = [...initialProducts];
+  //     // Apply attribute filters
+  //     Object.keys(checkedItems).forEach((attributeTitle) => {
+  //       const selectedValues = Object.keys(checkedItems[attributeTitle]).filter(
+  //         (key) => checkedItems[attributeTitle][key]
+  //       );
+  //       if (selectedValues.length > 0) {
+  //         filtered = filtered.filter((product) =>
+  //           product.attributes.some((attr) => {
+  //             // Range-based filtering for numeric attributes
+  //             if (
+  //               typeof checkedItems[attributeTitle]?.min === "number" &&
+  //               typeof checkedItems[attributeTitle]?.max === "number"
+  //             ) {
+  //               const { min, max } = checkedItems[attributeTitle] as {
+  //                 min: number;
+  //                 max: number;
+  //               };
+  //               const value = parseFloat(attr.value.toString());
+  //               return value >= min && value <= max;
+  //             }
+  //             // Regular filtering for other attributes
+  //             return (
+  //               attr.attribute?.title === attributeTitle &&
+  //               selectedValues.includes(attr.value.toString())
+  //             );
+  //           })
+  //         );
+  //       }
+  //     });
+  //     if (inStockOnly) {
+  //       filtered = filtered.filter((product) => product.available);
+  //     }
+  //     // Apply sorting
+  //     // if (sortOption === "latest") {
+  //     //   filtered.sort(
+  //     //     (a, b) =>
+  //     //       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  //     //   );
+  //     // } else if (sortOption === "mostViewed") {
+  //     //   filtered.sort((a, b) => b.view - a.view);
+  //     // }
+  //     setFilteredProducts(filtered);
+  //   };
+  //   filterAndSortProducts();
+  // }, [checkedItems, inStockOnly, initialProducts,
+  //   //  sortOption
+  //   ]);
 
   useEffect(() => {
     const calculateEnabledAttributes = () => {
@@ -196,8 +306,8 @@ export function FiltersLogicProvider({
         clearFilters,
         handleCheck,
         handleRangeChange,
-        sortOption,
-        setSortOption,
+        // sortOption,
+        // setSortOption,
         enabledAttributes,
       }}
     >

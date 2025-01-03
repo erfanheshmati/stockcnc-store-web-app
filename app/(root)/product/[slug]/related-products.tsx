@@ -25,14 +25,11 @@ export default function RelatedProducts({
   useEffect(() => {
     const fetchProductsData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/product`, {
-          method: "POST",
-        });
+        const res = await fetch(`${BASE_URL}/product?category=${proCatId}`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         const filteredProducts = data.docs.filter(
-          (product: Product) =>
-            product.category._id === proCatId && product._id !== proId
+          (product: Product) => product._id !== proId
         );
         setProductsData(filteredProducts);
       } catch (error) {

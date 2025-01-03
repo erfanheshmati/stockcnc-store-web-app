@@ -144,7 +144,8 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
               type="checkbox"
               id="in-stock-toggle"
               className="sr-only"
-              checked={inStockOnly}
+              // checked={inStockOnly}
+              checked={inStockOnly ?? false}
               onChange={() => setInStockOnly(!inStockOnly)}
             />
             <div

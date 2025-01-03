@@ -1,10 +1,44 @@
 "use client";
 
-import { useFiltersLogic } from "@/contexts/filter-logic-context";
+import { useRouter, useSearchParams } from "next/navigation";
 import { BiX } from "react-icons/bi";
 
-export default function SortMobile({ onClose }: { onClose: () => void }) {
-  const { sortOption, setSortOption } = useFiltersLogic();
+export default function SortMobile({
+  onClose,
+}: // currentPage,
+// limit,
+// search,
+// category,
+// view,
+// sort,
+{
+  onClose: () => void;
+  // currentPage: number;
+  // limit: number;
+  // search: string;
+  // category: string;
+  // view: string;
+  // sort: string;
+}) {
+  const router = useRouter();
+  const params = useSearchParams();
+
+  const handleSortChange = (sortType: string = params.get("sort") || "") => {
+    const currentPage = params.get("page") || "1";
+    const limit = params.get("limit") || "10";
+    const category = params.get("category") || "";
+    const search = params.get("q") || "";
+    const view = params.get("view") || "";
+
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("page", currentPage);
+    searchParams.set("limit", limit);
+    searchParams.set("category", category);
+    searchParams.set("q", search);
+    searchParams.set("view", view);
+    searchParams.set("sort", sortType);
+    router.push(`?${searchParams.toString()}`);
+  };
 
   return (
     <div
@@ -21,21 +55,21 @@ export default function SortMobile({ onClose }: { onClose: () => void }) {
         <div className="flex flex-col gap-3">
           <span
             className={`border rounded-lg p-4 font-medium text-[14px] ${
-              sortOption === "latest"
+              !params.get("sort")
                 ? "text-white bg-primary font-semibold"
                 : "text-secondary"
             }`}
-            onClick={() => setSortOption("latest")}
+            onClick={() => handleSortChange("")}
           >
             جدیدترین
           </span>
           <span
             className={`border rounded-lg p-4 font-medium text-[14px] ${
-              sortOption === "mostViewed"
+              params.get("sort") === "mostViewed"
                 ? "text-white bg-primary font-semibold"
                 : "text-secondary"
             }`}
-            onClick={() => setSortOption("mostViewed")}
+            onClick={() => handleSortChange("mostViewed")}
           >
             پربازدیدترین
           </span>

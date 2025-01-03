@@ -26,7 +26,6 @@ export default function Products({
     const fetchProductsData = async () => {
       try {
         const res = await fetch(`${BASE_URL}/product?brand=${selectedBrand}`, {
-          method: "POST",
           cache: "no-store",
         });
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");

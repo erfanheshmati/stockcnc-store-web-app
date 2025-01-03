@@ -1,30 +1,36 @@
 "use client";
 
-import { useView } from "@/contexts/view-context";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import ProductCardGrid from "./product-card-grid";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ViewGrid({
   currentPage,
-  totalPages,
-  totalDocs,
+  // totalPages,
+  // totalDocs,
   limit,
   search,
   category,
   view,
+  sort,
 }: {
   currentPage: number;
-  totalPages: number;
-  totalDocs: number;
+  // totalPages: number;
+  // totalDocs: number;
   limit: number;
   search: string;
   category: string;
   view: string;
+  sort: string;
 }) {
   const { filteredProducts } = useFiltersLogic();
+  const searchParams = useSearchParams();
   const router = useRouter();
+
+  // Extract `totalDocs` and `totalPages` from query parameters
+  const totalDocs = parseInt(searchParams.get("totalDocs") || "0", 10);
+  const totalPages = parseInt(searchParams.get("totalPages") || "0", 10);
 
   const handlePageChange = (page: number) => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -33,6 +39,7 @@ export default function ViewGrid({
     searchParams.set("category", category.toString());
     searchParams.set("q", search.toString());
     searchParams.set("view", view.toString());
+    searchParams.set("sort", sort.toString());
     router.push(`?${searchParams.toString()}`);
   };
 

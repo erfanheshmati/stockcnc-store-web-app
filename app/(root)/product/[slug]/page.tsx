@@ -18,9 +18,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
-  const res = await fetch(`${BASE_URL}/product/${params.slug}`, {
-    cache: "no-store",
-  });
+  const res1 = await fetch(`${BASE_URL}/product/${params.slug}`);
   const res2 = await fetch(`${BASE_URL}/web-text-plans`);
   const data = await res1.json();
   const info = await res2.json();

@@ -6,9 +6,16 @@ import FiltersMobile from "./filters-mobile";
 import { useDialog } from "@/contexts/dialog-context";
 import clsx from "clsx";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
+import { useRouter, useSearchParams } from "next/navigation";
+
+interface FilterChangeHandler {
+  (id: string, value: string | null): void;
+}
 
 export default function Filters() {
   const { closeDialog } = useDialog();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const {
     attributes,
@@ -18,10 +25,53 @@ export default function Filters() {
     toggleFilter,
     openFilter,
     clearFilters,
-    handleCheck,
+    // handleCheck,
     handleRangeChange,
     enabledAttributes,
   } = useFiltersLogic();
+
+  //  useEffect(() => {
+  //   fetch("https://serv.stockcnc.com/api/v1/product-archive-filter")
+  //     .then((response) => response.json())
+  //     .then((data) => setFilters(data))
+  //     .catch((error) => console.error("Error fetching filters:", error));
+  // }, []);
+
+  const handleFilterChange: FilterChangeHandler = (id, value) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    // Check if the value exists in checkedItems
+    const isChecked = (value !== null && checkedItems[id]?.[value]) || false;
+
+    if (isChecked) {
+      // If it's checked, uncheck it (remove it from URL)
+      const existingValues = params.get(id);
+      if (existingValues) {
+        const valuesArray = existingValues.split(",");
+        const updatedValues = valuesArray.filter((v) => v !== value);
+        if (updatedValues.length > 0) {
+          params.set(id, updatedValues.join(","));
+        } else {
+          params.delete(id); // Remove the param if no values are left
+        }
+      }
+    } else {
+      // If it's not checked, add it to the URL
+      const existingValues = params.get(id);
+      if (existingValues) {
+        const valuesArray = existingValues.split(",");
+        if (value !== null && !valuesArray.includes(value)) {
+          valuesArray.push(value); // Add the new value if it's not already in the list
+          params.set(id, valuesArray.join(","));
+        }
+      } else {
+        params.set(id, value ?? ""); // Add the new parameter if it doesn't exist
+      }
+    }
+
+    // Push the updated params to the router
+    router.push(`?${params.toString()}`);
+  };
 
   const renderedFilters = useMemo(() => {
     return attributes
@@ -55,11 +105,12 @@ export default function Filters() {
                       id={`filter-${index}-${idx}`}
                       checked={
                         typeof checkedItems[attribute.title]?.[value] ===
-                        "boolean"
+                          "boolean" || "string"
                           ? (checkedItems[attribute.title]?.[value] as boolean)
                           : false
                       }
-                      onChange={() => handleCheck(attribute.title, value)}
+                      // onChange={() => handleCheck(attribute.title, value)}
+                      onChange={() => handleFilterChange(attribute._id, value)}
                       className="w-5 h-5 cursor-pointer"
                     />
                     <label
@@ -149,7 +200,7 @@ export default function Filters() {
                 type="checkbox"
                 id="stock-toggle"
                 className="sr-only"
-                checked={inStockOnly}
+                checked={inStockOnly ?? false}
                 onChange={() => setInStockOnly(!inStockOnly)}
               />
               <div

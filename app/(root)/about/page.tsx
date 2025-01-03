@@ -23,7 +23,7 @@ export async function generateMetadata() {
 }
 
 export default async function AboutPage() {
-  const res = await fetch(`${BASE_URL}/web-text-plans`);
+  const res = await fetch(`${BASE_URL}/web-text-plans`, { cache: "no-store" });
   const data = await res.json();
   const aboutUsTitle = data.aboutUsTitle;
   const aboutUsHtmlContent = data.aboutUsHtmlContent;

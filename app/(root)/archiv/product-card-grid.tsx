@@ -3,7 +3,6 @@
 import { useDialog } from "@/contexts/dialog-context";
 import { IMAGE_URL } from "@/lib/constants";
 import { Product } from "@/lib/types";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function ProductCardGrid({ data }: { data: Product }) {

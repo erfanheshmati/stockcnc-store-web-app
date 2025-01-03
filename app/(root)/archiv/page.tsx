@@ -58,6 +58,7 @@ export default async function ArchivePage({
     page?: string;
     limit?: string;
     view?: string;
+    sort?: string;
   };
 }) {
   // const searchQuery = searchParams?.search || "";
@@ -66,24 +67,27 @@ export default async function ArchivePage({
   const pageQuery = parseInt(searchParams?.page || "1", 10);
   const limitQuery = parseInt(searchParams?.limit || "10", 10);
   const viewQuery = searchParams?.view || "list";
+  const sortQuery = searchParams?.sort || "";
 
   let error: string | null = null;
 
   const res1 = await fetch(`${BASE_URL}/web-text-plans`);
-  const res2 = await fetch(`${BASE_URL}/category`);
-  const res3 = await fetch(
-    `${BASE_URL}/product?page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}&q=${searchQuery}`,
-    { method: "POST", cache: "no-store" }
-  );
-
   const info = await res1.json();
+  const res2 = await fetch(`${BASE_URL}/category`);
   const categoriesData = await res2.json();
-  const productsData = await res3.json();
+  const res3 = await fetch(`${BASE_URL}/product-archive-filter`);
+  const filtersData = await res3.json();
+  const res4 = await fetch(
+    `${BASE_URL}/product?page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}&q=${searchQuery}&sort=${sortQuery}`,
+    // &${filtersData._id}=${filtersData.values}`,
+    { cache: "no-store" }
+  );
+  const productsData = await res4.json();
 
   if (!productsData) return notFound();
 
-  const totalDocs = productsData.totalDocs;
-  const totalPages = productsData.totalPages;
+  // const totalDocs = productsData.totalDocs;
+  // const totalPages = productsData.totalPages;
 
   const category = categoriesData?.categories.find(
     (cat: Category) => cat._id === categoryQuery
@@ -148,11 +152,12 @@ export default async function ArchivePage({
               ) : (
                 <ViewMobile
                   currentPage={pageQuery}
-                  totalPages={totalPages}
-                  totalDocs={totalDocs}
+                  // totalPages={totalPages}
+                  // totalDocs={totalDocs}
                   limit={limitQuery}
                   search={searchQuery}
                   category={categoryQuery}
+                  sort={sortQuery}
                 />
               )}
               {/* Description */}
@@ -198,13 +203,21 @@ export default async function ArchivePage({
                       {category ? category.title : info.archiveProductTitle}
                     </h1>
                   </div>
-                  <SortSwitch />
+                  <SortSwitch
+                    currentPage={pageQuery}
+                    limit={limitQuery}
+                    search={searchQuery}
+                    category={categoryQuery}
+                    view={viewQuery}
+                    sort={sortQuery}
+                  />
                   <ViewSwitch
                     currentPage={pageQuery}
                     limit={limitQuery}
                     search={searchQuery}
                     category={categoryQuery}
                     view={viewQuery}
+                    sort={sortQuery}
                   />
                 </div>
                 {/* Contents */}
@@ -218,22 +231,24 @@ export default async function ArchivePage({
                       {/* List */}
                       <ViewList
                         currentPage={pageQuery}
-                        totalPages={totalPages}
-                        totalDocs={totalDocs}
+                        // totalPages={totalPages}
+                        // totalDocs={totalDocs}
                         limit={limitQuery}
                         search={searchQuery}
                         category={categoryQuery}
                         view={viewQuery}
+                        sort={sortQuery}
                       />
                       {/* Grid */}
                       <ViewGrid
                         currentPage={pageQuery}
-                        totalPages={totalPages}
-                        totalDocs={totalDocs}
+                        // totalPages={totalPages}
+                        // totalDocs={totalDocs}
                         limit={limitQuery}
                         search={searchQuery}
                         category={categoryQuery}
                         view={viewQuery}
+                        sort={sortQuery}
                       />
                     </>
                   )}
