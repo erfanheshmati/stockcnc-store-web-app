@@ -13,7 +13,7 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
     toggleFilter,
     openFilter,
     clearFilters,
-    handleCheck,
+    handleCheckAndFilterChange,
     handleRangeChange,
     enabledAttributes,
   } = useFiltersLogic();
@@ -48,18 +48,20 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
                       type="checkbox"
                       id={`filter-${index}-${idx}`}
                       checked={
-                        typeof checkedItems[attribute.title]?.[value] ===
+                        typeof checkedItems[attribute._id]?.[value] ===
                         "boolean"
-                          ? (checkedItems[attribute.title]?.[value] as boolean)
+                          ? (checkedItems[attribute._id]?.[value] as boolean)
                           : false
                       }
-                      onChange={() => handleCheck(attribute.title, value)}
+                      onChange={() =>
+                        handleCheckAndFilterChange(attribute._id, value)
+                      }
                       className="w-5 h-5 cursor-pointer"
                     />
                     <label
                       htmlFor={`filter-${index}-${idx}`}
                       className={`font-semibold text-[12px] cursor-pointer pt-0.5 ${
-                        checkedItems[attribute.title]?.[value]
+                        checkedItems[attribute._id]?.[value]
                           ? "text-black"
                           : "text-black/60"
                       }`}
@@ -79,13 +81,13 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
                       type="number"
                       placeholder="حداقل"
                       min={0}
-                      value={Number(checkedItems[attribute.title]?.min) || ""}
+                      value={Number(checkedItems[attribute._id]?.min) || ""}
                       // defaultValue={0}
                       className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[12px]"
                       onChange={(e) =>
-                        handleRangeChange(attribute.title, {
+                        handleRangeChange(attribute._id, {
                           min: Number(e.target.value),
-                          max: Number(checkedItems[attribute.title]?.max),
+                          max: Number(checkedItems[attribute._id]?.max),
                         })
                       }
                     />
@@ -93,13 +95,13 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
                     <input
                       type="number"
                       placeholder="حداکثر"
-                      value={Number(checkedItems[attribute.title]?.max) || ""}
+                      value={Number(checkedItems[attribute._id]?.max) || ""}
                       // max={1000}
                       // defaultValue={1000}
                       className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[12px]"
                       onChange={(e) =>
-                        handleRangeChange(attribute.title, {
-                          min: Number(checkedItems[attribute.title]?.min),
+                        handleRangeChange(attribute._id, {
+                          min: Number(checkedItems[attribute._id]?.min),
                           max: Number(e.target.value),
                         })
                       }

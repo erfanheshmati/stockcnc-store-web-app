@@ -6,16 +6,9 @@ import FiltersMobile from "./filters-mobile";
 import { useDialog } from "@/contexts/dialog-context";
 import clsx from "clsx";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
-import { useRouter, useSearchParams } from "next/navigation";
-
-interface FilterChangeHandler {
-  (id: string, value: string | null): void;
-}
 
 export default function Filters() {
   const { closeDialog } = useDialog();
-  const searchParams = useSearchParams();
-  const router = useRouter();
 
   const {
     attributes,
@@ -25,53 +18,10 @@ export default function Filters() {
     toggleFilter,
     openFilter,
     clearFilters,
-    // handleCheck,
+    handleCheckAndFilterChange,
     handleRangeChange,
     enabledAttributes,
   } = useFiltersLogic();
-
-  //  useEffect(() => {
-  //   fetch("https://serv.stockcnc.com/api/v1/product-archive-filter")
-  //     .then((response) => response.json())
-  //     .then((data) => setFilters(data))
-  //     .catch((error) => console.error("Error fetching filters:", error));
-  // }, []);
-
-  const handleFilterChange: FilterChangeHandler = (id, value) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    // Check if the value exists in checkedItems
-    const isChecked = (value !== null && checkedItems[id]?.[value]) || false;
-
-    if (isChecked) {
-      // If it's checked, uncheck it (remove it from URL)
-      const existingValues = params.get(id);
-      if (existingValues) {
-        const valuesArray = existingValues.split(",");
-        const updatedValues = valuesArray.filter((v) => v !== value);
-        if (updatedValues.length > 0) {
-          params.set(id, updatedValues.join(","));
-        } else {
-          params.delete(id); // Remove the param if no values are left
-        }
-      }
-    } else {
-      // If it's not checked, add it to the URL
-      const existingValues = params.get(id);
-      if (existingValues) {
-        const valuesArray = existingValues.split(",");
-        if (value !== null && !valuesArray.includes(value)) {
-          valuesArray.push(value); // Add the new value if it's not already in the list
-          params.set(id, valuesArray.join(","));
-        }
-      } else {
-        params.set(id, value ?? ""); // Add the new parameter if it doesn't exist
-      }
-    }
-
-    // Push the updated params to the router
-    router.push(`?${params.toString()}`);
-  };
 
   const renderedFilters = useMemo(() => {
     return attributes
@@ -104,23 +54,25 @@ export default function Filters() {
                       type="checkbox"
                       id={`filter-${index}-${idx}`}
                       checked={
-                        typeof checkedItems[attribute.title]?.[value] ===
+                        typeof checkedItems[attribute._id]?.[value] ===
                           "boolean" || "string"
-                          ? (checkedItems[attribute.title]?.[value] as boolean)
+                          ? (checkedItems[attribute._id]?.[value] as boolean)
                           : false
                       }
-                      // onChange={() => handleCheck(attribute.title, value)}
-                      onChange={() => handleFilterChange(attribute._id, value)}
+                      onChange={() =>
+                        handleCheckAndFilterChange(attribute._id, value)
+                      }
                       className="w-5 h-5 cursor-pointer"
                     />
                     <label
-                      htmlFor={`filter-${index}-${idx}`}
+                      // htmlFor={`filter-${index}-${idx}`}
                       className={clsx(
-                        "font-semibold text-[14px] cursor-pointer",
+                        // "font-semibold text-[14px] cursor-pointer",
+                        "font-semibold text-[14px]",
                         {
-                          "text-black": checkedItems[attribute.title]?.[value],
+                          "text-black": checkedItems[attribute._id]?.[value],
                           "text-black/60":
-                            !checkedItems[attribute.title]?.[value],
+                            !checkedItems[attribute._id]?.[value],
                         }
                       )}
                     >
@@ -139,13 +91,16 @@ export default function Filters() {
                       type="number"
                       placeholder="حداقل"
                       min={0}
-                      value={Number(checkedItems[attribute.title]?.min) || ""}
+                      // value={Number(checkedItems[attribute.title]?.min) || ""}
+                      value={Number(checkedItems[attribute._id]?.min) || ""}
                       // defaultValue={0}
                       className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[13px]"
                       onChange={(e) =>
-                        handleRangeChange(attribute.title, {
+                        // handleRangeChange(attribute.title, {
+                        handleRangeChange(attribute._id, {
                           min: Number(e.target.value),
-                          max: Number(checkedItems[attribute.title]?.max),
+                          // max: Number(checkedItems[attribute.title]?.max),
+                          max: Number(checkedItems[attribute._id]?.max),
                         })
                       }
                     />
@@ -153,13 +108,16 @@ export default function Filters() {
                     <input
                       type="number"
                       placeholder="حداکثر"
-                      value={Number(checkedItems[attribute.title]?.max) || ""}
+                      // value={Number(checkedItems[attribute.title]?.max) || ""}
+                      value={Number(checkedItems[attribute._id]?.max) || ""}
                       // max={1000}
                       // defaultValue={1000}
                       className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[13px]"
                       onChange={(e) =>
-                        handleRangeChange(attribute.title, {
-                          min: Number(checkedItems[attribute.title]?.min),
+                        // handleRangeChange(attribute.title, {
+                        handleRangeChange(attribute._id, {
+                          // min: Number(checkedItems[attribute.title]?.min),
+                          min: Number(checkedItems[attribute._id]?.min),
                           max: Number(e.target.value),
                         })
                       }
