@@ -10,7 +10,7 @@ import DialogFilters from "./dialog-filters";
 import ButtonsMobile from "./buttons-mobile";
 import { FilterProvider } from "@/contexts/filter-popup-context";
 import { BASE_URL } from "@/lib/constants";
-import { Category, Product } from "@/lib/types";
+import { Category } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { FiltersLogicProvider } from "@/contexts/filter-logic-context";
 import SortSwitch from "./sort-switch";
@@ -58,7 +58,6 @@ export default async function ArchivePage({
     page?: string;
     limit?: string;
     sort?: string;
-    // view?: string;
   };
 }) {
   const searchQuery = searchParams?.q || "";
@@ -66,7 +65,6 @@ export default async function ArchivePage({
   const pageQuery = parseInt(searchParams?.page || "1", 10);
   const limitQuery = parseInt(searchParams?.limit || "10", 10);
   const sortQuery = searchParams?.sort || "";
-  // const viewQuery = searchParams?.view || "list";
 
   let error: string | null = null;
 
@@ -74,7 +72,8 @@ export default async function ArchivePage({
   const res2 = await fetch(`${BASE_URL}/category`);
   const res3 = await fetch(
     // `${BASE_URL}/product?page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}&q=${searchQuery}&sort=${sortQuery}`,
-    `${BASE_URL}/product`,
+    `${BASE_URL}/product?category=${categoryQuery}&q=${searchQuery}&sort=${sortQuery}`,
+    // `${BASE_URL}/product`,
     { cache: "no-store" }
   );
 
@@ -121,13 +120,7 @@ export default async function ArchivePage({
                     {error}
                   </div>
                 ) : (
-                  <ViewMobile
-                    currentPage={pageQuery}
-                    limit={limitQuery}
-                    search={searchQuery}
-                    category={categoryQuery}
-                    sort={sortQuery}
-                  />
+                  <ViewMobile currentPage={pageQuery} limit={limitQuery} />
                 )}
                 {/* Description */}
                 {category && (
@@ -172,22 +165,8 @@ export default async function ArchivePage({
                         {category ? category.title : info.archiveProductTitle}
                       </h1>
                     </div>
-                    <SortSwitch
-                      // currentPage={pageQuery}
-                      // limit={limitQuery}
-                      // search={searchQuery}
-                      // category={categoryQuery}
-                      // view={viewQuery}
-                      sort={sortQuery}
-                    />
-                    <ViewSwitch
-                    // currentPage={pageQuery}
-                    // limit={limitQuery}
-                    // search={searchQuery}
-                    // category={categoryQuery}
-                    // view={viewQuery}
-                    // sort={sortQuery}
-                    />
+                    <SortSwitch sort={sortQuery} />
+                    <ViewSwitch />
                   </div>
                   {/* Contents */}
                   <div className="flex flex-col justify-between h-full">
@@ -198,23 +177,9 @@ export default async function ArchivePage({
                     ) : (
                       <>
                         {/* List */}
-                        <ViewList
-                          currentPage={pageQuery}
-                          limit={limitQuery}
-                          // search={searchQuery}
-                          // category={categoryQuery}
-                          // view={viewQuery}
-                          // sort={sortQuery}
-                        />
+                        <ViewList currentPage={pageQuery} limit={limitQuery} />
                         {/* Grid */}
-                        <ViewGrid
-                          currentPage={pageQuery}
-                          limit={limitQuery}
-                          // search={searchQuery}
-                          // category={categoryQuery}
-                          // view={viewQuery}
-                          // sort={sortQuery}
-                        />
+                        <ViewGrid currentPage={pageQuery} limit={limitQuery} />
                       </>
                     )}
                     {/* Description Card */}

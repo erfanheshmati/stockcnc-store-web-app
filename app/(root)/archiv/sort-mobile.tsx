@@ -5,37 +5,16 @@ import { BiX } from "react-icons/bi";
 
 export default function SortMobile({
   onClose,
-}: // currentPage,
-// limit,
-// search,
-// category,
-// view,
-// sort,
+}: // sort,
 {
   onClose: () => void;
-  // currentPage: number;
-  // limit: number;
-  // search: string;
-  // category: string;
-  // view: string;
   // sort: string;
 }) {
   const router = useRouter();
   const params = useSearchParams();
 
   const handleSortChange = (sortType: string = params.get("sort") || "") => {
-    const currentPage = params.get("page") || "1";
-    const limit = params.get("limit") || "10";
-    const category = params.get("category") || "";
-    const search = params.get("q") || "";
-    const view = params.get("view") || "";
-
     const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("page", currentPage);
-    searchParams.set("limit", limit);
-    searchParams.set("category", category);
-    searchParams.set("q", search);
-    searchParams.set("view", view);
     searchParams.set("sort", sortType);
     router.push(`?${searchParams.toString()}`);
   };

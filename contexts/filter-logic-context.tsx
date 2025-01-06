@@ -162,47 +162,14 @@ export function FiltersLogicProvider({
       if (currentParams.toString() !== newQueryString) {
         router.push(`?${newQueryString}`);
       }
-    }, 500);
+    }, 1000);
 
     return () => clearTimeout(handler);
   }, [checkedItems, inStockOnly, router]);
 
-  // useEffect(() => {
-  //   const loadFiltersFromUrl = () => {
-  //     const params = new URLSearchParams(window.location.search);
-  //     const newCheckedItems: CheckedItems = {};
-
-  //     params.forEach((value, key) => {
-  //       if (value.startsWith("[") && value.endsWith("]")) {
-  //         const [min, max] = value.slice(1, -1).split(",").map(Number);
-  //         newCheckedItems[key] = { min, max };
-  //       } else {
-  //         const values = value.split(",");
-  //         newCheckedItems[key] = values.reduce((acc, val) => {
-  //           acc[val] = true; // Mark each value as checked
-  //           return acc;
-  //         }, {} as { [value: string]: boolean });
-  //       }
-  //     });
-
-  //     setCheckedItems(newCheckedItems);
-  //   };
-
-  //   loadFiltersFromUrl();
-  // }, []);
-
-  // const searchQuery = searchParams.get("q") || "";
-  // const categoryQuery = searchParams.get("category") || "";
-  // const pageQuery = parseInt(searchParams.get("page") || "1", 10);
-  // const limitQuery = parseInt(searchParams.get("limit") || "10", 10);
-  // const sortQuery = searchParams.get("sort") || "";
-
   const fetchFilteredProducts = async () => {
     try {
       const res = await fetch(`${BASE_URL}/product?${searchParams.toString()}`);
-      // const res = await fetch(
-      //   `${BASE_URL}/product?${searchParams.toString()}&page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}&q=${searchQuery}&sort=${sortQuery}`
-      // );
       if (!res.ok) throw new Error("Failed to fetch filtered products!");
 
       const data = await res.json();
@@ -221,6 +188,10 @@ export function FiltersLogicProvider({
     }
   };
 
+  useEffect(() => {
+    fetchFilteredProducts();
+  }, [searchParams]);
+
   const updateParams = (
     params: URLSearchParams,
     attributeId: string,
@@ -230,34 +201,27 @@ export function FiltersLogicProvider({
     if (Array.isArray(value)) {
       const rangeString = `${value[0]}-${value[1]}`;
       params.set(attributeId, rangeString);
-    } else if (isChecked) {
-      const existingValues = params.get(attributeId);
-      if (existingValues) {
-        const valuesArray = existingValues.split(",");
-        const updatedValues = valuesArray.filter((v) => v !== value.toString());
+    } else {
+      const existingValues = params.get(attributeId)?.split(",") || [];
+      if (isChecked) {
+        // Remove the value if already checked
+        const updatedValues = existingValues.filter(
+          (v) => v !== value.toString()
+        );
         if (updatedValues.length > 0) {
           params.set(attributeId, updatedValues.join(","));
         } else {
           params.delete(attributeId);
         }
-      }
-    } else {
-      const existingValues = params.get(attributeId);
-      if (existingValues) {
-        const valuesArray = existingValues.split(",");
-        if (!valuesArray.includes(value.toString())) {
-          valuesArray.push(value.toString());
-          params.set(attributeId, valuesArray.join(","));
-        }
       } else {
-        params.set(attributeId, value.toString());
+        // Add the value if not already present
+        if (!existingValues.includes(value.toString())) {
+          existingValues.push(value.toString());
+          params.set(attributeId, existingValues.join(","));
+        }
       }
     }
   };
-
-  useEffect(() => {
-    fetchFilteredProducts();
-  }, [searchParams]);
 
   const toggleFilter = (index: number | null) => {
     setOpenFilter(openFilter === index ? null : index);
@@ -294,6 +258,12 @@ export function FiltersLogicProvider({
         prev[attributeId]?.[value.toString()] === true;
 
       updateParams(params, attributeId, value, isChecked);
+      // Preserve the necessary parameters
+      ["sort", "category", "q"].forEach((key) => {
+        const value = searchParams.get(key);
+        if (value) params.set(key, value);
+      });
+
       router.push(`?${params.toString()}`);
 
       return updated;
@@ -330,6 +300,12 @@ export function FiltersLogicProvider({
         params.set(attributeId, `${min}-${max}`);
       }
 
+      // Preserve the necessary parameters
+      ["sort", "category", "q"].forEach((key) => {
+        const value = searchParams.get(key);
+        if (value) params.set(key, value);
+      });
+
       router.push(`?${params.toString()}`);
     }, 1000); // Adjust debounce delay as needed
   };
@@ -338,7 +314,15 @@ export function FiltersLogicProvider({
     setCheckedItems({});
     setInStockOnly(null);
     setOpenFilter(null);
-    window.history.replaceState(null, "", "/archiv");
+
+    // Preserve the necessary parameters
+    const params = new URLSearchParams();
+    ["sort", "category", "q"].forEach((key) => {
+      const value = searchParams.get(key);
+      if (value) params.set(key, value);
+    });
+
+    router.push(`?${params.toString()}`);
   };
 
   return (

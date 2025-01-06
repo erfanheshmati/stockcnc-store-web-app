@@ -8,15 +8,9 @@ import { useRouter } from "next/navigation";
 export default function ViewMobile({
   currentPage,
   limit,
-  search,
-  category,
-  sort,
 }: {
   currentPage: number;
   limit: number;
-  search: string;
-  category: string;
-  sort: string;
 }) {
   const { filteredProducts, totalDocs, totalPages } = useFiltersLogic();
   const router = useRouter();
@@ -25,9 +19,6 @@ export default function ViewMobile({
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set("page", page.toString());
     searchParams.set("limit", limit.toString());
-    searchParams.set("category", category.toString());
-    searchParams.set("q", search.toString());
-    searchParams.set("sort", sort.toString());
     router.push(`?${searchParams.toString()}`);
   };
 
