@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 type CheckedItems = {
   [attributeTitle: string]: {
-    [value: string]: string | number | boolean;
+    [value: string]: string | number | boolean | null;
   };
 };
 
@@ -31,6 +31,8 @@ type FiltersContextType = {
     range: { min: number; max: number }
   ) => void;
   enabledAttributes: Set<string>;
+  totalDocs: number;
+  totalPages: number;
 };
 
 const FiltersLogicContext = createContext<FiltersContextType | undefined>(
@@ -48,6 +50,8 @@ export function FiltersLogicProvider({
   const [checkedItems, setCheckedItems] = useState<CheckedItems>({});
   const [inStockOnly, setInStockOnly] = useState<boolean | null>(null);
   const [openFilter, setOpenFilter] = useState<number | null>(null);
+  const [totalDocs, setTotalDocs] = useState<number>();
+  const [totalPages, setTotalPages] = useState<number>();
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(initialProducts);
   const [enabledAttributes, setEnabledAttributes] = useState<Set<string>>(
@@ -59,14 +63,18 @@ export function FiltersLogicProvider({
 
   useEffect(() => {
     const fetchAttributes = async () => {
+      // const controller = new AbortController();
       try {
-        const res = await fetch(`${BASE_URL}/product-archive-filter`);
+        const res = await fetch(`${BASE_URL}/product-archive-filter`, {
+          // signal: controller.signal,
+        });
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات برند!");
         const data = await res.json();
         setAttributes(data);
       } catch (error) {
         console.error("Failed to fetch attributes:", error);
       }
+      // return () => controller.abort();
     };
     fetchAttributes();
   }, []);
@@ -77,16 +85,14 @@ export function FiltersLogicProvider({
 
       attributes.forEach((attribute) => {
         if (!attribute.requiredAttribute) {
-          enabled.add(attribute._id); // Always visible if no dependency
+          enabled.add(attribute._id);
         } else {
           const parentAttribute = attributes.find(
             (attr) => attr._id === attribute.requiredAttribute
           );
           if (
             parentAttribute &&
-            // checkedItems[parentAttribute.title] &&
             checkedItems[parentAttribute._id] &&
-            // Object.values(checkedItems[parentAttribute.title]).some(Boolean)
             Object.values(checkedItems[parentAttribute._id]).some(Boolean)
           ) {
             enabled.add(attribute._id);
@@ -99,79 +105,153 @@ export function FiltersLogicProvider({
   }, [attributes, checkedItems]);
 
   useEffect(() => {
-    const updateUrlParams = () => {
-      // Get existing query params from the URL
+    const params = new URLSearchParams(window.location.search);
+    const newCheckedItems: CheckedItems = {};
+
+    // Load range filters from URL params
+    params.forEach((value, key) => {
+      if (value.includes("-")) {
+        const [min, max] = value
+          .split("-")
+          .map((v) => (isNaN(Number(v)) ? null : Number(v)));
+        newCheckedItems[key] = { min, max };
+      } else {
+        const values = value.split(",");
+        newCheckedItems[key] = values.reduce((acc, val) => {
+          acc[val] = true; // Mark each value as checked
+          return acc;
+        }, {} as { [value: string]: boolean });
+      }
+    });
+
+    setCheckedItems(newCheckedItems);
+
+    // Load inStockOnly from URL
+    const availableParam = params.get("available");
+
+    setInStockOnly(
+      availableParam === "true"
+        ? true
+        : availableParam === "false"
+        ? false
+        : null
+    );
+  }, []);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
       const currentParams = new URLSearchParams(window.location.search);
-      // Update or clear filter parameters based on `checkedItems`
+      const newParams = new URLSearchParams();
+
       Object.keys(checkedItems).forEach((attributeId) => {
         const selectedValues = Object.keys(checkedItems[attributeId]).filter(
           (key) => checkedItems[attributeId][key]
         );
-
         if (selectedValues.length > 0) {
-          currentParams.set(attributeId, selectedValues.join(","));
-        } else {
-          currentParams.delete(attributeId);
+          newParams.set(attributeId, selectedValues.join(","));
         }
       });
 
       if (inStockOnly) {
-        currentParams.set("available", "true");
+        newParams.set("available", "true");
       } else {
-        currentParams.delete("available");
+        newParams.delete("available");
       }
 
-      // Push the updated parameters back to the router
-      const newQueryString = currentParams.toString();
-      if (window.location.search !== `?${newQueryString}`) {
+      const newQueryString = newParams.toString();
+      if (currentParams.toString() !== newQueryString) {
         router.push(`?${newQueryString}`);
       }
-    };
+    }, 500);
 
-    updateUrlParams();
+    return () => clearTimeout(handler);
   }, [checkedItems, inStockOnly, router]);
 
-  useEffect(() => {
-    const loadFiltersFromUrl = () => {
-      const params = new URLSearchParams(window.location.search);
-      const newCheckedItems: CheckedItems = {};
+  // useEffect(() => {
+  //   const loadFiltersFromUrl = () => {
+  //     const params = new URLSearchParams(window.location.search);
+  //     const newCheckedItems: CheckedItems = {};
 
-      params.forEach((value, key) => {
-        // Check if the parameter is for a range (e.g., [min,max])
-        if (value.startsWith("[") && value.endsWith("]")) {
-          const [min, max] = value.slice(1, -1).split(",").map(Number); // Convert to numbers
-          newCheckedItems[key] = { min, max };
-        } else {
-          newCheckedItems[key] = {}; // Handle other filter types here
-        }
-      });
+  //     params.forEach((value, key) => {
+  //       if (value.startsWith("[") && value.endsWith("]")) {
+  //         const [min, max] = value.slice(1, -1).split(",").map(Number);
+  //         newCheckedItems[key] = { min, max };
+  //       } else {
+  //         const values = value.split(",");
+  //         newCheckedItems[key] = values.reduce((acc, val) => {
+  //           acc[val] = true; // Mark each value as checked
+  //           return acc;
+  //         }, {} as { [value: string]: boolean });
+  //       }
+  //     });
 
-      setCheckedItems(newCheckedItems);
-    };
+  //     setCheckedItems(newCheckedItems);
+  //   };
 
-    loadFiltersFromUrl();
-  }, []);
+  //   loadFiltersFromUrl();
+  // }, []);
+
+  // const searchQuery = searchParams.get("q") || "";
+  // const categoryQuery = searchParams.get("category") || "";
+  // const pageQuery = parseInt(searchParams.get("page") || "1", 10);
+  // const limitQuery = parseInt(searchParams.get("limit") || "10", 10);
+  // const sortQuery = searchParams.get("sort") || "";
 
   const fetchFilteredProducts = async () => {
     try {
       const res = await fetch(`${BASE_URL}/product?${searchParams.toString()}`);
+      // const res = await fetch(
+      //   `${BASE_URL}/product?${searchParams.toString()}&page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}&q=${searchQuery}&sort=${sortQuery}`
+      // );
       if (!res.ok) throw new Error("Failed to fetch filtered products!");
 
       const data = await res.json();
       const totalDocs = data.totalDocs;
       const totalPages = data.totalPages;
+      setTotalDocs(totalDocs);
+      setTotalPages(totalPages);
 
       setFilteredProducts(data.docs);
 
-      // Update URL params to include totalDocs and totalPages
       const updatedParams = new URLSearchParams(searchParams.toString());
-      updatedParams.set("totalDocs", totalDocs.toString());
-      updatedParams.set("totalPages", totalPages.toString());
 
-      // Push the updated URL back to the router
       router.push(`?${updatedParams.toString()}`);
     } catch (error) {
       console.error("Error fetching filtered products:", error);
+    }
+  };
+
+  const updateParams = (
+    params: URLSearchParams,
+    attributeId: string,
+    value: string | number | [number, number],
+    isChecked: boolean
+  ) => {
+    if (Array.isArray(value)) {
+      const rangeString = `${value[0]}-${value[1]}`;
+      params.set(attributeId, rangeString);
+    } else if (isChecked) {
+      const existingValues = params.get(attributeId);
+      if (existingValues) {
+        const valuesArray = existingValues.split(",");
+        const updatedValues = valuesArray.filter((v) => v !== value.toString());
+        if (updatedValues.length > 0) {
+          params.set(attributeId, updatedValues.join(","));
+        } else {
+          params.delete(attributeId);
+        }
+      }
+    } else {
+      const existingValues = params.get(attributeId);
+      if (existingValues) {
+        const valuesArray = existingValues.split(",");
+        if (!valuesArray.includes(value.toString())) {
+          valuesArray.push(value.toString());
+          params.set(attributeId, valuesArray.join(","));
+        }
+      } else {
+        params.set(attributeId, value.toString());
+      }
     }
   };
 
@@ -191,10 +271,8 @@ export function FiltersLogicProvider({
       let updated = { ...prev };
 
       if (Array.isArray(value)) {
-        // Handle range values [min, max]
         updated[attributeId] = { min: value[0], max: value[1] };
       } else {
-        // Handle non-range values (string/number)
         updated = {
           ...prev,
           [attributeId]: {
@@ -203,7 +281,6 @@ export function FiltersLogicProvider({
           },
         };
 
-        // If all values for the attribute are unchecked, remove the attribute
         if (
           Object.values(updated[attributeId]).every((selected) => !selected)
         ) {
@@ -211,51 +288,12 @@ export function FiltersLogicProvider({
         }
       }
 
-      // Update URL parameters
       const params = new URLSearchParams(searchParams.toString());
+      const isChecked =
+        typeof value !== "object" &&
+        prev[attributeId]?.[value.toString()] === true;
 
-      if (Array.isArray(value)) {
-        // Set range [min, max] in the URL
-        // params.set(attributeId, `[${value[0]},${value[1]}]`);
-
-        // Manually create the range string in the format [min,max]
-        const rangeString = `[${value[0]},${value[1]}]`;
-        // Set the unencoded range string
-        params.set(attributeId, rangeString);
-      } else {
-        // Handle toggling of non-range values
-        const isChecked = prev[attributeId]?.[value.toString()] || false;
-
-        if (isChecked) {
-          // If the value is already checked, remove it from URL
-          const existingValues = params.get(attributeId);
-          if (existingValues) {
-            const valuesArray = existingValues.split(",");
-            const updatedValues = valuesArray.filter(
-              (v) => v !== value.toString()
-            );
-            if (updatedValues.length > 0) {
-              params.set(attributeId, updatedValues.join(","));
-            } else {
-              params.delete(attributeId); // Remove the param if no values are left
-            }
-          }
-        } else {
-          // If the value is not checked, add it to the URL
-          const existingValues = params.get(attributeId);
-          if (existingValues) {
-            const valuesArray = existingValues.split(",");
-            if (!valuesArray.includes(value.toString())) {
-              valuesArray.push(value.toString());
-              params.set(attributeId, valuesArray.join(","));
-            }
-          } else {
-            params.set(attributeId, value.toString());
-          }
-        }
-      }
-
-      // Push the updated parameters to the router
+      updateParams(params, attributeId, value, isChecked);
       router.push(`?${params.toString()}`);
 
       return updated;
@@ -264,42 +302,36 @@ export function FiltersLogicProvider({
 
   const handleRangeChange = (
     attributeId: string,
-    // range: { min: number; max: number }
-    { min, max }: { min: number; max: number }
+    { min, max }: { min: number | null; max: number | null }
   ) => {
+    // Update local state for debouncing URL updates
     setCheckedItems((prev) => {
-      // const updatedCheckedItems = {
-      //   ...prev,
-      //   [attributeId]: {
-      //     min: range.min,
-      //     max: range.max,
-      //   },
-      // };
-
       const updated = { ...prev };
-
-      // Handle range values [min, max]
-      updated[attributeId] = { min, max };
-
-      // Update URL parameters
-      const params = new URLSearchParams(searchParams.toString());
-      // if (range.min || range.max) {
-      //   params.set(
-      //     attributeId,
-      //     encodeURIComponent(`[${range.min},${range.max}]`)
-      //   );
-      // } else {
-      //   params.delete(attributeId); // If both min and max are not set, remove the query param
-      // }
-
-      // Ensure the range is formatted correctly without extra encoding
-      params.set(attributeId, `[${min},${max}]`);
-
-      router.push(`?${params.toString()}`);
-
-      // return updatedCheckedItems;
+      if (min === null && max === null) {
+        // Remove the attribute if both inputs are cleared
+        delete updated[attributeId];
+      } else {
+        // updated[attributeId] = { min, max };
+        updated[attributeId] = { min: min ?? 0, max: max ?? 0 };
+      }
       return updated;
     });
+
+    // Delay updating the URL until both min and max are provided or cleared
+    clearTimeout((window as any).rangeUpdateTimer); // Clear previous timer
+    (window as any).rangeUpdateTimer = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      if (min === null || (min === 0 && max === null) || max === 0) {
+        // Clear the parameter from the URL if both inputs are cleared
+        params.delete(attributeId);
+      } else if (min !== null || (min !== 0 && max !== null) || max !== 0) {
+        // Update the URL with the format id=min-max
+        params.set(attributeId, `${min}-${max}`);
+      }
+
+      router.push(`?${params.toString()}`);
+    }, 1000); // Adjust debounce delay as needed
   };
 
   const clearFilters = () => {
@@ -325,6 +357,8 @@ export function FiltersLogicProvider({
         handleCheckAndFilterChange,
         handleRangeChange,
         enabledAttributes,
+        totalDocs: totalDocs ?? 0,
+        totalPages: totalPages ?? 0,
       }}
     >
       {children}

@@ -3,49 +3,42 @@
 import ProductCardList from "./product-card-list";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useView } from "@/contexts/view-context";
 
 export default function ViewList({
   currentPage,
-  // totalPages,
-  // totalDocs,
   limit,
-  search,
-  category,
-  view,
-  sort,
-}: {
+}: // search,
+// category,
+// view,
+// sort,
+{
   currentPage: number;
-  // totalPages: number;
-  // totalDocs: number;
   limit: number;
-  search: string;
-  category: string;
-  view: string;
-  sort: string;
+  // search: string;
+  // category: string;
+  // view: string;
+  // sort: string;
 }) {
-  const { filteredProducts } = useFiltersLogic();
-  const searchParams = useSearchParams();
+  const { filteredProducts, totalDocs, totalPages } = useFiltersLogic();
+  const { viewType } = useView();
   const router = useRouter();
-
-  // Extract `totalDocs` and `totalPages` from query parameters
-  const totalDocs = parseInt(searchParams.get("totalDocs") || "0", 10);
-  const totalPages = parseInt(searchParams.get("totalPages") || "0", 10);
 
   const handlePageChange = (page: number) => {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set("page", page.toString());
     searchParams.set("limit", limit.toString());
-    searchParams.set("category", category.toString());
-    searchParams.set("q", search.toString());
-    searchParams.set("view", view.toString());
-    searchParams.set("sort", sort.toString());
+    // searchParams.set("category", category.toString());
+    // searchParams.set("q", search.toString());
+    // searchParams.set("view", view.toString());
+    // searchParams.set("sort", sort.toString());
     router.push(`?${searchParams.toString()}`);
   };
 
   return (
     <>
-      {view === "list" && (
+      {viewType === "list" && (
         <div
           className={`flex flex-col gap-4 pt-6 ${
             !filteredProducts.length && "h-full justify-center items-center"

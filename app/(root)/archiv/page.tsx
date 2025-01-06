@@ -16,6 +16,7 @@ import { FiltersLogicProvider } from "@/contexts/filter-logic-context";
 import SortSwitch from "./sort-switch";
 import { SortProvider } from "@/contexts/sort-popup-context";
 import DialogSort from "./dialog-sort";
+import { ViewProvider } from "@/contexts/view-context";
 
 export async function generateMetadata({
   searchParams,
@@ -52,221 +53,186 @@ export default async function ArchivePage({
   searchParams,
 }: {
   searchParams: {
-    // search?: string;
     q?: string;
     category?: string;
     page?: string;
     limit?: string;
-    view?: string;
     sort?: string;
+    // view?: string;
   };
 }) {
-  // const searchQuery = searchParams?.search || "";
   const searchQuery = searchParams?.q || "";
   const categoryQuery = searchParams?.category || "";
   const pageQuery = parseInt(searchParams?.page || "1", 10);
   const limitQuery = parseInt(searchParams?.limit || "10", 10);
-  const viewQuery = searchParams?.view || "list";
   const sortQuery = searchParams?.sort || "";
+  // const viewQuery = searchParams?.view || "list";
 
   let error: string | null = null;
 
   const res1 = await fetch(`${BASE_URL}/web-text-plans`);
-  const info = await res1.json();
   const res2 = await fetch(`${BASE_URL}/category`);
-  const categoriesData = await res2.json();
-  const res3 = await fetch(`${BASE_URL}/product-archive-filter`);
-  const filtersData = await res3.json();
-  const res4 = await fetch(
-    `${BASE_URL}/product?page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}&q=${searchQuery}&sort=${sortQuery}`,
-    // &${filtersData._id}=${filtersData.values}`,
+  const res3 = await fetch(
+    // `${BASE_URL}/product?page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}&q=${searchQuery}&sort=${sortQuery}`,
+    `${BASE_URL}/product`,
     { cache: "no-store" }
   );
-  const productsData = await res4.json();
+
+  const info = await res1.json();
+  const categoriesData = await res2.json();
+  const productsData = await res3.json();
 
   if (!productsData) return notFound();
-
-  // const totalDocs = productsData.totalDocs;
-  // const totalPages = productsData.totalPages;
 
   const category = categoriesData?.categories.find(
     (cat: Category) => cat._id === categoryQuery
   );
 
-  // Normalize the search query by replacing any extra spaces with a single space
-  const normalizedSearchQuery = searchQuery.replace(/\s+/g, " ").trim();
-  // Split by space and handle search query parts
-  const searchParts = normalizedSearchQuery.split(" ");
-
-  const productsList = productsData.docs.filter((product: Product) => {
-    return (
-      product.category._id === categoryQuery ||
-      (searchParts?.some((part) => {
-        return (
-          product.title.includes(part) ||
-          product.description.includes(part) ||
-          product.enTitle.includes(part) ||
-          product.country.title.includes(part) ||
-          product.brand.title.includes(part) ||
-          product.brand.enTitle.includes(part) ||
-          product.options.includes(part) ||
-          product.yearOfManufacture.includes(part) ||
-          product.condition.includes(part)
-        );
-      }) &&
-        product.category._id.includes(categoryQuery))
-    );
-  });
-
-  if (productsList.length === 0) {
+  if (productsData.length === 0) {
     error = "جستجو بی نتیجه بود";
   }
 
   return (
-    <FiltersLogicProvider initialProducts={productsList}>
+    <FiltersLogicProvider initialProducts={productsData}>
       <FilterProvider>
         <SortProvider>
-          {/* Pop-Ups */}
-          <DialogInquiry />
-          <DialogFilters />
-          <DialogSort />
+          <ViewProvider>
+            {/* Pop-Ups */}
+            <DialogInquiry />
+            <DialogFilters />
+            <DialogSort />
 
-          {/* Mobile View */}
-          <div className="block md:hidden relative">
-            <BannerThin />
-            {/* Heading */}
-            <div className="absolute w-full flex justify-center top-10">
-              <h1 className="text-primary font-bold text-[20px]">
-                {category ? category.title : info.archiveProductTitle}
-              </h1>
-            </div>
-            {/* Content */}
-            <div className="flex flex-col pt-8 wrapper min-h-screen">
-              {/* Buttons */}
-              <ButtonsMobile />
-              {/* Product View */}
-              {error ? (
-                <div className="flex items-start justify-center pt-20 h-screen text-secondary text-sm">
-                  {error}
-                </div>
-              ) : (
-                <ViewMobile
-                  currentPage={pageQuery}
-                  // totalPages={totalPages}
-                  // totalDocs={totalDocs}
-                  limit={limitQuery}
-                  search={searchQuery}
-                  category={categoryQuery}
-                  sort={sortQuery}
-                />
-              )}
-              {/* Description */}
-              {category && (
-                <div className="flex flex-col gap-4 bg-[#618FB61A] -mx-4 px-4 py-8">
-                  <h2 className="text-primary font-bold text-[16px] text-center">
-                    {category.title}
-                  </h2>
-                  <p className="text-secondary font-medium text-[12px] leading-7 text-justify">
-                    {category.description}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* ****************************************************************************************************************** */}
-
-          {/* Desktop View */}
-          <div className="hidden md:block relative">
-            <BannerThin />
-            {/* Sitemap */}
-            <div className="flex items-center justify-center">
-              <div className="wrapper flex items-center justify-between absolute -mt-12 z-10">
-                <Sitemap category={category} info={info} />
+            {/* Mobile View */}
+            <div className="block md:hidden relative">
+              <BannerThin />
+              {/* Heading */}
+              <div className="absolute w-full flex justify-center top-10">
+                <h1 className="text-primary font-bold text-[20px]">
+                  {category ? category.title : info.archiveProductTitle}
+                </h1>
               </div>
-            </div>
-            {/* Content */}
-            <div className="wrapper flex flex-row md:gap-10 xl:gap-20 py-12">
-              {/* Filters */}
-              <div className="flex flex-col gap-8 w-5/12 lg:w-4/12 xl:w-3/12">
-                <h3 className="text-secondary font-semibold text-[20px]">
-                  فیلترها
-                </h3>
-                <Filters />
-              </div>
-              {/* Product View */}
-              <div className="flex flex-col w-9/12">
-                {/* Heading */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <h1 className="text-primary font-bold text-[24px]">
-                      {category ? category.title : info.archiveProductTitle}
-                    </h1>
+              {/* Content */}
+              <div className="flex flex-col pt-8 wrapper min-h-screen">
+                {/* Buttons */}
+                <ButtonsMobile />
+                {/* Product View */}
+                {error ? (
+                  <div className="flex items-start justify-center pt-20 h-screen text-secondary text-sm">
+                    {error}
                   </div>
-                  <SortSwitch
+                ) : (
+                  <ViewMobile
                     currentPage={pageQuery}
                     limit={limitQuery}
                     search={searchQuery}
                     category={categoryQuery}
-                    view={viewQuery}
                     sort={sortQuery}
                   />
-                  <ViewSwitch
-                    currentPage={pageQuery}
-                    limit={limitQuery}
-                    search={searchQuery}
-                    category={categoryQuery}
-                    view={viewQuery}
-                    sort={sortQuery}
-                  />
+                )}
+                {/* Description */}
+                {category && (
+                  <div className="flex flex-col gap-4 bg-[#618FB61A] -mx-4 px-4 py-8">
+                    <h2 className="text-primary font-bold text-[16px] text-center">
+                      {category.title}
+                    </h2>
+                    <p className="text-secondary font-medium text-[12px] leading-7 text-justify">
+                      {category.description}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* ****************************************************************************************************************** */}
+
+            {/* Desktop View */}
+            <div className="hidden md:block relative">
+              <BannerThin />
+              {/* Sitemap */}
+              <div className="flex items-center justify-center">
+                <div className="wrapper flex items-center justify-between absolute -mt-12 z-10">
+                  <Sitemap category={category} info={info} />
                 </div>
-                {/* Contents */}
-                <div className="flex flex-col justify-between h-full">
-                  {error ? (
-                    <div className="flex items-start justify-center pt-20 h-full text-secondary text-sm">
-                      {error}
+              </div>
+              {/* Content */}
+              <div className="wrapper flex flex-row md:gap-10 xl:gap-20 py-12">
+                {/* Filters */}
+                <div className="flex flex-col gap-8 w-5/12 lg:w-4/12 xl:w-3/12">
+                  <h3 className="text-secondary font-semibold text-[20px]">
+                    فیلترها
+                  </h3>
+                  <Filters />
+                </div>
+                {/* Product View */}
+                <div className="flex flex-col w-9/12">
+                  {/* Heading */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <h1 className="text-primary font-bold text-[24px]">
+                        {category ? category.title : info.archiveProductTitle}
+                      </h1>
                     </div>
-                  ) : (
-                    <>
-                      {/* List */}
-                      <ViewList
-                        currentPage={pageQuery}
-                        // totalPages={totalPages}
-                        // totalDocs={totalDocs}
-                        limit={limitQuery}
-                        search={searchQuery}
-                        category={categoryQuery}
-                        view={viewQuery}
-                        sort={sortQuery}
-                      />
-                      {/* Grid */}
-                      <ViewGrid
-                        currentPage={pageQuery}
-                        // totalPages={totalPages}
-                        // totalDocs={totalDocs}
-                        limit={limitQuery}
-                        search={searchQuery}
-                        category={categoryQuery}
-                        view={viewQuery}
-                        sort={sortQuery}
-                      />
-                    </>
-                  )}
-                  {/* Description Card */}
-                  {category && (
-                    <div className="flex flex-col gap-4 border rounded-xl shadow-md p-8 mt-14">
-                      <h2 className="text-primary font-bold text-[20px]">
-                        {category?.title}
-                      </h2>
-                      <p className="text-secondary font-medium text-[13px] leading-7 text-justify">
-                        {category?.description}
-                      </p>
-                    </div>
-                  )}
+                    <SortSwitch
+                      // currentPage={pageQuery}
+                      // limit={limitQuery}
+                      // search={searchQuery}
+                      // category={categoryQuery}
+                      // view={viewQuery}
+                      sort={sortQuery}
+                    />
+                    <ViewSwitch
+                    // currentPage={pageQuery}
+                    // limit={limitQuery}
+                    // search={searchQuery}
+                    // category={categoryQuery}
+                    // view={viewQuery}
+                    // sort={sortQuery}
+                    />
+                  </div>
+                  {/* Contents */}
+                  <div className="flex flex-col justify-between h-full">
+                    {error ? (
+                      <div className="flex items-start justify-center pt-20 h-full text-secondary text-sm">
+                        {error}
+                      </div>
+                    ) : (
+                      <>
+                        {/* List */}
+                        <ViewList
+                          currentPage={pageQuery}
+                          limit={limitQuery}
+                          // search={searchQuery}
+                          // category={categoryQuery}
+                          // view={viewQuery}
+                          // sort={sortQuery}
+                        />
+                        {/* Grid */}
+                        <ViewGrid
+                          currentPage={pageQuery}
+                          limit={limitQuery}
+                          // search={searchQuery}
+                          // category={categoryQuery}
+                          // view={viewQuery}
+                          // sort={sortQuery}
+                        />
+                      </>
+                    )}
+                    {/* Description Card */}
+                    {category && (
+                      <div className="flex flex-col gap-4 border rounded-xl shadow-md p-8 mt-14">
+                        <h2 className="text-primary font-bold text-[20px]">
+                          {category?.title}
+                        </h2>
+                        <p className="text-secondary font-medium text-[13px] leading-7 text-justify">
+                          {category?.description}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </ViewProvider>
         </SortProvider>
       </FilterProvider>
     </FiltersLogicProvider>

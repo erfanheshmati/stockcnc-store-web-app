@@ -80,8 +80,8 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
                     <input
                       type="number"
                       placeholder="حداقل"
-                      min={0}
                       value={Number(checkedItems[attribute._id]?.min) || ""}
+                      // min={0}
                       // defaultValue={0}
                       className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[12px]"
                       onChange={(e) =>
@@ -146,7 +146,6 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
               type="checkbox"
               id="in-stock-toggle"
               className="sr-only"
-              // checked={inStockOnly}
               checked={inStockOnly ?? false}
               onChange={() => setInStockOnly(!inStockOnly)}
             />

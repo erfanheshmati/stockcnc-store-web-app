@@ -55,7 +55,8 @@ export default function Filters() {
                       id={`filter-${index}-${idx}`}
                       checked={
                         typeof checkedItems[attribute._id]?.[value] ===
-                          "boolean" || "string"
+                        // "boolean" || "string"
+                        "boolean"
                           ? (checkedItems[attribute._id]?.[value] as boolean)
                           : false
                       }
@@ -90,16 +91,13 @@ export default function Filters() {
                     <input
                       type="number"
                       placeholder="حداقل"
-                      min={0}
-                      // value={Number(checkedItems[attribute.title]?.min) || ""}
                       value={Number(checkedItems[attribute._id]?.min) || ""}
+                      // min={0}
                       // defaultValue={0}
                       className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[13px]"
                       onChange={(e) =>
-                        // handleRangeChange(attribute.title, {
                         handleRangeChange(attribute._id, {
                           min: Number(e.target.value),
-                          // max: Number(checkedItems[attribute.title]?.max),
                           max: Number(checkedItems[attribute._id]?.max),
                         })
                       }
@@ -108,15 +106,12 @@ export default function Filters() {
                     <input
                       type="number"
                       placeholder="حداکثر"
-                      // value={Number(checkedItems[attribute.title]?.max) || ""}
                       value={Number(checkedItems[attribute._id]?.max) || ""}
                       // max={1000}
                       // defaultValue={1000}
                       className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[13px]"
                       onChange={(e) =>
-                        // handleRangeChange(attribute.title, {
                         handleRangeChange(attribute._id, {
-                          // min: Number(checkedItems[attribute.title]?.min),
                           min: Number(checkedItems[attribute._id]?.min),
                           max: Number(e.target.value),
                         })

@@ -5,18 +5,18 @@ import { useDialog } from "@/contexts/dialog-context";
 import { useRouter } from "next/navigation";
 
 export default function SortSwitch({
-  currentPage,
-  limit,
-  search,
-  category,
-  view,
+  // currentPage,
+  // limit,
+  // search,
+  // category,
+  // view,
   sort,
 }: {
-  currentPage: number;
-  limit: number;
-  search: string;
-  category: string;
-  view: string;
+  // currentPage: number;
+  // limit: number;
+  // search: string;
+  // category: string;
+  // view: string;
   sort: string;
 }) {
   const { closeDialog } = useDialog();
@@ -24,11 +24,11 @@ export default function SortSwitch({
 
   const handleSortChange = (sortType: string = sort) => {
     const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("page", currentPage.toString());
-    searchParams.set("limit", limit.toString());
-    searchParams.set("category", category.toString());
-    searchParams.set("q", search.toString());
-    searchParams.set("view", view.toString());
+    // searchParams.set("page", currentPage.toString());
+    // searchParams.set("limit", limit.toString());
+    // searchParams.set("category", category.toString());
+    // searchParams.set("q", search.toString());
+    // searchParams.set("view", view.toString());
     searchParams.set("sort", sortType.toString());
     router.push(`?${searchParams.toString()}`);
   };
