@@ -22,7 +22,7 @@ export default function ProductImages({ data }: { data: Product }) {
       {/* Mobile View */}
       <div className="flex items-center justify-center md:hidden h-[280px] bg-[#EFF1F6]">
         {/* Content */}
-        <div className="flex items-center justify-center wrapper z-[1]">
+        <div className="flex items-center justify-center w-full z-[1]">
           {/* Slider */}
           <div className="flex items-center justify-center w-full">
             {/* Swiper */}
@@ -35,13 +35,11 @@ export default function ProductImages({ data }: { data: Product }) {
               }}
             >
               {data.gallery.map((image, index) => (
-                <SwiperSlide key={index} className="py-12">
+                <SwiperSlide key={index} className="py-2">
                   <img
                     src={`${IMAGE_URL}/${image}`}
                     alt="Product Image"
-                    width={250}
-                    height={170}
-                    className="h-[170px] mx-auto"
+                    className="h-[280px] w-full"
                   />
                 </SwiperSlide>
               ))}
