@@ -45,7 +45,7 @@ export default function ViewMobile() {
 
   return (
     <div>
-      <div className="flex flex-col gap-8 pt-4 pb-8">
+      <div className="flex flex-col gap-10 pt-4 pb-8">
         {visibleProducts.length ? (
           visibleProducts.map((product) => (
             <ProductCardMobile key={product._id} product={product} />

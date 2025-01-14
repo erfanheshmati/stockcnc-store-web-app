@@ -43,7 +43,7 @@ export default function ProductCard({ data }: { data: Product }) {
           <h3 className="text-secondary/80 text-[10px]">{data.enTitle}</h3>
         </div>
         <div className="flex items-center justify-between py-2">
-          <span className="text-black text-[11px]">{data.options}</span>
+          <span className="text-black text-[11px]">{data.typeOfLathe}</span>
           <span className="text-black text-[11px]">
             سال ساخت {data.yearOfManufacture}
           </span>
