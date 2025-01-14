@@ -9,7 +9,11 @@ export default function ProductCardGrid({ data }: { data: Product }) {
   const { openDialog } = useDialog();
 
   return (
-    <div className="flex flex-col justify-between py-4 rounded-2xl shadow-lg h-[490px]">
+    <div
+      className={`flex flex-col justify-between py-4 rounded-2xl shadow-lg h-[490px] ${
+        !data.available ? "opacity-70" : ""
+      }`}
+    >
       <div className="flex items-center justify-between px-6">
         <span className="relative group cursor-pointer">
           <img

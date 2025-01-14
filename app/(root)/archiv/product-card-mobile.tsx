@@ -7,7 +7,11 @@ export default function ProductCardMobile({ product }: { product: Product }) {
   const { openDialog } = useDialog();
 
   return (
-    <div className="flex flex-col p-5 gap-4 rounded-2xl shadow-md">
+    <div
+      className={`flex flex-col p-5 gap-4 rounded-2xl shadow-md ${
+        !product.available ? "opacity-70" : ""
+      }`}
+    >
       <div className="flex items-start justify-between">
         <div className="flex items-center justify-center w-8/12 h-[150px] sm:h-[180px] rounded-xl bg-[#EFF1F6]">
           <img

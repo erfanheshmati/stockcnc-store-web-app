@@ -11,7 +11,11 @@ export default function ProductCard({ data }: { data: Product }) {
   return (
     <>
       {/* Mobile View */}
-      <div className="md:hidden flex flex-col justify-between w-[221px] h-[322px] px-4 py-2 mx-auto shadow-xl rounded-xl">
+      <div
+        className={`md:hidden flex flex-col justify-between w-[221px] h-[322px] px-4 py-2 mx-auto shadow-xl rounded-xl ${
+          !data.available ? "opacity-70" : ""
+        }`}
+      >
         <div className="flex items-center justify-end gap-2">
           <h3 className="text-secondary/70 text-[12px]">
             {data?.brand?.enTitle}
@@ -77,7 +81,9 @@ export default function ProductCard({ data }: { data: Product }) {
 
       {/* Desktop View */}
       <div
-        className="hidden md:flex flex-col justify-between py-4 rounded-2xl shadow-lg max-w-[323px] h-[490px]"
+        className={`hidden md:flex flex-col justify-between py-4 rounded-2xl shadow-lg max-w-[323px] h-[490px] ${
+          !data.available ? "opacity-70" : ""
+        }`}
         dir="rtl"
       >
         <div className="flex items-center justify-between px-6">
