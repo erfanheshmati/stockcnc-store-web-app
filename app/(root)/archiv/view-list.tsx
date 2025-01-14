@@ -1,107 +1,79 @@
 "use client";
 
 import ProductCardList from "./product-card-list";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
-import { useRouter } from "next/navigation";
 import { useView } from "@/contexts/view-context";
+import { BASE_URL } from "@/lib/constants";
+import { Product } from "@/lib/types";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default function ViewList({
-  currentPage,
-  limit,
-}: // search,
-// category,
-// view,
-// sort,
-{
-  currentPage: number;
-  limit: number;
-  // search: string;
-  // category: string;
-  // view: string;
-  // sort: string;
-}) {
-  const { filteredProducts, totalDocs, totalPages } = useFiltersLogic();
+export default function ViewList() {
+  const { filteredProducts, totalDocs, setFilteredProducts, totalPages } =
+    useFiltersLogic();
+  const [visibleProducts, setVisibleProducts] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const { viewType } = useView();
-  const router = useRouter();
+  const searchParams = useSearchParams(); // Access current query params
 
-  const handlePageChange = (page: number) => {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("page", page.toString());
-    searchParams.set("limit", limit.toString());
-    // searchParams.set("category", category.toString());
-    // searchParams.set("q", search.toString());
-    // searchParams.set("view", view.toString());
-    // searchParams.set("sort", sort.toString());
-    router.push(`?${searchParams.toString()}`);
+  const fetchProducts = async (page: number) => {
+    try {
+      setLoading(true);
+      // Append current search params to the API request
+      const query = searchParams.toString();
+      const response = await fetch(`${BASE_URL}/product?page=${page}&${query}`);
+      if (!response.ok) throw new Error("Failed to fetch products");
+      const data = await response.json();
+      setVisibleProducts((prev) => [...prev, ...data.docs]); // Merge new products with existing ones
+      setFilteredProducts([...visibleProducts, ...data.docs]); // Update the context products
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+      setLoading(false);
+    }
   };
+  const handleLoadMore = () => {
+    if (currentPage < totalPages) {
+      const nextPage = currentPage + 1;
+      setCurrentPage(nextPage); // Update the current page
+      fetchProducts(nextPage); // Fetch the next batch of products
+    }
+  };
+
+  useEffect(() => {
+    setVisibleProducts(filteredProducts); // Sync with filtered products when filters change
+  }, [filteredProducts]);
 
   return (
     <>
       {viewType === "list" && (
         <div
-          className={`flex flex-col gap-4 pt-6 ${
-            !filteredProducts.length && "h-full justify-center items-center"
+          className={`flex flex-col gap-14 pt-6 ${
+            !visibleProducts.length && "h-full justify-center items-center"
           }`}
         >
-          {filteredProducts.length ? (
-            filteredProducts.map((data) => (
-              <ProductCardList key={data._id} data={data} />
-            ))
+          {visibleProducts.length ? (
+            visibleProducts
+              .slice(0, visibleProducts.length)
+              .map((data) => <ProductCardList key={data._id} data={data} />)
           ) : (
             <div className="text-secondary text-sm">
               محصولی با این مشخصات وجود ندارد
             </div>
           )}
 
-          {/* Pagination */}
-          {filteredProducts.length > 0 && (
-            <>
-              <div
-                className="flex justify-center items-center gap-3 mt-6"
-                dir="ltr"
+          {/* Load More Button */}
+          {visibleProducts.length < totalDocs && (
+            <div className="flex justify-center">
+              <button
+                onClick={handleLoadMore}
+                className="bg-secondary/10 text-secondary/90 rounded-md px-6 py-3 text-sm font-semibold hover:opacity-80 transition-all duration-300 ease-in-out"
+                disabled={loading}
               >
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className={`flex items-center justify-center w-10 h-10 rounded hover:opacity-60 transition-all duration-300 ease-in-out ${
-                    currentPage === 1
-                      ? " text-gray-300 cursor-not-allowed"
-                      : "text-gray-600"
-                  }`}
-                >
-                  <IoIosArrowBack size={20} />
-                </button>
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handlePageChange(index + 1)}
-                    className={`flex items-center justify-center w-10 h-10 rounded hover:opacity-80 transition-all duration-300 ease-in-out ${
-                      currentPage === index + 1
-                        ? "bg-primary text-white"
-                        : "bg-secondary/15 text-secondary"
-                    }`}
-                  >
-                    {index + 1}
-                  </button>
-                ))}
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className={`flex items-center justify-center w-10 h-10 rounded hover:opacity-60 transition-all duration-300 ease-in-out ${
-                    currentPage === totalPages
-                      ? "text-gray-300 cursor-not-allowed"
-                      : "text-gray-600"
-                  }`}
-                >
-                  <IoIosArrowForward size={20} />
-                </button>
-              </div>
-              <div className="flex items-center justify-center text-secondary text-sm">
-                نمایش {limit * (currentPage - 1) + 1} تا{" "}
-                {Math.min(limit * currentPage, totalDocs)} از {totalDocs} مورد
-              </div>
-            </>
+                {loading ? "در حال بارگذاری..." : "مشاهده محصولات بیشتر"}
+              </button>
+            </div>
           )}
         </div>
       )}

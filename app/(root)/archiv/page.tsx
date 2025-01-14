@@ -120,7 +120,7 @@ export default async function ArchivePage({
                     {error}
                   </div>
                 ) : (
-                  <ViewMobile currentPage={pageQuery} limit={limitQuery} />
+                  <ViewMobile />
                 )}
                 {/* Description */}
                 {category && (
@@ -177,9 +177,9 @@ export default async function ArchivePage({
                     ) : (
                       <>
                         {/* List */}
-                        <ViewList currentPage={pageQuery} limit={limitQuery} />
+                        <ViewList />
                         {/* Grid */}
-                        <ViewGrid currentPage={pageQuery} limit={limitQuery} />
+                        <ViewGrid />
                       </>
                     )}
                     {/* Description Card */}

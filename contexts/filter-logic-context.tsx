@@ -18,6 +18,7 @@ type FiltersContextType = {
   inStockOnly: boolean | null;
   setInStockOnly: (value: boolean | null) => void;
   filteredProducts: Product[];
+  setFilteredProducts: (products: Product[]) => void;
   toggleFilter: (index: number | null) => void;
   openFilter: number | null;
   setOpenFilter: (index: number | null) => void;
@@ -334,6 +335,7 @@ export function FiltersLogicProvider({
         inStockOnly,
         setInStockOnly,
         filteredProducts,
+        setFilteredProducts,
         toggleFilter,
         openFilter,
         setOpenFilter,

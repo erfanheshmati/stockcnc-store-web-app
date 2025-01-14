@@ -1,32 +1,53 @@
 "use client";
 
 import ProductCardMobile from "./product-card-mobile";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Product } from "@/lib/types";
+import { useSearchParams } from "next/navigation";
+import { BASE_URL } from "@/lib/constants";
 
-export default function ViewMobile({
-  currentPage,
-  limit,
-}: {
-  currentPage: number;
-  limit: number;
-}) {
-  const { filteredProducts, totalDocs, totalPages } = useFiltersLogic();
-  const router = useRouter();
+export default function ViewMobile() {
+  const { filteredProducts, totalDocs, setFilteredProducts, totalPages } =
+    useFiltersLogic();
+  const [visibleProducts, setVisibleProducts] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams(); // Access current query params
 
-  const handlePageChange = (page: number) => {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("page", page.toString());
-    searchParams.set("limit", limit.toString());
-    router.push(`?${searchParams.toString()}`);
+  const fetchProducts = async (page: number) => {
+    try {
+      setLoading(true);
+      // Append current search params to the API request
+      const query = searchParams.toString();
+      const response = await fetch(`${BASE_URL}/product?page=${page}&${query}`);
+      if (!response.ok) throw new Error("Failed to fetch products");
+      const data = await response.json();
+      setVisibleProducts((prev) => [...prev, ...data.docs]); // Merge new products with existing ones
+      setFilteredProducts([...visibleProducts, ...data.docs]); // Update the context products
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+      setLoading(false);
+    }
   };
+  const handleLoadMore = () => {
+    if (currentPage < totalPages) {
+      const nextPage = currentPage + 1;
+      setCurrentPage(nextPage); // Update the current page
+      fetchProducts(nextPage); // Fetch the next batch of products
+    }
+  };
+
+  useEffect(() => {
+    setVisibleProducts(filteredProducts); // Sync with filtered products when filters change
+  }, [filteredProducts]);
 
   return (
     <div>
-      <div className="flex flex-col gap-4 pt-4 pb-8">
-        {filteredProducts.length ? (
-          filteredProducts.map((product) => (
+      <div className="flex flex-col gap-8 pt-4 pb-8">
+        {visibleProducts.length ? (
+          visibleProducts.map((product) => (
             <ProductCardMobile key={product._id} product={product} />
           ))
         ) : (
@@ -35,54 +56,17 @@ export default function ViewMobile({
           </div>
         )}
 
-        {/* Pagination */}
-        {filteredProducts.length > 0 && (
-          <>
-            <div
-              className="flex justify-center items-center gap-3 mt-6"
-              dir="ltr"
+        {/* Load More Button */}
+        {visibleProducts.length < totalDocs && (
+          <div className="flex justify-center">
+            <button
+              onClick={handleLoadMore}
+              className="bg-secondary/10 text-secondary/90 rounded-md px-6 py-3 text-sm font-semibold"
+              disabled={loading}
             >
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className={`flex items-center justify-center w-10 h-10 rounded hover:opacity-60 transition-all duration-300 ease-in-out ${
-                  currentPage === 1
-                    ? " text-gray-300 cursor-not-allowed"
-                    : "text-gray-600"
-                }`}
-              >
-                <IoIosArrowBack size={20} />
-              </button>
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handlePageChange(index + 1)}
-                  className={`flex items-center justify-center w-10 h-10 rounded hover:opacity-80 transition-all duration-300 ease-in-out ${
-                    currentPage === index + 1
-                      ? "bg-primary text-white"
-                      : "bg-secondary/15 text-secondary"
-                  }`}
-                >
-                  {index + 1}
-                </button>
-              ))}
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className={`flex items-center justify-center w-10 h-10 rounded hover:opacity-60 transition-all duration-300 ease-in-out ${
-                  currentPage === totalPages
-                    ? "text-gray-300 cursor-not-allowed"
-                    : "text-gray-600"
-                }`}
-              >
-                <IoIosArrowForward size={20} />
-              </button>
-            </div>
-            <div className="flex items-center justify-center text-secondary text-sm">
-              نمایش {limit * (currentPage - 1) + 1} تا{" "}
-              {Math.min(limit * currentPage, totalDocs)} از {totalDocs} مورد
-            </div>
-          </>
+              {loading ? "در حال بارگذاری..." : "مشاهده محصولات بیشتر"}
+            </button>
+          </div>
         )}
       </div>
     </div>
