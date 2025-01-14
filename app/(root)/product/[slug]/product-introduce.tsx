@@ -9,6 +9,7 @@ import {
 } from "react-icons/bi";
 import { useAccordion } from "@/contexts/accordion-context";
 import { Product } from "@/lib/types";
+import { IMAGE_URL } from "@/lib/constants";
 
 export default function ProductIntroduce({
   index,
@@ -25,9 +26,22 @@ export default function ProductIntroduce({
       <div className="flex md:hidden flex-col gap-6 mt-8 wrapper">
         {/* Product Title */}
         <div className="flex flex-col gap-2">
-          <h1 className="text-primary font-bold text-[18px] line-clamp-1">
-            {data.title}
-          </h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-primary font-bold text-[18px] line-clamp-1 w-9/12">
+              {data.title}
+            </h1>
+            <div className="flex items-center gap-2">
+              <span className="text-secondary/60 font-semibold text-sm pt-1.5">
+                {data.brand.enTitle}
+              </span>
+              <img
+                src={`${IMAGE_URL}/${data.country.logo}`}
+                alt={data.country.title}
+                width={18}
+                height={18}
+              />
+            </div>
+          </div>
           <h2 className="text-secondary/70 text-[10px]">{data.enTitle}</h2>
         </div>
         {/* Product Specifications */}

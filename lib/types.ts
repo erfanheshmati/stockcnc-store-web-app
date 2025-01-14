@@ -58,6 +58,7 @@ export interface Product {
   country: Country;
   brand: Brand;
   category: Category;
+  typeOfLathe: string;
   options: string;
   available: boolean;
   condition: string;

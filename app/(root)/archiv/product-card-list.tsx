@@ -16,7 +16,9 @@ export default function ProductCardList({ data }: { data: Product }) {
           alt={data.title}
           width={180}
           height={120}
-          className="w-full h-[200px] rounded-xl"
+          className={`w-full h-[200px] rounded-xl ${
+            !data.available ? "filter grayscale" : ""
+          }`}
         />
       </div>
       <div className="flex flex-col items-start justify-between px-2 w-2/3">
@@ -29,7 +31,7 @@ export default function ProductCardList({ data }: { data: Product }) {
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-8">
             <span className="text-secondary font-semibold text-[13px]">
-              {data.options}
+              {data.typeOfLathe}
             </span>
             <span className="text-secondary font-semibold text-[13px]">
               سال ساخت {data.yearOfManufacture}

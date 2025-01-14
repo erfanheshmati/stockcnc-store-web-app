@@ -1,8 +1,8 @@
 import BannerThin from "@/components/shared/banner-thin";
 import { BASE_URL, IMAGE_URL } from "@/lib/constants";
 import Link from "next/link";
-import { PiTelegramLogo } from "react-icons/pi";
-import { SlSocialInstagram, SlSocialTwitter } from "react-icons/sl";
+import { PiTelegramLogo, PiWhatsappLogo } from "react-icons/pi";
+import { SlSocialInstagram } from "react-icons/sl";
 import DialogInquiry from "../dialog-inquiry";
 import { AboutUsMember } from "@/lib/types";
 import parse from "html-react-parser";
@@ -190,8 +190,8 @@ export default async function AboutPage() {
                 <hr className="w-full hidden sm:block" />
                 <div className="flex items-center justify-around w-full">
                   <Link href={member.tweeter}>
-                    <SlSocialTwitter
-                      size={15}
+                    <PiWhatsappLogo
+                      size={16}
                       className="text-secondary hover:text-cyan-500 transition-colors duration-300 ease-in-out"
                     />
                   </Link>
@@ -203,7 +203,7 @@ export default async function AboutPage() {
                   </Link>
                   <Link href={member.instagram}>
                     <SlSocialInstagram
-                      size={15}
+                      size={14}
                       className="text-secondary hover:text-pink-800 transition-colors duration-300 ease-in-out"
                     />
                   </Link>
@@ -439,9 +439,9 @@ export default async function AboutPage() {
                   <hr className="w-full" />
                   <div className="flex items-center justify-between w-full">
                     <Link href={member.tweeter} target="_blank">
-                      <SlSocialTwitter
-                        size={20}
-                        className="text-secondary hover:text-cyan-500 transition-colors duration-300 ease-in-out"
+                      <PiWhatsappLogo
+                        size={21}
+                        className="text-secondary hover:text-green-500 transition-colors duration-300 ease-in-out"
                       />
                     </Link>
                     <Link href={member.telegram} target="_blank">
@@ -452,7 +452,7 @@ export default async function AboutPage() {
                     </Link>
                     <Link href={member.instagram} target="_blank">
                       <SlSocialInstagram
-                        size={20}
+                        size={19}
                         className="text-secondary hover:text-pink-800 transition-colors duration-300 ease-in-out"
                       />
                     </Link>

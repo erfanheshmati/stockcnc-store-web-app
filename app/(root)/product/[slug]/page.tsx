@@ -89,7 +89,7 @@ export default async function ProductDetails({
           <div className="wrapper flex flex-col-reverse lg:flex-row items-center gap-10 py-12">
             {/* Right Side */}
             <div className="flex flex-col w-full gap-10 lg:w-1/2 xl:w-7/12 pt-10 lg:pt-0">
-              <ProductIntroduce index={1} data={data} />
+              <ProductIntroduce index={2} data={data} />
             </div>
             {/* Left Side */}
             <div className="flex flex-col w-full lg:w-1/2 xl:w-5/12">
@@ -100,8 +100,8 @@ export default async function ProductDetails({
 
         {/* Product Info */}
         <div className="wrapper flex flex-col lg:flex-row items-start gap-0 lg:gap-10 xl:gap-20 py-12">
-          <ProductInfo index={1} data={data} />
-          <ProductHealthCard index={1} data={data} />
+          <ProductInfo index={2} data={data} />
+          <ProductHealthCard index={2} data={data} />
         </div>
 
         {/* Related Products */}

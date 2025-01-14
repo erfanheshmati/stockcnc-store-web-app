@@ -43,7 +43,8 @@ export default function ProductHealthCard({
         <div
           className={`flex flex-col gap-8 mt-2 w-full overflow-hidden transition-all duration-300 ${
             openIndex === index ? "max-h-screen mb-10" : "max-h-0"
-          }`}
+          }
+            ${!data.available ? "blur-[3px]" : ""}`}
         >
           {healthData.map((item, index) => (
             <div key={index} className="flex items-center justify-between">
@@ -86,7 +87,11 @@ export default function ProductHealthCard({
           openIndex === index ? "max-h-screen mb-10" : "max-h-0"
         }`}
       >
-        <div className="flex flex-col gap-6 px-10 py-8 border-r border-t rounded-xl shadow-xl w-full">
+        <div
+          className={`flex flex-col gap-6 px-10 py-8 border-r border-t rounded-xl shadow-xl w-full ${
+            !data.available ? "blur-[3px]" : ""
+          }`}
+        >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-black/70 font-bold text-[20px]">
               کارت سلامت دستگاه

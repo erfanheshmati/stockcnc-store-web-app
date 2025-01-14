@@ -15,7 +15,9 @@ export default function ProductCardMobile({ product }: { product: Product }) {
             alt={product.title}
             width={170}
             height={110}
-            className="w-fit h-[110px] sm:h-[150px] object-cover"
+            className={`w-full h-[110px] sm:h-[150px] object-center rounded-xl ${
+              !product.available ? "filter grayscale" : ""
+            }`}
           />
         </div>
         <div className="flex items-center justify-center gap-2">
@@ -48,14 +50,23 @@ export default function ProductCardMobile({ product }: { product: Product }) {
         </span>
       </div>
       <div className="flex items-center gap-6">
-        <button
-          onClick={() => openDialog(product._id)}
-          className="flex w-full items-center justify-center h-[45px] 2xl:w-[140px] xl:h-[55px] rounded-lg text-black hover:text-white border"
-        >
-          <span className="text-secondary font-medium text-[14px]">
-            استعلام قیمت
+        {!product.available && (
+          <span className="flex w-full items-center justify-center h-[45px] 2xl:w-[140px] xl:h-[55px] text-red-500 font-medium text-[14px]">
+            ناموجود
           </span>
-        </button>
+        )}
+
+        {product.available && (
+          <button
+            onClick={() => openDialog(product._id)}
+            className="flex w-full items-center justify-center h-[45px] 2xl:w-[140px] xl:h-[55px] rounded-lg text-black hover:text-white border"
+          >
+            <span className="text-secondary font-medium text-[14px]">
+              استعلام قیمت
+            </span>
+          </button>
+        )}
+
         <Link
           href={`/product/${product._id}`}
           className="flex w-full items-center justify-center h-[45px] 2xl:w-[110px] xl:h-[55px] rounded-lg text-black hover:text-white border"

@@ -28,7 +28,9 @@ export default function ProductCard({ data }: { data: Product }) {
           <img
             src={`${IMAGE_URL}/${data.primaryImage}`}
             alt={data.title}
-            className="w-full h-[110px] rounded-xl"
+            className={`w-full h-[110px] rounded-xl ${
+              !data.available ? "filter grayscale" : ""
+            }`}
           />
         </div>
         <div className="flex items-center">
@@ -100,7 +102,9 @@ export default function ProductCard({ data }: { data: Product }) {
           <img
             src={`${IMAGE_URL}/${data.primaryImage}`}
             alt={data.title}
-            className="w-full h-[216px]"
+            className={`w-full h-[216px] ${
+              !data.available ? "filter grayscale" : ""
+            }`}
           />
         </div>
         <div className="flex items-center px-6">
@@ -110,7 +114,7 @@ export default function ProductCard({ data }: { data: Product }) {
         </div>
         <div className="flex items-center justify-between px-6 py-2">
           <span className="text-secondary font-semibold text-[13px]">
-            {data.options}
+            {data.typeOfLathe}
           </span>
           <span className="text-secondary font-semibold text-[13px]">
             سال ساخت {data.yearOfManufacture}

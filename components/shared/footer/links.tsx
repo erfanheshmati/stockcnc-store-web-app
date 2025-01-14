@@ -6,11 +6,11 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function Links() {
+  const [footerBrands, setFooterBrands] = useState<FooterBrand[]>([]);
+  const [footerProducts, setFooterProducts] = useState<FooterProduct[]>([]);
   const [footerQuickAccess, setFooterQuickAccess] = useState<
     FooterQuickAccess[]
   >([]);
-  const [footerBrands, setFooterBrands] = useState<FooterBrand[]>([]);
-  const [footerProducts, setFooterProducts] = useState<FooterProduct[]>([]);
 
   useEffect(() => {
     const fetchFooterLinks = async () => {
@@ -18,9 +18,13 @@ export default function Links() {
         const res = await fetch(`${BASE_URL}/web-text-plans`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
-        setFooterQuickAccess(data.footerQuickAccess);
-        setFooterProducts(data.footerProducts);
-        setFooterBrands(data.footerBrands);
+        setFooterBrands([...data.footerBrands].sort((a, b) => a.sort - b.sort));
+        setFooterProducts(
+          [...data.footerProducts].sort((a, b) => a.sort - b.sort)
+        );
+        setFooterQuickAccess(
+          [...data.footerQuickAccess].sort((a, b) => a.sort - b.sort)
+        );
       } catch (error) {
         console.log((error as Error).message);
       }

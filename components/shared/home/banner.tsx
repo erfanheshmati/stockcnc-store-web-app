@@ -40,7 +40,7 @@ export default function Banner({ children }: { children: React.ReactNode }) {
       <div className="absolute inset-0 bg-header-background bg-center bg-cover opacity-[2%]"></div>
 
       {/* Banner Content */}
-      <div className="flex justify-center w-full xl:wrapper z-[1] relative">
+      <div className="flex justify-center w-full z-[1] relative">
         {/* Slider */}
         <div className="flex items-center justify-center w-full relative">
           {/* Custom Pagination */}

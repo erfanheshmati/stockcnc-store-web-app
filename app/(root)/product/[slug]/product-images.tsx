@@ -24,7 +24,7 @@ export default function ProductImages({ data }: { data: Product }) {
         {/* Content */}
         <div className="flex items-center justify-center w-full z-[1]">
           {/* Slider */}
-          <div className="flex items-center justify-center w-full">
+          <div className="flex items-center justify-center w-full relative">
             {/* Swiper */}
             <Swiper
               modules={[Pagination]}
@@ -61,8 +61,9 @@ export default function ProductImages({ data }: { data: Product }) {
           }`}
         >
           <div
-            className={`flex items-center justify-center bg-secondary/10 rounded-xl
-            ${!isFullScreen && "h-[400px]"}`}
+            className={`flex items-center justify-center bg-secondary/10 rounded-xl relative ${
+              !isFullScreen && "h-[400px]"
+            }`}
           >
             <img
               src={`${IMAGE_URL}/${data.gallery[current]}`}
@@ -70,6 +71,25 @@ export default function ProductImages({ data }: { data: Product }) {
               width={isFullScreen ? 800 : 344}
               height={isFullScreen ? 500 : 232}
             />
+            {!isFullScreen && (
+              <>
+                <img
+                  src={`${IMAGE_URL}/${data.brand.logo}`}
+                  alt={data.brand.title}
+                  width={70}
+                  height={30}
+                  className="absolute flex top-5 justify-center"
+                />
+
+                <img
+                  src={`${IMAGE_URL}/${data.country.logo}`}
+                  alt={data.country.title}
+                  width={20}
+                  height={20}
+                  className="absolute flex top-4 right-5"
+                />
+              </>
+            )}
           </div>
           {isFullScreen && (
             <button
@@ -87,10 +107,6 @@ export default function ProductImages({ data }: { data: Product }) {
               <SlSizeFullscreen size={14} className="text-gray-400" />
             </button>
           )}
-          {/* Brand Label */}
-          {/* <div className="absolute inset-0 top-5 flex justify-center text-red-500 font-bold">
-          DOOSAN
-        </div> */}
         </div>
 
         {/* Thumbnails */}

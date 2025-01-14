@@ -15,7 +15,9 @@ export default function ProductCardMobile({ product }: { product: Product }) {
             alt={product.title}
             width={170}
             height={110}
-            className="w-full h-[150px] sm:h-[180px] rounded-xl"
+            className={`w-full h-[150px] sm:h-[180px] rounded-xl ${
+              !product.available ? "filter grayscale" : ""
+            }`}
           />
         </div>
         <div className="flex items-center justify-center gap-2">
@@ -43,7 +45,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
       </div>
       <div className="flex items-center justify-between">
         <span className="text-secondary/90 font-semibold text-[11px]">
-          {product.options}
+          {product.typeOfLathe}
         </span>
         <span className="text-secondary/90 font-semibold text-[11px]">
           سال ساخت {product.yearOfManufacture}
