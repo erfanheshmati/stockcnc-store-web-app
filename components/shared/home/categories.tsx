@@ -57,7 +57,7 @@ export default function Categories() {
       {error && <p className="text-red-500 text-center w-full mt-6">{error}</p>}
       <div
         className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5 mt-8 ${
-          filteredData.length < 5 && "xl:grid-cols-4 xl:gap-10"
+          filteredData.length < 5 && "xl:!grid-cols-4 xl:gap-16"
         }`}
       >
         {!error &&
