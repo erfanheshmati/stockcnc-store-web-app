@@ -30,17 +30,6 @@ export default function ProductIntroduce({
             <h1 className="text-primary font-bold text-[18px] line-clamp-1 w-9/12">
               {data.title}
             </h1>
-            <div className="flex items-center gap-2">
-              <span className="text-secondary/60 font-semibold text-sm pt-1.5">
-                {data.brand.enTitle}
-              </span>
-              <img
-                src={`${IMAGE_URL}/${data.country.logo}`}
-                alt={data.country.title}
-                width={18}
-                height={18}
-              />
-            </div>
           </div>
           <h2 className="text-secondary/70 text-[10px]">{data.enTitle}</h2>
         </div>
@@ -60,17 +49,48 @@ export default function ProductIntroduce({
               }`}
             />
           </div>
+
           {/* Specifications Rows */}
           <div
             className={`flex flex-col gap-8 mt-3 w-full overflow-hidden transition-all duration-300 ${
               openIndex === index ? "max-h-screen mb-10" : "max-h-0"
             }`}
           >
-            {data.attributes.length === 0 && (
+            <div className="flex items-center justify-between mt-4">
+              <div className="flex items-center gap-2">
+                <BiLeftArrow size={14} className="text-secondary/60" />
+                <span className="text-secondary font-semibold text-[12px]">
+                  کشور سازنده
+                </span>
+              </div>
+              <div className="flex-grow relative mx-4">
+                <span
+                  className="block w-full h-[1px] bg-repeat-x opacity-15"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, transparent, black 50%, transparent)",
+                    backgroundSize: "8px",
+                  }}
+                ></span>
+              </div>
+              <div className="flex items-center gap-2">
+                <img
+                  src={`${IMAGE_URL}/${data.country.logo}`}
+                  alt={data.country.title}
+                  width={18}
+                  height={18}
+                />
+                <span className="text-primary font-bold text-[13px] pt-0.5">
+                  {data.country.title}
+                </span>
+              </div>
+            </div>
+
+            {/* {data.attributes.length === 0 && (
               <p className="flex items-center justify-center h-full text-secondary text-sm">
                 مشخصاتی برای نمایش وجود ندارد
               </p>
-            )}
+            )} */}
 
             {data.attributes.map((item) => (
               <div className="flex items-center justify-between" key={item._id}>
@@ -134,14 +154,45 @@ export default function ProductIntroduce({
               </span>
             </button>
           </div>
+
           {/* Specifications Rows */}
-          {data.attributes.length === 0 && (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <BiLeftArrow size={14} className="text-secondary/60" />
+              <span className="text-secondary font-semibold text-[14px]">
+                کشور سازنده
+              </span>
+            </div>
+            <div className="flex-grow relative mx-4">
+              <span
+                className="block w-full h-[1px] bg-repeat-x opacity-20"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, transparent, black 50%, transparent)",
+                  backgroundSize: "8px",
+                }}
+              ></span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-primary font-bold text-[15px] pt-0.5">
+                {data.country.title}
+              </span>
+              <img
+                src={`${IMAGE_URL}/${data.country.logo}`}
+                alt={data.country.title}
+                width={20}
+                height={20}
+              />
+            </div>
+          </div>
+
+          {/* {data.attributes.length === 0 && (
             <p className="flex items-center justify-center h-full text-secondary text-sm">
               مشخصاتی برای نمایش وجود ندارد
             </p>
-          )}
+          )} */}
 
-          {data.attributes.slice(0, 6).map((item) => (
+          {data.attributes.slice(0, 5).map((item) => (
             <div className="flex items-center justify-between" key={item._id}>
               <div className="flex items-center gap-2">
                 <BiLeftArrow size={14} className="text-secondary/60" />

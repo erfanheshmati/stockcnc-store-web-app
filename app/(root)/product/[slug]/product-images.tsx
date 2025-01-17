@@ -33,17 +33,24 @@ export default function ProductImages({ data }: { data: Product }) {
               pagination={{
                 clickable: true,
               }}
+              className="w-full"
             >
               {data.gallery.map((image, index) => (
                 <SwiperSlide key={index} className="py-2">
                   <img
                     src={`${IMAGE_URL}/${image}`}
                     alt="Product Image"
-                    className="h-[280px] w-full"
+                    className="w-full h-[280px]"
                   />
                 </SwiperSlide>
               ))}
             </Swiper>
+            {/* Brand Logo */}
+            <img
+              src={`${IMAGE_URL}/${data.brand.logo}`}
+              alt={data.brand.title}
+              className="absolute flex justify-center top-4 shadow-xl w-24 z-10"
+            />
           </div>
         </div>
       </div>
@@ -68,27 +75,14 @@ export default function ProductImages({ data }: { data: Product }) {
             <img
               src={`${IMAGE_URL}/${data.gallery[current]}`}
               alt="Product Image"
-              width={isFullScreen ? 800 : 344}
-              height={isFullScreen ? 500 : 232}
+              className="w-full h-full rounded-xl"
             />
             {!isFullScreen && (
-              <>
-                <img
-                  src={`${IMAGE_URL}/${data.brand.logo}`}
-                  alt={data.brand.title}
-                  width={70}
-                  height={30}
-                  className="absolute flex top-5 justify-center"
-                />
-
-                <img
-                  src={`${IMAGE_URL}/${data.country.logo}`}
-                  alt={data.country.title}
-                  width={20}
-                  height={20}
-                  className="absolute flex top-4 right-5"
-                />
-              </>
+              <img
+                src={`${IMAGE_URL}/${data.brand.logo}`}
+                alt={data.brand.title}
+                className="absolute flex justify-center top-4 shadow-xl w-28"
+              />
             )}
           </div>
           {isFullScreen && (
