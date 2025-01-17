@@ -29,7 +29,7 @@ export default function ProductCard({ data }: { data: Product }) {
           </span>
         </div>
         <div className="flex items-center justify-center w-full h-[110px] rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
-          <Link href={`/product/${data._id}`}>
+          <Link href={`/product/${data._id}`} className="w-full">
             <img
               src={`${IMAGE_URL}/${data.primaryImage}`}
               alt={data.title}
@@ -107,7 +107,7 @@ export default function ProductCard({ data }: { data: Product }) {
           </h3>
         </div>
         <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
-          <Link href={`/product/${data._id}`}>
+          <Link href={`/product/${data._id}`} className="w-full">
             <img
               src={`${IMAGE_URL}/${data.primaryImage}`}
               alt={data.title}

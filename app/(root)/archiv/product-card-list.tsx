@@ -15,7 +15,7 @@ export default function ProductCardList({ data }: { data: Product }) {
       }`}
     >
       <div className="flex items-center justify-center w-1/3 h-[200px] rounded-xl bg-[#EFF1F6]">
-        <Link href={`/product/${data._id}`}>
+        <Link href={`/product/${data._id}`} className="w-full">
           <img
             src={`${IMAGE_URL}/${data.primaryImage}`}
             alt={data.title}

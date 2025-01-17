@@ -14,7 +14,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
     >
       <div className="flex items-start justify-between">
         <div className="flex items-center justify-center w-8/12 h-[110px] sm:h-[150px] rounded-xl bg-[#EFF1F6]">
-          <Link href={`/product/${product._id}`}>
+          <Link href={`/product/${product._id}`} className="w-full">
             <img
               src={`${IMAGE_URL}/${product.primaryImage}`}
               alt={product.title}

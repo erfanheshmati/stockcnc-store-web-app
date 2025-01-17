@@ -34,7 +34,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
         </h4>
       </div>
       <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
-        <Link href={`/product/${data._id}`}>
+        <Link href={`/product/${data._id}`} className="w-full">
           <img
             src={`${IMAGE_URL}/${data.primaryImage}`}
             alt={data.title}
