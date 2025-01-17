@@ -5,7 +5,7 @@ export default function Logo2() {
     <Link href="/">
       <img
         src="/icons/stock-cnc.png"
-        alt="Logo Icon"
+        alt="Logo"
         className="w-[40px] md:w-[50px]"
       />
     </Link>
