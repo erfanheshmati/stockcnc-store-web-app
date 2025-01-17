@@ -4,7 +4,7 @@ import Menu from "./menu";
 
 export default function Header() {
   return (
-    <header className="w-full bg-secondary fixed top-0 left-0 shadow-xl z-50">
+    <header className="w-full bg-secondary fixed top-0 left-0 shadow-xl z-10">
       {/* Header Background Layer */}
       <div className="absolute inset-0 bg-header-background bg-center opacity-[2%]"></div>
 
