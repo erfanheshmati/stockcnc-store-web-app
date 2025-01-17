@@ -49,7 +49,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           {product.category.title}
         </span>
         <span className="text-secondary/90 font-semibold text-[11px]">
-          {product.yearOfManufacture}
+          سال ساخت {product.yearOfManufacture}
         </span>
         <span className="text-secondary/90 font-semibold text-[11px]">
           {product.condition}

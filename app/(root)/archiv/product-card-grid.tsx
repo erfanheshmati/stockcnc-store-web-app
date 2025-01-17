@@ -56,7 +56,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
           {data.category.title}
         </span>
         <span className="text-secondary font-semibold text-[13px]">
-          سال ساخت{data.yearOfManufacture}
+          سال ساخت {data.yearOfManufacture}
         </span>
         <span className="text-secondary font-semibold text-[13px]">
           {data.condition}
