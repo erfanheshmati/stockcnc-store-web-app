@@ -56,7 +56,7 @@ export default function ProductIntroduce({
               openIndex === index ? "max-h-screen mb-10" : "max-h-0"
             }`}
           >
-            <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <BiLeftArrow size={14} className="text-secondary/60" />
                 <span className="text-secondary font-semibold text-[12px]">

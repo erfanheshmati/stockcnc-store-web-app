@@ -34,24 +34,26 @@ export default function ProductCardGrid({ data }: { data: Product }) {
         </h4>
       </div>
       <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
-        <img
-          src={`${IMAGE_URL}/${data.primaryImage}`}
-          alt={data.title}
-          width={207}
-          height={139}
-          className={`w-full h-[216px] ${
-            !data.available ? "filter grayscale" : ""
-          }`}
-        />
+        <Link href={`/product/${data._id}`}>
+          <img
+            src={`${IMAGE_URL}/${data.primaryImage}`}
+            alt={data.title}
+            width={207}
+            height={139}
+            className={`w-full h-[216px] ${
+              !data.available ? "filter grayscale" : ""
+            }`}
+          />
+        </Link>
       </div>
       <div className="flex items-center px-6">
         <h3 className="text-primary font-semibold text-[17px] line-clamp-2">
-          {data.title}
+          <Link href={`/product/${data._id}`}>{data.title}</Link>
         </h3>
       </div>
       <div className="flex items-center justify-between px-6 py-2">
         <span className="text-secondary font-semibold text-[13px]">
-          {data.typeOfLathe}
+          {data.category.title}
         </span>
         <span className="text-secondary font-semibold text-[13px]">
           سال ساخت{data.yearOfManufacture}

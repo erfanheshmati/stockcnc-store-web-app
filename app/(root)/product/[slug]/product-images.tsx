@@ -120,8 +120,7 @@ export default function ProductImages({ data }: { data: Product }) {
               <img
                 src={`${IMAGE_URL}/${image}`}
                 alt="Product Thumbnail"
-                width={85}
-                height={55}
+                className="w-full h-full rounded-xl"
               />
             </div>
           ))}
@@ -133,9 +132,7 @@ export default function ProductImages({ data }: { data: Product }) {
               <img
                 src={`${IMAGE_URL}/${data.gallery[3]}`}
                 alt="Product Thumbnail"
-                width={85}
-                height={55}
-                className="opacity-40"
+                className="w-full h-full rounded-xl opacity-40"
               />
               <span className="text-white font-semibold text-[20px] absolute">
                 +{data.gallery.length - 3}
@@ -168,8 +165,7 @@ export default function ProductImages({ data }: { data: Product }) {
                     <img
                       src={`${IMAGE_URL}/${image}`}
                       alt="Gallery Image"
-                      width={85}
-                      height={55}
+                      className="w-full h-full rounded-xl"
                     />
                   </div>
                 ))}

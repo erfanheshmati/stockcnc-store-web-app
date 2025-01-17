@@ -46,36 +46,39 @@ export default function ProductHealthCard({
           }
             ${!data.available ? "blur-[3px]" : ""}`}
         >
-          {healthData.map((item, index) => (
-            <div key={index} className="flex items-center justify-between">
-              <span className="text-secondary font-semibold text-[13px] min-w-[25%] sm:min-w-[15%]">
-                {item.title}
-              </span>
-              <div className="flex-1 relative mx-2 bg-gray-200 h-2 rounded-full min-w-[40%]">
-                <div
-                  className={`absolute top-0 right-0 h-full rounded-full
+          {healthData.map(
+            (item, index) =>
+              item.percentage !== 0 && (
+                <div key={index} className="flex items-center justify-between">
+                  <span className="text-secondary font-semibold text-[13px] min-w-[25%] sm:min-w-[15%]">
+                    {item.title}
+                  </span>
+                  <div className="flex-1 relative mx-2 bg-gray-200 h-2 rounded-full min-w-[40%]">
+                    <div
+                      className={`absolute top-0 right-0 h-full rounded-full
                 ${item.percentage > 90 && "bg-green-500"}
             ${item.percentage > 70 && item.percentage <= 90 && "bg-lime-600"}
             ${item.percentage > 50 && item.percentage <= 70 && "bg-yellow-500"}
             ${item.percentage > 30 && item.percentage <= 50 && "bg-orange-500"}
             ${item.percentage <= 30 && "bg-red-500"}
                     `}
-                  style={{ width: `${item.percentage}%` }}
-                ></div>
-              </div>
-              <span
-                className={`font-bold text-[14px] text-left min-w-[20%] sm:min-w-[12%]
+                      style={{ width: `${item.percentage}%` }}
+                    ></div>
+                  </div>
+                  <span
+                    className={`font-bold text-[14px] text-left min-w-[20%] sm:min-w-[12%]
                 ${item.percentage > 90 && "text-green-500"}
           ${item.percentage > 70 && item.percentage <= 90 && "text-lime-600"}
           ${item.percentage > 50 && item.percentage <= 70 && "text-yellow-500"}
           ${item.percentage > 30 && item.percentage <= 50 && "text-orange-500"}
           ${item.percentage <= 30 && "text-red-500"}
                   `}
-              >
-                {item.percentage} درصد
-              </span>
-            </div>
-          ))}
+                  >
+                    {item.percentage} درصد
+                  </span>
+                </div>
+              )
+          )}
         </div>
       </div>
 
@@ -101,46 +104,49 @@ export default function ProductHealthCard({
             </span>
           </div>
 
-          {healthData.map((item, index) => (
-            <div key={index} className="flex items-center justify-between">
-              <span className="text-secondary font-semibold text-[14px] min-w-[12%] lg:min-w-[20%]">
-                {item.title}
-              </span>
-              <div className="flex-1 relative ml-1 mr-2 bg-gray-200 h-4 rounded-full min-w-[40%]">
-                <div
-                  className={`absolute top-0 right-0 h-full rounded-full
+          {healthData.map(
+            (item, index) =>
+              item.percentage !== 0 && (
+                <div key={index} className="flex items-center justify-between">
+                  <span className="text-secondary font-semibold text-[14px] min-w-[12%] lg:min-w-[20%]">
+                    {item.title}
+                  </span>
+                  <div className="flex-1 relative ml-1 mr-2 bg-gray-200 h-4 rounded-full min-w-[40%]">
+                    <div
+                      className={`absolute top-0 right-0 h-full rounded-full
                 ${item.percentage > 90 && "bg-green-500"}
             ${item.percentage > 70 && item.percentage <= 90 && "bg-lime-600"}
             ${item.percentage > 50 && item.percentage <= 70 && "bg-yellow-500"}
             ${item.percentage > 30 && item.percentage <= 50 && "bg-orange-500"}
             ${item.percentage <= 30 && "bg-red-500"}
                     `}
-                  style={{ width: `${item.percentage}%` }}
-                ></div>
-              </div>
-              <div className="flex-grow relative ml-2 mr-1 block lg:hidden xl:block">
-                <span
-                  className="block w-full h-[1px] bg-repeat-x opacity-30"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, transparent, black 50%, transparent)",
-                    backgroundSize: "8px",
-                  }}
-                ></span>
-              </div>
-              <span
-                className={`font-bold text-[16px] text-left min-w-[12%]
+                      style={{ width: `${item.percentage}%` }}
+                    ></div>
+                  </div>
+                  <div className="flex-grow relative ml-2 mr-1 block lg:hidden xl:block">
+                    <span
+                      className="block w-full h-[1px] bg-repeat-x opacity-30"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(to right, transparent, black 50%, transparent)",
+                        backgroundSize: "8px",
+                      }}
+                    ></span>
+                  </div>
+                  <span
+                    className={`font-bold text-[16px] text-left min-w-[12%]
                 ${item.percentage > 90 && "text-green-500"}
           ${item.percentage > 70 && item.percentage <= 90 && "text-lime-600"}
           ${item.percentage > 50 && item.percentage <= 70 && "text-yellow-500"}
           ${item.percentage > 30 && item.percentage <= 50 && "text-orange-500"}
           ${item.percentage <= 30 && "text-red-500"}
                 `}
-              >
-                {item.percentage} درصد
-              </span>
-            </div>
-          ))}
+                  >
+                    {item.percentage} درصد
+                  </span>
+                </div>
+              )
+          )}
         </div>
 
         {/* Guarrantee Card */}

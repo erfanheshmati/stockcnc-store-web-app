@@ -4,12 +4,12 @@ import Menu from "./menu";
 
 export default function Header() {
   return (
-    <header className="w-full bg-secondary relative">
+    <header className="w-full bg-secondary fixed top-0 left-0 shadow-xl z-50">
       {/* Header Background Layer */}
       <div className="absolute inset-0 bg-header-background bg-center opacity-[2%]"></div>
 
       {/* Navigation Bar */}
-      <div className="wrapper flex items-center justify-between h-[58px] md:h-[76px]">
+      <div className="wrapper flex items-center justify-between h-[58px] md:h-[76px] relative">
         <Menu />
         <Logo />
         <Info />

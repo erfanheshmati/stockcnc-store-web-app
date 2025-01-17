@@ -16,12 +16,9 @@ export default function Inquire() {
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-1">
             <span className="text-white font-bold text-[12px]">
-              واردات دستگاه های
+              وارد کننده انواع ماشین آلات
             </span>
             <span className="text-white/90 text-[12px]">سی ان سی</span>
-            <span className="text-white font-bold text-[12px] hidden sm:block">
-              اورجینال استوک
-            </span>
           </div>
           <div>
             <svg
@@ -174,12 +171,9 @@ export default function Inquire() {
         <div className="flex items-center justify-between w-full pr-14 pl-5 relative">
           <div className="flex items-center gap-1">
             <span className="text-white font-bold text-[19px]">
-              واردات دستگاه های
+              وارد کننده انواع ماشین آلات
             </span>
             <span className="text-white/90 text-[16px]">سی ان سی</span>
-            <span className="text-white font-bold text-[19px]">
-              اورجینال استوک
-            </span>
           </div>
           <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <svg

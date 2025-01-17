@@ -13,7 +13,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
         <div className="flex flex-col">
           <Header />
           <ToastContainer className="min-w-fit" />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pt-[58px] md:pt-[76px]">{children}</main>
           <Footer />
         </div>
       </DialogProvider>

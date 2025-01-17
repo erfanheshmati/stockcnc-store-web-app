@@ -14,7 +14,7 @@ export default function ProductInfo({
 }) {
   const { openIndex, toggleAccordion } = useAccordion();
 
-  const [activeTab, setActiveTab] = useState<string>("description");
+  const [activeTab, setActiveTab] = useState<string>("specifications");
 
   return (
     <>
@@ -58,16 +58,6 @@ export default function ProductInfo({
         {/* Tabs Navigation */}
         <div className="flex items-center gap-10 border-b">
           <h3
-            className={`text-[15px] cursor-pointer pb-4 ${
-              activeTab === "description"
-                ? "text-primary font-bold border-b-[3px] border-primary"
-                : "text-secondary font-medium"
-            }`}
-            onClick={() => setActiveTab("description")}
-          >
-            توضیحات محصول
-          </h3>
-          <h3
             className={` text-[15px] cursor-pointer pb-4 ${
               activeTab === "specifications"
                 ? "text-primary font-bold border-b-[3px] border-primary"
@@ -77,21 +67,20 @@ export default function ProductInfo({
           >
             مشخصات محصول
           </h3>
+          <h3
+            className={`text-[15px] cursor-pointer pb-4 ${
+              activeTab === "description"
+                ? "text-primary font-bold border-b-[3px] border-primary"
+                : "text-secondary font-medium"
+            }`}
+            onClick={() => setActiveTab("description")}
+          >
+            توضیحات محصول
+          </h3>
         </div>
 
         {/* Tabs Content */}
         <div className="mt-8">
-          {activeTab === "description" && (
-            <div className="flex flex-col gap-2">
-              <h3 className="text-black/70 font-bold text-[24px]">
-                درباره این دستگاه
-              </h3>
-              <p className="text-[#1F2D53] font-medium text-[13px] text-justify leading-7">
-                {data.description}
-              </p>
-            </div>
-          )}
-
           {activeTab === "specifications" && (
             <div className="flex flex-col gap-8">
               <div className="flex items-start gap-14">
@@ -249,6 +238,17 @@ export default function ProductInfo({
                   </span>
                 </div>
               </div>
+            </div>
+          )}
+
+          {activeTab === "description" && (
+            <div className="flex flex-col gap-2">
+              <h3 className="text-black/70 font-bold text-[24px]">
+                درباره این دستگاه
+              </h3>
+              <p className="text-[#1F2D53] font-medium text-[13px] text-justify leading-7">
+                {data.description}
+              </p>
             </div>
           )}
         </div>

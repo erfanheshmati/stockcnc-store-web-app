@@ -14,15 +14,17 @@ export default function ProductCardMobile({ product }: { product: Product }) {
     >
       <div className="flex items-start justify-between">
         <div className="flex items-center justify-center w-8/12 h-[110px] sm:h-[150px] rounded-xl bg-[#EFF1F6]">
-          <img
-            src={`${IMAGE_URL}/${product.primaryImage}`}
-            alt={product.title}
-            width={170}
-            height={110}
-            className={`w-full h-[110px] sm:h-[150px] object-center rounded-xl ${
-              !product.available ? "filter grayscale" : ""
-            }`}
-          />
+          <Link href={`/product/${product._id}`}>
+            <img
+              src={`${IMAGE_URL}/${product.primaryImage}`}
+              alt={product.title}
+              width={170}
+              height={110}
+              className={`w-full h-[110px] sm:h-[150px] object-center rounded-xl ${
+                !product.available ? "filter grayscale" : ""
+              }`}
+            />
+          </Link>
         </div>
         <div className="flex items-center justify-center gap-2">
           <span className="text-secondary/60 font-bold text-[12px] pt-1">
@@ -38,13 +40,13 @@ export default function ProductCardMobile({ product }: { product: Product }) {
       </div>
       <div className="flex items-center">
         <h3 className="text-primary font-semibold text-[14px] leading-6 pt-2">
-          {product.title}
+          <Link href={`/product/${product._id}`}>{product.title}</Link>
         </h3>
       </div>
       <hr className="my-2" />
       <div className="flex items-center justify-between">
         <span className="text-secondary/90 font-semibold text-[11px]">
-          {product.options}
+          {product.category.title}
         </span>
         <span className="text-secondary/90 font-semibold text-[11px]">
           {product.yearOfManufacture}

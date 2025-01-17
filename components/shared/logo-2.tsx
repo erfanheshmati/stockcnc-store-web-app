@@ -1,13 +1,13 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Logo2() {
   return (
-    <Image
-      src="/icons/logo-2.png"
-      alt="Logo Icon"
-      width={276}
-      height={194}
-      className="w-[90px] md:w-[252px]"
-    />
+    <Link href="/">
+      <img
+        src="/icons/stock-cnc.png"
+        alt="Logo Icon"
+        className="w-[40px] md:w-[50px]"
+      />
+    </Link>
   );
 }

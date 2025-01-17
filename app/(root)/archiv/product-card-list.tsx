@@ -15,19 +15,21 @@ export default function ProductCardList({ data }: { data: Product }) {
       }`}
     >
       <div className="flex items-center justify-center w-1/3 h-[200px] rounded-xl bg-[#EFF1F6]">
-        <img
-          src={`${IMAGE_URL}/${data.primaryImage}`}
-          alt={data.title}
-          width={180}
-          height={120}
-          className={`w-full h-[200px] rounded-xl ${
-            !data.available ? "filter grayscale" : ""
-          }`}
-        />
+        <Link href={`/product/${data._id}`}>
+          <img
+            src={`${IMAGE_URL}/${data.primaryImage}`}
+            alt={data.title}
+            width={180}
+            height={120}
+            className={`w-full h-[200px] rounded-xl ${
+              !data.available ? "filter grayscale" : ""
+            }`}
+          />
+        </Link>
       </div>
       <div className="flex flex-col items-start justify-between px-2 w-2/3">
         <h3 className="text-primary font-semibold text-[18px] line-clamp-1">
-          {data.title}
+          <Link href={`/product/${data._id}`}>{data.title}</Link>
         </h3>
         <h3 className="text-secondary/70 font-medium text-[12px]">
           {data.enTitle}
@@ -35,7 +37,7 @@ export default function ProductCardList({ data }: { data: Product }) {
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-8">
             <span className="text-secondary font-semibold text-[13px]">
-              {data.typeOfLathe}
+              {data.category.title}
             </span>
             <span className="text-secondary font-semibold text-[13px]">
               سال ساخت {data.yearOfManufacture}
@@ -57,9 +59,13 @@ export default function ProductCardList({ data }: { data: Product }) {
           </div>
         </div>
         <div className="flex items-center justify-between w-full">
-          <h4 className="hidden lg:flex text-secondary/60 font-bold text-[14px] pt-1">
-            {data?.brand?.enTitle}
-          </h4>
+          <div className="hidden lg:block">
+            <img
+              src={`${IMAGE_URL}/${data?.brand?.logo}`}
+              alt={data?.brand?.enTitle}
+              className="w-20"
+            />
+          </div>
           <div className="flex items-center gap-4">
             <Link
               href={`/product/${data._id}`}

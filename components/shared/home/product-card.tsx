@@ -29,17 +29,19 @@ export default function ProductCard({ data }: { data: Product }) {
           </span>
         </div>
         <div className="flex items-center justify-center w-full h-[110px] rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
-          <img
-            src={`${IMAGE_URL}/${data.primaryImage}`}
-            alt={data.title}
-            className={`w-full h-[110px] rounded-xl ${
-              !data.available ? "filter grayscale" : ""
-            }`}
-          />
+          <Link href={`/product/${data._id}`}>
+            <img
+              src={`${IMAGE_URL}/${data.primaryImage}`}
+              alt={data.title}
+              className={`w-full h-[110px] rounded-xl ${
+                !data.available ? "filter grayscale" : ""
+              }`}
+            />
+          </Link>
         </div>
         <div className="flex items-center">
           <h3 className="text-primary font-semibold text-[13px] line-clamp-2">
-            {data.title}
+            <Link href={`/product/${data._id}`}>{data.title}</Link>
           </h3>
         </div>
         <hr />
@@ -47,7 +49,7 @@ export default function ProductCard({ data }: { data: Product }) {
           <h3 className="text-secondary/80 text-[10px]">{data.enTitle}</h3>
         </div>
         <div className="flex items-center justify-between py-2">
-          <span className="text-black text-[11px]">{data.typeOfLathe}</span>
+          <span className="text-black text-[11px]">{data.category.title}</span>
           <span className="text-black text-[11px]">
             سال ساخت {data.yearOfManufacture}
           </span>
@@ -105,22 +107,24 @@ export default function ProductCard({ data }: { data: Product }) {
           </h3>
         </div>
         <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
-          <img
-            src={`${IMAGE_URL}/${data.primaryImage}`}
-            alt={data.title}
-            className={`w-full h-[216px] ${
-              !data.available ? "filter grayscale" : ""
-            }`}
-          />
+          <Link href={`/product/${data._id}`}>
+            <img
+              src={`${IMAGE_URL}/${data.primaryImage}`}
+              alt={data.title}
+              className={`w-full h-[216px] ${
+                !data.available ? "filter grayscale" : ""
+              }`}
+            />
+          </Link>
         </div>
         <div className="flex items-center px-6">
           <h3 className="text-primary font-semibold text-[17px] line-clamp-2">
-            {data.title}
+            <Link href={`/product/${data._id}`}>{data.title}</Link>
           </h3>
         </div>
         <div className="flex items-center justify-between px-6 py-2">
           <span className="text-secondary font-semibold text-[13px]">
-            {data.typeOfLathe}
+            {data.category.title}
           </span>
           <span className="text-secondary font-semibold text-[13px]">
             سال ساخت {data.yearOfManufacture}
