@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import { useDialog } from "@/contexts/dialog-context";
-import Logo1 from "../logo-1";
 import { BASE_URL } from "@/lib/constants";
 import { HeaderMenu } from "@/lib/types";
 
@@ -50,19 +49,17 @@ export default function Menu() {
           } transition-transform duration-300 ease-in-out`}
         >
           <div className="relative h-full">
-            {/* Close Button */}
-            {/* <button
-              onClick={toggleMobileMenu}
-              className="text-white/50 absolute left-2 top-4"
-            >
-              <BiX size={24} />
-            </button> */}
-
             {/* Nav Links */}
             <ul className="flex flex-col gap-5 px-4 pt-5">
               {/* Logo */}
               <div className="flex flex-col items-center">
-                <Logo1 className="w-[120px]" />
+                <Link href="/">
+                  <img
+                    src="/icons/stock-cnc-mobile.png"
+                    alt="Logo"
+                    className="w-[120px]"
+                  />
+                </Link>
               </div>
               <hr className="opacity-20" />
               {error && <p className="text-red-500">{error}</p>}

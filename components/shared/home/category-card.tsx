@@ -2,21 +2,11 @@ import { IMAGE_URL } from "@/lib/constants";
 import { Category } from "@/lib/types";
 import { BiArrowFromRight } from "react-icons/bi";
 
-export default function CategoryCard({
-  data,
-  isLast,
-}: {
-  data: Category;
-  isLast: boolean;
-}) {
+export default function CategoryCard({ data }: { data: Category }) {
   return (
     <>
       {/* Mobile Card */}
-      <div
-        className={`md:hidden w-[156px] sm:w-[190px] px-2 h-[166px] border border-gray-200/90 shadow-md rounded-2xl bg-gradient-to-tl from-[#eff0f1] via-[#fff] to-[#fff] ${
-          isLast ? "blur-[1px]" : ""
-        }`}
-      >
+      <div className="md:hidden w-[156px] sm:w-[190px] px-2 h-[166px] border border-gray-200/90 shadow-md rounded-2xl bg-gradient-to-tl from-[#eff0f1] via-[#fff] to-[#fff]">
         <div className="flex items-center justify-center h-[110px]">
           <img
             src={`${IMAGE_URL}/${data.image}`}

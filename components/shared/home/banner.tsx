@@ -35,7 +35,7 @@ export default function Banner({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="h-[250px] sm:h-[300px] md:h-[391px] bg-primary relative flex">
+    <div className="h-[160px] sm:h-[220px] md:h-[260px] xl:h-[390px] bg-primary relative flex">
       {/* Banner Background Layer */}
       <div className="absolute inset-0 bg-header-background bg-center bg-cover opacity-[2%]"></div>
 

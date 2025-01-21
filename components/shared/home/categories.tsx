@@ -10,8 +10,6 @@ export default function Categories() {
   const [categoriesData, setCategoriesData] = useState<Category[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const [isAboveMedium, setIsAboveMedium] = useState(false);
-
   useEffect(() => {
     const fetchCategoriesData = async () => {
       try {
@@ -27,25 +25,6 @@ export default function Categories() {
     fetchCategoriesData();
   }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsAboveMedium(window.innerWidth >= 768); // 768px is the `md` breakpoint in Tailwind CSS
-    };
-
-    // Initial check and event listener
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  // Conditionally slice data based on viewport size
-  const filteredData = isAboveMedium
-    ? categoriesData.slice(0, -1)
-    : categoriesData;
-
   return (
     <div className="flex flex-col items-center mt-52 md:mt-60 lg:mt-48">
       <h2 className="text-primary font-bold text-[22px] md:text-[29px]">
@@ -56,17 +35,19 @@ export default function Categories() {
       </h3>
       {error && <p className="text-red-500 text-center w-full mt-6">{error}</p>}
       <div
-        className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5 mt-8 ${
-          filteredData.length < 5 && "xl:!grid-cols-4 xl:gap-16"
-        }`}
+        className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-10 md:gap-5 mt-8 ${
+          categoriesData.length < 5 && "xl:!grid-cols-4 xl:gap-16"
+        }
+      ${
+        categoriesData.length < 4 &&
+        "lg:!grid-cols-3 xl:!grid-cols-3 lg:gap-10 xl:gap-40"
+      }
+      `}
       >
         {!error &&
-          filteredData.map((data, index) => (
+          categoriesData.map((data) => (
             <Link href={`/archiv?category=${data._id}`} key={data._id}>
-              <CategoryCard
-                data={data}
-                isLast={index === filteredData.length - 1}
-              />
+              <CategoryCard data={data} />
             </Link>
           ))}
       </div>
