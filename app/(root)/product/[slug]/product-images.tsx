@@ -20,7 +20,7 @@ export default function ProductImages({ data }: { data: Product }) {
   return (
     <>
       {/* Mobile View */}
-      <div className="flex items-center justify-center md:hidden h-[280px] bg-[#EFF1F6]">
+      <div className="flex items-center justify-center md:hidden h-[280px] sm:h-[380px] bg-[#EFF1F6]">
         {/* Content */}
         <div className="flex items-center justify-center w-full z-[1]">
           {/* Slider */}
@@ -40,7 +40,7 @@ export default function ProductImages({ data }: { data: Product }) {
                   <img
                     src={`${IMAGE_URL}/${image}`}
                     alt="Product Image"
-                    className="w-full h-[280px]"
+                    className="w-full h-[280px] sm:h-[380px]"
                   />
                 </SwiperSlide>
               ))}
@@ -96,9 +96,12 @@ export default function ProductImages({ data }: { data: Product }) {
           {!isFullScreen && (
             <button
               onClick={() => setIsFullScreen(true)}
-              className="absolute top-5 left-5 hover:opacity-70 transition-all duration-300 ease-in-out z-10"
+              className="group absolute top-4 left-4 bg-primary p-2 rounded-full z-10"
             >
-              <SlSizeFullscreen size={14} className="text-gray-400" />
+              <SlSizeFullscreen
+                size={14}
+                className="text-white group-hover:opacity-70 transition-all duration-300 ease-in-out"
+              />
             </button>
           )}
         </div>
