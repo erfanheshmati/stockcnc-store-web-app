@@ -30,7 +30,8 @@ export default function SortSwitch({
     // searchParams.set("q", search.toString());
     // searchParams.set("view", view.toString());
     searchParams.set("sort", sortType.toString());
-    router.push(`?${searchParams.toString()}`);
+    // router.push(`?${searchParams.toString()}`);
+    window.location.href = `?${searchParams.toString()}`;
   };
 
   return (
@@ -48,9 +49,9 @@ export default function SortSwitch({
       <div className="flex items-center gap-4">
         <span
           className={`font-medium text-[14px] hover:font-semibold hover:text-primary cursor-pointer ${
-            sort === "" ? "text-primary font-semibold" : "text-secondary"
+            sort === "latest" ? "text-primary font-semibold" : "text-secondary"
           }`}
-          onClick={() => handleSortChange("")}
+          onClick={() => handleSortChange("latest")}
         >
           جدیدترین
         </span>

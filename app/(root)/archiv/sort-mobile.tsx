@@ -16,7 +16,8 @@ export default function SortMobile({
   const handleSortChange = (sortType: string = params.get("sort") || "") => {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set("sort", sortType);
-    router.push(`?${searchParams.toString()}`);
+    // router.push(`?${searchParams.toString()}`);
+    window.location.href = `?${searchParams.toString()}`;
   };
 
   return (
@@ -34,11 +35,11 @@ export default function SortMobile({
         <div className="flex flex-col gap-3">
           <span
             className={`border rounded-lg p-4 font-medium text-[14px] ${
-              !params.get("sort")
+              params.get("sort") === "latest"
                 ? "text-white bg-primary font-semibold"
                 : "text-secondary"
             }`}
-            onClick={() => handleSortChange("")}
+            onClick={() => handleSortChange("latest")}
           >
             جدیدترین
           </span>
