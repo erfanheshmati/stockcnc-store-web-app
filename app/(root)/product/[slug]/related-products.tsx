@@ -12,6 +12,7 @@ import ProductCardMobile from "./product-card-mobile";
 import { useEffect, useState } from "react";
 import { Product } from "@/lib/types";
 import { BASE_URL } from "@/lib/constants";
+import { Pagination } from "swiper/modules";
 
 export default function RelatedProducts({
   proCatId,
@@ -48,18 +49,26 @@ export default function RelatedProducts({
             محصولات مرتبط
           </h3>
         </div>
-        <div
-          className="flex gap-4 overflow-x-auto"
-          style={{ scrollbarWidth: "none" }}
-        >
+        <div className="flex items-center justify-center">
           {productsData.length === 0 && (
-            <p className="flex items-center justify-center w-full min-h-24 text-secondary text-sm">
+            <p className="flex items-center justify-center w-full text-secondary text-sm">
               محصولی برای نمایش وجود ندارد
             </p>
           )}
-          {productsData?.map((product) => (
-            <ProductCardMobile product={product} key={product._id} />
-          ))}
+          <Swiper
+            modules={[Pagination]}
+            slidesPerView={1}
+            spaceBetween={0}
+            pagination={{
+              clickable: true,
+            }}
+          >
+            {productsData?.map((product) => (
+              <SwiperSlide key={product._id} className="pb-12">
+                <ProductCardMobile product={product} key={product._id} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
 
