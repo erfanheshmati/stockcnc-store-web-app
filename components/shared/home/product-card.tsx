@@ -13,13 +13,10 @@ export default function ProductCard({ data }: { data: Product }) {
       {/* Mobile View */}
       <div
         className={`md:hidden flex flex-col justify-between w-[221px] h-[322px] px-4 py-2 mx-auto shadow-xl rounded-xl ${
-          !data.available ? "opacity-70" : ""
+          !data.available ? "opacity-80" : ""
         }`}
       >
-        <div className="flex items-center justify-end gap-2">
-          <h3 className="text-secondary/70 text-[12px]">
-            {data?.brand?.enTitle}
-          </h3>
+        <div className="flex items-center justify-between">
           <span className="relative group cursor-pointer">
             <img
               src={`${IMAGE_URL}/${data?.country?.logo}`}
@@ -27,6 +24,11 @@ export default function ProductCard({ data }: { data: Product }) {
               className="w-[18px] h-[18px]"
             />
           </span>
+          <img
+            src={`${IMAGE_URL}/${data.brand.logo}`}
+            alt={data.brand.enTitle}
+            className="w-16"
+          />
         </div>
         <div className="flex items-center justify-center w-full h-[110px] rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
           <Link href={`/product/${data._id}`} className="w-full">
@@ -84,12 +86,12 @@ export default function ProductCard({ data }: { data: Product }) {
       {/* Desktop View */}
       <div
         className={`hidden md:flex flex-col justify-between py-4 rounded-2xl shadow-lg max-w-[323px] h-[490px] ${
-          !data.available ? "opacity-70" : ""
+          !data.available ? "opacity-80" : ""
         }`}
         dir="rtl"
       >
-        <div className="flex items-center justify-between px-6">
-          <span className="relative group cursor-pointer">
+        <div className="flex items-center justify-between px-5">
+          <span className="relative group cursor-pointer py-5">
             <img
               src={`${IMAGE_URL}/${data?.country?.logo}`}
               alt={data?.country?.title}
@@ -102,9 +104,11 @@ export default function ProductCard({ data }: { data: Product }) {
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1 h-1 border-l-8 border-r-8 border-t-8 border-t-[#7888A0] border-l-transparent border-r-transparent"></div>
             </div>
           </span>
-          <h3 className="text-secondary/40 font-semibold text-[14px]">
-            {data?.brand?.enTitle}
-          </h3>
+          <img
+            src={`${IMAGE_URL}/${data.brand.logo}`}
+            alt={data.brand.enTitle}
+            className="w-20"
+          />
         </div>
         <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
           <Link href={`/product/${data._id}`} className="w-full">
