@@ -152,7 +152,7 @@ export default function ProductHealthCard({
         {/* Guarrantee Card */}
         <div className="flex items-center gap-8 bg-[#F0F2F7] py-8 px-10 rounded-md relative">
           <span className="text-secondary font-medium text-[14px] line-clamp-1">
-            تمامی محصولات سی ان سی استوک با ضمانت کتبی ارائه می شوند
+            تمامی محصولات stock cnc به شرط کارشناسی ارائه می شود.
           </span>
           <BiAward size={30} className="text-secondary absolute left-8" />
         </div>
