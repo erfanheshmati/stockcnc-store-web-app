@@ -1,12 +1,13 @@
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-export default function Logo2() {
+export default function Logo2({ className }: { className: string }) {
   return (
     <Link href="/">
       <img
         src="/icons/stock-cnc.png"
         alt="Logo"
-        className="w-[40px] md:w-[50px]"
+        className={cn("w-[40px]", className)}
       />
     </Link>
   );
