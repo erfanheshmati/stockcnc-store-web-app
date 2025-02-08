@@ -9,27 +9,29 @@ export default function ProductCardMobile({ product }: { product: Product }) {
   return (
     <div
       className={`flex flex-col p-5 gap-4 rounded-2xl shadow-md ${
-        !product.available ? "opacity-70" : ""
+        !product.available ? "opacity-80" : ""
       }`}
     >
       <div className="flex items-start justify-between">
-        <div className="flex items-center justify-center w-8/12 h-[150px] sm:h-[180px] rounded-xl bg-[#EFF1F6]">
+        <div className="flex items-center justify-center w-8/12 h-[150px] sm:h-[200px] rounded-xl bg-[#EFF1F6]">
           <Link href={`/product/${product._id}`} className="w-full">
             <img
               src={`${IMAGE_URL}/${product.primaryImage}`}
               alt={product.title}
               width={170}
               height={110}
-              className={`w-full h-[150px] sm:h-[180px] rounded-xl ${
+              className={`w-full h-[150px] sm:h-[200px] rounded-xl ${
                 !product.available ? "filter grayscale" : ""
               }`}
             />
           </Link>
         </div>
         <div className="flex items-center justify-center gap-2">
-          <h4 className="text-secondary/60 font-bold text-[12px] pt-1">
-            {product?.brand?.enTitle}
-          </h4>
+          <img
+            src={`${IMAGE_URL}/${product?.brand?.logo}`}
+            alt={product?.brand?.enTitle}
+            className="w-16"
+          />
           <img
             src={`${IMAGE_URL}/${product?.country?.logo}`}
             alt={product?.country?.title}
