@@ -11,7 +11,7 @@ export default function ProductCardList({ data }: { data: Product }) {
   return (
     <div
       className={`flex p-5 gap-6 rounded-xl shadow-lg ${
-        !data.available ? "opacity-70" : ""
+        !data.available ? "opacity-80" : ""
       }`}
     >
       <div className="flex items-center justify-center w-1/3 h-[200px] rounded-xl bg-[#EFF1F6]">
