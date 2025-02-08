@@ -31,7 +31,14 @@ export default function ProductIntroduce({
               {data.title}
             </h1>
           </div>
-          <h2 className="text-secondary/70 text-[10px]">{data.enTitle}</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-secondary/70 text-[10px]">{data.enTitle}</h2>
+            <img
+              src={`${IMAGE_URL}/${data.brand.logo}`}
+              alt={data.brand.title}
+              className="w-20"
+            />
+          </div>
         </div>
         {/* Product Specifications */}
         <div className="flex flex-col gap-4 w-full">
@@ -130,7 +137,14 @@ export default function ProductIntroduce({
           <h1 className="text-primary font-bold text-[28px] line-clamp-1">
             {data.title}
           </h1>
-          <h2 className="text-secondary/70 text-[12px]">{data.enTitle}</h2>
+          <div className="flex items-center justify-between lg:max-w-md">
+            <h2 className="text-secondary/70 text-[12px]">{data.enTitle}</h2>
+            <img
+              src={`${IMAGE_URL}/${data.brand.logo}`}
+              alt={data.brand.title}
+              className="w-24"
+            />
+          </div>
         </div>
         {/* Product Specifications */}
         <div className="flex flex-col gap-6 w-full lg:max-w-md h-[300px]">
