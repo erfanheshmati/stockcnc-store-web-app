@@ -11,11 +11,11 @@ export default function ProductCardGrid({ data }: { data: Product }) {
   return (
     <div
       className={`flex flex-col justify-between py-4 rounded-2xl shadow-lg h-[490px] ${
-        !data.available ? "opacity-70" : ""
+        !data.available ? "opacity-80" : ""
       }`}
     >
-      <div className="flex items-center justify-between px-6">
-        <span className="relative group cursor-pointer">
+      <div className="flex items-center justify-between px-5">
+        <span className="relative group cursor-pointer py-5">
           <img
             src={`${IMAGE_URL}/${data?.country?.logo}`}
             alt={data?.country?.title}
@@ -29,9 +29,11 @@ export default function ProductCardGrid({ data }: { data: Product }) {
             <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1 h-1 border-l-8 border-r-8 border-t-8 border-t-[#7888A0] border-l-transparent border-r-transparent"></div>
           </div>
         </span>
-        <h4 className="text-secondary/40 font-semibold text-[14px]">
-          {data?.brand?.enTitle}
-        </h4>
+        <img
+          src={`${IMAGE_URL}/${data?.brand?.logo}`}
+          alt={data?.brand?.enTitle}
+          className="w-20"
+        />
       </div>
       <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
         <Link href={`/product/${data._id}`} className="w-full">
