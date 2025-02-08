@@ -148,7 +148,7 @@ export default async function ArchivePage({
                 </div>
               </div>
               {/* Content */}
-              <div className="wrapper flex flex-row md:gap-10 xl:gap-20 py-12">
+              <div className="wrapper min-h-screen flex flex-row md:gap-10 xl:gap-20 py-12">
                 {/* Filters */}
                 <div className="flex flex-col gap-8 w-5/12 lg:w-4/12 xl:w-3/12">
                   <h3 className="text-secondary font-semibold text-[20px]">
