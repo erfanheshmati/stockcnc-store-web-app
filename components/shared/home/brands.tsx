@@ -69,7 +69,7 @@ export default function Brands({
           <h2 className="text-primary font-bold text-[24px]">برند های موجود</h2>
         </div>
         <hr className="mt-6 ml-8" />
-        <div className="flex flex-col gap-8 pt-10 pb-2 h-[540px] overflow-auto custom-scroll px-1 pl-6">
+        <div className="flex flex-col gap-8 pt-10 pb-2 h-[570px] overflow-auto custom-scroll px-1 pl-6">
           {error && <p className="text-red-500 text-center w-full">{error}</p>}
 
           {!error &&

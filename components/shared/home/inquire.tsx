@@ -9,7 +9,7 @@ export default function Inquire() {
   return (
     <>
       {/* Mobile View */}
-      <div className="md:hidden flex items-center wrapper justify-center w-[328px] h-[87px] bg-secondary rounded-xl mt-2 relative">
+      <div className="md:hidden flex items-center wrapper justify-center w-[328px] h-[87px] bg-secondary rounded-xl mt-10 relative">
         {/* Background Layer */}
         <div className="absolute inset-0 bg-consultation-background bg-no-repeat opacity-[50%]"></div>
         {/* Content */}

@@ -133,7 +133,7 @@ export default function Products({
                     spaceBetween: 20,
                   },
                 }}
-                className="h-[362px]"
+                className="h-[400px]"
               >
                 {error && (
                   <p className="text-red-500 text-center w-full">{error}</p>
@@ -206,7 +206,7 @@ export default function Products({
                 spaceBetween: 0,
               },
             }}
-            className="h-[550px]"
+            className="h-[580px]"
           >
             {error && (
               <p className="text-red-500 text-center w-full">{error}</p>

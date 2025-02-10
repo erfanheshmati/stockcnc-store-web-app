@@ -12,14 +12,14 @@ export default function BlogCard({ data }: { data: Blog }) {
       {/* Mobile View */}
       <div className="md:hidden w-[242px] shadow-xl rounded-lg">
         <Link href={`/blog/${data._id}`}>
-          <div className="flex w-full h-[128px] rounded-t-lg">
+          <div className="flex w-full h-[180px] rounded-t-lg">
             <img
               src={`${IMAGE_URL}/${data.image}`}
               alt={data.title}
               className="rounded-t-lg w-full h-full"
             />
           </div>
-          <div className="flex flex-col gap-2 p-4">
+          <div className="flex flex-col gap-4 p-4">
             <div className="flex items-center">
               <h3 className="text-primary font-semibold text-[14px] line-clamp-2">
                 {data.title}

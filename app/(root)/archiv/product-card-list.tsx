@@ -11,7 +11,7 @@ export default function ProductCardList({ data }: { data: Product }) {
   return (
     <div className="flex p-5 gap-6 rounded-xl shadow-lg">
       <div
-        className={`flex items-center justify-center w-1/3 h-[200px] rounded-xl bg-[#EFF1F6] ${
+        className={`flex items-center justify-center w-1/3 h-[220px] rounded-xl bg-[#EFF1F6] ${
           !data.available ? "opacity-70" : ""
         }`}
       >
@@ -21,7 +21,7 @@ export default function ProductCardList({ data }: { data: Product }) {
             alt={data.title}
             width={180}
             height={120}
-            className={`w-full h-[200px] rounded-xl ${
+            className={`w-full h-[220px] rounded-xl ${
               !data.available ? "filter grayscale" : ""
             }`}
           />

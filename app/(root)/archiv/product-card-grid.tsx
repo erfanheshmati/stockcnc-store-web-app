@@ -9,7 +9,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
   const { openDialog } = useDialog();
 
   return (
-    <div className="flex flex-col justify-between py-4 rounded-2xl shadow-lg h-[490px]">
+    <div className="flex flex-col justify-between py-4 rounded-2xl shadow-lg h-[540px]">
       <div
         className={`flex items-center justify-between px-5 ${
           !data.available ? "opacity-70" : ""
@@ -36,7 +36,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
         />
       </div>
       <div
-        className={`flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
+        className={`flex items-center justify-center w-full h-[240px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
           !data.available ? "opacity-70" : ""
         }`}
       >
@@ -46,7 +46,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
             alt={data.title}
             width={207}
             height={139}
-            className={`w-full h-[216px] ${
+            className={`w-full h-[240px] ${
               !data.available ? "filter grayscale" : ""
             }`}
           />

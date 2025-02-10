@@ -11,7 +11,7 @@ export default function ProductCard({ data }: { data: Product }) {
   return (
     <>
       {/* Mobile View */}
-      <div className="md:hidden flex flex-col justify-between w-[221px] h-[322px] px-4 py-2 mx-auto shadow-xl rounded-xl">
+      <div className="md:hidden flex flex-col justify-between w-[221px] h-[360px] px-4 py-2 mx-auto shadow-xl rounded-xl">
         <div
           className={`flex items-center justify-between ${
             !data.available ? "opacity-70" : ""
@@ -31,7 +31,7 @@ export default function ProductCard({ data }: { data: Product }) {
           />
         </div>
         <div
-          className={`flex items-center justify-center w-full h-[110px] rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
+          className={`flex items-center justify-center w-full h-[140px] rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
             !data.available ? "opacity-70" : ""
           }`}
         >
@@ -39,7 +39,7 @@ export default function ProductCard({ data }: { data: Product }) {
             <img
               src={`${IMAGE_URL}/${data.primaryImage}`}
               alt={data.title}
-              className={`w-full h-[110px] rounded-xl ${
+              className={`w-full h-[140px] rounded-xl ${
                 !data.available ? "filter grayscale" : ""
               }`}
             />
@@ -99,7 +99,7 @@ export default function ProductCard({ data }: { data: Product }) {
 
       {/* Desktop View */}
       <div
-        className="hidden md:flex flex-col justify-between py-4 rounded-2xl shadow-lg max-w-[323px] h-[490px]"
+        className="hidden md:flex flex-col justify-between py-4 rounded-2xl shadow-lg max-w-[323px] h-[520px]"
         dir="rtl"
       >
         <div
@@ -127,7 +127,7 @@ export default function ProductCard({ data }: { data: Product }) {
           />
         </div>
         <div
-          className={`flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
+          className={`flex items-center justify-center w-full h-[240px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
             !data.available ? "opacity-70" : ""
           }`}
         >
@@ -135,7 +135,7 @@ export default function ProductCard({ data }: { data: Product }) {
             <img
               src={`${IMAGE_URL}/${data.primaryImage}`}
               alt={data.title}
-              className={`w-full h-[216px] ${
+              className={`w-full h-[240px] ${
                 !data.available ? "filter grayscale" : ""
               }`}
             />

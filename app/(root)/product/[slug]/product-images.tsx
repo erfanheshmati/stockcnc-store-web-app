@@ -20,7 +20,7 @@ export default function ProductImages({ data }: { data: Product }) {
   return (
     <>
       {/* Mobile View */}
-      <div className="flex items-center justify-center md:hidden h-[280px] sm:h-[440px] bg-[#EFF1F6]">
+      <div className="flex items-center justify-center md:hidden h-[300px] sm:h-[460px] bg-[#EFF1F6]">
         {/* Content */}
         <div className="flex items-center justify-center w-full z-[1]">
           {/* Slider */}
@@ -63,7 +63,7 @@ export default function ProductImages({ data }: { data: Product }) {
         >
           <div
             className={`flex items-center justify-center bg-secondary/10 rounded-xl relative ${
-              !isFullScreen && "md:h-[580px] lg:h-[420px] border"
+              !isFullScreen && "md:h-[640px] lg:h-[420px] border"
             }`}
           >
             <img
@@ -103,7 +103,7 @@ export default function ProductImages({ data }: { data: Product }) {
           {data.gallery.slice(0, 3).map((image, index) => (
             <div
               key={index}
-              className={`w-[125px] h-[110px] flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out z-10
+              className={`md:w-[200px] lg:w-[125px] md:h-[180px] lg:h-[110px] flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out z-10
             ${current === index && "border border-[#B7C5DA]"}`}
               onClick={() => setCurrent(index)}
             >
@@ -117,7 +117,7 @@ export default function ProductImages({ data }: { data: Product }) {
           {data.gallery.length > 3 && (
             <button
               onClick={() => setShowGallery(true)}
-              className="relative w-[130px] h-[110px] flex items-center justify-center rounded-xl bg-secondary hover:opacity-90 transition-all duration-300 ease-in-out"
+              className="relative md:w-[200px] lg:w-[125px] md:h-[180px] lg:h-[110px] flex items-center justify-center rounded-xl bg-secondary hover:opacity-90 transition-all duration-300 ease-in-out"
             >
               <img
                 src={`${IMAGE_URL}/${data.gallery[3]}`}

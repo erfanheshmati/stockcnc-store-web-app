@@ -131,7 +131,7 @@ export default function ProductIntroduce({
       {/* ********************************************************************************************************************** */}
 
       {/* Desktop View */}
-      <div className="hidden md:flex flex-col gap-10">
+      <div className="hidden md:flex flex-col gap-6">
         {/* Product Title */}
         <div className="flex flex-col gap-4">
           <h1 className="text-primary font-bold text-[28px] line-clamp-1">
@@ -147,7 +147,7 @@ export default function ProductIntroduce({
           </div>
         </div>
         {/* Product Specifications */}
-        <div className="flex flex-col gap-6 w-full lg:max-w-md h-[300px]">
+        <div className="flex flex-col gap-5 w-full lg:max-w-md h-[300px]">
           <div className="flex items-center justify-between">
             <span className="font-semibold text-[16px]">مشخصات دستگاه</span>
             <button

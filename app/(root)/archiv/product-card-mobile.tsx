@@ -13,14 +13,14 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           !product.available ? "opacity-70" : ""
         }`}
       >
-        <div className="flex items-center justify-center w-8/12 h-[150px] sm:h-[200px] rounded-xl bg-[#EFF1F6]">
+        <div className="flex items-center justify-center w-8/12 h-[170px] sm:h-[280px] rounded-xl bg-[#EFF1F6]">
           <Link href={`/product/${product._id}`} className="w-full">
             <img
               src={`${IMAGE_URL}/${product.primaryImage}`}
               alt={product.title}
               width={170}
               height={110}
-              className={`w-full h-[150px] sm:h-[200px] rounded-xl ${
+              className={`w-full h-[170px] sm:h-[280px] rounded-xl ${
                 !product.available ? "filter grayscale" : ""
               }`}
             />
