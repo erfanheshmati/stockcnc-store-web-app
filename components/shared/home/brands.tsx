@@ -3,7 +3,7 @@
 import BrandCard from "./brand-card";
 import { useEffect, useState } from "react";
 import { Brand } from "@/lib/types";
-import { BASE_URL } from "@/lib/constants";
+import { BASE_URL, IMAGE_URL } from "@/lib/constants";
 
 export default function Brands({
   setSelectedBrand,
@@ -49,9 +49,13 @@ export default function Brands({
               <li
                 key={data._id}
                 onClick={() => handleBrandClick(data._id)}
-                className="min-w-fit p-4 text-[#6B7F8E] text-[12px] bg-[#F1F3F8] rounded-md cursor-pointer mt-4"
+                className="flex items-center justify-center min-w-fit h-14 p-4 bg-[#F1F3F8] rounded-md mt-4"
               >
-                {data.title}
+                <img
+                  src={`${IMAGE_URL}/${data.logo}`}
+                  alt={data.title}
+                  className="w-16"
+                />
               </li>
             ))}
         </ul>
