@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Logo2 from "../logo-2";
 import Logo1 from "../logo-1";
+import Link from "next/link";
 
 export default function Logo() {
   const [isVisible, setIsVisible] = useState(false);
@@ -28,11 +29,13 @@ export default function Logo() {
         isVisible ? "block md:hidden lg:block" : "md:hidden"
       } absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[2]`}
     >
-      <img
-        src="/icons/stock-cnc-mobile.png"
-        alt="Logo"
-        className="hidden md:block w-[130px]"
-      />
+      <Link href="/">
+        <img
+          src="/icons/stock-cnc-mobile.png"
+          alt="Logo"
+          className="hidden md:block w-[130px]"
+        />
+      </Link>
       <Logo2 className="block md:hidden" />
     </div>
   );

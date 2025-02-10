@@ -20,7 +20,7 @@ export default function ProductImages({ data }: { data: Product }) {
   return (
     <>
       {/* Mobile View */}
-      <div className="flex items-center justify-center md:hidden h-[240px] sm:h-[350px] bg-[#EFF1F6]">
+      <div className="flex items-center justify-center md:hidden h-[280px] sm:h-[440px] bg-[#EFF1F6]">
         {/* Content */}
         <div className="flex items-center justify-center w-full z-[1]">
           {/* Slider */}
@@ -40,7 +40,7 @@ export default function ProductImages({ data }: { data: Product }) {
                   <img
                     src={`${IMAGE_URL}/${image}`}
                     alt="Product Image"
-                    className="w-full h-[240px] sm:h-[350px]"
+                    className="w-full h-[300px] sm:h-[460px]"
                   />
                 </SwiperSlide>
               ))}
@@ -52,7 +52,7 @@ export default function ProductImages({ data }: { data: Product }) {
       {/* *************************************************************************************************************** */}
 
       {/* Desktop View */}
-      <div className="hidden md:flex flex-col gap-4 relative">
+      <div className="hidden md:flex flex-col gap-6 relative">
         {/* Main Image */}
         <div
           className={`${
@@ -63,13 +63,13 @@ export default function ProductImages({ data }: { data: Product }) {
         >
           <div
             className={`flex items-center justify-center bg-secondary/10 rounded-xl relative ${
-              !isFullScreen && "h-[400px]"
+              !isFullScreen && "md:h-[580px] lg:h-[420px] border"
             }`}
           >
             <img
-              src={`${IMAGE_URL}/${data.gallery[current]}`}
+              src={`${IMAGE_URL}/720${data.gallery[current]}`}
               alt="Product Image"
-              className="w-full h-full rounded-xl border"
+              className="w-full h-full rounded-xl"
             />
           </div>
           {isFullScreen && (
@@ -103,7 +103,7 @@ export default function ProductImages({ data }: { data: Product }) {
           {data.gallery.slice(0, 3).map((image, index) => (
             <div
               key={index}
-              className={`w-[130px] h-[110px] flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out z-10
+              className={`w-[125px] h-[110px] flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out z-10
             ${current === index && "border border-[#B7C5DA]"}`}
               onClick={() => setCurrent(index)}
             >
@@ -149,7 +149,7 @@ export default function ProductImages({ data }: { data: Product }) {
                       setCurrent(index);
                       setShowGallery(false);
                     }}
-                    className={`w-[160px] h-[120px] flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out
+                    className={`w-[140px] h-[120px] flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out
                     ${current === index && "border border-[#B7C5DA]"}`}
                   >
                     <img
