@@ -11,12 +11,12 @@ export default function ProductCard({ data }: { data: Product }) {
   return (
     <>
       {/* Mobile View */}
-      <div
-        className={`md:hidden flex flex-col justify-between w-[221px] h-[322px] px-4 py-2 mx-auto shadow-xl rounded-xl ${
-          !data.available ? "opacity-80" : ""
-        }`}
-      >
-        <div className="flex items-center justify-between">
+      <div className="md:hidden flex flex-col justify-between w-[221px] h-[322px] px-4 py-2 mx-auto shadow-xl rounded-xl">
+        <div
+          className={`flex items-center justify-between ${
+            !data.available ? "opacity-70" : ""
+          }`}
+        >
           <span className="relative group cursor-pointer">
             <img
               src={`${IMAGE_URL}/${data?.country?.logo}`}
@@ -30,7 +30,11 @@ export default function ProductCard({ data }: { data: Product }) {
             className="w-16"
           />
         </div>
-        <div className="flex items-center justify-center w-full h-[110px] rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
+        <div
+          className={`flex items-center justify-center w-full h-[110px] rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
+            !data.available ? "opacity-70" : ""
+          }`}
+        >
           <Link href={`/product/${data._id}`} className="w-full">
             <img
               src={`${IMAGE_URL}/${data.primaryImage}`}
@@ -41,16 +45,26 @@ export default function ProductCard({ data }: { data: Product }) {
             />
           </Link>
         </div>
-        <div className="flex items-center">
+        <div
+          className={`flex items-center ${!data.available ? "opacity-70" : ""}`}
+        >
           <h3 className="text-primary font-semibold text-[13px] line-clamp-2">
             <Link href={`/product/${data._id}`}>{data.title}</Link>
           </h3>
         </div>
-        <hr />
-        <div className="flex items-center justify-end">
+        <hr className={`${!data.available ? "opacity-70" : ""}`} />
+        <div
+          className={`flex items-center justify-end ${
+            !data.available ? "opacity-70" : ""
+          }`}
+        >
           <h3 className="text-secondary/80 text-[10px]">{data.enTitle}</h3>
         </div>
-        <div className="flex items-center justify-between py-2">
+        <div
+          className={`flex items-center justify-between py-2 ${
+            !data.available ? "opacity-70" : ""
+          }`}
+        >
           <span className="text-black text-[11px]">{data.category.title}</span>
           <span className="text-black text-[11px]">
             سال ساخت {data.yearOfManufacture}
@@ -85,12 +99,14 @@ export default function ProductCard({ data }: { data: Product }) {
 
       {/* Desktop View */}
       <div
-        className={`hidden md:flex flex-col justify-between py-4 rounded-2xl shadow-lg max-w-[323px] h-[490px] ${
-          !data.available ? "opacity-80" : ""
-        }`}
+        className="hidden md:flex flex-col justify-between py-4 rounded-2xl shadow-lg max-w-[323px] h-[490px]"
         dir="rtl"
       >
-        <div className="flex items-center justify-between px-5">
+        <div
+          className={`flex items-center justify-between px-5 ${
+            !data.available ? "opacity-70" : ""
+          }`}
+        >
           <span className="relative group cursor-pointer py-5">
             <img
               src={`${IMAGE_URL}/${data?.country?.logo}`}
@@ -110,7 +126,11 @@ export default function ProductCard({ data }: { data: Product }) {
             className="w-20"
           />
         </div>
-        <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
+        <div
+          className={`flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
+            !data.available ? "opacity-70" : ""
+          }`}
+        >
           <Link href={`/product/${data._id}`} className="w-full">
             <img
               src={`${IMAGE_URL}/${data.primaryImage}`}
@@ -121,12 +141,20 @@ export default function ProductCard({ data }: { data: Product }) {
             />
           </Link>
         </div>
-        <div className="flex items-center px-6">
+        <div
+          className={`flex items-center px-6 ${
+            !data.available ? "opacity-70" : ""
+          }`}
+        >
           <h3 className="text-primary font-semibold text-[17px] line-clamp-2">
             <Link href={`/product/${data._id}`}>{data.title}</Link>
           </h3>
         </div>
-        <div className="flex items-center justify-between px-6 py-2">
+        <div
+          className={`flex items-center justify-between px-6 py-2 ${
+            !data.available ? "opacity-70" : ""
+          }`}
+        >
           <span className="text-secondary font-semibold text-[13px]">
             {data.category.title}
           </span>

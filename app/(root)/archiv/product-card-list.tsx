@@ -9,12 +9,12 @@ export default function ProductCardList({ data }: { data: Product }) {
   const { openDialog } = useDialog();
 
   return (
-    <div
-      className={`flex p-5 gap-6 rounded-xl shadow-lg ${
-        !data.available ? "opacity-80" : ""
-      }`}
-    >
-      <div className="flex items-center justify-center w-1/3 h-[200px] rounded-xl bg-[#EFF1F6]">
+    <div className="flex p-5 gap-6 rounded-xl shadow-lg">
+      <div
+        className={`flex items-center justify-center w-1/3 h-[200px] rounded-xl bg-[#EFF1F6] ${
+          !data.available ? "opacity-70" : ""
+        }`}
+      >
         <Link href={`/product/${data._id}`} className="w-full">
           <img
             src={`${IMAGE_URL}/${data.primaryImage}`}
@@ -28,13 +28,25 @@ export default function ProductCardList({ data }: { data: Product }) {
         </Link>
       </div>
       <div className="flex flex-col items-start justify-between px-2 w-2/3">
-        <h3 className="text-primary font-semibold text-[18px] line-clamp-1">
+        <h3
+          className={`text-primary font-semibold text-[18px] line-clamp-1 ${
+            !data.available ? "opacity-70" : ""
+          }`}
+        >
           <Link href={`/product/${data._id}`}>{data.title}</Link>
         </h3>
-        <h3 className="text-secondary/70 font-medium text-[12px]">
+        <h3
+          className={`text-secondary/70 font-medium text-[12px] ${
+            !data.available ? "opacity-70" : ""
+          }`}
+        >
           {data.enTitle}
         </h3>
-        <div className="flex items-center justify-between w-full">
+        <div
+          className={`flex items-center justify-between w-full ${
+            !data.available ? "opacity-70" : ""
+          }`}
+        >
           <div className="flex items-center gap-8">
             <span className="text-secondary font-semibold text-[13px]">
               {data.category.title}
@@ -59,7 +71,9 @@ export default function ProductCardList({ data }: { data: Product }) {
           </div>
         </div>
         <div className="flex items-center justify-between w-full">
-          <div className="hidden lg:block">
+          <div
+            className={`hidden lg:block ${!data.available ? "opacity-70" : ""}`}
+          >
             <img
               src={`${IMAGE_URL}/${data?.brand?.logo}`}
               alt={data?.brand?.enTitle}

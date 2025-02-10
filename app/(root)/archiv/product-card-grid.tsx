@@ -9,12 +9,12 @@ export default function ProductCardGrid({ data }: { data: Product }) {
   const { openDialog } = useDialog();
 
   return (
-    <div
-      className={`flex flex-col justify-between py-4 rounded-2xl shadow-lg h-[490px] ${
-        !data.available ? "opacity-80" : ""
-      }`}
-    >
-      <div className="flex items-center justify-between px-5">
+    <div className="flex flex-col justify-between py-4 rounded-2xl shadow-lg h-[490px]">
+      <div
+        className={`flex items-center justify-between px-5 ${
+          !data.available ? "opacity-70" : ""
+        }`}
+      >
         <span className="relative group cursor-pointer py-5">
           <img
             src={`${IMAGE_URL}/${data?.country?.logo}`}
@@ -35,7 +35,11 @@ export default function ProductCardGrid({ data }: { data: Product }) {
           className="w-20"
         />
       </div>
-      <div className="flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff]">
+      <div
+        className={`flex items-center justify-center w-full h-[216px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
+          !data.available ? "opacity-70" : ""
+        }`}
+      >
         <Link href={`/product/${data._id}`} className="w-full">
           <img
             src={`${IMAGE_URL}/${data.primaryImage}`}
@@ -48,12 +52,20 @@ export default function ProductCardGrid({ data }: { data: Product }) {
           />
         </Link>
       </div>
-      <div className="flex items-center px-6">
+      <div
+        className={`flex items-center px-6 ${
+          !data.available ? "opacity-70" : ""
+        }`}
+      >
         <h3 className="text-primary font-semibold text-[17px] line-clamp-2">
           <Link href={`/product/${data._id}`}>{data.title}</Link>
         </h3>
       </div>
-      <div className="flex items-center justify-between px-6 py-2">
+      <div
+        className={`flex items-center justify-between px-6 py-2 ${
+          !data.available ? "opacity-70" : ""
+        }`}
+      >
         <span className="text-secondary font-semibold text-[13px]">
           {data.category.title}
         </span>

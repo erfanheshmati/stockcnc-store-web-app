@@ -7,12 +7,12 @@ export default function ProductCardMobile({ product }: { product: Product }) {
   const { openDialog } = useDialog();
 
   return (
-    <div
-      className={`flex flex-col p-5 m-1 gap-2 rounded-xl shadow-md min-w-[97%] sm:min-w-[70%] ${
-        !product.available ? "opacity-80" : ""
-      }`}
-    >
-      <div className="flex items-start justify-between">
+    <div className="flex flex-col p-5 m-1 gap-2 rounded-xl shadow-md min-w-[97%] sm:min-w-[70%]">
+      <div
+        className={`flex items-start justify-between ${
+          !product.available ? "opacity-70" : ""
+        }`}
+      >
         <div className="flex items-center justify-center w-8/12 h-[150px] sm:h-[200px] rounded-xl bg-[#EFF1F6]">
           <Link href={`/product/${product._id}`} className="w-full">
             <img
@@ -40,13 +40,21 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           />
         </div>
       </div>
-      <div className="flex items-center">
+      <div
+        className={`flex items-center ${
+          !product.available ? "opacity-70" : ""
+        }`}
+      >
         <h3 className="text-primary font-semibold text-[14px] leading-6 pt-2">
           <Link href={`/product/${product._id}`}>{product.title}</Link>
         </h3>
       </div>
-      <hr className="my-2" />
-      <div className="flex items-center justify-between">
+      <hr className={`my-2 ${!product.available ? "opacity-70" : ""}`} />
+      <div
+        className={`flex items-center justify-between ${
+          !product.available ? "opacity-70" : ""
+        }`}
+      >
         <span className="text-secondary/90 font-semibold text-[11px]">
           {product.category.title}
         </span>
