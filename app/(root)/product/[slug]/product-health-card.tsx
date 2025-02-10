@@ -16,8 +16,7 @@ export default function ProductHealthCard({
   const healthData = [
     { title: "سلامت ظاهری", percentage: Number(data.appearanceHealth) },
     { title: "سلامت برقی", percentage: Number(data.electricHealth) },
-    { title: "سلامت اتصالات", percentage: Number(data.metalJointsHealth) },
-    { title: "سلامت سوزن", percentage: Number(data.needleHealth) },
+    { title: "سلامت فنی", percentage: Number(data.technicalHealth) },
   ];
 
   return (

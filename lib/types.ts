@@ -65,8 +65,7 @@ export interface Product {
   yearOfManufacture: string;
   appearanceHealth: number;
   electricHealth: number;
-  metalJointsHealth: number;
-  needleHealth: number;
+  technicalHealth: number;
   attributes: Attribute[];
   view: number;
   createdAt: string;
