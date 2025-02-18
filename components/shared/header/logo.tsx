@@ -2,26 +2,34 @@
 
 import { useEffect, useState } from "react";
 import Logo2 from "../logo-2";
-import Logo1 from "../logo-1";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Logo() {
-  const [isVisible, setIsVisible] = useState(false);
+  const pathname = usePathname();
+  const [isVisible, setIsVisible] = useState(pathname === "/");
 
   useEffect(() => {
+    // If the user is on the homepage, always show the logo
+    if (pathname === "/") {
+      setIsVisible(true);
+      return;
+    }
+
+    // Set initial visibility based on scroll position
+    setIsVisible(window.scrollY > 90);
+
     const handleScroll = () => {
-      if (window.scrollY > 90) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      setIsVisible(window.scrollY > 90);
     };
+
     window.addEventListener("scroll", handleScroll);
+
     // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <div
