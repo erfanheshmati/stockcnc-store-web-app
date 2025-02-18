@@ -77,3 +77,46 @@ input[type="number"] {
 .flashing-light {
   animation: flash 1.5s infinite ease-in-out;
 }
+
+/* ********************************************************************************************************************** */
+
+/* Product Page Carousel Arrows Styles */
+.custom-product-carousel-button-prev,
+.custom-product-carousel-button-next {
+  position: absolute;
+  top: 45%; /* Position 50% from the top */
+  transform: translateY(-45%); /* Shift them up by half of their height */
+}
+
+/* Product Page Carousel Pagination Styles */
+.custom-product-carousel-pagination {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 10;
+  cursor: pointer;
+}
+.custom-product-carousel-pagination .custom-product-carousel-pagination-bullet {
+  background-color: white; /* Bullet color */
+  width: 6px; /* Bullet size */
+  height: 6px;
+  border-radius: 50%; /* Make bullets circular */
+  opacity: 0.4; /* Bullet opacity */
+  transition: background-color 0.3s, transform 0.3s;
+}
+.custom-product-carousel-pagination
+  .custom-product-carousel-pagination-bullet:hover {
+  opacity: 0.7;
+}
+.custom-product-carousel-pagination
+  .custom-product-carousel-pagination-bullet-active {
+  width: 20px;
+  height: 4px;
+  margin: 0 2px;
+  border-radius: 20%;
+  background-color: white; /* Active bullet color */
+  opacity: 0.6; /* Bullet opacity */
+  transform: scale(1.2); /* Active bullet size */
+}
