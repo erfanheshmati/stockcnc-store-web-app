@@ -46,12 +46,16 @@ export default function Banner({ children }: { children: React.ReactNode }) {
           {/* Custom Pagination */}
           {/* <div className="custom-swiper-pagination hidden md:flex items-center justify-center bottom-14 gap-1 z-[5] cursor-pointer"></div> */}
           {/* Custom Arrows */}
-          <div className="custom-swiper-button-prev left-4 z-[5] cursor-pointer hover:opacity-70">
-            <BiArrowFromRight size={20} color="white" />
-          </div>
-          <div className="custom-swiper-button-next right-4 z-[5] cursor-pointer hover:opacity-70">
-            <BiArrowFromLeft size={20} color="white" />
-          </div>
+          {bannersData.length > 1 && (
+            <>
+              <div className="custom-swiper-button-prev left-4 z-[5] cursor-pointer hover:opacity-70">
+                <BiArrowFromRight size={20} color="white" />
+              </div>
+              <div className="custom-swiper-button-next right-4 z-[5] cursor-pointer hover:opacity-70">
+                <BiArrowFromLeft size={20} color="white" />
+              </div>
+            </>
+          )}
           {/* Swiper */}
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}
