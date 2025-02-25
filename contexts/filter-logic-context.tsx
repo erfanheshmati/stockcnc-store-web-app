@@ -71,7 +71,7 @@ export function FiltersLogicProvider({
         });
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات برند!");
         const data = await res.json();
-        setAttributes(data);
+        setAttributes(data.filters);
       } catch (error) {
         console.error("Failed to fetch attributes:", error);
       }
