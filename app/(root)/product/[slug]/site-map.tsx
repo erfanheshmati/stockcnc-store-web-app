@@ -21,7 +21,7 @@ export default function Sitemap({ data }: { data: Product }) {
       <BiChevronLeft size={16} />
       <Link
         href={`/product/${data._id}`}
-        className="hover:opacity-70 transition-all duration-300 ease-in-out"
+        className="hover:opacity-70 transition-all duration-300 ease-in-out pt-0.5"
       >
         {data.title}
       </Link>
