@@ -13,14 +13,14 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           !product.available ? "opacity-70" : ""
         }`}
       >
-        <div className="flex items-center justify-center w-8/12 h-[170px] sm:h-[280px] rounded-xl bg-[#EFF1F6]">
+        <div className="flex items-center justify-center w-8/12 h-auto rounded-xl bg-[#EFF1F6]">
           <Link href={`/product/${product._id}`} className="w-full">
             <img
               src={`${IMAGE_URL}/${product.primaryImage}`}
               alt={product.title}
               width={170}
               height={110}
-              className={`w-full h-[170px] sm:h-[280px] rounded-xl ${
+              className={`w-full h-auto rounded-xl ${
                 !product.available ? "filter grayscale" : ""
               }`}
             />
@@ -46,7 +46,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
         }`}
       >
         <h3 className="text-primary font-semibold text-[14px] leading-6">
-          <Link href={`/product/${product._id}`}>{product.title}</Link>
+          <Link href={`/product/${product._id}`}>{product.enTitle}</Link>
         </h3>
       </div>
       <div
@@ -54,10 +54,10 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           !product.available ? "opacity-70" : ""
         }`}
       >
-        <hr className="w-full" />
-        <h3 className="text-secondary text-[10px] min-w-fit">
-          {product.enTitle}
+        <h3 className="text-secondary text-[11px] min-w-fit">
+          {product.title}
         </h3>
+        <hr className="w-full" />
       </div>
       <div
         className={`flex items-center justify-between ${

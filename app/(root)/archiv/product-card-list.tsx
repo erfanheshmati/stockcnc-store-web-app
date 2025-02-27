@@ -11,17 +11,17 @@ export default function ProductCardList({ data }: { data: Product }) {
   return (
     <div className="flex p-5 gap-6 rounded-xl shadow-lg">
       <div
-        className={`flex items-center justify-center w-1/3 h-[220px] rounded-xl bg-[#EFF1F6] ${
+        className={`flex items-center justify-center w-1/3 h-auto rounded-xl bg-[#EFF1F6] ${
           !data.available ? "opacity-70" : ""
         }`}
       >
-        <Link href={`/product/${data._id}`} className="w-full">
+        <Link href={`/product/${data._id}`}>
           <img
             src={`${IMAGE_URL}/${data.primaryImage}`}
             alt={data.title}
             width={180}
             height={120}
-            className={`w-full h-[220px] rounded-xl ${
+            className={`w-full h-auto rounded-xl ${
               !data.available ? "filter grayscale" : ""
             }`}
           />
@@ -29,18 +29,18 @@ export default function ProductCardList({ data }: { data: Product }) {
       </div>
       <div className="flex flex-col items-start justify-between px-2 w-2/3">
         <h3
-          className={`text-primary font-semibold text-[18px] line-clamp-1 ${
+          className={`text-primary font-semibold text-[18px] line-clamp-1 pt-2 ${
             !data.available ? "opacity-70" : ""
           }`}
         >
-          <Link href={`/product/${data._id}`}>{data.title}</Link>
+          <Link href={`/product/${data._id}`}>{data.enTitle}</Link>
         </h3>
         <h3
-          className={`text-secondary/70 font-medium text-[12px] ${
+          className={`text-secondary/70 font-medium text-[14px] ${
             !data.available ? "opacity-70" : ""
           }`}
         >
-          {data.enTitle}
+          {data.title}
         </h3>
         <div
           className={`flex items-center justify-between w-full ${
@@ -48,13 +48,13 @@ export default function ProductCardList({ data }: { data: Product }) {
           }`}
         >
           <div className="flex items-center gap-8">
-            <span className="text-secondary font-semibold text-[13px]">
+            <span className="text-secondary font-semibold text-[12px]">
               {data.category.title}
             </span>
-            <span className="text-secondary font-semibold text-[13px]">
+            <span className="text-secondary font-semibold text-[12px]">
               سال ساخت {data.yearOfManufacture}
             </span>
-            <span className="text-secondary font-semibold text-[13px]">
+            <span className="text-secondary font-semibold text-[12px]">
               {data.condition}
             </span>
           </div>
@@ -65,7 +65,7 @@ export default function ProductCardList({ data }: { data: Product }) {
               width={22}
               height={22}
             />
-            <span className="text-secondary font-semibold text-[13px] pt-0.5">
+            <span className="text-secondary font-semibold text-[12px] pt-0.5">
               ساخت کشور {data?.country?.title}
             </span>
           </div>

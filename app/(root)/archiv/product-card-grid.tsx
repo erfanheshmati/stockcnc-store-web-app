@@ -9,7 +9,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
   const { openDialog } = useDialog();
 
   return (
-    <div className="flex flex-col justify-between py-4 rounded-2xl shadow-lg h-[540px]">
+    <div className="flex flex-col justify-between gap-2 py-4 rounded-2xl shadow-lg lg:h-[540px]">
       <div
         className={`flex items-center justify-between px-5 ${
           !data.available ? "opacity-70" : ""
@@ -36,28 +36,28 @@ export default function ProductCardGrid({ data }: { data: Product }) {
         />
       </div>
       <div
-        className={`flex items-center justify-center w-full h-[240px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
+        className={`flex items-center justify-center w-full h-auto bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
           !data.available ? "opacity-70" : ""
         }`}
       >
-        <Link href={`/product/${data._id}`} className="w-full">
+        <Link href={`/product/${data._id}`}>
           <img
             src={`${IMAGE_URL}/${data.primaryImage}`}
             alt={data.title}
             width={207}
             height={139}
-            className={`w-full h-[240px] ${
+            className={`w-full h-auto ${
               !data.available ? "filter grayscale" : ""
             }`}
           />
         </Link>
       </div>
       <div
-        className={`flex items-center px-6 ${
+        className={`flex items-center px-6 pt-2 lg:pt-0 ${
           !data.available ? "opacity-70" : ""
         }`}
       >
-        <h3 className="text-primary font-semibold text-[17px] line-clamp-2">
+        <h3 className="text-primary font-semibold text-[16px] line-clamp-2">
           <Link href={`/product/${data._id}`}>{data.title}</Link>
         </h3>
       </div>
