@@ -7,20 +7,20 @@ export default function ProductCardMobile({ product }: { product: Product }) {
   const { openDialog } = useDialog();
 
   return (
-    <div className="flex flex-col p-5 m-1 gap-2 rounded-xl shadow-md min-w-[97%] sm:min-w-[70%]">
+    <div className="flex flex-col p-5 m-1 gap-2 rounded-xl shadow-md">
       <div
         className={`flex items-start justify-between ${
           !product.available ? "opacity-70" : ""
         }`}
       >
-        <div className="flex items-center justify-center w-8/12 h-[180px] sm:h-[300px] rounded-xl bg-[#EFF1F6]">
-          <Link href={`/product/${product._id}`} className="w-full">
+        <div className="flex w-8/12 h-auto rounded-xl bg-[#EFF1F6]">
+          <Link href={`/product/${product._id}`}>
             <img
               src={`${IMAGE_URL}/${product.primaryImage}`}
               alt={product.title}
               width={170}
               height={110}
-              className={`w-full h-[180px] sm:h-[300px] object-center rounded-xl ${
+              className={`w-full h-auto rounded-xl ${
                 !product.available ? "filter grayscale" : ""
               }`}
             />
@@ -45,7 +45,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           !product.available ? "opacity-70" : ""
         }`}
       >
-        <h3 className="text-primary font-semibold text-[14px] leading-6 pt-2">
+        <h3 className="text-primary font-semibold text-[12px] leading-6 pt-2">
           <Link href={`/product/${product._id}`}>{product.title}</Link>
         </h3>
       </div>

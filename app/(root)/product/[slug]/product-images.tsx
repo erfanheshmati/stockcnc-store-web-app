@@ -21,7 +21,7 @@ export default function ProductImages({ data }: { data: Product }) {
   return (
     <>
       {/* Mobile View */}
-      <div className="flex items-center justify-center md:hidden h-[300px] sm:h-[460px] bg-[#EFF1F6]">
+      <div className="flex items-center justify-center md:hidden h-auto bg-[#EFF1F6]">
         {/* Content */}
         <div className="flex items-center justify-center w-full z-[1]">
           {/* Slider */}
@@ -34,14 +34,13 @@ export default function ProductImages({ data }: { data: Product }) {
               pagination={{
                 clickable: true,
               }}
-              className="w-full"
             >
               {data.gallery.map((image, index) => (
-                <SwiperSlide key={index} className="py-2">
+                <SwiperSlide key={index}>
                   <img
                     src={`${IMAGE_URL}/${image}`}
                     alt="Product Image"
-                    className="w-full h-[300px] sm:h-[460px]"
+                    className="w-full h-auto"
                   />
                 </SwiperSlide>
               ))}
@@ -55,11 +54,11 @@ export default function ProductImages({ data }: { data: Product }) {
       {/* Desktop View */}
       <div className="hidden md:flex flex-col gap-6 relative">
         {/* Main Image */}
-        <div className="flex items-center justify-center bg-secondary/10 rounded-xl md:h-[640px] lg:h-[420px] border relative">
+        <div className="flex items-center justify-center bg-secondary/10 rounded-xl h-auto border relative">
           <img
             src={`${IMAGE_URL}/${data.gallery[current]}`}
             alt="Product Image"
-            className="w-full h-full rounded-xl"
+            className="w-full h-auto rounded-xl"
           />
         </div>
         {/* Set Fullscreen Button */}
@@ -177,26 +176,26 @@ export default function ProductImages({ data }: { data: Product }) {
           {data.gallery.slice(0, 3).map((image, index) => (
             <div
               key={index}
-              className={`md:w-[200px] lg:w-[125px] md:h-[180px] lg:h-[110px] flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out z-10
+              className={`md:w-[180px] lg:w-[120px] h-full flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out z-10
             ${current === index && "border border-[#B7C5DA]"}`}
               onClick={() => setCurrent(index)}
             >
               <img
                 src={`${IMAGE_URL}/${image}`}
                 alt="Product Thumbnail"
-                className="w-full h-full rounded-xl"
+                className="w-full h-auto rounded-xl"
               />
             </div>
           ))}
           {data.gallery.length > 3 && (
             <button
               onClick={() => setShowGallery(true)}
-              className="relative md:w-[200px] lg:w-[125px] md:h-[180px] lg:h-[110px] flex items-center justify-center rounded-xl bg-secondary hover:opacity-90 transition-all duration-300 ease-in-out"
+              className="relative md:w-[180px] lg:w-[120px] h-full flex items-center justify-center rounded-xl bg-secondary hover:opacity-90 transition-all duration-300 ease-in-out"
             >
               <img
                 src={`${IMAGE_URL}/${data.gallery[3]}`}
                 alt="Product Thumbnail"
-                className="w-full h-full rounded-xl opacity-40"
+                className="w-full h-auto rounded-xl opacity-40"
               />
               <span className="text-white font-semibold text-[20px] absolute">
                 +{data.gallery.length - 3}
@@ -223,13 +222,13 @@ export default function ProductImages({ data }: { data: Product }) {
                       setCurrent(index);
                       setShowGallery(false);
                     }}
-                    className={`w-[140px] h-[120px] flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out
+                    className={`w-[140px] h-auto flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out
                     ${current === index && "border border-[#B7C5DA]"}`}
                   >
                     <img
                       src={`${IMAGE_URL}/${image}`}
                       alt="Gallery Image"
-                      className="w-full h-full rounded-xl"
+                      className="w-full h-auto rounded-xl"
                     />
                   </div>
                 ))}
