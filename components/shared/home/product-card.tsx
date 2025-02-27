@@ -31,7 +31,7 @@ export default function ProductCard({ data }: { data: Product }) {
           />
         </div>
         <div
-          className={`flex items-center justify-center w-full h-[140px] rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
+          className={`flex items-center justify-center w-full h-auto rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
             !data.available ? "opacity-70" : ""
           }`}
         >
@@ -39,7 +39,7 @@ export default function ProductCard({ data }: { data: Product }) {
             <img
               src={`${IMAGE_URL}/${data.primaryImage}`}
               alt={data.title}
-              className={`w-full h-[140px] rounded-xl ${
+              className={`w-full h-auto rounded-xl ${
                 !data.available ? "filter grayscale" : ""
               }`}
             />
@@ -49,16 +49,14 @@ export default function ProductCard({ data }: { data: Product }) {
           className={`flex items-center ${!data.available ? "opacity-70" : ""}`}
         >
           <h3 className="text-primary font-semibold text-[13px] line-clamp-2">
-            <Link href={`/product/${data._id}`}>{data.title}</Link>
+            <Link href={`/product/${data._id}`}>{data.enTitle}</Link>
           </h3>
         </div>
         <hr className={`${!data.available ? "opacity-70" : ""}`} />
         <div
-          className={`flex items-center justify-end ${
-            !data.available ? "opacity-70" : ""
-          }`}
+          className={`flex items-center ${!data.available ? "opacity-70" : ""}`}
         >
-          <h3 className="text-secondary/80 text-[10px]">{data.enTitle}</h3>
+          <h3 className="text-secondary/80 text-[10px]">{data.title}</h3>
         </div>
         <div
           className={`flex items-center justify-between py-2 ${
@@ -127,7 +125,7 @@ export default function ProductCard({ data }: { data: Product }) {
           />
         </div>
         <div
-          className={`flex items-center justify-center w-full h-[240px] bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
+          className={`flex items-center justify-center w-full h-auto bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
             !data.available ? "opacity-70" : ""
           }`}
         >
@@ -135,7 +133,7 @@ export default function ProductCard({ data }: { data: Product }) {
             <img
               src={`${IMAGE_URL}/${data.primaryImage}`}
               alt={data.title}
-              className={`w-full h-[240px] ${
+              className={`w-full h-auto ${
                 !data.available ? "filter grayscale" : ""
               }`}
             />
@@ -146,7 +144,7 @@ export default function ProductCard({ data }: { data: Product }) {
             !data.available ? "opacity-70" : ""
           }`}
         >
-          <h3 className="text-primary font-semibold text-[17px] line-clamp-2">
+          <h3 className="text-primary font-semibold text-[16px] line-clamp-2">
             <Link href={`/product/${data._id}`}>{data.title}</Link>
           </h3>
         </div>
