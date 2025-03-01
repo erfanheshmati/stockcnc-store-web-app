@@ -3,6 +3,7 @@
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
 import { useMemo } from "react";
 import { BiArrowFromTop, BiX } from "react-icons/bi";
+import DualRangeSlider from "./dual-range-slider";
 
 export default function FiltersMobile({ onClose }: { onClose: () => void }) {
   const {
@@ -12,17 +13,19 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
     setInStockOnly,
     toggleFilter,
     openFilter,
-    clearFilters,
     handleCheckAndFilterChange,
     handleRangeChange,
     enabledAttributes,
+    filteredProductsCount,
+    clearFilters,
+    applyFilters,
   } = useFiltersLogic();
 
   const renderedFilters = useMemo(() => {
     return attributes
-      .filter((attribute) => enabledAttributes.has(attribute._id))
+      .filter((attribute) => enabledAttributes.has(attribute.id))
       .map((attribute, index) => (
-        <div key={attribute._id} className="bg-secondary/10 rounded-xl my-2">
+        <div key={attribute.id} className="bg-secondary/10 rounded-xl my-2">
           <button
             className="flex justify-between items-center w-full"
             onClick={() => toggleFilter(index)}
@@ -40,74 +43,62 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
             </span>
           </button>
           {openFilter === index && (
-            <div className="py-1">
+            <div className="py-2">
+              {/* String-Based Filters (Checkboxes) */}
               {attribute.type === "string" &&
-                attribute.values.map((value, idx) => (
-                  <div key={idx} className="flex items-center gap-2 px-5 py-2">
-                    <input
-                      type="checkbox"
-                      id={`filter-${index}-${idx}`}
-                      checked={
-                        typeof checkedItems[attribute._id]?.[value] ===
-                        "boolean"
-                          ? (checkedItems[attribute._id]?.[value] as boolean)
-                          : false
-                      }
-                      onChange={() =>
-                        handleCheckAndFilterChange(attribute._id, value)
-                      }
-                      className="w-5 h-5 cursor-pointer"
-                    />
-                    <label
-                      htmlFor={`filter-${index}-${idx}`}
-                      className={`font-semibold text-[12px] cursor-pointer pt-0.5 ${
-                        checkedItems[attribute._id]?.[value]
-                          ? "text-black"
-                          : "text-black/60"
-                      }`}
+                (attribute.value || []).map((option, idx) => {
+                  // Cast the filter value as a CheckboxFilter so we can index using option.value
+                  const checkboxValue = (
+                    checkedItems[attribute.id] as
+                      | { [key: string]: boolean }
+                      | undefined
+                  )?.[option.value];
+                  return (
+                    <div
+                      key={idx}
+                      className="flex items-center gap-2 px-5 py-2"
                     >
-                      {value}
-                    </label>
-                  </div>
-                ))}
+                      <input
+                        type="checkbox"
+                        id={`filter-${index}-${idx}`}
+                        checked={Boolean(checkboxValue)}
+                        onChange={() =>
+                          handleCheckAndFilterChange(attribute.id, option.value)
+                        }
+                        className="w-5 h-5 cursor-pointer"
+                      />
+                      <label
+                        htmlFor={`filter-${index}-${idx}`}
+                        className={`font-semibold text-[12px] cursor-pointer pt-0.5 ${
+                          checkboxValue ? "text-black" : "text-black/60"
+                        }`}
+                      >
+                        {option.value} ({option.count})
+                      </label>
+                    </div>
+                  );
+                })}
 
+              {/* Numeric Filters (Dual Range Slider for Min & Max) */}
               {attribute.type === "number" && (
-                <div className="px-5 py-2 text-black/60">
-                  <label className="block mb-2 font-semibold text-[12px]">
-                    محدوده
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="number"
-                      placeholder="حداقل"
-                      value={Number(checkedItems[attribute._id]?.min) || ""}
-                      // min={0}
-                      // defaultValue={0}
-                      className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[12px]"
-                      onChange={(e) =>
-                        handleRangeChange(attribute._id, {
-                          min: Number(e.target.value),
-                          max: Number(checkedItems[attribute._id]?.max),
+                <DualRangeSlider
+                  min={attribute.min}
+                  max={attribute.max}
+                  currentValue={
+                    checkedItems[attribute.id] &&
+                    typeof checkedItems[attribute.id] === "object" &&
+                    "min" in checkedItems[attribute.id] &&
+                    "max" in checkedItems[attribute.id]
+                      ? (checkedItems[attribute.id] as {
+                          min: number;
+                          max: number;
                         })
-                      }
-                    />
-                    <span className="text-[12px]">تا</span>
-                    <input
-                      type="number"
-                      placeholder="حداکثر"
-                      value={Number(checkedItems[attribute._id]?.max) || ""}
-                      // max={1000}
-                      // defaultValue={1000}
-                      className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[12px]"
-                      onChange={(e) =>
-                        handleRangeChange(attribute._id, {
-                          min: Number(checkedItems[attribute._id]?.min),
-                          max: Number(e.target.value),
-                        })
-                      }
-                    />
-                  </div>
-                </div>
+                      : { min: attribute.min, max: attribute.max }
+                  }
+                  onChange={(newRange) =>
+                    handleRangeChange(attribute.id, newRange)
+                  }
+                />
               )}
             </div>
           )}
@@ -168,10 +159,15 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
 
       {/* Product View Button */}
       <button
-        onClick={onClose}
-        className="block md:hidden fixed bottom-0 w-full py-4 z-10 text-white font-bold text-[14px] bg-primary"
+        onClick={() => {
+          applyFilters(); // Invoke the function
+          onClose(); // Invoke the function
+        }}
+        className="flex items-center justify-center fixed bottom-0 w-full py-4 z-10 text-white font-bold text-[14px] bg-primary"
       >
-        مشاهده محصولات
+        مشاهده
+        <div className="px-1">{filteredProductsCount}</div>
+        محصول
       </button>
     </div>
   );
