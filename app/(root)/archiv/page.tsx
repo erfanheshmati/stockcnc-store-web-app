@@ -62,8 +62,8 @@ export default async function ArchivePage({
 }) {
   const searchQuery = searchParams?.q || "";
   const categoryQuery = searchParams?.category || "";
-  const pageQuery = parseInt(searchParams?.page || "1", 10);
-  const limitQuery = parseInt(searchParams?.limit || "10", 10);
+  // const pageQuery = parseInt(searchParams?.page || "1", 10);
+  // const limitQuery = parseInt(searchParams?.limit || "10", 10);
   const sortQuery = searchParams?.sort || "";
 
   let error: string | null = null;

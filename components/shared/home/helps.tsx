@@ -8,6 +8,7 @@ import { BASE_URL } from "@/lib/constants";
 export default function Helps() {
   const [helpsData, setHelpsData] = useState<Blog[]>([]);
   const [error, setError] = useState<string | null>(null);
+  console.log(error);
 
   useEffect(() => {
     const fetchBlogsData = async () => {

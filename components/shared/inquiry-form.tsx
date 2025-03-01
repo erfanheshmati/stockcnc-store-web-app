@@ -41,6 +41,7 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
 
       // Send API request to get price for the product
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const requestBody: Record<string, any> = {
           phone: phoneNumber,
           ...(productId && { product: productId }), // Conditionally add productId if it exists

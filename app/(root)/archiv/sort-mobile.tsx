@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { BiX } from "react-icons/bi";
 
 export default function SortMobile({
@@ -10,7 +10,6 @@ export default function SortMobile({
   onClose: () => void;
   // sort: string;
 }) {
-  const router = useRouter();
   const params = useSearchParams();
 
   const handleSortChange = (sortType: string = params.get("sort") || "") => {

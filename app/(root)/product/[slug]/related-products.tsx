@@ -38,7 +38,7 @@ export default function RelatedProducts({
       }
     };
     fetchProductsData();
-  }, []);
+  }, [proCatId, proId]);
 
   return (
     <>

@@ -2,7 +2,6 @@
 
 import SortMobile from "./sort-mobile";
 import { useDialog } from "@/contexts/dialog-context";
-import { useRouter } from "next/navigation";
 
 export default function SortSwitch({
   // currentPage,
@@ -20,7 +19,6 @@ export default function SortSwitch({
   sort: string;
 }) {
   const { closeDialog } = useDialog();
-  const router = useRouter();
 
   const handleSortChange = (sortType: string = sort) => {
     const searchParams = new URLSearchParams(window.location.search);
