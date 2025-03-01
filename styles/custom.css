@@ -120,3 +120,53 @@ input[type="number"] {
   opacity: 0.6; /* Bullet opacity */
   transform: scale(1.2); /* Active bullet size */
 }
+
+/* ********************************************************************************************************************** */
+
+/* Container for the filter slider range */
+.slider {
+  height: 5px;
+  position: relative;
+}
+
+/* Track (the filled progress section) */
+.track {
+  height: 5px;
+  border-radius: 5px;
+}
+
+/* Filled Track (Default Min & Max) */
+.track-filled-gray {
+  background: #aaa;
+}
+
+/* Filled Track (Between Min & Max) */
+.track-filled-blue {
+  background: #2773b2;
+}
+
+/* Empty Track (Before Min & After Max) */
+.track-empty {
+  background: #ddd;
+}
+
+/* Thumb (the draggable handle) */
+.thumb {
+  width: 15px;
+  height: 15px;
+  background: #2773b2;
+  border-radius: 50%;
+  cursor: grab;
+  top: -5px;
+  position: absolute;
+}
+
+/* Thumb (Default Min & Max) */
+.thumb-gray {
+  background-color: #aaa;
+}
+
+/* Thumb (Between Min & Max) */
+.thumb-blue {
+  background-color: #2773b2;
+}

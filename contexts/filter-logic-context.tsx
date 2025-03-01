@@ -1,18 +1,19 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { AttributeType, Product } from "@/lib/types";
+import { Filter, Product, ProductArchiveFilterResponse } from "@/lib/types";
 import { BASE_URL } from "@/lib/constants";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+
+type NumericFilter = { min: number; max: number };
+type CheckboxFilter = { [option: string]: boolean };
 
 type CheckedItems = {
-  [attributeTitle: string]: {
-    [value: string]: string | number | boolean | null;
-  };
+  [key: string]: NumericFilter | CheckboxFilter;
 };
 
 type FiltersContextType = {
-  attributes: AttributeType[];
+  attributes: Filter[];
   checkedItems: CheckedItems;
   setCheckedItems: (items: CheckedItems) => void;
   inStockOnly: boolean | null;
@@ -24,16 +25,18 @@ type FiltersContextType = {
   setOpenFilter: (index: number | null) => void;
   clearFilters: () => void;
   handleCheckAndFilterChange: (
-    attributeId: string,
+    filterId: string,
     value: string | number | [number, number]
   ) => void;
   handleRangeChange: (
-    attributeTitle: string,
+    filterId: string,
     range: { min: number; max: number }
   ) => void;
   enabledAttributes: Set<string>;
   totalDocs: number;
   totalPages: number;
+  filteredProductsCount: number;
+  applyFilters: () => void;
 };
 
 const FiltersLogicContext = createContext<FiltersContextType | undefined>(
@@ -47,283 +50,164 @@ export function FiltersLogicProvider({
   children: React.ReactNode;
   initialProducts: Product[];
 }) {
-  const [attributes, setAttributes] = useState<AttributeType[]>([]);
+  const [attributes, setAttributes] = useState<Filter[]>([]);
   const [checkedItems, setCheckedItems] = useState<CheckedItems>({});
   const [inStockOnly, setInStockOnly] = useState<boolean | null>(null);
   const [openFilter, setOpenFilter] = useState<number | null>(null);
-  const [totalDocs, setTotalDocs] = useState<number>();
-  const [totalPages, setTotalPages] = useState<number>();
+  const [totalDocs, setTotalDocs] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const [filteredProducts, setFilteredProducts] =
-    useState<Product[]>(initialProducts);
+    useState<Product[]>(initialProducts); // Initially show all products
   const [enabledAttributes, setEnabledAttributes] = useState<Set<string>>(
     new Set()
   );
+  const [filteredProductsCount, setFilteredProductsCount] = useState<number>(
+    initialProducts.length
+  );
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
+  // Build the query string from checkedItems and inStockOnly.
+  // Numeric filters are formatted as "min,max" while checkbox filters join the keys that are true.
+  const buildQueryString = () => {
+    const params = new URLSearchParams();
+    Object.keys(checkedItems).forEach((filterId) => {
+      const filterValue = checkedItems[filterId];
+      if ("min" in filterValue && "max" in filterValue) {
+        // Numeric filter: use comma-separated min and max
+        params.set(filterId, `${filterValue.min},${filterValue.max}`);
+      } else {
+        // Checkbox filter
+        const selectedValues = Object.keys(filterValue).filter(
+          (key) => filterValue[key]
+        );
+        if (selectedValues.length > 0) {
+          params.set(filterId, selectedValues.join(","));
+        }
+      }
+    });
+    if (inStockOnly) {
+      params.set("available", "true");
+    }
+    return params.toString();
+  };
+
+  // Fetch all products initially (no filters applied)
+  useEffect(() => {
+    const fetchAllProducts = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/product`);
+        if (!res.ok) throw new Error("Failed to fetch all products!");
+        const data = await res.json();
+        setFilteredProducts(data.docs);
+        setTotalDocs(data.totalDocs);
+        setTotalPages(data.totalPages);
+      } catch (error) {
+        console.error("Error fetching all products:", error);
+      }
+    };
+    fetchAllProducts();
+  }, []);
+
+  // Fetch the count of filtered products when filters change
+  useEffect(() => {
+    const fetchFilteredProductCount = async () => {
+      const queryString = buildQueryString();
+      try {
+        const res = await fetch(`${BASE_URL}/product?${queryString}`);
+        if (!res.ok)
+          throw new Error("Failed to fetch filtered products count!");
+        const data = await res.json();
+        setFilteredProductsCount(data.docs.length);
+      } catch (error) {
+        console.error("Error fetching filtered products count:", error);
+      }
+    };
+    fetchFilteredProductCount();
+  }, [checkedItems, inStockOnly]);
+
+  // Fetch filter attributes on mount
   useEffect(() => {
     const fetchAttributes = async () => {
-      // const controller = new AbortController();
       try {
-        const res = await fetch(`${BASE_URL}/product-archive-filter`, {
-          // signal: controller.signal,
-        });
-        if (!res.ok) throw new Error("خطا در دریافت اطلاعات برند!");
-        const data = await res.json();
+        const res = await fetch(`${BASE_URL}/product-archive-filter`);
+        if (!res.ok) throw new Error("Error fetching filter attributes!");
+        const data: ProductArchiveFilterResponse = await res.json();
         setAttributes(data.filters);
       } catch (error) {
         console.error("Failed to fetch attributes:", error);
       }
-      // return () => controller.abort();
     };
     fetchAttributes();
   }, []);
 
-  useEffect(() => {
-    const calculateEnabledAttributes = () => {
-      const enabled = new Set<string>();
-
-      attributes.forEach((attribute) => {
-        if (!attribute.requiredAttribute) {
-          enabled.add(attribute._id);
-        } else {
-          const parentAttribute = attributes.find(
-            (attr) => attr._id === attribute.requiredAttribute
-          );
-          if (
-            parentAttribute &&
-            checkedItems[parentAttribute._id] &&
-            Object.values(checkedItems[parentAttribute._id]).some(Boolean)
-          ) {
-            enabled.add(attribute._id);
-          }
-        }
-      });
-      setEnabledAttributes(enabled);
-    };
-    calculateEnabledAttributes();
-  }, [attributes, checkedItems]);
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const newCheckedItems: CheckedItems = {};
-
-    // Load range filters from URL params
-    params.forEach((value, key) => {
-      if (value.includes("-")) {
-        const [min, max] = value
-          .split("-")
-          .map((v) => (isNaN(Number(v)) ? null : Number(v)));
-        newCheckedItems[key] = { min, max };
-      } else {
-        const values = value.split(",");
-        newCheckedItems[key] = values.reduce((acc, val) => {
-          acc[val] = true; // Mark each value as checked
-          return acc;
-        }, {} as { [value: string]: boolean });
-      }
-    });
-
-    setCheckedItems(newCheckedItems);
-
-    // Load inStockOnly from URL
-    const availableParam = params.get("available");
-
-    setInStockOnly(
-      availableParam === "true"
-        ? true
-        : availableParam === "false"
-        ? false
-        : null
-    );
-  }, []);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      const currentParams = new URLSearchParams(window.location.search);
-      const newParams = new URLSearchParams();
-
-      Object.keys(checkedItems).forEach((attributeId) => {
-        const selectedValues = Object.keys(checkedItems[attributeId]).filter(
-          (key) => checkedItems[attributeId][key]
-        );
-        if (selectedValues.length > 0) {
-          newParams.set(attributeId, selectedValues.join(","));
-        }
-      });
-
-      if (inStockOnly) {
-        newParams.set("available", "true");
-      } else {
-        newParams.delete("available");
-      }
-
-      const newQueryString = newParams.toString();
-      if (currentParams.toString() !== newQueryString) {
-        router.push(`?${newQueryString}`);
-      }
-    }, 1000);
-
-    return () => clearTimeout(handler);
-  }, [checkedItems, inStockOnly, router]);
-
-  const fetchFilteredProducts = async () => {
+  // Apply filters and fetch filtered products when "Show Products" is clicked
+  const applyFilters = async () => {
+    const queryString = buildQueryString();
     try {
-      const res = await fetch(`${BASE_URL}/product?${searchParams.toString()}`);
+      const res = await fetch(`${BASE_URL}/product?${queryString}`);
       if (!res.ok) throw new Error("Failed to fetch filtered products!");
-
       const data = await res.json();
-      const totalDocs = data.totalDocs;
-      const totalPages = data.totalPages;
-      setTotalDocs(totalDocs);
-      setTotalPages(totalPages);
-
+      setTotalDocs(data.totalDocs);
+      setTotalPages(data.totalPages);
       setFilteredProducts(data.docs);
-
-      const updatedParams = new URLSearchParams(searchParams.toString());
-
-      router.push(`?${updatedParams.toString()}`);
+      router.push(`?${queryString}`);
     } catch (error) {
       console.error("Error fetching filtered products:", error);
     }
   };
 
+  // Update enabledAttributes based on fetched filters
   useEffect(() => {
-    fetchFilteredProducts();
-  }, [searchParams]);
+    setEnabledAttributes(new Set(attributes.map((filter) => filter.id)));
+  }, [attributes]);
 
-  const updateParams = (
-    params: URLSearchParams,
-    attributeId: string,
-    value: string | number | [number, number],
-    isChecked: boolean
+  const handleCheckAndFilterChange = (
+    filterId: string,
+    value: string | number | [number, number]
   ) => {
-    if (Array.isArray(value)) {
-      const rangeString = `${value[0]}-${value[1]}`;
-      params.set(attributeId, rangeString);
-    } else {
-      const existingValues = params.get(attributeId)?.split(",") || [];
-      if (isChecked) {
-        // Remove the value if already checked
-        const updatedValues = existingValues.filter(
-          (v) => v !== value.toString()
-        );
-        if (updatedValues.length > 0) {
-          params.set(attributeId, updatedValues.join(","));
-        } else {
-          params.delete(attributeId);
-        }
+    setCheckedItems((prev) => {
+      let updated = { ...prev };
+      if (Array.isArray(value)) {
+        // For numeric filters, update with a NumericFilter object.
+        updated[filterId] = { min: value[0], max: value[1] };
       } else {
-        // Add the value if not already present
-        if (!existingValues.includes(value.toString())) {
-          existingValues.push(value.toString());
-          params.set(attributeId, existingValues.join(","));
+        // For checkbox filters, cast the previous value to a CheckboxFilter.
+        const prevCheckbox = (prev[filterId] as CheckboxFilter) || {};
+        updated[filterId] = {
+          ...prevCheckbox,
+          [value.toString()]: !prevCheckbox[value.toString()],
+        };
+        // If no checkbox is selected, remove the filter.
+        if (
+          Object.values(updated[filterId] as CheckboxFilter).every(
+            (selected) => !selected
+          )
+        ) {
+          delete updated[filterId];
         }
       }
-    }
+      return updated;
+    });
+  };
+
+  const handleRangeChange = (
+    filterId: string,
+    { min, max }: { min: number; max: number }
+  ) => {
+    setCheckedItems((prev) => ({
+      ...prev,
+      [filterId]: { min, max },
+    }));
   };
 
   const toggleFilter = (index: number | null) => {
     setOpenFilter(openFilter === index ? null : index);
   };
 
-  const handleCheckAndFilterChange = (
-    attributeId: string,
-    value: string | number | [number, number]
-  ) => {
-    setCheckedItems((prev) => {
-      let updated = { ...prev };
-
-      if (Array.isArray(value)) {
-        updated[attributeId] = { min: value[0], max: value[1] };
-      } else {
-        updated = {
-          ...prev,
-          [attributeId]: {
-            ...prev[attributeId],
-            [value.toString()]: !prev[attributeId]?.[value.toString()],
-          },
-        };
-
-        if (
-          Object.values(updated[attributeId]).every((selected) => !selected)
-        ) {
-          delete updated[attributeId];
-        }
-      }
-
-      const params = new URLSearchParams(searchParams.toString());
-      const isChecked =
-        typeof value !== "object" &&
-        prev[attributeId]?.[value.toString()] === true;
-
-      updateParams(params, attributeId, value, isChecked);
-      // Preserve the necessary parameters
-      ["sort", "category", "q"].forEach((key) => {
-        const value = searchParams.get(key);
-        if (value) params.set(key, value);
-      });
-
-      router.push(`?${params.toString()}`);
-
-      return updated;
-    });
-  };
-
-  const handleRangeChange = (
-    attributeId: string,
-    { min, max }: { min: number | null; max: number | null }
-  ) => {
-    // Update local state for debouncing URL updates
-    setCheckedItems((prev) => {
-      const updated = { ...prev };
-      if (min === null && max === null) {
-        // Remove the attribute if both inputs are cleared
-        delete updated[attributeId];
-      } else {
-        // updated[attributeId] = { min, max };
-        updated[attributeId] = { min: min ?? 0, max: max ?? 0 };
-      }
-      return updated;
-    });
-
-    // Delay updating the URL until both min and max are provided or cleared
-    clearTimeout((window as any).rangeUpdateTimer); // Clear previous timer
-    (window as any).rangeUpdateTimer = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString());
-
-      if (min === null || (min === 0 && max === null) || max === 0) {
-        // Clear the parameter from the URL if both inputs are cleared
-        params.delete(attributeId);
-      } else if (min !== null || (min !== 0 && max !== null) || max !== 0) {
-        // Update the URL with the format id=min-max
-        params.set(attributeId, `${min}-${max}`);
-      }
-
-      // Preserve the necessary parameters
-      ["sort", "category", "q"].forEach((key) => {
-        const value = searchParams.get(key);
-        if (value) params.set(key, value);
-      });
-
-      router.push(`?${params.toString()}`);
-    }, 1000); // Adjust debounce delay as needed
-  };
-
   const clearFilters = () => {
-    setCheckedItems({});
-    setInStockOnly(null);
-    setOpenFilter(null);
-
-    // Preserve the necessary parameters
-    const params = new URLSearchParams();
-    ["sort", "category", "q"].forEach((key) => {
-      const value = searchParams.get(key);
-      if (value) params.set(key, value);
-    });
-
-    router.push(`?${params.toString()}`);
+    // Here you could reset state or redirect; this example navigates to the archive page.
+    window.location.href = "/archiv";
   };
 
   return (
@@ -339,12 +223,14 @@ export function FiltersLogicProvider({
         toggleFilter,
         openFilter,
         setOpenFilter,
-        clearFilters,
         handleCheckAndFilterChange,
         handleRangeChange,
         enabledAttributes,
-        totalDocs: totalDocs ?? 0,
-        totalPages: totalPages ?? 0,
+        totalDocs,
+        totalPages,
+        filteredProductsCount,
+        clearFilters,
+        applyFilters,
       }}
     >
       {children}

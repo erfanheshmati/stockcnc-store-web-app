@@ -91,6 +91,34 @@ export interface AttributeType {
   requiredAttribute?: string;
 }
 
+export interface FilterOption {
+  value: string;
+  count: number;
+}
+
+export interface NumberFilter {
+  id: string;
+  title: string;
+  type: "number";
+  count: number;
+  min: number;
+  max: number;
+}
+
+export interface StringFilter {
+  id: string;
+  title: string;
+  type: "string";
+  value: FilterOption[];
+}
+
+export type Filter = NumberFilter | StringFilter;
+
+export interface ProductArchiveFilterResponse {
+  totalProducts: number;
+  filters: Filter[];
+}
+
 export interface Blog {
   _id: number;
   seoTitle: string;

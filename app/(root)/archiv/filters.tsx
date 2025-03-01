@@ -6,6 +6,7 @@ import FiltersMobile from "./filters-mobile";
 import { useDialog } from "@/contexts/dialog-context";
 import clsx from "clsx";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
+import DualRangeSlider from "./dual-range-slider";
 
 export default function Filters() {
   const { closeDialog } = useDialog();
@@ -17,17 +18,19 @@ export default function Filters() {
     setInStockOnly,
     toggleFilter,
     openFilter,
-    clearFilters,
     handleCheckAndFilterChange,
     handleRangeChange,
     enabledAttributes,
+    filteredProductsCount,
+    applyFilters,
+    clearFilters,
   } = useFiltersLogic();
 
   const renderedFilters = useMemo(() => {
     return attributes
-      .filter((attribute) => enabledAttributes.has(attribute._id))
+      .filter((attribute) => enabledAttributes.has(attribute.id))
       .map((attribute, index) => (
-        <div key={attribute._id}>
+        <div key={attribute.id}>
           <button
             className="flex justify-between items-center w-full border-b hover:bg-gradient-to-l from-[#DFE3EF4F] to-white"
             onClick={() => toggleFilter(index)}
@@ -47,84 +50,75 @@ export default function Filters() {
           </button>
           {openFilter === index && (
             <div className="py-4 border-b">
+              {/* String-Based Filters (Checkboxes) */}
               {attribute.type === "string" &&
-                attribute.values.map((value, idx) => (
-                  <div key={idx} className="flex items-center gap-2 px-6 py-2">
-                    <input
-                      type="checkbox"
-                      id={`filter-${index}-${idx}`}
-                      checked={
-                        typeof checkedItems[attribute._id]?.[value] ===
-                        // "boolean" || "string"
-                        "boolean"
-                          ? (checkedItems[attribute._id]?.[value] as boolean)
-                          : false
-                      }
-                      onChange={() =>
-                        handleCheckAndFilterChange(attribute._id, value)
-                      }
-                      className="w-5 h-5 cursor-pointer"
-                    />
-                    <label
-                      // htmlFor={`filter-${index}-${idx}`}
-                      className={clsx(
-                        // "font-semibold text-[14px] cursor-pointer",
-                        "font-semibold text-[14px]",
-                        {
-                          "text-black": checkedItems[attribute._id]?.[value],
-                          "text-black/60":
-                            !checkedItems[attribute._id]?.[value],
-                        }
-                      )}
+                (attribute.value || []).map((option, idx) => {
+                  // Cast the filter value as a CheckboxFilter so we can index using option.value
+                  const checkboxValue = (
+                    checkedItems[attribute.id] as
+                      | { [key: string]: boolean }
+                      | undefined
+                  )?.[option.value];
+                  return (
+                    <div
+                      key={idx}
+                      className="flex items-center gap-2 px-6 py-2"
                     >
-                      {value}
-                    </label>
-                  </div>
-                ))}
+                      <input
+                        type="checkbox"
+                        id={`filter-${index}-${idx}`}
+                        checked={Boolean(checkboxValue)}
+                        onChange={() =>
+                          handleCheckAndFilterChange(attribute.id, option.value)
+                        }
+                        className="w-5 h-5 cursor-pointer"
+                      />
+                      <label
+                        className={clsx("font-semibold text-[14px]", {
+                          "text-black": checkboxValue,
+                          "text-black/60": !checkboxValue,
+                        })}
+                      >
+                        {option.value} ({option.count})
+                      </label>
+                    </div>
+                  );
+                })}
 
+              {/* Numeric Filters (Dual Range Slider for Min & Max) */}
               {attribute.type === "number" && (
-                <div className="px-6 py-2 text-black/80">
-                  <label className="block mb-2 font-semibold text-[14px]">
-                    محدوده
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="number"
-                      placeholder="حداقل"
-                      value={Number(checkedItems[attribute._id]?.min) || ""}
-                      // min={0}
-                      // defaultValue={0}
-                      className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[13px]"
-                      onChange={(e) =>
-                        handleRangeChange(attribute._id, {
-                          min: Number(e.target.value),
-                          max: Number(checkedItems[attribute._id]?.max),
+                <DualRangeSlider
+                  min={attribute.min}
+                  max={attribute.max}
+                  currentValue={
+                    checkedItems[attribute.id] &&
+                    typeof checkedItems[attribute.id] === "object" &&
+                    "min" in checkedItems[attribute.id] &&
+                    "max" in checkedItems[attribute.id]
+                      ? (checkedItems[attribute.id] as {
+                          min: number;
+                          max: number;
                         })
-                      }
-                    />
-                    <span className="text-[14px]">تا</span>
-                    <input
-                      type="number"
-                      placeholder="حداکثر"
-                      value={Number(checkedItems[attribute._id]?.max) || ""}
-                      // max={1000}
-                      // defaultValue={1000}
-                      className="border focus:outline-secondary px-3 py-2 w-full rounded-md placeholder:text-[13px]"
-                      onChange={(e) =>
-                        handleRangeChange(attribute._id, {
-                          min: Number(checkedItems[attribute._id]?.min),
-                          max: Number(e.target.value),
-                        })
-                      }
-                    />
-                  </div>
-                </div>
+                      : { min: attribute.min, max: attribute.max }
+                  }
+                  onChange={(newRange) =>
+                    handleRangeChange(attribute.id, newRange)
+                  }
+                />
               )}
             </div>
           )}
         </div>
       ));
-  }, [attributes, openFilter, checkedItems, toggleFilter, enabledAttributes]);
+  }, [
+    attributes,
+    openFilter,
+    checkedItems,
+    toggleFilter,
+    enabledAttributes,
+    handleCheckAndFilterChange,
+    handleRangeChange,
+  ]);
 
   return (
     <>
@@ -167,10 +161,20 @@ export default function Filters() {
           </label>
         </div>
 
-        {/* Clear Filters */}
+        {/* Show Products Button */}
         <button
-          className="w-full text-center bg-red-500 text-white font-semibold text-md py-4 mt-3 rounded-lg hover:opacity-85 transition-all duration-300 ease-in-out"
+          onClick={applyFilters}
+          className="flex items-center justify-center w-full bg-primary text-white font-semibold text-md py-4 mt-3 rounded-lg hover:opacity-85 transition-all duration-300 ease-in-out"
+        >
+          مشاهده
+          <div className="px-1">{filteredProductsCount}</div>
+          محصول
+        </button>
+
+        {/* Clear Filters Button */}
+        <button
           onClick={clearFilters}
+          className="w-full text-center bg-red-500 text-white font-semibold text-md py-4 mt-3 rounded-lg hover:opacity-85 transition-all duration-300 ease-in-out"
         >
           حذف فیلترها
         </button>
