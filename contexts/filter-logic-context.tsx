@@ -124,7 +124,7 @@ export function FiltersLogicProvider({
       }
     };
     fetchFilteredProductCount();
-  }, [checkedItems, inStockOnly]);
+  }, [checkedItems, inStockOnly, buildQueryString]);
 
   // Fetch filter attributes on mount
   useEffect(() => {
@@ -145,15 +145,29 @@ export function FiltersLogicProvider({
   const applyFilters = async () => {
     const queryString = buildQueryString();
     try {
-      const res = await fetch(`${BASE_URL}/product?${queryString}`);
-      if (!res.ok) throw new Error("Failed to fetch filtered products!");
-      const data = await res.json();
-      setTotalDocs(data.totalDocs);
-      setTotalPages(data.totalPages);
-      setFilteredProducts(data.docs);
+      // Call both endpoints concurrently:
+      const [productRes, filterRes] = await Promise.all([
+        fetch(`${BASE_URL}/product?${queryString}`),
+        fetch(`${BASE_URL}/product-archive-filter?${queryString}`),
+      ]);
+      if (!productRes.ok) {
+        throw new Error("Failed to fetch filtered products!");
+      }
+      if (!filterRes.ok) {
+        throw new Error("Failed to fetch limited filters!");
+      }
+      const productData = await productRes.json();
+      const filterData: ProductArchiveFilterResponse = await filterRes.json();
+      // Update products state:
+      setTotalDocs(productData.totalDocs);
+      setTotalPages(productData.totalPages);
+      setFilteredProducts(productData.docs);
+      // Update the filters attributes with the limited filters list:
+      setAttributes(filterData.filters);
+      // Update the URL query string:
       router.push(`?${queryString}`);
     } catch (error) {
-      console.error("Error fetching filtered products:", error);
+      console.error("Error applying filters:", error);
     }
   };
 
@@ -167,7 +181,7 @@ export function FiltersLogicProvider({
     value: string | number | [number, number]
   ) => {
     setCheckedItems((prev) => {
-      let updated = { ...prev };
+      const updated = { ...prev };
       if (Array.isArray(value)) {
         // For numeric filters, update with a NumericFilter object.
         updated[filterId] = { min: value[0], max: value[1] };

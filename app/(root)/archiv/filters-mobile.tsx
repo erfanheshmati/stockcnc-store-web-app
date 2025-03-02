@@ -165,9 +165,15 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
         }}
         className="flex items-center justify-center fixed bottom-0 w-full py-4 z-10 text-white font-bold text-[14px] bg-primary"
       >
-        مشاهده
-        <div className="px-1">{filteredProductsCount}</div>
-        محصول
+        {filteredProductsCount > 0 ? (
+          <>
+            مشاهده
+            <div className="px-1">{filteredProductsCount}</div>
+            محصول
+          </>
+        ) : (
+          <span>محصولی پیدا نشد</span>
+        )}
       </button>
     </div>
   );

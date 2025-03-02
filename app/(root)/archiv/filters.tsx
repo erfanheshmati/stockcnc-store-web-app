@@ -166,9 +166,15 @@ export default function Filters() {
           onClick={applyFilters}
           className="flex items-center justify-center w-full bg-primary text-white font-semibold text-md py-4 mt-3 rounded-lg hover:opacity-85 transition-all duration-300 ease-in-out"
         >
-          مشاهده
-          <div className="px-1">{filteredProductsCount}</div>
-          محصول
+          {filteredProductsCount > 0 ? (
+            <>
+              مشاهده
+              <div className="px-1">{filteredProductsCount}</div>
+              محصول
+            </>
+          ) : (
+            <span>محصولی پیدا نشد</span>
+          )}
         </button>
 
         {/* Clear Filters Button */}
