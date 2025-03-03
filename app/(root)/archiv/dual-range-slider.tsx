@@ -15,12 +15,12 @@ export default function DualRangeSlider({
   min: originalMin,
   max: originalMax,
   step = 1,
-  currentValue,
+  currentValue = { min: originalMin, max: originalMax },
   onChange,
 }: DualRangeSliderProps) {
   const [range, setRange] = useState<[number, number]>([
-    currentValue.min,
-    currentValue.max,
+    currentValue?.min ?? originalMin,
+    currentValue?.max ?? originalMax,
   ]);
 
   const [isChanging, setIsChanging] = useState(false);

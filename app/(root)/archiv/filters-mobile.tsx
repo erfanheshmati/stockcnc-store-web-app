@@ -1,6 +1,9 @@
 "use client";
 
-import { useFiltersLogic } from "@/contexts/filter-logic-context";
+import {
+  CheckboxFilter,
+  useFiltersLogic,
+} from "@/contexts/filter-logic-context";
 import { useMemo } from "react";
 import { BiArrowFromTop, BiX } from "react-icons/bi";
 import DualRangeSlider from "./dual-range-slider";
@@ -24,87 +27,112 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
   const renderedFilters = useMemo(() => {
     return attributes
       .filter((attribute) => enabledAttributes.has(attribute.id))
-      .map((attribute, index) => (
-        <div key={attribute.id} className="bg-secondary/10 rounded-xl my-2">
-          <button
-            className="flex justify-between items-center w-full"
-            onClick={() => toggleFilter(index)}
-          >
-            <span className="text-black/80 font-semibold text-[13px] px-5 py-4">
-              {attribute.title}
-            </span>
-            <span className="p-5">
-              <BiArrowFromTop
-                size={18}
-                className={`text-secondary transform transition-transform duration-300 ${
-                  openFilter === index ? "rotate-180" : ""
-                }`}
-              />
-            </span>
-          </button>
-          {openFilter === index && (
-            <div className="py-2">
-              {/* String-Based Filters (Checkboxes) */}
-              {attribute.type === "string" &&
-                (attribute.value || []).map((option, idx) => {
-                  // Cast the filter value as a CheckboxFilter so we can index using option.value
-                  const checkboxValue = (
-                    checkedItems[attribute.id] as
-                      | { [key: string]: boolean }
-                      | undefined
-                  )?.[option.value];
-                  return (
-                    <div
-                      key={idx}
-                      className="flex items-center gap-2 px-5 py-2"
-                    >
-                      <input
-                        type="checkbox"
-                        id={`filter-${index}-${idx}`}
-                        checked={Boolean(checkboxValue)}
-                        onChange={() =>
-                          handleCheckAndFilterChange(attribute.id, option.value)
-                        }
-                        className="w-5 h-5 cursor-pointer"
-                      />
-                      <label
-                        htmlFor={`filter-${index}-${idx}`}
-                        className={`font-semibold text-[12px] cursor-pointer pt-0.5 ${
-                          checkboxValue ? "text-black" : "text-black/60"
-                        }`}
-                      >
-                        {option.value} ({option.count})
-                      </label>
-                    </div>
-                  );
-                })}
+      .map((attribute, index) => {
+        const isChecked =
+          checkedItems[attribute.id] &&
+          (attribute.type === "string"
+            ? Object.values(checkedItems[attribute.id] as CheckboxFilter).some(
+                Boolean
+              )
+            : (attribute.type === "number" &&
+                checkedItems[attribute.id].min !== attribute.min) ||
+              checkedItems[attribute.id].max !== attribute.max);
 
-              {/* Numeric Filters (Dual Range Slider for Min & Max) */}
-              {attribute.type === "number" && (
-                <DualRangeSlider
-                  min={attribute.min}
-                  max={attribute.max}
-                  currentValue={
-                    checkedItems[attribute.id] &&
-                    typeof checkedItems[attribute.id] === "object" &&
-                    "min" in checkedItems[attribute.id] &&
-                    "max" in checkedItems[attribute.id]
-                      ? (checkedItems[attribute.id] as {
-                          min: number;
-                          max: number;
-                        })
-                      : { min: attribute.min, max: attribute.max }
-                  }
-                  onChange={(newRange) =>
-                    handleRangeChange(attribute.id, newRange)
-                  }
+        const isOpen = openFilter === index || isChecked; // Keep open if checked
+
+        return (
+          <div key={attribute.id} className="bg-secondary/10 rounded-xl my-2">
+            <button
+              className="flex justify-between items-center w-full"
+              onClick={() => toggleFilter(index)}
+            >
+              <span className="text-black/80 font-semibold text-[13px] px-5 py-4">
+                {attribute.title}
+              </span>
+              <span className="p-5">
+                <BiArrowFromTop
+                  size={18}
+                  className={`text-secondary transform transition-transform duration-300 ${
+                    openFilter === index ? "rotate-180" : ""
+                  }`}
                 />
-              )}
-            </div>
-          )}
-        </div>
-      ));
-  }, [attributes, openFilter, checkedItems, toggleFilter, enabledAttributes]);
+              </span>
+            </button>
+            {isOpen && (
+              <div className="py-2">
+                {/* String-Based Filters (Checkboxes) */}
+                {attribute.type === "string" &&
+                  (attribute.value || []).map((option, idx) => {
+                    // Cast the filter value as a CheckboxFilter so we can index using option.value
+                    const checkboxValue = (
+                      checkedItems[attribute.id] as
+                        | { [key: string]: boolean }
+                        | undefined
+                    )?.[option.value];
+                    return (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-2 px-5 py-2"
+                      >
+                        <input
+                          type="checkbox"
+                          id={`filter-${index}-${idx}`}
+                          checked={Boolean(checkboxValue)}
+                          onChange={() =>
+                            handleCheckAndFilterChange(
+                              attribute.id,
+                              option.value
+                            )
+                          }
+                          className="w-5 h-5 cursor-pointer"
+                        />
+                        <label
+                          htmlFor={`filter-${index}-${idx}`}
+                          className={`font-semibold text-[12px] cursor-pointer pt-0.5 ${
+                            checkboxValue ? "text-black" : "text-black/60"
+                          }`}
+                        >
+                          {option.value} ({option.count})
+                        </label>
+                      </div>
+                    );
+                  })}
+
+                {/* Numeric Filters (Dual Range Slider for Min & Max) */}
+                {attribute.type === "number" && (
+                  <DualRangeSlider
+                    min={attribute.min}
+                    max={attribute.max}
+                    currentValue={
+                      checkedItems[attribute.id] &&
+                      typeof checkedItems[attribute.id] === "object" &&
+                      "min" in checkedItems[attribute.id] &&
+                      "max" in checkedItems[attribute.id]
+                        ? (checkedItems[attribute.id] as {
+                            min: number;
+                            max: number;
+                          })
+                        : { min: attribute.min, max: attribute.max }
+                    }
+                    onChange={(newRange) =>
+                      handleRangeChange(attribute.id, newRange)
+                    }
+                  />
+                )}
+              </div>
+            )}
+          </div>
+        );
+      });
+  }, [
+    attributes,
+    enabledAttributes,
+    openFilter,
+    checkedItems,
+    toggleFilter,
+    handleCheckAndFilterChange,
+    handleRangeChange,
+  ]);
 
   return (
     <div
@@ -160,8 +188,8 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
       {/* Product View Button */}
       <button
         onClick={() => {
-          applyFilters(); // Invoke the function
           onClose(); // Invoke the function
+          applyFilters(); // Invoke the function
         }}
         className="flex items-center justify-center fixed bottom-0 w-full py-4 z-10 text-white font-bold text-[14px] bg-primary"
       >

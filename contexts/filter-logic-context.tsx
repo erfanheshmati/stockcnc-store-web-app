@@ -6,7 +6,7 @@ import { BASE_URL } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 
 type NumericFilter = { min: number; max: number };
-type CheckboxFilter = { [option: string]: boolean };
+export type CheckboxFilter = { [option: string]: boolean };
 
 type CheckedItems = {
   [key: string]: NumericFilter | CheckboxFilter;
@@ -36,7 +36,7 @@ type FiltersContextType = {
   totalDocs: number;
   totalPages: number;
   filteredProductsCount: number;
-  applyFilters: () => void;
+  applyFilters: (autoApply?: boolean) => void;
 };
 
 const FiltersLogicContext = createContext<FiltersContextType | undefined>(
@@ -57,7 +57,7 @@ export function FiltersLogicProvider({
   const [totalDocs, setTotalDocs] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [filteredProducts, setFilteredProducts] =
-    useState<Product[]>(initialProducts); // Initially show all products
+    useState<Product[]>(initialProducts);
   const [enabledAttributes, setEnabledAttributes] = useState<Set<string>>(
     new Set()
   );
@@ -68,16 +68,15 @@ export function FiltersLogicProvider({
   const router = useRouter();
 
   // Build the query string from checkedItems and inStockOnly.
-  // Numeric filters are formatted as "min,max" while checkbox filters join the keys that are true.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const buildQueryString = () => {
     const params = new URLSearchParams();
     Object.keys(checkedItems).forEach((filterId) => {
       const filterValue = checkedItems[filterId];
       if ("min" in filterValue && "max" in filterValue) {
-        // Numeric filter: use comma-separated min and max
-        params.set(filterId, `${filterValue.min},${filterValue.max}`);
+        // Use dash between min and max values
+        params.set(filterId, `${filterValue.min}-${filterValue.max}`);
       } else {
-        // Checkbox filter
         const selectedValues = Object.keys(filterValue).filter(
           (key) => filterValue[key]
         );
@@ -115,8 +114,9 @@ export function FiltersLogicProvider({
       const queryString = buildQueryString();
       try {
         const res = await fetch(`${BASE_URL}/product?${queryString}`);
-        if (!res.ok)
+        if (!res.ok) {
           throw new Error("Failed to fetch filtered products count!");
+        }
         const data = await res.json();
         setFilteredProductsCount(data.docs.length);
       } catch (error) {
@@ -124,7 +124,7 @@ export function FiltersLogicProvider({
       }
     };
     fetchFilteredProductCount();
-  }, [checkedItems, inStockOnly, buildQueryString]);
+  }, [buildQueryString, checkedItems, inStockOnly]);
 
   // Fetch filter attributes on mount
   useEffect(() => {
@@ -141,11 +141,65 @@ export function FiltersLogicProvider({
     fetchAttributes();
   }, []);
 
-  // Apply filters and fetch filtered products when "Show Products" is clicked
-  const applyFilters = async () => {
+  // Update enabledAttributes based on fetched filters
+  useEffect(() => {
+    setEnabledAttributes(new Set(attributes.map((filter) => filter.id)));
+  }, [attributes]);
+
+  // Parse URL query parameters on mount and update filter state.
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.search) {
+      const params = new URLSearchParams(window.location.search);
+      const newCheckedItems: CheckedItems = {};
+      let stock: boolean | null = null;
+      params.forEach((value, key) => {
+        if (key === "available") {
+          stock = value === "true";
+        } else {
+          // For numeric filters, split on dash (-)
+          const parts = value.split("-");
+          if (
+            parts.length === 2 &&
+            !isNaN(parseFloat(parts[0])) &&
+            !isNaN(parseFloat(parts[1]))
+          ) {
+            newCheckedItems[key] = {
+              min: parseFloat(parts[0]),
+              max: parseFloat(parts[1]),
+            };
+          } else {
+            // Otherwise assume checkbox filter (using comma-separated values)
+            const checkboxState: CheckboxFilter = {};
+            value.split(",").forEach((v) => {
+              checkboxState[v] = true;
+            });
+            newCheckedItems[key] = checkboxState;
+          }
+        }
+      });
+      setCheckedItems(newCheckedItems);
+      setInStockOnly(stock);
+    }
+  }, []);
+
+  // Auto-apply filters once after state has been updated from URL params.
+  const [hasAutoApplied, setHasAutoApplied] = useState(false);
+  useEffect(() => {
+    if (
+      !hasAutoApplied &&
+      typeof window !== "undefined" &&
+      window.location.search
+    ) {
+      setHasAutoApplied(true);
+      applyFilters(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasAutoApplied, checkedItems, inStockOnly]);
+
+  // Apply filters and fetch filtered products when "Show Products" is clicked or auto-applied.
+  const applyFilters = async (autoApply = false) => {
     const queryString = buildQueryString();
     try {
-      // Call both endpoints concurrently:
       const [productRes, filterRes] = await Promise.all([
         fetch(`${BASE_URL}/product?${queryString}`),
         fetch(`${BASE_URL}/product-archive-filter?${queryString}`),
@@ -158,23 +212,22 @@ export function FiltersLogicProvider({
       }
       const productData = await productRes.json();
       const filterData: ProductArchiveFilterResponse = await filterRes.json();
-      // Update products state:
       setTotalDocs(productData.totalDocs);
       setTotalPages(productData.totalPages);
       setFilteredProducts(productData.docs);
-      // Update the filters attributes with the limited filters list:
       setAttributes(filterData.filters);
-      // Update the URL query string:
-      router.push(`?${queryString}`);
+      // Update URL without clearing parameters if autoApply is true.
+      if (queryString) {
+        if (autoApply) {
+          window.history.replaceState(null, "", `?${queryString}`);
+        } else {
+          router.push(`?${queryString}`);
+        }
+      }
     } catch (error) {
       console.error("Error applying filters:", error);
     }
   };
-
-  // Update enabledAttributes based on fetched filters
-  useEffect(() => {
-    setEnabledAttributes(new Set(attributes.map((filter) => filter.id)));
-  }, [attributes]);
 
   const handleCheckAndFilterChange = (
     filterId: string,
@@ -186,13 +239,13 @@ export function FiltersLogicProvider({
         // For numeric filters, update with a NumericFilter object.
         updated[filterId] = { min: value[0], max: value[1] };
       } else {
-        // For checkbox filters, cast the previous value to a CheckboxFilter.
+        // For checkbox filters, toggle the boolean value.
         const prevCheckbox = (prev[filterId] as CheckboxFilter) || {};
         updated[filterId] = {
           ...prevCheckbox,
           [value.toString()]: !prevCheckbox[value.toString()],
         };
-        // If no checkbox is selected, remove the filter.
+        // Remove filter if no option is selected.
         if (
           Object.values(updated[filterId] as CheckboxFilter).every(
             (selected) => !selected
@@ -220,8 +273,9 @@ export function FiltersLogicProvider({
   };
 
   const clearFilters = () => {
-    // Here you could reset state or redirect; this example navigates to the archive page.
-    window.location.href = "/archiv";
+    setCheckedItems({});
+    setInStockOnly(null);
+    window.history.replaceState(null, "", window.location.pathname);
   };
 
   return (
