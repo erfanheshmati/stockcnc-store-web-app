@@ -229,6 +229,11 @@ export function FiltersLogicProvider({
     }
   };
 
+  // Automatically apply filters whenever checkedItems or inStockOnly changes
+  useEffect(() => {
+    applyFilters(true);
+  }, [checkedItems, inStockOnly]);
+
   const handleCheckAndFilterChange = (
     filterId: string,
     value: string | number | [number, number]

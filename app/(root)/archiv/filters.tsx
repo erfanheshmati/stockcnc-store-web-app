@@ -24,8 +24,8 @@ export default function Filters() {
     handleCheckAndFilterChange,
     handleRangeChange,
     enabledAttributes,
-    filteredProductsCount,
-    applyFilters,
+    // filteredProductsCount,
+    // applyFilters,
     clearFilters,
   } = useFiltersLogic();
 
@@ -170,7 +170,7 @@ export default function Filters() {
         </div>
 
         {/* Show Products Button */}
-        <button
+        {/* <button
           onClick={() => applyFilters()}
           className="flex items-center justify-center w-full bg-primary text-white font-semibold text-md py-4 mt-3 rounded-lg hover:opacity-85 transition-all duration-300 ease-in-out"
         >
@@ -183,7 +183,7 @@ export default function Filters() {
           ) : (
             <span>محصولی پیدا نشد</span>
           )}
-        </button>
+        </button> */}
 
         {/* Clear Filters Button */}
         <button
