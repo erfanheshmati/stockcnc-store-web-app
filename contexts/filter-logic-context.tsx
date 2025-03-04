@@ -56,6 +56,7 @@ export function FiltersLogicProvider({
   const [openFilter, setOpenFilter] = useState<number | null>(null);
   const [totalDocs, setTotalDocs] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
+  // Use initialProducts by default before any filters are applied
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(initialProducts);
   const [enabledAttributes, setEnabledAttributes] = useState<Set<string>>(
@@ -67,7 +68,7 @@ export function FiltersLogicProvider({
 
   const router = useRouter();
 
-  // Build the query string from checkedItems and inStockOnly.
+  // Build the query string from checkedItems and inStockOnly
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const buildQueryString = () => {
     const params = new URLSearchParams();
@@ -90,23 +91,6 @@ export function FiltersLogicProvider({
     }
     return params.toString();
   };
-
-  // Fetch all products initially (no filters applied)
-  useEffect(() => {
-    const fetchAllProducts = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/product`);
-        if (!res.ok) throw new Error("Failed to fetch all products!");
-        const data = await res.json();
-        setFilteredProducts(data.docs);
-        setTotalDocs(data.totalDocs);
-        setTotalPages(data.totalPages);
-      } catch (error) {
-        console.error("Error fetching all products:", error);
-      }
-    };
-    fetchAllProducts();
-  }, []);
 
   // Fetch the count of filtered products when filters change
   useEffect(() => {
@@ -146,7 +130,7 @@ export function FiltersLogicProvider({
     setEnabledAttributes(new Set(attributes.map((filter) => filter.id)));
   }, [attributes]);
 
-  // Parse URL query parameters on mount and update filter state.
+  // Parse URL query parameters on mount and update filter state
   useEffect(() => {
     if (typeof window !== "undefined" && window.location.search) {
       const params = new URLSearchParams(window.location.search);
@@ -182,7 +166,7 @@ export function FiltersLogicProvider({
     }
   }, []);
 
-  // Auto-apply filters once after state has been updated from URL params.
+  // Auto-apply filters once after state has been updated from URL params
   const [hasAutoApplied, setHasAutoApplied] = useState(false);
   useEffect(() => {
     if (
@@ -196,13 +180,30 @@ export function FiltersLogicProvider({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasAutoApplied, checkedItems, inStockOnly]);
 
-  // Apply filters and fetch filtered products when "Show Products" is clicked or auto-applied.
+  // Apply filters and fetch filtered products when "Show Products" is clicked or auto-applied
   const applyFilters = async (autoApply = false) => {
-    const queryString = buildQueryString();
+    const filterQueryString = buildQueryString();
+    // Retrieve default reserved parameters from the URL (q, category, sort)
+    const urlParams = new URLSearchParams(window.location.search);
+    const defaultParams = new URLSearchParams();
+    const reservedKeys = ["q", "category", "sort"];
+    reservedKeys.forEach((key) => {
+      const value = urlParams.get(key);
+      if (value) {
+        defaultParams.set(key, value);
+      }
+    });
+    // Merge filtering parameters with the default reserved parameters
+    const filterParams = new URLSearchParams(filterQueryString);
+    for (const [key, value] of filterParams.entries()) {
+      defaultParams.set(key, value);
+    }
+    // The combined query string to be sent to the API
+    const combinedQueryString = defaultParams.toString();
     try {
       const [productRes, filterRes] = await Promise.all([
-        fetch(`${BASE_URL}/product?${queryString}`),
-        fetch(`${BASE_URL}/product-archive-filter?${queryString}`),
+        fetch(`${BASE_URL}/product?${combinedQueryString}`),
+        fetch(`${BASE_URL}/product-archive-filter?${combinedQueryString}`),
       ]);
       if (!productRes.ok) {
         throw new Error("Failed to fetch filtered products!");
@@ -217,11 +218,11 @@ export function FiltersLogicProvider({
       setFilteredProducts(productData.docs);
       setAttributes(filterData.filters);
       // Update URL without clearing parameters if autoApply is true.
-      if (queryString) {
+      if (combinedQueryString) {
         if (autoApply) {
-          window.history.replaceState(null, "", `?${queryString}`);
+          window.history.replaceState(null, "", `?${combinedQueryString}`);
         } else {
-          router.push(`?${queryString}`);
+          router.push(`?${combinedQueryString}`);
         }
       }
     } catch (error) {
@@ -232,6 +233,7 @@ export function FiltersLogicProvider({
   // Automatically apply filters whenever checkedItems or inStockOnly changes
   useEffect(() => {
     applyFilters(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedItems, inStockOnly]);
 
   const handleCheckAndFilterChange = (
@@ -278,9 +280,22 @@ export function FiltersLogicProvider({
   };
 
   const clearFilters = () => {
+    // Reset filter state
     setCheckedItems({});
     setInStockOnly(null);
-    window.history.replaceState(null, "", window.location.pathname);
+    // Get current URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const preservedKeys = ["category", "q", "sort"];
+    // Create a new URLSearchParams instance with only the preserved keys
+    const newParams = new URLSearchParams();
+    preservedKeys.forEach((key) => {
+      if (urlParams.has(key)) {
+        newParams.set(key, urlParams.get(key)!);
+      }
+    });
+    // Update the URL, preserving only the desired parameters
+    const newUrl = `${window.location.pathname}?${newParams.toString()}`;
+    window.history.replaceState(null, "", newUrl);
   };
 
   return (
