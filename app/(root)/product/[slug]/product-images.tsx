@@ -99,12 +99,14 @@ export default function ProductImages({ data }: { data: Product }) {
               <div className="custom-product-carousel-button-next left-3 bg-neutral-400/80 hover:bg-neutral-300 transition-all duration-300 ease-in-out flex items-center justify-center rounded-full cursor-pointer w-9 h-9 z-[5]">
                 <BiChevronLeft size={24} />
               </div>
+              {/* Custom navigations */}
+              <div className="custom-product-carousel-button-prev custom-product-carousel-prev right-0 !top-[42%] 2xl:!top-[43%] w-[20.4%] h-[82%] cursor-pointer z-[4]"></div>
+              <div className="custom-product-carousel-button-next custom-product-carousel-next left-0 !top-[42%] 2xl:!top-[43%] w-[20.4%] h-[82%] cursor-pointer z-[4]"></div>
               {/* Swiper */}
               <div>
                 <Swiper
                   modules={[Navigation, Pagination, FreeMode]}
-                  slidesPerView={1}
-                  spaceBetween={0}
+                  slidesPerView="auto"
                   centeredSlides={true}
                   loop={true}
                   pagination={{
@@ -120,37 +122,37 @@ export default function ProductImages({ data }: { data: Product }) {
                   }}
                   breakpoints={{
                     768: {
-                      slidesPerView: 1,
+                      // slidesPerView: 1,
                       spaceBetween: -250,
                     },
                     1024: {
-                      slidesPerView: 1,
+                      // slidesPerView: 1,
                       spaceBetween: -400,
                     },
                     1280: {
-                      slidesPerView: 1,
+                      // slidesPerView: 1,
                       spaceBetween: -600,
                     },
                     1360: {
-                      slidesPerView: 1,
+                      // slidesPerView: 1,
                       spaceBetween: -700,
                     },
                     1536: {
-                      slidesPerView: 1,
+                      // slidesPerView: 1,
                       spaceBetween: -650,
                     },
                     1680: {
-                      slidesPerView: 1,
+                      // slidesPerView: 1,
                       spaceBetween: -800,
                     },
                     1840: {
-                      slidesPerView: 1,
+                      // slidesPerView: 1,
                       spaceBetween: -900,
                     },
                   }}
                 >
                   {data.gallery.map((image, index) => (
-                    <SwiperSlide className="pb-10" key={index}>
+                    <SwiperSlide key={index} className="pb-10">
                       <img
                         src={`${IMAGE_URL}/${image}`}
                         alt="Product Image"
