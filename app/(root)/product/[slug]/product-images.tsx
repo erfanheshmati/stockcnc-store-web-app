@@ -93,11 +93,11 @@ export default function ProductImages({ data }: { data: Product }) {
             {/* Slideshow */}
             <div className="flex flex-col justify-center h-full relative">
               {/* Custom arrows */}
-              <div className="custom-product-carousel-button-prev left-3 bg-neutral-400/80 hover:bg-neutral-300 transition-all duration-300 ease-in-out flex items-center justify-center rounded-full cursor-pointer w-9 h-9 z-[5]">
-                <BiChevronLeft size={24} />
-              </div>
-              <div className="custom-product-carousel-button-next right-3 bg-neutral-400/80 hover:bg-neutral-300 transition-all duration-300 ease-in-out flex items-center justify-center rounded-full cursor-pointer w-9 h-9 z-[5]">
+              <div className="custom-product-carousel-button-prev right-3 bg-neutral-400/80 hover:bg-neutral-300 transition-all duration-300 ease-in-out flex items-center justify-center rounded-full cursor-pointer w-9 h-9 z-[5]">
                 <BiChevronRight size={24} />
+              </div>
+              <div className="custom-product-carousel-button-next left-3 bg-neutral-400/80 hover:bg-neutral-300 transition-all duration-300 ease-in-out flex items-center justify-center rounded-full cursor-pointer w-9 h-9 z-[5]">
+                <BiChevronLeft size={24} />
               </div>
               {/* Swiper */}
               <div>
