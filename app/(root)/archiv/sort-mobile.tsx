@@ -1,22 +1,36 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { BiX } from "react-icons/bi";
 
-export default function SortMobile({
-  onClose,
-}: // sort,
-{
-  onClose: () => void;
-  // sort: string;
-}) {
-  const params = useSearchParams();
+export default function SortMobile({ onClose }: { onClose: () => void }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [currentSort, setCurrentSort] = useState(
+    searchParams.get("sort") || "latest"
+  );
 
-  const handleSortChange = (sortType: string = params.get("sort") || "") => {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("sort", sortType);
-    // router.push(`?${searchParams.toString()}`);
-    window.location.href = `?${searchParams.toString()}`;
+  useEffect(() => {
+    const urlSort = searchParams.get("sort");
+    if (!urlSort) {
+      const newParams = new URLSearchParams(window.location.search);
+      newParams.set("sort", "latest");
+      // Replace the URL with the default "latest" sort
+      router.replace(`?${newParams.toString()}`);
+      setCurrentSort("latest");
+    } else {
+      setCurrentSort(urlSort);
+    }
+  }, [searchParams, router]);
+
+  const handleSortChange = (sortType: string) => {
+    if (sortType === currentSort) return; // Avoid unnecessary updates
+    setCurrentSort(sortType); // Update state immediately
+    const newParams = new URLSearchParams(window.location.search);
+    newParams.set("sort", sortType);
+    router.push(`?${newParams.toString()}`);
+    // window.location.href = `?${newParams.toString()}`;
   };
 
   return (
@@ -34,7 +48,7 @@ export default function SortMobile({
         <div className="flex flex-col gap-3">
           <span
             className={`border rounded-lg p-4 font-medium text-[14px] ${
-              params.get("sort") === "latest"
+              currentSort === "latest"
                 ? "text-white bg-primary font-semibold"
                 : "text-secondary"
             }`}
@@ -44,7 +58,7 @@ export default function SortMobile({
           </span>
           <span
             className={`border rounded-lg p-4 font-medium text-[14px] ${
-              params.get("sort") === "mostViewed"
+              currentSort === "mostViewed"
                 ? "text-white bg-primary font-semibold"
                 : "text-secondary"
             }`}

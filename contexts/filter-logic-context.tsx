@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { Filter, Product, ProductArchiveFilterResponse } from "@/lib/types";
 import { BASE_URL } from "@/lib/constants";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type NumericFilter = { min: number; max: number };
 export type CheckboxFilter = { [option: string]: boolean };
@@ -56,7 +56,6 @@ export function FiltersLogicProvider({
   const [openFilter, setOpenFilter] = useState<number | null>(null);
   const [totalDocs, setTotalDocs] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
-  // Use initialProducts by default before any filters are applied
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(initialProducts);
   const [enabledAttributes, setEnabledAttributes] = useState<Set<string>>(
@@ -65,8 +64,10 @@ export function FiltersLogicProvider({
   const [filteredProductsCount, setFilteredProductsCount] = useState<number>(
     initialProducts.length
   );
+  const [hasAutoApplied, setHasAutoApplied] = useState(false);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   // Build the query string from checkedItems and inStockOnly
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -127,7 +128,9 @@ export function FiltersLogicProvider({
 
   // Update enabledAttributes based on fetched filters
   useEffect(() => {
-    setEnabledAttributes(new Set(attributes.map((filter) => filter.id)));
+    setEnabledAttributes(
+      new Set(attributes.map((filter) => filter.requiredAttribute || filter.id))
+    );
   }, [attributes]);
 
   // Parse URL query parameters on mount and update filter state
@@ -167,7 +170,6 @@ export function FiltersLogicProvider({
   }, []);
 
   // Auto-apply filters once after state has been updated from URL params
-  const [hasAutoApplied, setHasAutoApplied] = useState(false);
   useEffect(() => {
     if (
       !hasAutoApplied &&
@@ -188,7 +190,10 @@ export function FiltersLogicProvider({
     const defaultParams = new URLSearchParams();
     const reservedKeys = ["q", "category", "sort"];
     reservedKeys.forEach((key) => {
-      const value = urlParams.get(key);
+      let value = urlParams.get(key);
+      if (key === "sort" && !value) {
+        value = "latest"; // Set sort to latest as default
+      }
       if (value) {
         defaultParams.set(key, value);
       }
@@ -234,7 +239,7 @@ export function FiltersLogicProvider({
   useEffect(() => {
     applyFilters(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkedItems, inStockOnly]);
+  }, [checkedItems, inStockOnly, searchParams]);
 
   const handleCheckAndFilterChange = (
     filterId: string,

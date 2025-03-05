@@ -132,7 +132,7 @@ export default function Filters() {
     <>
       <FiltersMobile onClose={closeDialog} />
 
-      <div className="hidden md:block sticky top-24">
+      <div className="hidden md:block">
         <div className="border rounded-lg">
           {renderedFilters}
 

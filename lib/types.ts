@@ -103,6 +103,7 @@ export interface NumberFilter {
   count: number;
   min: number;
   max: number;
+  requiredAttribute?: string;
 }
 
 export interface StringFilter {
@@ -110,6 +111,7 @@ export interface StringFilter {
   title: string;
   type: "string";
   value: FilterOption[];
+  requiredAttribute?: string;
 }
 
 export type Filter = NumberFilter | StringFilter;
