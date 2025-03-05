@@ -168,6 +168,26 @@ export default function ProductImages({ data }: { data: Product }) {
           </div>
         )}
 
+        {/* Swiper Navigation Styles */}
+        <style jsx global>{`
+          .swiper-slide {
+            opacity: 0.4;
+            transition: opacity 0.3s;
+            transform: scale(0.85);
+          }
+          .swiper-slide-active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 1;
+          }
+          .custom-product-carousel-prev:hover ~ * .swiper-slide-prev {
+            opacity: 0.7;
+          }
+          .custom-product-carousel-next:hover ~ * .swiper-slide-next {
+            opacity: 0.7;
+          }
+        `}</style>
+
         {/* Thumbnails */}
         <div
           className={`flex ${
