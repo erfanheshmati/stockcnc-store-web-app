@@ -36,11 +36,11 @@ export default function ProductInfo({
         {/* Description Content */}
         <div
           className={`flex flex-col gap-8 mt-2 w-full overflow-hidden transition-all duration-300 ${
-            openIndex === index ? "max-h-screen mb-10" : "max-h-0"
+            openIndex === index ? "max-h-fit mb-10" : "max-h-0"
           }`}
         >
           <div className="flex flex-col gap-2">
-            <p className="text-[#1F2D53] font-medium text-[12px] text-justify leading-7">
+            <p className="text-[#1F2D53] font-medium text-[12px] text-justify leading-7 whitespace-pre-line">
               {data.description}
             </p>
           </div>
@@ -52,7 +52,7 @@ export default function ProductInfo({
       {/* Desktop View */}
       <div
         className={`hidden md:flex flex-col w-full lg:w-1/2 xl:w-7/12 overflow-hidden transition-all duration-300 ${
-          openIndex === index ? "max-h-screen mb-20" : "max-h-0"
+          openIndex === index ? "max-h-fit mb-20" : "max-h-0"
         }`}
       >
         {/* Tabs Navigation */}
@@ -160,7 +160,7 @@ export default function ProductInfo({
               <h3 className="text-black/70 font-bold text-[24px]">
                 درباره این دستگاه
               </h3>
-              <p className="text-[#1F2D53] font-medium text-[13px] text-justify leading-7">
+              <p className="text-[#1F2D53] font-medium text-[13px] text-justify leading-7 whitespace-pre-line">
                 {data.description}
               </p>
             </div>

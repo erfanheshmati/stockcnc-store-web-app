@@ -27,7 +27,7 @@ export default function ProductIntroduce({
         {/* Product Title */}
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <h1 className="text-primary font-bold text-[18px] line-clamp-1 w-9/12">
+            <h1 className="text-primary font-sans font-bold text-[18px] line-clamp-1 w-9/12">
               {data.enTitle}
             </h1>
           </div>
@@ -134,7 +134,7 @@ export default function ProductIntroduce({
       <div className="hidden md:flex flex-col gap-6">
         {/* Product Title */}
         <div className="flex flex-col gap-4">
-          <h1 className="text-primary font-bold text-[28px] line-clamp-1">
+          <h1 className="text-primary font-sans font-bold text-[28px] line-clamp-1">
             {data.enTitle}
           </h1>
           <div className="flex items-center justify-between lg:max-w-md">
