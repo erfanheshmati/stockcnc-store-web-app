@@ -29,7 +29,7 @@ export default function ProductCardList({ data }: { data: Product }) {
       </div>
       <div className="flex flex-col items-start justify-between px-2 w-2/3">
         <h3
-          className={`text-primary font-semibold text-[18px] line-clamp-1 pt-2 ${
+          className={`text-primary font-sans font-bold text-[18px] line-clamp-1 pt-2 ${
             !data.available ? "opacity-70" : ""
           }`}
         >
@@ -55,7 +55,11 @@ export default function ProductCardList({ data }: { data: Product }) {
               سال ساخت {data.yearOfManufacture}
             </span>
             <span className="text-secondary font-semibold text-[12px]">
-              {data.condition}
+              {data.attributes
+                .filter((attr) => attr?.attribute?.title === "کنترل")
+                .map((attr, index) => (
+                  <span key={index}>{attr?.value}</span>
+                ))}
             </span>
           </div>
           <div className="hidden lg:flex items-center gap-3">

@@ -45,7 +45,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           !product.available ? "opacity-70" : ""
         }`}
       >
-        <h3 className="text-primary font-semibold text-[14px] leading-6">
+        <h3 className="text-primary font-sans font-bold text-[15px] leading-6">
           <Link href={`/product/${product._id}`}>{product.enTitle}</Link>
         </h3>
       </div>
@@ -54,7 +54,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           !product.available ? "opacity-70" : ""
         }`}
       >
-        <h3 className="text-secondary text-[11px] min-w-fit">
+        <h3 className="text-secondary text-[12px] min-w-fit">
           {product.title}
         </h3>
         <hr className="w-full" />
@@ -71,7 +71,11 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           سال ساخت {product.yearOfManufacture}
         </span>
         <span className="text-secondary/90 font-semibold text-[11px]">
-          {product.condition}
+          {product.attributes
+            .filter((attr) => attr?.attribute?.title === "کنترل")
+            .map((attr, index) => (
+              <span key={index}>{attr?.value}</span>
+            ))}
         </span>
       </div>
       <div className="flex items-center gap-6">
