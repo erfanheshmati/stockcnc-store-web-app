@@ -26,7 +26,21 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
 
   const renderedFilters = useMemo(() => {
     return attributes
-      .filter((attribute) => enabledAttributes.has(attribute.id))
+      .filter((attribute) => {
+        const requiredAttributeId = attribute.requiredAttribute;
+        // Always show filters that:
+        // 1. Have no requiredAttribute
+        // 2. Have requiredAttribute pointing to themselves
+        if (!requiredAttributeId || requiredAttributeId === attribute.id)
+          return true;
+        // If a filter depends on another filter, check if that filter is selected
+        const requiredFilterChecked =
+          checkedItems[requiredAttributeId] &&
+          Object.values(
+            checkedItems[requiredAttributeId] as CheckboxFilter
+          ).some(Boolean);
+        return requiredFilterChecked; // Show only if required filter is checked
+      })
       .map((attribute, index) => {
         const isChecked =
           checkedItems[attribute.id] &&
