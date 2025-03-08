@@ -42,7 +42,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
       >
         <Link href={`/product/${data._id}`}>
           <img
-            src={`${IMAGE_URL}/${data.primaryImage}`}
+            src={`${IMAGE_URL}/360${data.primaryImage}`}
             alt={data.title}
             width={207}
             height={139}

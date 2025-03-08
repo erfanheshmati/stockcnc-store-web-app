@@ -16,7 +16,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
         <div className="flex w-8/12 h-auto rounded-xl bg-[#EFF1F6]">
           <Link href={`/product/${product._id}`}>
             <img
-              src={`${IMAGE_URL}/${product.primaryImage}`}
+              src={`${IMAGE_URL}/360${product.primaryImage}`}
               alt={product.title}
               width={170}
               height={110}

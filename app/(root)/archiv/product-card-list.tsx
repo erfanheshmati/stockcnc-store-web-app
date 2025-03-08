@@ -17,7 +17,7 @@ export default function ProductCardList({ data }: { data: Product }) {
       >
         <Link href={`/product/${data._id}`}>
           <img
-            src={`${IMAGE_URL}/${data.primaryImage}`}
+            src={`${IMAGE_URL}/360${data.primaryImage}`}
             alt={data.title}
             width={180}
             height={120}

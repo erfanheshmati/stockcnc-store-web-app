@@ -37,7 +37,7 @@ export default function ProductCard({ data }: { data: Product }) {
         >
           <Link href={`/product/${data._id}`} className="w-full">
             <img
-              src={`${IMAGE_URL}/${data.primaryImage}`}
+              src={`${IMAGE_URL}/360${data.primaryImage}`}
               alt={data.title}
               className={`w-full h-auto rounded-xl ${
                 !data.available ? "filter grayscale" : ""
@@ -48,7 +48,7 @@ export default function ProductCard({ data }: { data: Product }) {
         <div
           className={`flex items-center ${!data.available ? "opacity-70" : ""}`}
         >
-          <h3 className="text-primary font-semibold text-[13px] line-clamp-2">
+          <h3 className="text-primary font-sans font-bold text-[13px] line-clamp-2">
             <Link href={`/product/${data._id}`}>{data.enTitle}</Link>
           </h3>
         </div>
@@ -56,7 +56,7 @@ export default function ProductCard({ data }: { data: Product }) {
         <div
           className={`flex items-center ${!data.available ? "opacity-70" : ""}`}
         >
-          <h3 className="text-secondary/80 text-[10px]">{data.title}</h3>
+          <h3 className="text-secondary/80 text-[11px]">{data.title}</h3>
         </div>
         <div
           className={`flex items-center justify-between py-2 ${
@@ -131,7 +131,7 @@ export default function ProductCard({ data }: { data: Product }) {
         >
           <Link href={`/product/${data._id}`} className="w-full">
             <img
-              src={`${IMAGE_URL}/${data.primaryImage}`}
+              src={`${IMAGE_URL}/360${data.primaryImage}`}
               alt={data.title}
               className={`w-full h-auto ${
                 !data.available ? "filter grayscale" : ""
