@@ -56,12 +56,12 @@ export default function ProductImages({ data }: { data: Product }) {
         {/* Main Image */}
         <div className="flex items-center justify-center bg-secondary/10 rounded-xl h-auto border relative">
           <img
-            src={`${IMAGE_URL}/${data.gallery[current]}`}
+            src={`${IMAGE_URL}/480${data.gallery[current]}`}
             alt="Product Image"
             className="w-full h-auto rounded-xl"
           />
         </div>
-        {/* Set Fullscreen Button */}
+        {/* Fullscreen Button */}
         {!isFullScreen && (
           <button
             onClick={() => setIsFullScreen(true)}
@@ -69,7 +69,7 @@ export default function ProductImages({ data }: { data: Product }) {
           >
             <SlSizeFullscreen
               size={14}
-              className="text-white group-hover:opacity-80 transition-all duration-300 ease-in-out"
+              className="text-white group-hover:opacity-70 transition-all duration-300 ease-in-out"
             />
           </button>
         )}
@@ -91,7 +91,7 @@ export default function ProductImages({ data }: { data: Product }) {
               </Link>
             </div>
             {/* Slideshow */}
-            <div className="flex flex-col justify-center h-full relative">
+            <div className="flex flex-col justify-center h-full relative product-swiper-container">
               {/* Custom arrows */}
               <div className="custom-product-carousel-button-prev right-3 bg-neutral-400/80 hover:bg-neutral-300 transition-all duration-300 ease-in-out flex items-center justify-center rounded-full cursor-pointer w-9 h-9 z-[5]">
                 <BiChevronRight size={24} />
@@ -100,8 +100,8 @@ export default function ProductImages({ data }: { data: Product }) {
                 <BiChevronLeft size={24} />
               </div>
               {/* Custom navigations */}
-              <div className="custom-product-carousel-button-prev custom-product-carousel-prev right-0 !top-[42%] 2xl:!top-[43%] w-[20.4%] h-[82%] cursor-pointer z-[4]"></div>
-              <div className="custom-product-carousel-button-next custom-product-carousel-next left-0 !top-[42%] 2xl:!top-[43%] w-[20.4%] h-[82%] cursor-pointer z-[4]"></div>
+              <div className="custom-product-carousel-button-prev custom-product-carousel-prev right-0 !top-[43%] 2xl:!top-[44%] w-[15%] 2xl:w-[17%] h-[70%] cursor-pointer z-[4]"></div>
+              <div className="custom-product-carousel-button-next custom-product-carousel-next left-0 !top-[43%] 2xl:!top-[44%] w-[15%] 2xl:w-[17%] h-[70%] cursor-pointer z-[4]"></div>
               {/* Swiper */}
               <div>
                 <Swiper
@@ -170,20 +170,26 @@ export default function ProductImages({ data }: { data: Product }) {
 
         {/* Swiper Navigation Styles */}
         <style jsx global>{`
-          .swiper-slide {
+          .product-swiper-container :global(.swiper-slide) {
             opacity: 0.4;
             transition: opacity 0.3s;
             transform: scale(0.85);
           }
-          .swiper-slide-active {
+          .product-swiper-container :global(.swiper-slide-active) {
             opacity: 1;
             transform: scale(1);
             z-index: 1;
           }
-          .custom-product-carousel-prev:hover ~ * .swiper-slide-prev {
+          .product-swiper-container
+            :global(
+              .custom-product-carousel-prev:hover ~ * .swiper-slide-prev
+            ) {
             opacity: 0.7;
           }
-          .custom-product-carousel-next:hover ~ * .swiper-slide-next {
+          .product-swiper-container
+            :global(
+              .custom-product-carousel-next:hover ~ * .swiper-slide-next
+            ) {
             opacity: 0.7;
           }
         `}</style>
@@ -203,7 +209,7 @@ export default function ProductImages({ data }: { data: Product }) {
               onClick={() => setCurrent(index)}
             >
               <img
-                src={`${IMAGE_URL}/${image}`}
+                src={`${IMAGE_URL}/360${image}`}
                 alt="Product Thumbnail"
                 className="w-full h-auto rounded-xl"
               />
@@ -215,7 +221,7 @@ export default function ProductImages({ data }: { data: Product }) {
               className="relative md:w-[180px] lg:w-[120px] h-full flex items-center justify-center rounded-xl bg-secondary hover:opacity-90 transition-all duration-300 ease-in-out"
             >
               <img
-                src={`${IMAGE_URL}/${data.gallery[3]}`}
+                src={`${IMAGE_URL}/360${data.gallery[3]}`}
                 alt="Product Thumbnail"
                 className="w-full h-auto rounded-xl opacity-40"
               />

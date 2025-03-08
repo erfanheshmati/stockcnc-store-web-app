@@ -133,7 +133,7 @@ export default function ProductIntroduce({
       {/* Desktop View */}
       <div className="hidden md:flex flex-col gap-6">
         {/* Product Title */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-6">
           <h1 className="text-primary font-sans font-bold text-[28px] line-clamp-1">
             {data.enTitle}
           </h1>
@@ -142,7 +142,7 @@ export default function ProductIntroduce({
             <img
               src={`${IMAGE_URL}/${data.brand.logo}`}
               alt={data.brand.title}
-              className="w-24"
+              className="max-w-24 max-h-8"
             />
           </div>
         </div>
