@@ -203,6 +203,8 @@ export function FiltersLogicProvider({
     for (const [key, value] of filterParams.entries()) {
       defaultParams.set(key, value);
     }
+    // Add limit = 9
+    defaultParams.set("limit", "9");
     // The combined query string to be sent to the API
     const combinedQueryString = defaultParams.toString();
     try {
