@@ -32,7 +32,7 @@ type FiltersContextType = {
     filterId: string,
     range: { min: number; max: number }
   ) => void;
-  enabledAttributes: Set<string>;
+  // enabledAttributes: Set<string>;
   totalDocs: number;
   totalPages: number;
   filteredProductsCount: number;
@@ -58,9 +58,9 @@ export function FiltersLogicProvider({
   const [totalPages, setTotalPages] = useState<number>(0);
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(initialProducts);
-  const [enabledAttributes, setEnabledAttributes] = useState<Set<string>>(
-    new Set()
-  );
+  // const [enabledAttributes, setEnabledAttributes] = useState<Set<string>>(
+  //   new Set()
+  // );
   const [filteredProductsCount, setFilteredProductsCount] = useState<number>(
     initialProducts.length
   );
@@ -127,11 +127,11 @@ export function FiltersLogicProvider({
   }, []);
 
   // Update enabledAttributes based on fetched filters
-  useEffect(() => {
-    setEnabledAttributes(
-      new Set(attributes.map((filter) => filter.requiredAttribute || filter.id))
-    );
-  }, [attributes]);
+  // useEffect(() => {
+  //   setEnabledAttributes(
+  //     new Set(attributes.map((filter) => filter.requiredAttribute || filter.id))
+  //   );
+  // }, [attributes]);
 
   // Parse URL query parameters on mount and update filter state
   useEffect(() => {
@@ -318,7 +318,7 @@ export function FiltersLogicProvider({
         setOpenFilter,
         handleCheckAndFilterChange,
         handleRangeChange,
-        enabledAttributes,
+        // enabledAttributes,
         totalDocs,
         totalPages,
         filteredProductsCount,

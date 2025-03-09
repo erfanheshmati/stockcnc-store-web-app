@@ -23,7 +23,6 @@ export default function Filters() {
     openFilter,
     handleCheckAndFilterChange,
     handleRangeChange,
-    enabledAttributes,
     // filteredProductsCount,
     // applyFilters,
     clearFilters,
@@ -59,14 +58,33 @@ export default function Filters() {
 
         const isOpen = openFilter === index || isChecked; // Keep open if checked
 
+        // Check if a segment contains any English letter
+        const isEnglishSegment = (segment: string) => /[A-Za-z]/.test(segment);
+        // Split the text into segments. The regex below splits the string into groups
+        // that are either sequences of letters/numbers (including Persian digits) or non-alphanumerics
+        const segments =
+          attribute.title.match(
+            /([A-Za-z0-9\u06F0-\u06F9]+|[^A-Za-z0-9\u06F0-\u06F9]+)/g
+          ) || [];
+
         return (
           <div key={attribute.id}>
             <button
               className="flex justify-between items-center w-full border-b hover:bg-gradient-to-l from-[#DFE3EF4F] to-white"
               onClick={() => toggleFilter(index)}
             >
-              <span className="text-black/90 font-semibold text-[15px] px-5 py-4">
-                {attribute.title}
+              <span className="text-black/90 font-semibold px-5 py-4">
+                {segments.map((seg, index) =>
+                  isEnglishSegment(seg) ? (
+                    <span key={index} className="font-sans text-[14px]">
+                      {seg}
+                    </span>
+                  ) : (
+                    <span key={index} className="text-[15px]">
+                      {seg}
+                    </span>
+                  )
+                )}
               </span>
               <span className="p-5 border-r">
                 <BiArrowFromTop
@@ -86,11 +104,12 @@ export default function Filters() {
                     const checkboxValue = (
                       checkedItems[attribute.id] as CheckboxFilter
                     )?.[option.value];
+
+                    // Check if option.value contains at least one English letter
+                    const hasEnglish = /[A-Za-z]/.test(option.value);
+
                     return (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-2 px-6 py-2"
-                      >
+                      <div key={idx} className="flex items-center px-6 py-2">
                         <input
                           type="checkbox"
                           id={`filter-${index}-${idx}`}
@@ -104,12 +123,16 @@ export default function Filters() {
                           className="w-5 h-5 cursor-pointer"
                         />
                         <label
-                          className={clsx("font-semibold text-[14px]", {
-                            "text-black": checkboxValue,
-                            "text-black/60": !checkboxValue,
-                          })}
+                          htmlFor={`filter-${index}-${idx}`}
+                          className={`
+                            flex items-center gap-1 text-[14px] font-semibold cursor-pointer pt-0.5 pr-2 ${
+                              checkboxValue ? "text-black" : "text-black/60"
+                            }`}
                         >
-                          {option.value} ({option.count})
+                          <span className={hasEnglish ? "font-sans" : ""}>
+                            {option.value}
+                          </span>
+                          <span className="pt-0.5">({option.count})</span>
                         </label>
                       </div>
                     );
@@ -137,7 +160,6 @@ export default function Filters() {
     openFilter,
     checkedItems,
     toggleFilter,
-    enabledAttributes,
     handleCheckAndFilterChange,
     handleRangeChange,
   ]);
