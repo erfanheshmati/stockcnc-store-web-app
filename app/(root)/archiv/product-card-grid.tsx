@@ -57,8 +57,8 @@ export default function ProductCardGrid({ data }: { data: Product }) {
           !data.available ? "opacity-70" : ""
         }`}
       >
-        <h3 className="text-primary font-semibold text-[16px] line-clamp-2">
-          <Link href={`/product/${data._id}`}>{data.title}</Link>
+        <h3 className="text-primary font-sans font-bold text-[16px] line-clamp-2">
+          <Link href={`/product/${data._id}`}>{data.enTitle}</Link>
         </h3>
       </div>
       <div
@@ -73,7 +73,11 @@ export default function ProductCardGrid({ data }: { data: Product }) {
           سال ساخت {data.yearOfManufacture}
         </span>
         <span className="text-secondary font-semibold text-[13px]">
-          {data.condition}
+          {data.attributes
+            .filter((attr) => attr?.attribute?.title === "کنترل")
+            .map((attr, index) => (
+              <span key={index}>{attr?.value}</span>
+            ))}
         </span>
       </div>
       <div className="flex items-center justify-between px-6 py-2">
