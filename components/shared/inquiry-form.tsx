@@ -334,7 +334,7 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
           >
             <div className="flex items-center justify-center bg-[#015BA51C] w-full p-4 rounded-2xl relative">
               <span className="text-primary font-bold text-[20px]" dir="ltr">
-                021 - 33450050
+                0912 467 7767
               </span>
               <span className="absolute left-6 sm:left-10">
                 <BiPhoneCall size={26} color="#015BA5" />
@@ -616,7 +616,7 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
             >
               <div className="flex items-center justify-center w-full p-5 rounded-lg bg-[#015BA51C] hover:opacity-70 transition-all duration-300 ease-in-out">
                 <span className="text-primary font-bold text-[23px]" dir="ltr">
-                  021 - 33450050
+                  0912 467 7767
                 </span>
                 <span className="absolute left-10">
                   <BiPhoneCall size={26} color="#015BA5" />
