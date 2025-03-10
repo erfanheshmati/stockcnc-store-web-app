@@ -4,7 +4,7 @@ import { useDialog } from "@/contexts/dialog-context";
 import { BASE_URL } from "@/lib/constants";
 import { notifyError, notifySuccess } from "@/lib/toast";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiPhoneCall, BiX } from "react-icons/bi";
 
 export default function InquiryForm({ onClose }: { onClose: () => void }) {
@@ -13,6 +13,22 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [supportPhone, setSupportPhone] = useState<string | null>();
+
+  useEffect(() => {
+    const fetchSupportPhone = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
+        const data = await res.json();
+        setSupportPhone(data.supportTelephone);
+      } catch (error) {
+        setError((error as Error).message);
+      }
+    };
+    fetchSupportPhone();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
@@ -329,12 +345,13 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
             برای اطلاع از قیمت تماس بگیرید
           </div>
           <Link
-            href="tel:+982133450050"
+            href={`tel:${supportPhone?.replace(/-/g, "")}`}
             className="flex items-center justify-center w-full relative"
           >
             <div className="flex items-center justify-center bg-[#015BA51C] w-full p-4 rounded-2xl relative">
+              {error && <span className="text-red-500 pt-1">{error}</span>}
               <span className="text-primary font-bold text-[20px]" dir="ltr">
-                0912 467 7767
+                {!error && supportPhone}
               </span>
               <span className="absolute left-6 sm:left-10">
                 <BiPhoneCall size={26} color="#015BA5" />
@@ -611,12 +628,13 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
               برای اطلاع از قیمت تماس بگیرید
             </div>
             <Link
-              href="tel:+982133450050"
+              href={`tel:${supportPhone?.replace(/-/g, "")}`}
               className="flex items-center justify-center w-full relative"
             >
               <div className="flex items-center justify-center w-full p-5 rounded-lg bg-[#015BA51C] hover:opacity-70 transition-all duration-300 ease-in-out">
+                {error && <span className="text-red-500 pt-1">{error}</span>}
                 <span className="text-primary font-bold text-[23px]" dir="ltr">
-                  0912 467 7767
+                  {!error && supportPhone}
                 </span>
                 <span className="absolute left-10">
                   <BiPhoneCall size={26} color="#015BA5" />
