@@ -119,7 +119,11 @@ export default function ProductIntroduce({
                 </div>
                 <div className="flex items-center">
                   <span className="text-primary font-bold text-[13px]">
-                    {item?.value}
+                    {typeof item.value === "boolean"
+                      ? item.value
+                        ? "دارد"
+                        : "ندارد"
+                      : item.value}
                   </span>
                 </div>
               </div>
@@ -226,7 +230,11 @@ export default function ProductIntroduce({
               </div>
               <div className="flex items-center">
                 <span className="text-primary font-bold text-[15px]">
-                  {item?.value}
+                  {typeof item.value === "boolean"
+                    ? item.value
+                      ? "دارد"
+                      : "ندارد"
+                    : item.value}
                 </span>
               </div>
             </div>

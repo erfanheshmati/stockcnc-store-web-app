@@ -107,7 +107,11 @@ export default function ProductInfo({
                           {item.attribute?.title}
                         </h3>
                         <span className="text-primary font-bold text-[15px]">
-                          {item.value}
+                          {typeof item.value === "boolean"
+                            ? item.value
+                              ? "دارد"
+                              : "ندارد"
+                            : item.value}
                         </span>
                       </div>
                     ))}
@@ -130,7 +134,11 @@ export default function ProductInfo({
                           {item.attribute?.title}
                         </h3>
                         <span className="text-primary font-bold text-[15px]">
-                          {item.value}
+                          {typeof item.value === "boolean"
+                            ? item.value
+                              ? "دارد"
+                              : "ندارد"
+                            : item.value}
                         </span>
                       </div>
                     ))}
