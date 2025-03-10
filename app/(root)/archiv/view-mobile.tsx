@@ -6,10 +6,16 @@ import { useEffect, useState } from "react";
 import { Product } from "@/lib/types";
 import { useSearchParams } from "next/navigation";
 import { BASE_URL } from "@/lib/constants";
+import Loading from "@/app/loading";
 
 export default function ViewMobile() {
-  const { filteredProducts, totalDocs, setFilteredProducts, totalPages } =
-    useFiltersLogic();
+  const {
+    filteredProducts,
+    totalDocs,
+    setFilteredProducts,
+    totalPages,
+    isLoading,
+  } = useFiltersLogic();
   const [visibleProducts, setVisibleProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -42,6 +48,8 @@ export default function ViewMobile() {
   useEffect(() => {
     setVisibleProducts(filteredProducts); // Sync with filtered products when filters change
   }, [filteredProducts]);
+
+  if (isLoading) return <Loading />;
 
   return (
     <div>

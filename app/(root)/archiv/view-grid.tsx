@@ -7,10 +7,16 @@ import { useView } from "@/contexts/view-context";
 import { useEffect, useState } from "react";
 import { Product } from "@/lib/types";
 import { BASE_URL } from "@/lib/constants";
+import Loading from "@/app/loading";
 
 export default function ViewGrid() {
-  const { filteredProducts, totalDocs, setFilteredProducts, totalPages } =
-    useFiltersLogic();
+  const {
+    filteredProducts,
+    totalDocs,
+    setFilteredProducts,
+    totalPages,
+    isLoading,
+  } = useFiltersLogic();
   const [visibleProducts, setVisibleProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -44,6 +50,8 @@ export default function ViewGrid() {
   useEffect(() => {
     setVisibleProducts(filteredProducts); // Sync with filtered products when filters change
   }, [filteredProducts]);
+
+  if (isLoading) return <Loading />;
 
   return (
     <>

@@ -13,6 +13,10 @@ type CheckedItems = {
 };
 
 type FiltersContextType = {
+  totalDocs: number;
+  totalPages: number;
+  filteredProductsCount: number;
+  isLoading: boolean;
   attributes: Filter[];
   checkedItems: CheckedItems;
   setCheckedItems: (items: CheckedItems) => void;
@@ -20,9 +24,9 @@ type FiltersContextType = {
   setInStockOnly: (value: boolean | null) => void;
   filteredProducts: Product[];
   setFilteredProducts: (products: Product[]) => void;
-  toggleFilter: (index: number | null) => void;
   openFilter: number | null;
   setOpenFilter: (index: number | null) => void;
+  toggleFilter: (index: number | null) => void;
   clearFilters: () => void;
   handleCheckAndFilterChange: (
     filterId: string,
@@ -32,10 +36,6 @@ type FiltersContextType = {
     filterId: string,
     range: { min: number; max: number }
   ) => void;
-  // enabledAttributes: Set<string>;
-  totalDocs: number;
-  totalPages: number;
-  filteredProductsCount: number;
   applyFilters: (autoApply?: boolean) => void;
 };
 
@@ -50,21 +50,19 @@ export function FiltersLogicProvider({
   children: React.ReactNode;
   initialProducts: Product[];
 }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [attributes, setAttributes] = useState<Filter[]>([]);
   const [checkedItems, setCheckedItems] = useState<CheckedItems>({});
   const [inStockOnly, setInStockOnly] = useState<boolean | null>(null);
   const [openFilter, setOpenFilter] = useState<number | null>(null);
   const [totalDocs, setTotalDocs] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const [hasAutoApplied, setHasAutoApplied] = useState(false);
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(initialProducts);
-  // const [enabledAttributes, setEnabledAttributes] = useState<Set<string>>(
-  //   new Set()
-  // );
   const [filteredProductsCount, setFilteredProductsCount] = useState<number>(
     initialProducts.length
   );
-  const [hasAutoApplied, setHasAutoApplied] = useState(false);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -126,13 +124,6 @@ export function FiltersLogicProvider({
     fetchAttributes();
   }, []);
 
-  // Update enabledAttributes based on fetched filters
-  // useEffect(() => {
-  //   setEnabledAttributes(
-  //     new Set(attributes.map((filter) => filter.requiredAttribute || filter.id))
-  //   );
-  // }, [attributes]);
-
   // Parse URL query parameters on mount and update filter state
   useEffect(() => {
     if (typeof window !== "undefined" && window.location.search) {
@@ -184,6 +175,7 @@ export function FiltersLogicProvider({
 
   // Apply filters and fetch filtered products when "Show Products" is clicked or auto-applied
   const applyFilters = async (autoApply = false) => {
+    setIsLoading(true);
     const filterQueryString = buildQueryString();
     // Retrieve default reserved parameters from the URL (q, category, sort)
     const urlParams = new URLSearchParams(window.location.search);
@@ -232,6 +224,7 @@ export function FiltersLogicProvider({
           router.push(`?${combinedQueryString}`);
         }
       }
+      setIsLoading(false);
     } catch (error) {
       console.error("Error applying filters:", error);
     }
@@ -320,12 +313,12 @@ export function FiltersLogicProvider({
         setOpenFilter,
         handleCheckAndFilterChange,
         handleRangeChange,
-        // enabledAttributes,
         totalDocs,
         totalPages,
         filteredProductsCount,
         clearFilters,
         applyFilters,
+        isLoading,
       }}
     >
       {children}

@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/app/loading";
 import ProductCardList from "./product-card-list";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
 import { useView } from "@/contexts/view-context";
@@ -9,8 +10,13 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ViewList() {
-  const { filteredProducts, totalDocs, setFilteredProducts, totalPages } =
-    useFiltersLogic();
+  const {
+    filteredProducts,
+    totalDocs,
+    setFilteredProducts,
+    totalPages,
+    isLoading,
+  } = useFiltersLogic();
   const [visibleProducts, setVisibleProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -44,6 +50,8 @@ export default function ViewList() {
   useEffect(() => {
     setVisibleProducts(filteredProducts); // Sync with filtered products when filters change
   }, [filteredProducts]);
+
+  if (isLoading) return <Loading />;
 
   return (
     <>
