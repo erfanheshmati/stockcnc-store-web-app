@@ -237,7 +237,7 @@ export default async function ContactPage() {
                   </div>
                 </Link>
               </div>
-              <Link href={`tel:${supportTelephone}`}>
+              <Link href={`tel:${supportTelephone?.replace(/-/g, "")}`}>
                 <div className="border bg-gradient-to-b from-secondary/10 to-white px-6 py-5 rounded-xl text-secondary">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-2">
