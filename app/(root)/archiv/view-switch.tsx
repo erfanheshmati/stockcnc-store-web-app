@@ -29,7 +29,7 @@ export default function ViewSwitch() {
       >
         <MdViewList
           size={20}
-          className={`${
+          className={`rotate-180 ${
             viewType === "list" ? "text-white" : "text-secondary/70"
           }`}
         />
