@@ -28,6 +28,11 @@ export default function Filters() {
     clearFilters,
   } = useFiltersLogic();
 
+  // Determine dual-range-slider step value for numeric filters
+  const getStepForFilter = (title: string) => {
+    return title === "سال ساخت (میلادی)" ? 1 : 10;
+  };
+
   const renderedFilters = useMemo(() => {
     return attributes
       .filter((attribute) => {
@@ -66,6 +71,12 @@ export default function Filters() {
           attribute.title.match(
             /([A-Za-z0-9\u06F0-\u06F9]+|[^A-Za-z0-9\u06F0-\u06F9]+)/g
           ) || [];
+
+        // For numeric filters, determine the step value.
+        const step =
+          attribute.type === "number"
+            ? getStepForFilter(attribute.title)
+            : undefined;
 
         return (
           <div key={attribute.id}>
@@ -137,11 +148,13 @@ export default function Filters() {
                       </div>
                     );
                   })}
+
                 {/* Numeric Filters (Dual Range Slider for Min & Max) */}
                 {attribute.type === "number" && (
                   <DualRangeSlider
                     min={attribute.min}
                     max={attribute.max}
+                    step={step}
                     currentValue={
                       checkedItems[attribute.id] as { min: number; max: number }
                     }

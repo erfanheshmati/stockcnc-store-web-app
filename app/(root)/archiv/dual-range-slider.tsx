@@ -18,18 +18,21 @@ export default function DualRangeSlider({
   currentValue = { min: originalMin, max: originalMax },
   onChange,
 }: DualRangeSliderProps) {
+  // Local state for display (changes continuously)
   const [range, setRange] = useState<[number, number]>([
     currentValue?.min ?? originalMin,
     currentValue?.max ?? originalMax,
   ]);
-
   const [isChanging, setIsChanging] = useState(false);
 
+  // Sync with parent only when not actively changing
   useEffect(() => {
-    setRange([currentValue.min, currentValue.max]);
-  }, [currentValue]);
+    if (!isChanging) {
+      setRange([currentValue.min, currentValue.max]);
+    }
+  }, [currentValue, isChanging]);
 
-  // Slider range transformation
+  // Transform the range to a slider value (inverted for RTL)
   const sliderMin = 0;
   const sliderMax = originalMax - originalMin;
   const sliderValue: [number, number] = [
@@ -37,11 +40,28 @@ export default function DualRangeSlider({
     originalMax - range[0],
   ];
 
-  // Update slider values
+  // Update slider values using rounding to align with step
   const handleSliderChange = (values: number[]) => {
-    setIsChanging(true); // When the slider is being changed
-    const newMin = originalMax - values[1];
-    const newMax = originalMax - values[0];
+    setIsChanging(true);
+    const rawNewMin = originalMax - values[1];
+    const rawNewMax = originalMax - values[0];
+    const newMin = Math.max(originalMin, Math.round(rawNewMin / step) * step);
+    const newMax = Math.min(originalMax, Math.round(rawNewMax / step) * step);
+    setRange([newMin, newMax]);
+    // If the values are at their default, mark as not changing
+    if (newMin === originalMin && newMax === originalMax) {
+      setIsChanging(false);
+    } else {
+      setIsChanging(true);
+    }
+  };
+
+  // When the thumb is released, round/clamp values and trigger parent's callback
+  const handleSliderAfterChange = (values: number[]) => {
+    const rawNewMin = originalMax - values[1];
+    const rawNewMax = originalMax - values[0];
+    const newMin = Math.max(originalMin, Math.round(rawNewMin / step) * step);
+    const newMax = Math.min(originalMax, Math.round(rawNewMax / step) * step);
     setRange([newMin, newMax]);
     onChange({ min: newMin, max: newMax });
   };
@@ -102,6 +122,7 @@ export default function DualRangeSlider({
           max={sliderMax}
           step={step}
           onChange={handleSliderChange}
+          onAfterChange={handleSliderAfterChange}
           renderTrack={(props, state) => (
             <div
               {...props}

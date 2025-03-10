@@ -23,6 +23,11 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
     applyFilters,
   } = useFiltersLogic();
 
+  // Determine dual-range-slider step value for numeric filters
+  const getStepForFilter = (title: string) => {
+    return title === "سال ساخت (میلادی)" ? 1 : 10;
+  };
+
   const renderedFilters = useMemo(() => {
     return attributes
       .filter((attribute) => {
@@ -61,6 +66,12 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
           attribute.title.match(
             /([A-Za-z0-9\u06F0-\u06F9]+|[^A-Za-z0-9\u06F0-\u06F9]+)/g
           ) || [];
+
+        // For numeric filters, determine the step value.
+        const step =
+          attribute.type === "number"
+            ? getStepForFilter(attribute.title)
+            : undefined;
 
         return (
           <div key={attribute.id} className="bg-secondary/10 rounded-xl my-2">
@@ -142,6 +153,7 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
                   <DualRangeSlider
                     min={attribute.min}
                     max={attribute.max}
+                    step={step}
                     currentValue={
                       checkedItems[attribute.id] &&
                       typeof checkedItems[attribute.id] === "object" &&
