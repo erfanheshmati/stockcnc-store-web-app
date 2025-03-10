@@ -15,7 +15,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
           !data.available ? "opacity-70" : ""
         }`}
       >
-        <span className="relative group cursor-pointer py-5">
+        <span className="relative group cursor-pointer py-2">
           <img
             src={`${IMAGE_URL}/${data?.country?.logo}`}
             alt={data?.country?.title}
@@ -32,7 +32,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
         <img
           src={`${IMAGE_URL}/${data?.brand?.logo}`}
           alt={data?.brand?.enTitle}
-          className="w-20"
+          className="max-w-16 max-h-8"
         />
       </div>
       <div
@@ -57,7 +57,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
           !data.available ? "opacity-70" : ""
         }`}
       >
-        <h3 className="text-primary font-sans font-bold text-[16px] line-clamp-2">
+        <h3 className="text-primary font-sans font-bold text-[16px] line-clamp-1">
           <Link href={`/product/${data._id}`}>{data.enTitle}</Link>
         </h3>
       </div>
