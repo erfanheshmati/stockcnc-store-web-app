@@ -40,7 +40,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
           !data.available ? "opacity-70" : ""
         }`}
       >
-        <Link href={`/product/${data._id}`}>
+        <Link href={`/product/${data._id}`} target="_blank">
           <img
             src={`${IMAGE_URL}/360${data.primaryImage}`}
             alt={data.title}
@@ -58,7 +58,9 @@ export default function ProductCardGrid({ data }: { data: Product }) {
         }`}
       >
         <h3 className="text-primary font-sans font-bold text-[16px] line-clamp-1">
-          <Link href={`/product/${data._id}`}>{data.enTitle}</Link>
+          <Link href={`/product/${data._id}`} target="_blank">
+            {data.enTitle}
+          </Link>
         </h3>
       </div>
       <div
@@ -83,6 +85,7 @@ export default function ProductCardGrid({ data }: { data: Product }) {
       <div className="flex items-center justify-between px-6 py-2">
         <Link
           href={`/product/${data._id}`}
+          target="_blank"
           className="flex items-center justify-center w-[90px] h-[45px] 2xl:w-[110px] xl:h-[55px] rounded-lg text-black hover:text-white border hover:border-none hover:bg-primary transition-colors duration-300 ease-in-out"
         >
           <span className="font-[500] text-[14px]">جزییات</span>

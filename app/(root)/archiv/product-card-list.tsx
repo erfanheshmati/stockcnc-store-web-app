@@ -15,7 +15,7 @@ export default function ProductCardList({ data }: { data: Product }) {
           !data.available ? "opacity-70" : ""
         }`}
       >
-        <Link href={`/product/${data._id}`}>
+        <Link href={`/product/${data._id}`} target="_blank">
           <img
             src={`${IMAGE_URL}/360${data.primaryImage}`}
             alt={data.title}
@@ -33,7 +33,9 @@ export default function ProductCardList({ data }: { data: Product }) {
             !data.available ? "opacity-70" : ""
           }`}
         >
-          <Link href={`/product/${data._id}`}>{data.enTitle}</Link>
+          <Link href={`/product/${data._id}`} target="_blank">
+            {data.enTitle}
+          </Link>
         </h3>
         <h3
           className={`text-secondary/70 font-medium text-[14px] ${
@@ -87,6 +89,7 @@ export default function ProductCardList({ data }: { data: Product }) {
           <div className="flex items-center gap-4">
             <Link
               href={`/product/${data._id}`}
+              target="_blank"
               className="flex items-center justify-center w-[90px] h-[45px] 2xl:w-[110px] xl:h-[55px] rounded-lg text-black hover:text-white border hover:border-none hover:bg-primary transition-colors duration-300 ease-in-out"
             >
               <span className="font-[500] text-[14px]">جزییات</span>

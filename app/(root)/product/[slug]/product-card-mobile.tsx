@@ -14,7 +14,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
         }`}
       >
         <div className="flex w-8/12 h-auto rounded-xl bg-[#EFF1F6]">
-          <Link href={`/product/${product._id}`}>
+          <Link href={`/product/${product._id}`} target="_blank">
             <img
               src={`${IMAGE_URL}/360${product.primaryImage}`}
               alt={product.title}
@@ -46,7 +46,9 @@ export default function ProductCardMobile({ product }: { product: Product }) {
         }`}
       >
         <h3 className="text-primary font-sans font-bold text-[12px] leading-6 pt-2">
-          <Link href={`/product/${product._id}`}>{product.enTitle}</Link>
+          <Link href={`/product/${product._id}`} target="_blank">
+            {product.enTitle}
+          </Link>
         </h3>
       </div>
       <hr className={`my-2 ${!product.available ? "opacity-70" : ""}`} />
@@ -85,6 +87,7 @@ export default function ProductCardMobile({ product }: { product: Product }) {
 
         <Link
           href={`/product/${product._id}`}
+          target="_blank"
           className="flex w-full items-center justify-center h-[45px] 2xl:w-[110px] xl:h-[55px] rounded-lg text-black hover:text-white border"
         >
           <span className="text-secondary font-medium text-[14px]">جزییات</span>
