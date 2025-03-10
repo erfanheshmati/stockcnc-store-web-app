@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 interface ViewContextProps {
   viewType: string;
@@ -12,7 +18,17 @@ const ViewContext = createContext<ViewContextProps | undefined>(undefined);
 export const ViewProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [viewType, setViewType] = useState<string>("list");
+  const [viewType, setViewType] = useState<string>(() => {
+    // Get the saved view type from localStorage or default to "list"
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("viewType") || "list";
+    }
+    return "list";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("viewType", viewType);
+  }, [viewType]);
 
   return (
     <ViewContext.Provider value={{ viewType, setViewType }}>
