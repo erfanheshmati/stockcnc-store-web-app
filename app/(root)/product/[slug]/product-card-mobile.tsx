@@ -45,8 +45,8 @@ export default function ProductCardMobile({ product }: { product: Product }) {
           !product.available ? "opacity-70" : ""
         }`}
       >
-        <h3 className="text-primary font-semibold text-[12px] leading-6 pt-2">
-          <Link href={`/product/${product._id}`}>{product.title}</Link>
+        <h3 className="text-primary font-sans font-bold text-[12px] leading-6 pt-2">
+          <Link href={`/product/${product._id}`}>{product.enTitle}</Link>
         </h3>
       </div>
       <hr className={`my-2 ${!product.available ? "opacity-70" : ""}`} />
