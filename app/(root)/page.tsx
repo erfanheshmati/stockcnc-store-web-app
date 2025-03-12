@@ -12,12 +12,14 @@ import Products from "@/components/shared/home/products";
 import Search from "@/components/shared/home/search";
 import { useDialog } from "@/contexts/dialog-context";
 import { BASE_URL } from "@/lib/constants";
+import { Brand } from "@/lib/types";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const { isDialogOpen, closeDialog } = useDialog();
 
   const [selectedBrand, setSelectedBrand] = useState<string>("");
+  const [brands, setBrands] = useState<Brand[]>([]);
 
   useEffect(() => {
     const fetchBrandsData = async () => {
@@ -25,7 +27,8 @@ export default function Home() {
         const res = await fetch(`${BASE_URL}/brand`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
-        if (data.length > 0) {
+        if (Array.isArray(data) && data.length > 0) {
+          setBrands(data);
           setSelectedBrand(data[0]._id); // Set first brand as default
         } else throw new Error("برندی وجود ندارد");
       } catch (error) {
@@ -47,7 +50,7 @@ export default function Home() {
           <Categories />
           <Consultation />
           <div className="flex flex-col md:flex-row gap-8 md:gap-4 mt-10 mb-2 md:mt-24 md:wrapper -mx-4 md:mx-0">
-            <Brands setSelectedBrand={setSelectedBrand} />
+            <Brands brands={brands} setSelectedBrand={setSelectedBrand} />
             <Products selectedBrand={selectedBrand} />
           </div>
           <Inquire />
