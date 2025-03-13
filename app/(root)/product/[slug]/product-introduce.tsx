@@ -60,7 +60,7 @@ export default function ProductIntroduce({
           {/* Specifications Rows */}
           <div
             className={`flex flex-col gap-8 mt-3 w-full overflow-hidden transition-all duration-300 ${
-              openIndex === index ? "max-h-screen mb-10" : "max-h-0"
+              openIndex === index ? "max-h-fit mb-10" : "max-h-0"
             }`}
           >
             <div className="flex items-center justify-between">
