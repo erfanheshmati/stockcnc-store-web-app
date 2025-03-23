@@ -56,7 +56,7 @@ export default function ProductImages({ data }: { data: Product }) {
         {/* Main Image */}
         <div className="flex items-center justify-center bg-secondary/10 rounded-xl h-auto border relative">
           <img
-            src={`${IMAGE_URL}/480${data.gallery[current]}`}
+            src={`${IMAGE_URL}/720${data.gallery[current]}`}
             alt="Product Image"
             className="w-full h-auto rounded-xl"
           />
@@ -254,7 +254,7 @@ export default function ProductImages({ data }: { data: Product }) {
                     ${current === index && "border border-[#B7C5DA]"}`}
                   >
                     <img
-                      src={`${IMAGE_URL}/${image}`}
+                      src={`${IMAGE_URL}/360${image}`}
                       alt="Gallery Image"
                       className="w-full h-auto rounded-xl"
                     />
