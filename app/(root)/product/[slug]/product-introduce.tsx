@@ -99,35 +99,47 @@ export default function ProductIntroduce({
               </p>
             )} */}
 
-            {data.attributes.map((item) => (
-              <div className="flex items-center justify-between" key={item._id}>
-                <div className="flex items-center gap-2">
-                  <BiLeftArrow size={14} className="text-secondary/60" />
-                  <span className="text-secondary font-semibold text-[12px]">
-                    {item.attribute?.title}
-                  </span>
+            {data.attributes.map((item) => {
+              // Check if item.value contains at least one English letter
+              const hasEnglish = /[A-Za-z]/.test(item.value);
+
+              return (
+                <div
+                  className="flex items-center justify-between"
+                  key={item._id}
+                >
+                  <div className="flex items-center gap-2">
+                    <BiLeftArrow size={14} className="text-secondary/60" />
+                    <span className="text-secondary font-semibold text-[12px]">
+                      {item.attribute?.title}
+                    </span>
+                  </div>
+                  <div className="flex-grow relative mx-4">
+                    <span
+                      className="block w-full h-[1px] bg-repeat-x opacity-15"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(to right, transparent, black 50%, transparent)",
+                        backgroundSize: "8px",
+                      }}
+                    ></span>
+                  </div>
+                  <div className="flex items-center">
+                    <span
+                      className={`text-primary font-bold text-[13px] ${
+                        hasEnglish ? "font-sans" : ""
+                      }`}
+                    >
+                      {typeof item.value === "boolean"
+                        ? item.value
+                          ? "دارد"
+                          : "ندارد"
+                        : item.value}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex-grow relative mx-4">
-                  <span
-                    className="block w-full h-[1px] bg-repeat-x opacity-15"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(to right, transparent, black 50%, transparent)",
-                      backgroundSize: "8px",
-                    }}
-                  ></span>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-primary font-bold text-[13px]">
-                    {typeof item.value === "boolean"
-                      ? item.value
-                        ? "دارد"
-                        : "ندارد"
-                      : item.value}
-                  </span>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -210,35 +222,44 @@ export default function ProductIntroduce({
             </p>
           )} */}
 
-          {data.attributes.slice(0, 5).map((item) => (
-            <div className="flex items-center justify-between" key={item._id}>
-              <div className="flex items-center gap-2">
-                <BiLeftArrow size={14} className="text-secondary/60" />
-                <span className="text-secondary font-semibold text-[14px]">
-                  {item.attribute?.title}
-                </span>
+          {data.attributes.slice(0, 5).map((item) => {
+            // Check if item.value contains at least one English letter
+            const hasEnglish = /[A-Za-z]/.test(item.value);
+
+            return (
+              <div className="flex items-center justify-between" key={item._id}>
+                <div className="flex items-center gap-2">
+                  <BiLeftArrow size={14} className="text-secondary/60" />
+                  <span className="text-secondary font-semibold text-[14px]">
+                    {item.attribute?.title}
+                  </span>
+                </div>
+                <div className="flex-grow relative mx-4">
+                  <span
+                    className="block w-full h-[1px] bg-repeat-x opacity-20"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, transparent, black 50%, transparent)",
+                      backgroundSize: "8px",
+                    }}
+                  ></span>
+                </div>
+                <div className="flex items-center">
+                  <span
+                    className={`text-primary font-bold text-[15px] ${
+                      hasEnglish ? "font-sans" : ""
+                    }`}
+                  >
+                    {typeof item.value === "boolean"
+                      ? item.value
+                        ? "دارد"
+                        : "ندارد"
+                      : item.value}
+                  </span>
+                </div>
               </div>
-              <div className="flex-grow relative mx-4">
-                <span
-                  className="block w-full h-[1px] bg-repeat-x opacity-20"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, transparent, black 50%, transparent)",
-                    backgroundSize: "8px",
-                  }}
-                ></span>
-              </div>
-              <div className="flex items-center">
-                <span className="text-primary font-bold text-[15px]">
-                  {typeof item.value === "boolean"
-                    ? item.value
-                      ? "دارد"
-                      : "ندارد"
-                    : item.value}
-                </span>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         {/* Price Inquiry */}
         <div className="flex items-center gap-4">

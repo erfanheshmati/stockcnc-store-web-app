@@ -94,54 +94,72 @@ export default function ProductInfo({
 
                   {data.attributes
                     .slice(0, Math.ceil(data.attributes.length / 2)) // First half of the array
-                    .map((item, idx) => (
-                      <div
-                        key={idx}
-                        className={`flex items-center justify-between p-4 ${
-                          idx % 2 !== 0
-                            ? "rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
-                            : ""
-                        }`}
-                      >
-                        <h3 className="text-[#1F2329] font-medium text-[14px]">
-                          {item.attribute?.title}
-                        </h3>
-                        <span className="text-primary font-bold text-[15px]">
-                          {typeof item.value === "boolean"
-                            ? item.value
-                              ? "دارد"
-                              : "ندارد"
-                            : item.value}
-                        </span>
-                      </div>
-                    ))}
+                    .map((item, idx) => {
+                      // Check if item.value contains at least one English letter
+                      const hasEnglish = /[A-Za-z]/.test(item.value);
+
+                      return (
+                        <div
+                          key={idx}
+                          className={`flex items-center justify-between p-4 ${
+                            idx % 2 !== 0
+                              ? "rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
+                              : ""
+                          }`}
+                        >
+                          <h3 className="text-[#1F2329] font-medium text-[14px]">
+                            {item.attribute?.title}
+                          </h3>
+                          <span
+                            className={`text-primary font-bold text-[15px] ${
+                              hasEnglish ? "font-sans" : ""
+                            }`}
+                          >
+                            {typeof item.value === "boolean"
+                              ? item.value
+                                ? "دارد"
+                                : "ندارد"
+                              : item.value}
+                          </span>
+                        </div>
+                      );
+                    })}
                 </div>
 
                 {/* Column 2 */}
                 <div className="flex flex-col gap-1 w-full">
                   {data.attributes
                     .slice(Math.ceil(data.attributes.length / 2)) // Second half of the array
-                    .map((item, idx) => (
-                      <div
-                        key={idx}
-                        className={`flex items-center justify-between p-4 ${
-                          idx % 2 !== 0
-                            ? "rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
-                            : ""
-                        }`}
-                      >
-                        <h3 className="text-[#1F2329] font-medium text-[14px]">
-                          {item.attribute?.title}
-                        </h3>
-                        <span className="text-primary font-bold text-[15px]">
-                          {typeof item.value === "boolean"
-                            ? item.value
-                              ? "دارد"
-                              : "ندارد"
-                            : item.value}
-                        </span>
-                      </div>
-                    ))}
+                    .map((item, idx) => {
+                      // Check if item.value contains at least one English letter
+                      const hasEnglish = /[A-Za-z]/.test(item.value);
+
+                      return (
+                        <div
+                          key={idx}
+                          className={`flex items-center justify-between p-4 ${
+                            idx % 2 !== 0
+                              ? "rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
+                              : ""
+                          }`}
+                        >
+                          <h3 className="text-[#1F2329] font-medium text-[14px]">
+                            {item.attribute?.title}
+                          </h3>
+                          <span
+                            className={`text-primary font-bold text-[15px] ${
+                              hasEnglish ? "font-sans" : ""
+                            }`}
+                          >
+                            {typeof item.value === "boolean"
+                              ? item.value
+                                ? "دارد"
+                                : "ندارد"
+                              : item.value}
+                          </span>
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
               <div className="flex items-center gap-8 mt-4 p-6 rounded-lg border bg-gradient-to-r from-[#f9fafc] to-white">
