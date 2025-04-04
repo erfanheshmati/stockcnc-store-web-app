@@ -52,11 +52,12 @@ export default function Search() {
     setSelectedCategory(e.target.value);
   };
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = (e: React.FormEvent, customQuery?: string) => {
     e.preventDefault();
     const queryParams = new URLSearchParams();
-    if (searchInput.trim()) {
-      queryParams.append("q", searchInput.trim());
+    const query = customQuery || searchInput.trim();
+    if (query) {
+      queryParams.append("q", query);
     }
     if (selectedCategory) {
       queryParams.append("category", selectedCategory);
@@ -67,10 +68,8 @@ export default function Search() {
   const handleMostSearchClick = (itemTitle: string) => {
     setSearchInput(itemTitle);
     const event = { preventDefault: () => {} } as React.FormEvent;
-    handleSearch(event);
+    handleSearch(event, itemTitle);
   };
-
-  const filteredData = categoriesData.slice(0, -1);
 
   return (
     <div className="flex w-[90%] md:w-[740px] lg:w-[995px] h-[75px] md:h-[92px] bg-white shadow-lg rounded-2xl absolute -bottom-8 md:-bottom-11 z-[1]">
@@ -124,7 +123,7 @@ export default function Search() {
             )}
 
             {!error &&
-              filteredData.map((data) => (
+              categoriesData.map((data) => (
                 <option value={data._id} key={data._id}>
                   {data.title}
                 </option>
