@@ -137,10 +137,16 @@ export default function FiltersMobile({ onClose }: { onClose: () => void }) {
                               checkboxValue ? "text-black" : "text-black/60"
                             }`}
                         >
-                          <span className={hasEnglish ? "font-sans" : ""}>
+                          <span
+                            dir={hasEnglish ? "ltr" : "rtl"}
+                            className={hasEnglish ? "font-sans" : ""}
+                          >
                             {option.value}
                           </span>
-                          <span className={hasEnglish ? "pt-0.5" : ""}>
+                          <span
+                            dir={hasEnglish ? "ltr" : "rtl"}
+                            className={hasEnglish ? "pt-0.5" : ""}
+                          >
                             ({option.count})
                           </span>
                         </label>

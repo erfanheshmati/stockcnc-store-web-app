@@ -126,6 +126,7 @@ export default function ProductIntroduce({
                   </div>
                   <div className="flex items-center">
                     <span
+                      dir={hasEnglish ? "ltr" : "rtl"}
                       className={`text-primary font-bold text-[13px] ${
                         hasEnglish ? "font-sans" : ""
                       }`}
@@ -246,6 +247,7 @@ export default function ProductIntroduce({
                 </div>
                 <div className="flex items-center">
                   <span
+                    dir={hasEnglish ? "ltr" : "rtl"}
                     className={`text-primary font-bold text-[15px] ${
                       hasEnglish ? "font-sans" : ""
                     }`}

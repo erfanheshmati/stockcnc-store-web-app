@@ -140,7 +140,10 @@ export default function Filters() {
                               checkboxValue ? "text-black" : "text-black/60"
                             }`}
                         >
-                          <span className={hasEnglish ? "font-sans" : ""}>
+                          <span
+                            dir={hasEnglish ? "ltr" : "rtl"}
+                            className={hasEnglish ? "font-sans" : ""}
+                          >
                             {option.value}
                           </span>
                           <span className="pt-0.5">({option.count})</span>

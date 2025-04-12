@@ -111,6 +111,7 @@ export default function ProductInfo({
                             {item.attribute?.title}
                           </h3>
                           <span
+                            dir={hasEnglish ? "ltr" : "rtl"}
                             className={`text-primary font-bold text-[15px] ${
                               hasEnglish ? "font-sans" : ""
                             }`}
@@ -147,6 +148,7 @@ export default function ProductInfo({
                             {item.attribute?.title}
                           </h3>
                           <span
+                            dir={hasEnglish ? "ltr" : "rtl"}
                             className={`text-primary font-bold text-[15px] ${
                               hasEnglish ? "font-sans" : ""
                             }`}
