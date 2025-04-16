@@ -17,6 +17,18 @@ export default function Menu() {
 
   const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen);
 
+  // Prevent scrolling when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
   useEffect(() => {
     const fetchMenusData = async () => {
       try {
