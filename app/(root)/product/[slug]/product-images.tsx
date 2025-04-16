@@ -204,8 +204,8 @@ export default function ProductImages({ data }: { data: Product }) {
           {data.gallery.slice(0, 3).map((image, index) => (
             <div
               key={index}
-              className={`md:w-[180px] lg:w-[120px] h-full flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out z-10
-            ${current === index && "border border-[#B7C5DA]"}`}
+              className={`md:w-[180px] lg:w-[120px] h-full flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:opacity-90 transition-all duration-100 ease-in-out z-10
+            ${current === index && "border-2 border-primary"}`}
               onClick={() => setCurrent(index)}
             >
               <img
@@ -238,7 +238,7 @@ export default function ProductImages({ data }: { data: Product }) {
             <div className="space-y-4 bg-white rounded-lg pt-4 pb-6 px-6">
               <button
                 onClick={() => setShowGallery(false)}
-                className="bg-gray-200 rounded-full text-white p-1 hover:opacity-80 transition-all duration-300 ease-in-out"
+                className="bg-gray-100 rounded-full text-white p-1 hover:bg-gray-200 transition-all duration-300 ease-in-out"
               >
                 <BiX size={20} className="text-gray-400" />
               </button>
@@ -250,8 +250,8 @@ export default function ProductImages({ data }: { data: Product }) {
                       setCurrent(index);
                       setShowGallery(false);
                     }}
-                    className={`w-[140px] h-auto flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:border hover:border-[#B7C5DA] transition-all duration-100 ease-in-out
-                    ${current === index && "border border-[#B7C5DA]"}`}
+                    className={`w-[140px] h-auto flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:opacity-90 transition-all duration-100 ease-in-out
+                    ${current === index && "border-2 border-primary"}`}
                   >
                     <img
                       src={`${IMAGE_URL}/360${image}`}
