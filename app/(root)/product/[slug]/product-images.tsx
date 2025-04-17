@@ -6,17 +6,35 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiChevronLeft, BiChevronRight, BiX } from "react-icons/bi";
 import { SlSizeFullscreen } from "react-icons/sl";
 import { IMAGE_URL } from "@/lib/constants";
 import { Product } from "@/lib/types";
 import Link from "next/link";
+import { Loader } from "lucide-react";
 
 export default function ProductImages({ data }: { data: Product }) {
   const [current, setCurrent] = useState(0);
   const [showGallery, setShowGallery] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [loadedUrls, setLoadedUrls] = useState<Set<string>>(new Set());
+
+  // Reset loading state when current image changes
+  useEffect(() => {
+    const mainImageUrl = `${IMAGE_URL}/720${data.gallery[current]}`;
+    if (!loadedUrls.has(mainImageUrl)) {
+      const img = new Image();
+      img.src = mainImageUrl;
+      img.onload = () => {
+        setLoadedUrls((prev) => new Set([...prev, mainImageUrl]));
+      };
+    }
+  }, [current, data.gallery, loadedUrls]);
+
+  const addToLoadedUrls = (url: string) => {
+    setLoadedUrls((prev) => new Set([...prev, url]));
+  };
 
   return (
     <>
@@ -54,25 +72,37 @@ export default function ProductImages({ data }: { data: Product }) {
       {/* Desktop View */}
       <div className="hidden md:flex flex-col gap-6 relative">
         {/* Main Image */}
-        <div className="flex items-center justify-center bg-secondary/10 rounded-xl h-auto border relative">
+        <div
+          className={`flex items-center justify-center bg-secondary/10 rounded-xl h-auto  relative ${
+            loadedUrls.has(`${IMAGE_URL}/720${data.gallery[current]}`) &&
+            "border"
+          }`}
+        >
+          {!loadedUrls.has(`${IMAGE_URL}/720${data.gallery[current]}`) && (
+            <div className="absolute inset-0 bg-gray-200 flex items-center justify-center min-h-full rounded-xl z-10">
+              <Loader className="animate-spin" />
+            </div>
+          )}
           <img
             src={`${IMAGE_URL}/720${data.gallery[current]}`}
             alt="Product Image"
             className="w-full h-auto rounded-xl"
+            onLoad={() =>
+              addToLoadedUrls(`${IMAGE_URL}/720${data.gallery[current]}`)
+            }
           />
+          {/* Fullscreen Button */}
+          {!isFullScreen &&
+            loadedUrls.has(`${IMAGE_URL}/720${data.gallery[current]}`) && (
+              <button
+                onClick={() => setIsFullScreen(true)}
+                className="absolute top-4 left-4 bg-primary p-2 rounded-full hover:opacity-80 z-10 transition-all duration-300 ease-in-out"
+              >
+                <SlSizeFullscreen size={14} className="text-white" />
+              </button>
+            )}
         </div>
-        {/* Fullscreen Button */}
-        {!isFullScreen && (
-          <button
-            onClick={() => setIsFullScreen(true)}
-            className="group absolute top-4 left-4 bg-primary p-2 rounded-full z-10"
-          >
-            <SlSizeFullscreen
-              size={14}
-              className="text-white group-hover:opacity-70 transition-all duration-300 ease-in-out"
-            />
-          </button>
-        )}
+
         {/* Fullscreen View */}
         {isFullScreen && (
           <div className="flex flex-col h-screen fixed inset-0 bg-black z-50">
@@ -204,26 +234,30 @@ export default function ProductImages({ data }: { data: Product }) {
           {data.gallery.slice(0, 3).map((image, index) => (
             <div
               key={index}
-              className={`md:w-[180px] lg:w-[120px] h-full flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:opacity-90 transition-all duration-100 ease-in-out z-10
-            ${current === index && "border-2 border-primary"}`}
+              className={`md:w-[180px] lg:w-[120px] h-full flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:opacity-80 transition-all duration-300 ease-in-out z-10
+            ${
+              current === index &&
+              loadedUrls.has(`${IMAGE_URL}/720${data.gallery[current]}`) &&
+              "border-2 border-primary"
+            }`}
               onClick={() => setCurrent(index)}
             >
               <img
                 src={`${IMAGE_URL}/360${image}`}
                 alt="Product Thumbnail"
-                className="w-full h-auto rounded-xl"
+                className="w-full h-auto rounded-lg"
               />
             </div>
           ))}
           {data.gallery.length > 3 && (
             <button
               onClick={() => setShowGallery(true)}
-              className="relative md:w-[180px] lg:w-[120px] h-full flex items-center justify-center rounded-xl bg-secondary hover:opacity-90 transition-all duration-300 ease-in-out"
+              className="relative md:w-[180px] lg:w-[120px] h-full flex items-center justify-center rounded-xl bg-secondary hover:opacity-80 transition-all duration-300 ease-in-out"
             >
               <img
                 src={`${IMAGE_URL}/360${data.gallery[3]}`}
                 alt="Product Thumbnail"
-                className="w-full h-auto rounded-xl opacity-40"
+                className="w-full h-auto rounded-lg opacity-40"
               />
               <span className="text-white font-semibold text-[20px] absolute">
                 +{data.gallery.length - 3}
@@ -250,13 +284,13 @@ export default function ProductImages({ data }: { data: Product }) {
                       setCurrent(index);
                       setShowGallery(false);
                     }}
-                    className={`w-[140px] h-auto flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:opacity-90 transition-all duration-100 ease-in-out
+                    className={`w-[140px] h-auto flex items-center justify-center cursor-pointer rounded-xl bg-secondary/10 hover:opacity-80 transition-all duration-300 ease-in-out
                     ${current === index && "border-2 border-primary"}`}
                   >
                     <img
                       src={`${IMAGE_URL}/360${image}`}
                       alt="Gallery Image"
-                      className="w-full h-auto rounded-xl"
+                      className="w-full h-auto rounded-lg"
                     />
                   </div>
                 ))}
