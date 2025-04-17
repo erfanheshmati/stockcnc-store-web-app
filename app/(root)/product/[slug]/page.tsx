@@ -1,3 +1,5 @@
+import { headers } from "next/headers";
+import { notFound, redirect, permanentRedirect } from "next/navigation";
 import BannerThin from "@/components/shared/banner-thin";
 import React from "react";
 import ProductImages from "./product-images";
@@ -11,7 +13,6 @@ import RelatedProducts from "./related-products";
 import PriceInquiryButton from "./price-inquiry-button";
 import DialogInquiry from "../../dialog-inquiry";
 import { BASE_URL } from "@/lib/constants";
-import { notFound } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -20,6 +21,7 @@ export async function generateMetadata({
 }) {
   const res1 = await fetch(`${BASE_URL}/product/${params.slug}`);
   const res2 = await fetch(`${BASE_URL}/web-text-plans`);
+
   const data = await res1.json();
   const info = await res2.json();
 
@@ -29,9 +31,22 @@ export async function generateMetadata({
     };
   }
 
+  // Get current URL components
+  const headersList = headers();
+  const host = headersList.get("host");
+  const protocol = host?.includes("localhost") ? "http" : "https";
+  const pathname =
+    headersList.get("x-invoke-path") || `/product/${params.slug}`;
+
+  // Use existing canonical or fallback to current URL
+  const canonicalUrl = data.canonical || `${protocol}://${host}${pathname}`;
+
   return {
     title: `${data.seoTitle} - ${info.title}`,
     description: data.metaData,
+    alternates: {
+      canonical: canonicalUrl,
+    },
   };
 }
 
@@ -43,9 +58,21 @@ export default async function ProductDetails({
   const res = await fetch(`${BASE_URL}/product/${params.slug}`, {
     cache: "no-store",
   });
+
   if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
 
   const data = await res.json();
+
+  // Check redirection
+  if (data.redirectStatus && data.newUrl) {
+    if (Number(data.redirectStatus) === 301) {
+      permanentRedirect(data.newUrl);
+    } else {
+      redirect(data.newUrl);
+    }
+  }
+
+  // If no data, return 404
   if (!data) return notFound();
 
   const proCatId = data.category._id;

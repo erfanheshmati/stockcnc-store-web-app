@@ -1,3 +1,5 @@
+import { headers } from "next/headers";
+import { permanentRedirect, redirect } from "next/navigation";
 import BannerThin from "@/components/shared/banner-thin";
 import { BASE_URL, IMAGE_URL } from "@/lib/constants";
 import Link from "next/link";
@@ -10,21 +12,46 @@ import DOMPurify from "dompurify";
 
 export async function generateMetadata() {
   const res = await fetch(`${BASE_URL}/web-text-plans`);
+
   const data = await res.json();
 
   if (!res.ok) {
     return { title: "خطا در دریافت اطلاعات" };
   }
 
+  // Get current URL components
+  const headersList = headers();
+  const host = headersList.get("host");
+  const protocol = host?.includes("localhost") ? "http" : "https";
+  const pathname = headersList.get("x-invoke-path") || "/about";
+
+  // Use existing canonical or fallback to current URL
+  const canonicalUrl =
+    data.aboutUsCanonical || `${protocol}://${host}${pathname}`;
+
   return {
     title: `${data.aboutUsSeoTitle} - ${data.title}`,
     description: data.aboutUsMetaData,
+    alternates: {
+      canonical: canonicalUrl,
+    },
   };
 }
 
 export default async function AboutPage() {
   const res = await fetch(`${BASE_URL}/web-text-plans`, { cache: "no-store" });
+
   const data = await res.json();
+
+  // Check redirection
+  if (data.aboutUsRedirectStatus && data.aboutUsNewUrl) {
+    if (Number(data.aboutUsRedirectStatus) === 301) {
+      permanentRedirect(data.aboutUsNewUrl);
+    } else {
+      redirect(data.aboutUsNewUrl);
+    }
+  }
+
   const aboutUsTitle = data.aboutUsTitle;
   const aboutUsHtmlContent = data.aboutUsHtmlContent;
   const aboutUsMembers = data.aboutUsMembers;

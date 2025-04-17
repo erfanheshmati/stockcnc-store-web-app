@@ -1,3 +1,5 @@
+import { headers } from "next/headers";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
 import BannerThin from "@/components/shared/banner-thin";
 import Sitemap from "./site-map";
 import Filters from "./filters";
@@ -11,7 +13,6 @@ import ButtonsMobile from "./buttons-mobile";
 import { FilterProvider } from "@/contexts/filter-popup-context";
 import { BASE_URL } from "@/lib/constants";
 import { Category } from "@/lib/types";
-import { notFound } from "next/navigation";
 import { FiltersLogicProvider } from "@/contexts/filter-logic-context";
 import SortSwitch from "./sort-switch";
 import { SortProvider } from "@/contexts/sort-popup-context";
@@ -41,11 +42,24 @@ export async function generateMetadata({
     (cat: Category) => cat._id === catQuery
   );
 
+  // Get current URL components
+  const headersList = headers();
+  const host = headersList.get("host");
+  const protocol = host?.includes("localhost") ? "http" : "https";
+  const pathname = headersList.get("x-invoke-path") || "/archiv";
+
+  // Use existing canonical or fallback to current URL
+  const canonicalUrl =
+    info.archiveProductCanonical || `${protocol}://${host}${pathname}`;
+
   return {
     title: `${category?.seoTitle || info.archiveProductSeoTitle} - ${
       info.title
     }`,
     description: category?.metaData || info.archiveProductMetaData,
+    alternates: {
+      canonical: canonicalUrl,
+    },
   };
 }
 
@@ -81,6 +95,16 @@ export default async function ArchivePage({
   const categoriesData = await res2.json();
   const productsData = await res3.json();
 
+  // Check redirection
+  if (info.archiveProductRedirectStatus && info.archiveProductNewUrl) {
+    if (Number(info.archiveProductRedirectStatus) === 301) {
+      permanentRedirect(info.archiveProductNewUrl);
+    } else {
+      redirect(info.archiveProductNewUrl);
+    }
+  }
+
+  // If no data, return 404
   if (!productsData) return notFound();
 
   const category = categoriesData?.categories.find(

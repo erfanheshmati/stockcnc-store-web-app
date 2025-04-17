@@ -1,4 +1,6 @@
 import React from "react";
+import { headers } from "next/headers";
+import { permanentRedirect, redirect } from "next/navigation";
 import BannerThin from "@/components/shared/banner-thin";
 import { BASE_URL } from "@/lib/constants";
 import DialogInquiry from "../dialog-inquiry";
@@ -9,6 +11,7 @@ import ViewMobile from "./view-mobile";
 
 export async function generateMetadata() {
   const res = await fetch(`${BASE_URL}/web-text-plans`);
+
   const info = await res.json();
 
   if (!res.ok) {
@@ -17,9 +20,22 @@ export async function generateMetadata() {
     };
   }
 
+  // Get current URL components
+  const headersList = headers();
+  const host = headersList.get("host");
+  const protocol = host?.includes("localhost") ? "http" : "https";
+  const pathname = headersList.get("x-invoke-path") || "/blogs";
+
+  // Use existing canonical or fallback to current URL
+  const canonicalUrl =
+    info.archiveBlogCanonical || `${protocol}://${host}${pathname}`;
+
   return {
     title: `${info.archiveBlogSeoTitle} - ${info.title}`,
     description: info.archiveBlogMetaData,
+    alternates: {
+      canonical: canonicalUrl,
+    },
   };
 }
 
@@ -50,6 +66,15 @@ export default async function BlogsPage({
   const info = await res1.json();
   const data1 = await res2.json();
   const data2 = await res3.json();
+
+  // Check redirection
+  if (info.archiveBlogRedirectStatus && info.archiveBlogNewUrl) {
+    if (Number(info.archiveBlogRedirectStatus) === 301) {
+      permanentRedirect(info.archiveBlogNewUrl);
+    } else {
+      redirect(info.archiveBlogNewUrl);
+    }
+  }
 
   const helpsData = data1.docs;
   const blogsData = data2.docs;

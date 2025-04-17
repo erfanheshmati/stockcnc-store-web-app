@@ -41,6 +41,7 @@ export default function BlogCardMobile({ blog }: { blog: Blog }) {
             </div>
             <Link
               href={`/blog/${blog._id}`}
+              target="_blank"
               className="flex items-center justify-center rounded-lg border"
             >
               <span className="font-medium text-[12px] p-2 truncate">

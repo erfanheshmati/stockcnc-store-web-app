@@ -11,7 +11,7 @@ export default function BlogCard({ data }: { data: Blog }) {
     <>
       {/* Mobile View */}
       <div className="md:hidden w-[242px] shadow-xl rounded-lg">
-        <Link href={`/blog/${data._id}`}>
+        <Link href={`/blog/${data._id}`} target="_blank">
           <div className="flex w-full h-[180px] rounded-t-lg">
             <img
               src={`${IMAGE_URL}/${data.image}`}
@@ -51,6 +51,7 @@ export default function BlogCard({ data }: { data: Blog }) {
         <div className="flex items-center justify-center w-full h-[223px] rounded-lg">
           <Link
             href={`/blog/${data._id}`}
+            target="_blank"
             className="group hover:brightness-75 transition-all duration-300 ease-in-out relative"
           >
             <div className="absolute inset-0 flex items-center justify-center">
@@ -88,6 +89,7 @@ export default function BlogCard({ data }: { data: Blog }) {
           </div>
           <Link
             href={`/blog/${data._id}`}
+            target="_blank"
             className="flex items-center justify-center rounded-lg border hover:bg-[#F0F2F7] transition-colors duration-300 ease-in-out"
           >
             <span className="text-[#1F2329] font-[500] text-[14px] px-5 py-3 truncate">

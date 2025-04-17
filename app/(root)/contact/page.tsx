@@ -1,3 +1,5 @@
+import { headers } from "next/headers";
+import { permanentRedirect, redirect } from "next/navigation";
 import BannerThin from "@/components/shared/banner-thin";
 import { BASE_URL } from "@/lib/constants";
 import Link from "next/link";
@@ -8,21 +10,46 @@ import DialogInquiry from "../dialog-inquiry";
 
 export async function generateMetadata() {
   const res = await fetch(`${BASE_URL}/web-text-plans`);
+
   const data = await res.json();
 
   if (!res.ok) {
     return { title: "خطا در دریافت اطلاعات" };
   }
 
+  // Get current URL components
+  const headersList = headers();
+  const host = headersList.get("host");
+  const protocol = host?.includes("localhost") ? "http" : "https";
+  const pathname = headersList.get("x-invoke-path") || "/contact";
+
+  // Use existing canonical or fallback to current URL
+  const canonicalUrl =
+    data.contactUsCanonical || `${protocol}://${host}${pathname}`;
+
   return {
     title: `${data.contactUsSeoTitle} - ${data.title}`,
     description: data.contactUsMetaData,
+    alternates: {
+      canonical: canonicalUrl,
+    },
   };
 }
 
 export default async function ContactPage() {
   const res = await fetch(`${BASE_URL}/web-text-plans`, { cache: "no-store" });
+
   const data = await res.json();
+
+  // Check redirection
+  if (data.contactUsRedirectStatus && data.contactUsNewUrl) {
+    if (Number(data.contactUsRedirectStatus) === 301) {
+      permanentRedirect(data.contactUsNewUrl);
+    } else {
+      redirect(data.contactUsNewUrl);
+    }
+  }
+
   const contactUsTitle = data.contactUsTitle;
   const telegram = data.telegram;
   const whatsapp = data.whatsapp;
