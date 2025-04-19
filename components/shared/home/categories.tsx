@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import CategoryCard from "./category-card";
 import Link from "next/link";
 import { Category } from "@/lib/types";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 
 export default function Categories() {
   const [categoriesData, setCategoriesData] = useState<Category[]>([]);
@@ -13,7 +13,7 @@ export default function Categories() {
   useEffect(() => {
     const fetchCategoriesData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/category`);
+        const res = await fetch(`${API_URL}/category`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         if (!data.categories) throw new Error("اطلاعاتی یافت نشد!");

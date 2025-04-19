@@ -11,7 +11,7 @@ import Inquire from "@/components/shared/home/inquire";
 import Products from "@/components/shared/home/products";
 import Search from "@/components/shared/home/search";
 import { useDialog } from "@/contexts/dialog-context";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import { Brand } from "@/lib/types";
 import { useEffect, useState } from "react";
 
@@ -24,7 +24,7 @@ export default function Home() {
   useEffect(() => {
     const fetchBrandsData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/brand`);
+        const res = await fetch(`${API_URL}/brand`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {

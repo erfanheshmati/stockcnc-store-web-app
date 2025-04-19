@@ -1,8 +1,7 @@
 import React from "react";
-import { headers } from "next/headers";
 import { permanentRedirect, redirect } from "next/navigation";
 import BannerThin from "@/components/shared/banner-thin";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL, APP_URL } from "@/lib/constants";
 import DialogInquiry from "../dialog-inquiry";
 import ViewGrid from "./view-grid";
 import { Blog } from "@/lib/types";
@@ -10,7 +9,7 @@ import HelpCard from "@/components/shared/home/help-card";
 import ViewMobile from "./view-mobile";
 
 export async function generateMetadata() {
-  const res = await fetch(`${BASE_URL}/web-text-plans`);
+  const res = await fetch(`${API_URL}/web-text-plans`);
 
   const info = await res.json();
 
@@ -20,15 +19,8 @@ export async function generateMetadata() {
     };
   }
 
-  // Get current URL components
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = host?.includes("localhost") ? "http" : "https";
-  const pathname = headersList.get("x-invoke-path") || "/blogs";
-
   // Use existing canonical or fallback to current URL
-  const canonicalUrl =
-    info.archiveBlogCanonical || `${protocol}://${host}${pathname}`;
+  const canonicalUrl = info.archiveBlogCanonical || `${APP_URL}/blogs`;
 
   return {
     title: `${info.archiveBlogSeoTitle} - ${info.title}`,
@@ -50,12 +42,12 @@ export default async function BlogsPage({
   const pageQuery = parseInt(searchParams?.page || "1", 10);
   const limitQuery = parseInt(searchParams?.limit || "10", 10);
 
-  const res1 = await fetch(`${BASE_URL}/web-text-plans`);
-  const res2 = await fetch(`${BASE_URL}/blog?tutorial=true`, {
+  const res1 = await fetch(`${API_URL}/web-text-plans`);
+  const res2 = await fetch(`${API_URL}/blog?tutorial=true`, {
     cache: "no-store",
   });
   const res3 = await fetch(
-    `${BASE_URL}/blog?page=${pageQuery}&limit=${limitQuery}`,
+    `${API_URL}/blog?page=${pageQuery}&limit=${limitQuery}`,
     {
       cache: "no-store",
     }

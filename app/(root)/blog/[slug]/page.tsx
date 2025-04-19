@@ -1,9 +1,8 @@
-import { headers } from "next/headers";
 import { notFound, permanentRedirect, redirect } from "next/navigation";
 import BannerThin from "@/components/shared/banner-thin";
 import React from "react";
 import DialogInquiry from "../../dialog-inquiry";
-import { BASE_URL, IMAGE_URL } from "@/lib/constants";
+import { API_URL, APP_URL, IMAGE_URL } from "@/lib/constants";
 import moment from "moment-jalaali";
 
 export async function generateMetadata({
@@ -11,8 +10,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
-  const res1 = await fetch(`${BASE_URL}/blog/${params.slug}`);
-  const res2 = await fetch(`${BASE_URL}/web-text-plans`);
+  const res1 = await fetch(`${API_URL}/blog/${params.slug}`);
+  const res2 = await fetch(`${API_URL}/web-text-plans`);
 
   const data = await res1.json();
   const info = await res2.json();
@@ -23,14 +22,8 @@ export async function generateMetadata({
     };
   }
 
-  // Get current URL components
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = host?.includes("localhost") ? "http" : "https";
-  const pathname = headersList.get("x-invoke-path") || `/blog/${params.slug}`;
-
   // Use existing canonical or fallback to current URL
-  const canonicalUrl = data.canonical || `${protocol}://${host}${pathname}`;
+  const canonicalUrl = data.canonical || `${APP_URL}/blog/${params.slug}`;
 
   return {
     title: `${data.seoTitle} - ${info.title}`,
@@ -46,7 +39,7 @@ export default async function BlogDetails({
 }: {
   params: { slug: string };
 }) {
-  const res = await fetch(`${BASE_URL}/blog/${params.slug}`, {
+  const res = await fetch(`${API_URL}/blog/${params.slug}`, {
     cache: "no-store",
   });
 

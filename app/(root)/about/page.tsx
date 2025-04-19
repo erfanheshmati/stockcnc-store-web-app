@@ -1,7 +1,6 @@
-import { headers } from "next/headers";
 import { permanentRedirect, redirect } from "next/navigation";
 import BannerThin from "@/components/shared/banner-thin";
-import { BASE_URL, IMAGE_URL } from "@/lib/constants";
+import { API_URL, APP_URL, IMAGE_URL } from "@/lib/constants";
 import Link from "next/link";
 import { PiTelegramLogo, PiWhatsappLogo } from "react-icons/pi";
 import { SlSocialInstagram } from "react-icons/sl";
@@ -11,7 +10,7 @@ import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 
 export async function generateMetadata() {
-  const res = await fetch(`${BASE_URL}/web-text-plans`);
+  const res = await fetch(`${API_URL}/web-text-plans`);
 
   const data = await res.json();
 
@@ -19,15 +18,8 @@ export async function generateMetadata() {
     return { title: "خطا در دریافت اطلاعات" };
   }
 
-  // Get current URL components
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = host?.includes("localhost") ? "http" : "https";
-  const pathname = headersList.get("x-invoke-path") || "/about";
-
   // Use existing canonical or fallback to current URL
-  const canonicalUrl =
-    data.aboutUsCanonical || `${protocol}://${host}${pathname}`;
+  const canonicalUrl = data.aboutUsCanonical || `${APP_URL}/about`;
 
   return {
     title: `${data.aboutUsSeoTitle} - ${data.title}`,
@@ -39,7 +31,7 @@ export async function generateMetadata() {
 }
 
 export default async function AboutPage() {
-  const res = await fetch(`${BASE_URL}/web-text-plans`, { cache: "no-store" });
+  const res = await fetch(`${API_URL}/web-text-plans`, { cache: "no-store" });
 
   const data = await res.json();
 

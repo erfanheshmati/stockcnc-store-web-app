@@ -11,7 +11,7 @@ import ProductCard from "@/components/shared/home/product-card";
 import ProductCardMobile from "./product-card-mobile";
 import { useEffect, useState } from "react";
 import { Product } from "@/lib/types";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import { Pagination } from "swiper/modules";
 
 export default function RelatedProducts({
@@ -26,7 +26,7 @@ export default function RelatedProducts({
   useEffect(() => {
     const fetchProductsData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/product?category=${proCatId}`);
+        const res = await fetch(`${API_URL}/product?category=${proCatId}`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         const filteredProducts = data.docs.filter(

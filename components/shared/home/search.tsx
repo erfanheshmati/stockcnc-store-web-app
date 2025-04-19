@@ -1,6 +1,6 @@
 "use client";
 
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import { Category, MostSearch } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -21,7 +21,7 @@ export default function Search() {
   useEffect(() => {
     const fetchCategoriesData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/category`);
+        const res = await fetch(`${API_URL}/category`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         if (!data.categories) throw new Error("اطلاعاتی یافت نشد!");

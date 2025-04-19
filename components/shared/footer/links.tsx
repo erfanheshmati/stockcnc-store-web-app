@@ -1,6 +1,6 @@
 "use client";
 
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import { FooterBrand, FooterProduct, FooterQuickAccess } from "@/lib/types";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ export default function Links() {
   useEffect(() => {
     const fetchFooterLinks = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        const res = await fetch(`${API_URL}/web-text-plans`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         setFooterBrands([...data.footerBrands].sort((a, b) => a.sort - b.sort));

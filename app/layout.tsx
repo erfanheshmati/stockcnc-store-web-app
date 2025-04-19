@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
 import "@/styles/custom.css";
-import { headers } from "next/headers";
 import { permanentRedirect, redirect } from "next/navigation";
 import { cache } from "react";
 import {
   APP_DESCRIPTION,
   APP_TITLE,
-  BASE_URL,
+  API_URL,
   IMAGE_URL,
+  APP_URL,
 } from "@/lib/constants";
 
 const yekanFont = localFont({
@@ -26,7 +26,7 @@ const yekanFont = localFont({
 });
 
 const getWebTextPlans = cache(async () => {
-  const res = await fetch(`${BASE_URL}/web-text-plans`);
+  const res = await fetch(`${API_URL}/web-text-plans`);
   if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
   return res.json();
 });
@@ -35,15 +35,8 @@ async function fetchAppMetadata() {
   try {
     const data = await getWebTextPlans();
 
-    // Get current URL components
-    const headersList = headers();
-    const host = headersList.get("host");
-    const protocol = host?.includes("localhost") ? "http" : "https";
-    const pathname = headersList.get("x-invoke-path") || "";
-
     // Use existing canonical or fallback to current URL
-    const canonicalUrl =
-      data.homeCanonical || `${protocol}://${host}${pathname}`;
+    const canonicalUrl = data.homeCanonical || APP_URL;
 
     return {
       title: data.title || `${APP_TITLE}`,

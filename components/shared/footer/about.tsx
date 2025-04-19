@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Logo1 from "../logo-1";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 
 export default function About() {
   const [aboutUs, setAboutUs] = useState<string | null>();
@@ -12,7 +12,7 @@ export default function About() {
   useEffect(() => {
     const fetchFooterAboutData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        const res = await fetch(`${API_URL}/web-text-plans`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         setAboutUs(data.footerAboutUs);

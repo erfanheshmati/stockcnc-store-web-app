@@ -1,6 +1,6 @@
 "use client";
 
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BiAward, BiChevronDown } from "react-icons/bi";
@@ -22,7 +22,7 @@ export default function Info() {
   useEffect(() => {
     const fetchFooterInfo = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        const res = await fetch(`${API_URL}/web-text-plans`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         setAddress(data.address);

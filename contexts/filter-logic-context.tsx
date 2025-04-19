@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { Filter, Product, ProductArchiveFilterResponse } from "@/lib/types";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type NumericFilter = { min: number; max: number };
@@ -96,7 +96,7 @@ export function FiltersLogicProvider({
     const fetchFilteredProductCount = async () => {
       const queryString = buildQueryString();
       try {
-        const res = await fetch(`${BASE_URL}/product?${queryString}`);
+        const res = await fetch(`${API_URL}/product?${queryString}`);
         if (!res.ok) {
           throw new Error("Failed to fetch filtered products count!");
         }
@@ -113,7 +113,7 @@ export function FiltersLogicProvider({
   useEffect(() => {
     const fetchAttributes = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/product-archive-filter`);
+        const res = await fetch(`${API_URL}/product-archive-filter`);
         if (!res.ok) throw new Error("Error fetching filter attributes!");
         const data: ProductArchiveFilterResponse = await res.json();
         setAttributes(data.filters);
@@ -201,8 +201,8 @@ export function FiltersLogicProvider({
     const combinedQueryString = defaultParams.toString();
     try {
       const [productRes, filterRes] = await Promise.all([
-        fetch(`${BASE_URL}/product?${combinedQueryString}`),
-        fetch(`${BASE_URL}/product-archive-filter?${combinedQueryString}`),
+        fetch(`${API_URL}/product?${combinedQueryString}`),
+        fetch(`${API_URL}/product-archive-filter?${combinedQueryString}`),
       ]);
       if (!productRes.ok) {
         throw new Error("Failed to fetch filtered products!");

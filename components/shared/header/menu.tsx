@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import { useDialog } from "@/contexts/dialog-context";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import { HeaderMenu } from "@/lib/types";
 
 export default function Menu() {
@@ -32,7 +32,7 @@ export default function Menu() {
   useEffect(() => {
     const fetchMenusData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        const res = await fetch(`${API_URL}/web-text-plans`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         setMenusData(data.headerMenu);

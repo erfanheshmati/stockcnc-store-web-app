@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import HelpCard from "./help-card";
 import { Blog } from "@/lib/types";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 
 export default function Helps() {
   const [helpsData, setHelpsData] = useState<Blog[]>([]);
@@ -13,7 +13,7 @@ export default function Helps() {
   useEffect(() => {
     const fetchBlogsData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/blog?tutorial=true`);
+        const res = await fetch(`${API_URL}/blog?tutorial=true`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         setHelpsData(data.docs);

@@ -9,7 +9,7 @@ import Link from "next/link";
 import BlogCard from "./blog-card";
 import { BiChevronLeft } from "react-icons/bi";
 import { useEffect, useState } from "react";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import { Blog } from "@/lib/types";
 
 export default function Blogs() {
@@ -19,7 +19,7 @@ export default function Blogs() {
   useEffect(() => {
     const fetchBlogsData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/blog?page=1&limit=10`);
+        const res = await fetch(`${API_URL}/blog?page=1&limit=10`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         setBlogsData(data.docs);

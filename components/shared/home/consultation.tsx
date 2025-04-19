@@ -1,4 +1,4 @@
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BiArrowFromRight } from "react-icons/bi";
@@ -9,7 +9,7 @@ export default function Consultation() {
   useEffect(() => {
     const fetchFooterInfo = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        const res = await fetch(`${API_URL}/web-text-plans`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         setWhatsapp(data.whatsapp);

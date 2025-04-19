@@ -1,4 +1,3 @@
-import { headers } from "next/headers";
 import { notFound, permanentRedirect, redirect } from "next/navigation";
 import BannerThin from "@/components/shared/banner-thin";
 import Sitemap from "./site-map";
@@ -11,7 +10,7 @@ import ViewMobile from "./view-mobile";
 import DialogFilters from "./dialog-filters";
 import ButtonsMobile from "./buttons-mobile";
 import { FilterProvider } from "@/contexts/filter-popup-context";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL, APP_URL } from "@/lib/constants";
 import { Category } from "@/lib/types";
 import { FiltersLogicProvider } from "@/contexts/filter-logic-context";
 import SortSwitch from "./sort-switch";
@@ -26,8 +25,8 @@ export async function generateMetadata({
 }) {
   const catQuery = searchParams.category;
 
-  const res1 = await fetch(`${BASE_URL}/category`);
-  const res2 = await fetch(`${BASE_URL}/web-text-plans`);
+  const res1 = await fetch(`${API_URL}/category`);
+  const res2 = await fetch(`${API_URL}/web-text-plans`);
 
   if (!res1.ok || !res2.ok) {
     return {
@@ -42,15 +41,8 @@ export async function generateMetadata({
     (cat: Category) => cat._id === catQuery
   );
 
-  // Get current URL components
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = host?.includes("localhost") ? "http" : "https";
-  const pathname = headersList.get("x-invoke-path") || "/archiv";
-
   // Use existing canonical or fallback to current URL
-  const canonicalUrl =
-    info.archiveProductCanonical || `${protocol}://${host}${pathname}`;
+  const canonicalUrl = info.archiveProductCanonical || `${APP_URL}/archiv`;
 
   return {
     title: `${category?.seoTitle || info.archiveProductSeoTitle} - ${
@@ -82,12 +74,12 @@ export default async function ArchivePage({
 
   let error: string | null = null;
 
-  const res1 = await fetch(`${BASE_URL}/web-text-plans`);
-  const res2 = await fetch(`${BASE_URL}/category`);
+  const res1 = await fetch(`${API_URL}/web-text-plans`);
+  const res2 = await fetch(`${API_URL}/category`);
   const res3 = await fetch(
-    // `${BASE_URL}/product?page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}&q=${searchQuery}&sort=${sortQuery}`,
-    `${BASE_URL}/product?category=${categoryQuery}&q=${searchQuery}&sort=${sortQuery}`,
-    // `${BASE_URL}/product`,
+    // `${API_URL}/product?page=${pageQuery}&limit=${limitQuery}&category=${categoryQuery}&q=${searchQuery}&sort=${sortQuery}`,
+    `${API_URL}/product?category=${categoryQuery}&q=${searchQuery}&sort=${sortQuery}`,
+    // `${API_URL}/product`,
     { cache: "no-store" }
   );
 

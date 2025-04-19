@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import { BiArrowFromLeft, BiArrowFromRight } from "react-icons/bi";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { BASE_URL, IMAGE_URL } from "@/lib/constants";
+import { API_URL, IMAGE_URL } from "@/lib/constants";
 import { BannerSlider } from "@/lib/types";
 
 export default function Banner({ children }: { children: React.ReactNode }) {
@@ -20,7 +20,7 @@ export default function Banner({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const fetchBannersData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        const res = await fetch(`${API_URL}/web-text-plans`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         const sortedBanners = data.banners.sort(

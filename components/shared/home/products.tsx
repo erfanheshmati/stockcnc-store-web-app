@@ -9,7 +9,7 @@ import "swiper/css/navigation";
 import Link from "next/link";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import ProductCard from "./product-card";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import { Product } from "@/lib/types";
 
@@ -25,7 +25,7 @@ export default function Products({
   useEffect(() => {
     const fetchProductsData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/product?brand=${selectedBrand}`, {
+        const res = await fetch(`${API_URL}/product?brand=${selectedBrand}`, {
           cache: "no-store",
         });
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
@@ -42,7 +42,7 @@ export default function Products({
     const fetchBrandName = async () => {
       if (selectedBrand) {
         try {
-          const res = await fetch(`${BASE_URL}/brand`);
+          const res = await fetch(`${API_URL}/brand`);
           if (!res.ok) throw new Error("خطا در دریافت اطلاعات برند!");
           const data = await res.json();
           const brand = data.find(

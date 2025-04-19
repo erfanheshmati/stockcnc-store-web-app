@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useView } from "@/contexts/view-context";
 import { useEffect, useState } from "react";
 import { Product } from "@/lib/types";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import Loading from "@/app/loading";
 
 export default function ViewGrid() {
@@ -28,7 +28,7 @@ export default function ViewGrid() {
       setLoading(true);
       // Append current search params to the API request
       const query = searchParams.toString();
-      const response = await fetch(`${BASE_URL}/product?page=${page}&${query}`);
+      const response = await fetch(`${API_URL}/product?page=${page}&${query}`);
       if (!response.ok) throw new Error("Failed to fetch products");
       const data = await response.json();
       setVisibleProducts((prev) => [...prev, ...data.docs]); // Merge new products with existing ones

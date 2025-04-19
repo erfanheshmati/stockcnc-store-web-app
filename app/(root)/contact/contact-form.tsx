@@ -1,6 +1,6 @@
 "use client";
 
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import { notifyError, notifySuccess } from "@/lib/toast";
 import { ChangeEvent, FormEvent, useState } from "react";
 
@@ -42,7 +42,7 @@ export default function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`${BASE_URL}/message`, {
+      const response = await fetch(`${API_URL}/message`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

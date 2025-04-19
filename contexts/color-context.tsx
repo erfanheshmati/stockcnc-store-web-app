@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 function hexToHSL(hex: string) {
@@ -51,7 +51,7 @@ export const ColorsProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchColors = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        const res = await fetch(`${API_URL}/web-text-plans`);
         const colorsData = await res.json();
 
         // Convert HEX to HSL if needed

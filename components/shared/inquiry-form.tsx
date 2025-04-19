@@ -1,7 +1,7 @@
 "use client";
 
 import { useDialog } from "@/contexts/dialog-context";
-import { BASE_URL } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import { notifyError, notifySuccess } from "@/lib/toast";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -19,7 +19,7 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
   useEffect(() => {
     const fetchSupportPhone = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/web-text-plans`);
+        const res = await fetch(`${API_URL}/web-text-plans`);
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         setSupportPhone(data.supportTelephone);
@@ -63,7 +63,7 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
           ...(productId && { product: productId }), // Conditionally add productId if it exists
         };
 
-        const response = await fetch(`${BASE_URL}/price-inquiry`, {
+        const response = await fetch(`${API_URL}/price-inquiry`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

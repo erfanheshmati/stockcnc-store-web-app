@@ -1,6 +1,6 @@
 "use client";
 
-import { BASE_URL, IMAGE_URL } from "@/lib/constants";
+import { API_URL, IMAGE_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -22,7 +22,7 @@ export default function Logo1({ className }: { className: string }) {
         }
       }
       try {
-        const res = await fetch(`${BASE_URL}/web-text-plans`, {
+        const res = await fetch(`${API_URL}/web-text-plans`, {
           cache: "force-cache", // Browser caching
         });
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
