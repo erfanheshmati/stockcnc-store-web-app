@@ -5,7 +5,7 @@ export default function Logo2({ className }: { className: string }) {
   return (
     <Link href="/">
       <img
-        src="/icons/stock-cnc.png"
+        src="/icons/stock-cnc-mobile.png"
         alt="Logo"
         className={cn("w-[40px]", className)}
       />

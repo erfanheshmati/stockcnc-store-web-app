@@ -6,6 +6,7 @@ import { BiMenu } from "react-icons/bi";
 import { useDialog } from "@/contexts/dialog-context";
 import { API_URL } from "@/lib/constants";
 import { HeaderMenu } from "@/lib/types";
+import Logo3 from "../logo-3";
 
 export default function Menu() {
   const { openDialog } = useDialog();
@@ -65,13 +66,7 @@ export default function Menu() {
             <ul className="flex flex-col gap-5 px-4 pt-5">
               {/* Logo */}
               <div className="flex flex-col items-center">
-                <Link href="/">
-                  <img
-                    src="/icons/stock-cnc-mobile.png"
-                    alt="Logo"
-                    className="w-[120px]"
-                  />
-                </Link>
+                <Logo3 className="w-[120px]" />
               </div>
               <hr className="opacity-20" />
               {error && <p className="text-red-500">{error}</p>}
@@ -164,7 +159,7 @@ export default function Menu() {
               width="30"
               height="30"
               viewBox="0 0 33 33"
-              className=" flashing-light"
+              className="flashing-light"
             >
               <path
                 fill="#21b074"

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Logo1 from "../logo-1";
 import { API_URL } from "@/lib/constants";
+import Logo3 from "../logo-3";
 
 export default function About() {
   const [aboutUs, setAboutUs] = useState<string | null>();
@@ -28,7 +28,7 @@ export default function About() {
     <div className="hidden lg:flex flex-col w-1/3 z-10">
       <div className="flex items-center justify-between">
         <h2 className="text-white font-bold text-[15px]">درباره {title}</h2>
-        <Logo1 className="w-[130px]" />
+        <Logo3 className="w-[130px]" />
       </div>
       {error && <p className="text-red-500 text-center w-full">{error}</p>}
       {!error && (

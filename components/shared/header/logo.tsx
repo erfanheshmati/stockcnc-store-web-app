@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Logo2 from "../logo-2";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Logo3 from "../logo-3";
 
 export default function Logo() {
   const pathname = usePathname();
@@ -37,13 +37,7 @@ export default function Logo() {
         isVisible ? "block md:hidden lg:block" : "md:hidden"
       } absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[2]`}
     >
-      <Link href="/">
-        <img
-          src="/icons/stock-cnc-mobile.png"
-          alt="Logo"
-          className="hidden md:block w-[130px]"
-        />
-      </Link>
+      <Logo3 className="hidden md:block w-[130px]" />
       <Logo2 className="block md:hidden" />
     </div>
   );

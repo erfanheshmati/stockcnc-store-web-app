@@ -301,7 +301,7 @@ export default async function ContactPage() {
                     مشاهده در نشان
                   </span>
                   <img
-                    src="/icons/neshan.png"
+                    src="/icons/neshan.svg"
                     alt="Neshan Logo"
                     className="w-[20px] h-[20px]"
                   />
@@ -454,7 +454,7 @@ export default async function ContactPage() {
                   className="flex items-center gap-1 hover:underline"
                 >
                   <img
-                    src="/icons/neshan.png"
+                    src="/icons/neshan.svg"
                     alt="Neshan Logo"
                     className="w-[22px] h-[22px]"
                   />
