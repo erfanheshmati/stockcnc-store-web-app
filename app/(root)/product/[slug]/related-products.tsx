@@ -79,7 +79,7 @@ export default function RelatedProducts({
         <div className="flex items-center justify-between">
           <h3 className="text-primary font-bold text-[24px]">محصولات مرتبط</h3>
           <Link
-            href="/archiv"
+            href={`/archiv?category=${proCatId}`}
             className="flex items-center gap-4 hover:underline"
           >
             <span className="pt-1">مشاهده همه محصولات</span>
@@ -98,6 +98,7 @@ export default function RelatedProducts({
           <Swiper
             slidesPerView={4}
             spaceBetween={0}
+            grabCursor={true}
             breakpoints={{
               768: {
                 slidesPerView: 2,

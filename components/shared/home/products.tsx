@@ -180,6 +180,7 @@ export default function Products({
           <Swiper
             slidesPerView={3}
             spaceBetween={0}
+            grabCursor={true}
             breakpoints={{
               768: {
                 slidesPerView: 1,

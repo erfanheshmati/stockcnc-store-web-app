@@ -135,6 +135,7 @@ export default function Blogs() {
           <Swiper
             slidesPerView={2}
             spaceBetween={0}
+            grabCursor={true}
             breakpoints={{
               768: {
                 slidesPerView: 1,
