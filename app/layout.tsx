@@ -68,9 +68,6 @@ export async function generateMetadata(): Promise<Metadata> {
     icons: {
       icon: `${IMAGE_URL}/${appMetadata.favicon}`,
     },
-    other: {
-      "google-site-verification": "S6sI3j1U7NWPtgmEEGBxbtEsBJM3JjWLH9P4MK1MEDU",
-    },
   };
 }
 
