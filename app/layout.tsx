@@ -11,6 +11,8 @@ import {
   IMAGE_URL,
   APP_URL,
 } from "@/lib/constants";
+import { GoogleTagManagerHead } from "@/components/gtm/google-tag-manager-head";
+import { GoogleTagManagerBody } from "@/components/gtm/google-tag-manager-body";
 
 const yekanFont = localFont({
   src: [
@@ -89,7 +91,13 @@ export default async function RootLayout({
 
   return (
     <html lang="fa" dir="rtl">
-      <body className={yekanFont.className}>{children}</body>
+      <head>
+        <GoogleTagManagerHead />
+      </head>
+      <body className={yekanFont.className}>
+        {children}
+        <GoogleTagManagerBody />
+      </body>
     </html>
   );
 }
