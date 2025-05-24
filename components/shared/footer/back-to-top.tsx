@@ -3,12 +3,23 @@
 import { BiChevronUp } from "react-icons/bi";
 
 export default function BackToTop() {
-  // Smooth scroll to the top
+  // Smooth scroll to the top (works in all browsers)
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    const start = window.scrollY;
+    const duration = 500;
+    const startTime = performance.now();
+
+    const animateScroll = (timestamp: number) => {
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, start * (1 - progress));
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
   };
 
   return (
