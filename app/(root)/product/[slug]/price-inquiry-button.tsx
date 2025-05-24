@@ -33,7 +33,7 @@ export default function PriceInquiryButton({ data }: { data: Product }) {
       {!data.available && (
         <button
           onClick={() => openDialog(data._id)}
-          className="hidden md:block text-white font-bold text-[17px] bg-primary py-6 px-10 rounded-md hover:opacity-80 transition-all duration-300 ease-in-out"
+          className="hidden md:block w-full text-white font-bold text-[17px] bg-primary py-6 px-8 rounded-md hover:opacity-80 transition-all duration-300 ease-in-out"
         >
           موجود شد به من اطلاع بده
         </button>
@@ -42,7 +42,7 @@ export default function PriceInquiryButton({ data }: { data: Product }) {
       {data.available && (
         <button
           onClick={() => openDialog(data._id)}
-          className="hidden md:block text-white font-bold text-[17px] bg-accent py-6 px-10 rounded-md hover:opacity-80 transition-all duration-300 ease-in-out"
+          className="hidden md:block w-full text-white font-bold text-[17px] bg-accent py-6 px-8 rounded-md hover:opacity-80 transition-all duration-300 ease-in-out"
         >
           استعلام فوری قیمت
         </button>

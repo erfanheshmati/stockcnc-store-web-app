@@ -12,6 +12,8 @@ import RelatedProducts from "./related-products";
 import PriceInquiryButton from "./price-inquiry-button";
 import DialogInquiry from "../../dialog-inquiry";
 import { API_URL, APP_URL } from "@/lib/constants";
+import Consultation from "./consultation";
+import ProductAvailablity from "./product-availablity";
 
 export async function generateMetadata({
   params,
@@ -105,22 +107,26 @@ export default async function ProductDetails({
 
         {/* Product Content */}
         <div className="bg-gradient-to-t from-gray-50 via-white to-white">
-          <div className="wrapper flex flex-col-reverse lg:flex-row items-center gap-10 py-12">
+          <div className="wrapper flex flex-col-reverse lg:flex-row gap-14 py-12">
             {/* Right Side */}
-            <div className="flex flex-col w-full gap-10 lg:w-1/2 xl:w-7/12 pt-10 lg:pt-0">
+            <div className="flex flex-col w-full lg:w-1/2 xl:w-7/12 pt-10 lg:pt-0">
               <ProductIntroduce index={2} data={data} />
             </div>
             {/* Left Side */}
-            <div className="flex flex-col w-full lg:w-1/2 xl:w-5/12">
+            <div className="flex flex-col justify-between gap-8 w-full lg:w-1/2 xl:w-5/12">
               <ProductImages data={data} />
+              <ProductAvailablity data={data} />
             </div>
           </div>
         </div>
 
         {/* Product Info */}
-        <div className="wrapper flex flex-col lg:flex-row items-start gap-0 lg:gap-10 xl:gap-20 py-12">
+        <div className="wrapper flex flex-col lg:flex-row items-start gap-14 py-12">
           <ProductInfo index={2} data={data} />
-          <ProductHealthCard index={2} data={data} />
+          <div className="flex flex-col gap-8 w-full lg:w-1/2 xl:w-5/12">
+            <ProductHealthCard index={2} data={data} />
+            <Consultation productId={params.slug} />
+          </div>
         </div>
 
         {/* Related Products */}

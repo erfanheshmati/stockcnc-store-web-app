@@ -1,11 +1,11 @@
 "use client";
 
-import PriceInquiryButton from "./price-inquiry-button";
+// import PriceInquiryButton from "./price-inquiry-button";
 import {
   BiArrowFromTop,
-  BiChevronDown,
+  // BiChevronDown,
   BiLeftArrow,
-  BiXCircle,
+  // BiXCircle,
 } from "react-icons/bi";
 import { useAccordion } from "@/contexts/accordion-context";
 import { Product } from "@/lib/types";
@@ -148,24 +148,38 @@ export default function ProductIntroduce({
       {/* ********************************************************************************************************************** */}
 
       {/* Desktop View */}
-      <div className="hidden md:flex flex-col gap-6">
+      <div className="hidden md:flex flex-col gap-6 h-full">
         {/* Product Title */}
-        <div className="flex flex-col gap-6">
-          <h1 className="text-primary font-sans font-bold text-[28px] line-clamp-1">
-            {data.enTitle}
-          </h1>
-          <div className="flex items-center justify-between lg:max-w-md">
-            <h2 className="text-secondary/70 text-[14px]">{data.title}</h2>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <h1 className="text-primary font-sans font-bold text-[28px] line-clamp-1">
+              {data.enTitle}
+            </h1>
             <img
               src={`${IMAGE_URL}/${data.brand.logo}`}
               alt={data.brand.title}
               className="max-w-24 max-h-8"
             />
           </div>
-        </div>
-        {/* Product Specifications */}
-        <div className="flex flex-col gap-5 w-full lg:max-w-md h-[300px]">
           <div className="flex items-center justify-between">
+            <h2 className="text-secondary/90 text-[14px]">{data.title}</h2>
+            <div className="flex items-center gap-2">
+              <span className="text-primary font-bold text-[15px]">
+                {data.country.title}
+              </span>
+              <img
+                src={`${IMAGE_URL}/${data.country.logo}`}
+                alt={data.country.title}
+                width={20}
+                height={20}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Product Specifications */}
+        {/* <div className="flex flex-col gap-5 w-full lg:max-w-md h-[300px]"> */}
+        {/* <div className="flex items-center justify-between">
             <span className="font-semibold text-[16px]">مشخصات دستگاه</span>
             <button
               onClick={() => toggleAccordion(index)}
@@ -184,10 +198,10 @@ export default function ProductIntroduce({
                 />
               </span>
             </button>
-          </div>
+          </div> */}
 
-          {/* Specifications Rows */}
-          <div className="flex items-center justify-between">
+        {/* Specifications Rows */}
+        {/* <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <BiLeftArrow size={14} className="text-secondary/60" />
               <span className="text-secondary font-semibold text-[14px]">
@@ -215,15 +229,15 @@ export default function ProductIntroduce({
                 height={20}
               />
             </div>
-          </div>
+          </div> */}
 
-          {/* {data.attributes.length === 0 && (
+        {/* {data.attributes.length === 0 && (
             <p className="flex items-center justify-center h-full text-secondary text-sm">
               مشخصاتی برای نمایش وجود ندارد
             </p>
           )} */}
 
-          {data.attributes.slice(0, 5).map((item) => {
+        {/* {data.attributes.slice(0, 5).map((item) => {
             // Check if item.value contains at least one English letter
             const hasEnglish = /[A-Za-z]/.test(item.value);
 
@@ -261,10 +275,11 @@ export default function ProductIntroduce({
                 </div>
               </div>
             );
-          })}
-        </div>
+          })} */}
+        {/* </div> */}
+
         {/* Price Inquiry */}
-        <div className="flex items-center gap-4">
+        {/* <div className="flex items-center gap-4">
           <div className="flex lg:hidden xl:flex items-center gap-8 bg-[#F0F2F7] py-6 px-10 rounded-md">
             {!data.available && (
               <>
@@ -302,6 +317,114 @@ export default function ProductIntroduce({
             )}
           </div>
           <PriceInquiryButton data={data} />
+        </div> */}
+
+        {/* Product Specifications */}
+        <div className="flex flex-col gap-4 h-full">
+          {/* Heading */}
+          <div className="flex items-center border-b">
+            <h3 className="text-[18px] text-primary font-bold pb-4">
+              مشخصات محصول
+            </h3>
+          </div>
+          {/* Content */}
+          <div className="flex flex-col h-full">
+            <div className="flex items-start gap-6">
+              {/* Column 1 */}
+              <div className="flex flex-col gap-1 w-full">
+                {data.attributes.length === 0 && (
+                  <p className="flex items-center justify-start text-secondary text-sm">
+                    مشخصاتی برای نمایش وجود ندارد
+                  </p>
+                )}
+
+                {data.attributes
+                  .slice(0, Math.ceil(data.attributes.length / 2)) // First half of the array
+                  .map((item, idx) => {
+                    // Check if item.value contains at least one English letter
+                    const hasEnglish = /[A-Za-z]/.test(item.value);
+
+                    return (
+                      <div
+                        key={idx}
+                        className={`flex items-center justify-between p-4 ${
+                          idx % 2 !== 0
+                            ? "rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
+                            : ""
+                        }`}
+                      >
+                        <h3 className="text-[#1F2329] font-medium text-[14px] line-clamp-1">
+                          {item.attribute?.title}
+                        </h3>
+                        <span
+                          dir={hasEnglish ? "ltr" : "rtl"}
+                          className={`text-primary font-bold text-[15px] ${
+                            hasEnglish ? "font-sans" : ""
+                          }`}
+                        >
+                          {typeof item.value === "boolean"
+                            ? item.value
+                              ? "دارد"
+                              : "ندارد"
+                            : item.value}
+                        </span>
+                      </div>
+                    );
+                  })}
+              </div>
+
+              {/* Column 2 */}
+              <div className="flex flex-col gap-1 w-full">
+                {data.attributes
+                  .slice(Math.ceil(data.attributes.length / 2)) // Second half of the array
+                  .map((item, idx) => {
+                    // Check if item.value contains at least one English letter
+                    const hasEnglish = /[A-Za-z]/.test(item.value);
+
+                    return (
+                      <div
+                        key={idx}
+                        className={`flex items-center justify-between p-4 ${
+                          idx % 2 !== 0
+                            ? "rounded-lg border bg-gradient-to-l from-[#f9fafc] to-white"
+                            : ""
+                        }`}
+                      >
+                        <h3 className="text-[#1F2329] font-medium text-[14px] line-clamp-1">
+                          {item.attribute?.title}
+                        </h3>
+                        <span
+                          dir={hasEnglish ? "ltr" : "rtl"}
+                          className={`text-primary font-bold text-[15px] ${
+                            hasEnglish ? "font-sans" : ""
+                          }`}
+                        >
+                          {typeof item.value === "boolean"
+                            ? item.value
+                              ? "دارد"
+                              : "ندارد"
+                            : item.value}
+                        </span>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+            <div className="flex items-center gap-8 mt-auto p-6 rounded-lg border bg-gradient-to-r from-[#f9fafc] to-white">
+              <h3 className="text-black/80 font-semibold text-[14px]">
+                آپشن های این دستگاه
+              </h3>
+              <div className="flex items-center gap-2">
+                <span className="text-primary font-bold text-[14px]">
+                  {data.options}
+                </span>
+                <span className="text-primary font-medium text-[10px]">•</span>
+                <span className="text-primary font-bold text-[14px]">
+                  {data.condition}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

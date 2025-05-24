@@ -73,11 +73,12 @@ export default function ProductImages({ data }: { data: Product }) {
       <div className="hidden md:flex flex-col gap-6 relative">
         {/* Main Image */}
         <div
-          className={`flex items-center justify-center bg-secondary/10 rounded-xl h-auto  relative ${
+          className={`flex items-center justify-center bg-secondary/10 rounded-xl h-auto relative ${
             loadedUrls.has(`${IMAGE_URL}/720${data.gallery[current]}`) &&
             "border"
           }`}
         >
+          {/* Loader */}
           {!loadedUrls.has(`${IMAGE_URL}/720${data.gallery[current]}`) && (
             <div className="absolute inset-0 bg-gray-200 flex items-center justify-center min-h-full rounded-xl z-10">
               <Loader className="animate-spin" />
@@ -96,11 +97,43 @@ export default function ProductImages({ data }: { data: Product }) {
             loadedUrls.has(`${IMAGE_URL}/720${data.gallery[current]}`) && (
               <button
                 onClick={() => setIsFullScreen(true)}
-                className="absolute top-4 left-4 bg-primary p-2 rounded-full hover:opacity-80 z-10 transition-all duration-300 ease-in-out"
+                className="absolute top-2 left-2 bg-primary p-[10px] rounded-full opacity-70 hover:opacity-100 z-10 transition-all duration-300 ease-in-out"
               >
                 <SlSizeFullscreen size={14} className="text-white" />
               </button>
             )}
+          {/* Prev Button */}
+          {data.gallery.length > 1 && (
+            <button
+              onClick={() => setCurrent((prev) => (prev > 0 ? prev - 1 : prev))}
+              className={`hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 bg-primary px-1 py-4 rounded-full opacity-70 transition-all duration-300 ease-in-out ${
+                current === 0 ? "hover:opacity-70" : "hover:opacity-100"
+              }`}
+              aria-label="Previous image"
+              disabled={current === 0}
+            >
+              <BiChevronLeft size={24} className="text-white" />
+            </button>
+          )}
+          {/* Next Button */}
+          {data.gallery.length > 1 && (
+            <button
+              onClick={() =>
+                setCurrent((prev) =>
+                  prev < data.gallery.length - 1 ? prev + 1 : prev
+                )
+              }
+              className={`hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 bg-primary px-1 py-4 rounded-full opacity-70 transition-all duration-300 ease-in-out ${
+                current === data.gallery.length - 1
+                  ? "hover:opacity-70"
+                  : "hover:opacity-100"
+              }`}
+              aria-label="Next image"
+              disabled={current === data.gallery.length - 1}
+            >
+              <BiChevronRight size={24} className="text-white" />
+            </button>
+          )}
         </div>
 
         {/* Fullscreen View */}

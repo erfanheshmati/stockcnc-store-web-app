@@ -75,14 +75,14 @@ export default function RelatedProducts({
       {/* ************************************************************************************************************************** */}
 
       {/* Desktop View */}
-      <div className="hidden md:flex flex-col w-full mb-20">
+      <div className="hidden md:flex flex-col w-full my-20">
         <div className="flex items-center justify-between">
           <h3 className="text-primary font-bold text-[24px]">محصولات مرتبط</h3>
           <Link
             href={`/archiv?category=${proCatId}`}
             className="flex items-center gap-4 hover:underline"
           >
-            <span className="pt-1">مشاهده همه محصولات</span>
+            <span className="pt-1">مشاهده همه محصولات مرتبط</span>
             <span className="flex items-center justify-center bg-secondary">
               <BiChevronLeft size={18} color="white" />
             </span>

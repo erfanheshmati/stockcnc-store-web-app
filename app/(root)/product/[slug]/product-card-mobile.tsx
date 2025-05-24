@@ -9,11 +9,11 @@ export default function ProductCardMobile({ product }: { product: Product }) {
   return (
     <div className="flex flex-col p-5 m-1 gap-2 rounded-xl shadow-md">
       <div
-        className={`flex items-start justify-between ${
+        className={`flex items-start justify-between gap-4 ${
           !product.available ? "opacity-70" : ""
         }`}
       >
-        <div className="flex w-8/12 h-auto rounded-xl bg-[#EFF1F6]">
+        <div className="flex w-auto h-auto rounded-xl bg-[#EFF1F6]">
           <Link href={`/product/${product._id}`} target="_blank">
             <img
               src={`${IMAGE_URL}/360${product.primaryImage}`}
