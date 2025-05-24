@@ -39,8 +39,7 @@ export default function Consultation() {
               <img
                 src="/icons/stock-cnc.png"
                 alt="Logo"
-                width={40}
-                height={40}
+                className="w-[80px] sm:w-[90px] h-auto"
               />
             </div>
           </div>
@@ -62,7 +61,11 @@ export default function Consultation() {
             <h4 className="text-white/90 text-[16px]">جهت خرید دستگاه ها</h4>
           </div>
           <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <img src="/icons/stock-cnc.png" alt="Logo" width={60} height={60} />
+            <img
+              src="/icons/stock-cnc.png"
+              alt="Logo"
+              className="w-[120px] h-auto"
+            />
           </div>
           <div className="flex items-center">
             <Link href={`${whatsapp}`} target="_blank">
