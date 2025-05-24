@@ -70,10 +70,10 @@ export default function Products({
           </h2>
           <div className="wrapper !px-0 relative pt-4">
             {/* Custom arrows */}
-            <div className="custom-swiper-button-prev left-4 inset-y-1/2 bg-primary flex items-center justify-center rounded-full w-10 h-10 z-[5]">
+            <div className="custom-swiper-button-next left-4 inset-y-1/2 bg-primary opacity-80 hover:opacity-100 flex items-center justify-center rounded-full w-10 h-10 z-[5]">
               <BiChevronLeft size={19} color="white" />
             </div>
-            <div className="custom-swiper-button-next right-4 inset-y-1/2 bg-primary flex items-center justify-center rounded-full w-10 h-10 z-[5]">
+            <div className="custom-swiper-button-prev right-4 inset-y-1/2 bg-primary opacity-80 hover:opacity-100 flex items-center justify-center rounded-full w-10 h-10 z-[5]">
               <BiChevronRight size={19} color="white" />
             </div>
             <div className="h-[362px]">
@@ -110,7 +110,7 @@ export default function Products({
                   },
                   450: {
                     slidesPerView: 1,
-                    spaceBetween: -180,
+                    spaceBetween: -200,
                   },
                   500: {
                     slidesPerView: 2,
