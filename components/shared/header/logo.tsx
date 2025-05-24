@@ -34,7 +34,7 @@ export default function Logo() {
   return (
     <div
       className={`${
-        isVisible ? "block md:hidden lg:block" : "md:hidden"
+        isVisible ? "block md:hidden xl:block" : "md:hidden"
       } absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[2]`}
     >
       <Logo3 className="hidden md:block w-[130px]" />
