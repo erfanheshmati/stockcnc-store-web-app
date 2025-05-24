@@ -15,16 +15,18 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [supportPhone, setSupportPhone] = useState<string | null>();
+  const [phoneError, setPhoneError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSupportPhone = async () => {
       try {
-        const res = await fetch(`${API_URL}/web-text-plans`);
+        // const res = await fetch(`${API_URL}/web-text-plans`);
+        const res = await fetch("/api/support-phone");
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         setSupportPhone(data.supportTelephone);
       } catch (error) {
-        setError((error as Error).message);
+        setPhoneError((error as Error).message);
       }
     };
     fetchSupportPhone();
@@ -349,9 +351,11 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
             className="flex items-center justify-center w-full relative"
           >
             <div className="flex items-center justify-center bg-[#015BA51C] w-full p-4 rounded-2xl relative">
-              {error && <span className="text-red-500 pt-1">{error}</span>}
+              {phoneError && (
+                <span className="text-red-500 pt-1">{phoneError}</span>
+              )}
               <span className="text-primary font-bold text-[20px]" dir="ltr">
-                {!error && supportPhone}
+                {!phoneError && supportPhone}
               </span>
               <span className="absolute left-6 sm:left-10">
                 <BiPhoneCall size={26} color="#015BA5" />
@@ -632,9 +636,11 @@ export default function InquiryForm({ onClose }: { onClose: () => void }) {
               className="flex items-center justify-center w-full relative"
             >
               <div className="flex items-center justify-center w-full p-5 rounded-lg bg-[#015BA51C] hover:opacity-70 transition-all duration-300 ease-in-out">
-                {error && <span className="text-red-500 pt-1">{error}</span>}
+                {phoneError && (
+                  <span className="text-red-500 pt-1">{phoneError}</span>
+                )}
                 <span className="text-primary font-bold text-[23px]" dir="ltr">
-                  {!error && supportPhone}
+                  {!phoneError && supportPhone}
                 </span>
                 <span className="absolute left-10">
                   <BiPhoneCall size={26} color="#015BA5" />
