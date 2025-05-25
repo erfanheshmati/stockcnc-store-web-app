@@ -38,6 +38,15 @@ export default function AdvancedFilter({ className }: { className: string }) {
   const [selectedControl, setSelectedControl] = useState("");
   const [selectedAxisCount, setSelectedAxisCount] = useState("");
 
+  // Track if screen is small (below 'sm')
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  useEffect(() => {
+    const checkScreen = () => setIsSmallScreen(window.innerWidth < 640);
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
+
   // Get options from context (they will update as context state changes)
   const deviceTypeOptions =
     deviceTypeFilter?.type === "string" ? deviceTypeFilter.value : [];
@@ -194,12 +203,14 @@ export default function AdvancedFilter({ className }: { className: string }) {
             ))}
           </select>
           {/* Custom Arrow Icon */}
-          <div className="flex items-center gap-2 absolute top-1/2 left-0 sm:left-2 md:left-4 transform -translate-y-1/2 pointer-events-none">
-            <span className="hidden lg:block text-[#8C9EB9] text-[12px]">
-              انتخاب کنید
-            </span>
-            <BiChevronDown className="fill-[#536683]" />
-          </div>
+          {(!isSmallScreen || selectedDeviceType === "") && (
+            <div className="flex items-center gap-2 absolute top-1/2 left-0 sm:left-2 md:left-4 transform -translate-y-1/2 pointer-events-none">
+              <span className="hidden lg:block text-[#8C9EB9] text-[12px]">
+                انتخاب کنید
+              </span>
+              <BiChevronDown className="fill-[#536683]" />
+            </div>
+          )}
         </div>
         {/* Filter 2: کنترل */}
         <div className="relative">
@@ -217,12 +228,14 @@ export default function AdvancedFilter({ className }: { className: string }) {
             ))}
           </select>
           {/* Custom Arrow Icon */}
-          <div className="flex items-center gap-2 absolute top-1/2 left-0 sm:left-2 md:left-4 transform -translate-y-1/2 pointer-events-none">
-            <span className="hidden lg:block text-[#8C9EB9] text-[12px]">
-              انتخاب کنید
-            </span>
-            <BiChevronDown className="fill-[#536683]" />
-          </div>
+          {(!isSmallScreen || selectedControl === "") && (
+            <div className="flex items-center gap-2 absolute top-1/2 left-0 sm:left-2 md:left-4 transform -translate-y-1/2 pointer-events-none">
+              <span className="hidden lg:block text-[#8C9EB9] text-[12px]">
+                انتخاب کنید
+              </span>
+              <BiChevronDown className="fill-[#536683]" />
+            </div>
+          )}
         </div>
         {/* Filter 3: تعداد محور */}
         <div className="relative">
@@ -240,12 +253,14 @@ export default function AdvancedFilter({ className }: { className: string }) {
             ))}
           </select>
           {/* Custom Arrow Icon */}
-          <div className="flex items-center gap-2 absolute top-1/2 left-0 sm:left-2 md:left-4 transform -translate-y-1/2 pointer-events-none">
-            <span className="hidden lg:block text-[#8C9EB9] text-[12px]">
-              انتخاب کنید
-            </span>
-            <BiChevronDown className="fill-[#536683]" />
-          </div>
+          {(!isSmallScreen || selectedAxisCount === "") && (
+            <div className="flex items-center gap-2 absolute top-1/2 left-0 sm:left-2 md:left-4 transform -translate-y-1/2 pointer-events-none">
+              <span className="hidden lg:block text-[#8C9EB9] text-[12px]">
+                انتخاب کنید
+              </span>
+              <BiChevronDown className="fill-[#536683]" />
+            </div>
+          )}
         </div>
         <button
           className="disabled:opacity-50"
