@@ -12,6 +12,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { API_URL, IMAGE_URL } from "@/lib/constants";
 import { BannerSlider } from "@/lib/types";
+import AdvancedFilter from "./advanced-filter";
+import { FiltersLogicProvider } from "@/contexts/filter-logic-context";
 
 export default function Banner({ children }: { children: React.ReactNode }) {
   const [bannersData, setBannersData] = useState<BannerSlider[]>([]);
@@ -35,9 +37,18 @@ export default function Banner({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="h-[160px] sm:h-[220px] md:h-[260px] xl:h-[390px] bg-primary relative flex">
+    <div className="h-[180px] sm:h-[220px] md:h-[260px] xl:h-[390px] bg-primary relative flex">
       {/* Banner Background Layer */}
       <div className="absolute inset-0 bg-header-background bg-center bg-cover opacity-[2%]"></div>
+
+      {/* Advanced Filter */}
+      <FiltersLogicProvider
+        initialProducts={[]}
+        suppressAutoApply={true}
+        suppressUrlUpdate={true}
+      >
+        <AdvancedFilter className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" />
+      </FiltersLogicProvider>
 
       {/* Banner Content */}
       <div className="flex justify-center w-full z-[1] relative">

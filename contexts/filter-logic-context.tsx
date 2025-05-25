@@ -46,9 +46,13 @@ const FiltersLogicContext = createContext<FiltersContextType | undefined>(
 export function FiltersLogicProvider({
   children,
   initialProducts,
+  suppressAutoApply = false,
+  suppressUrlUpdate = false,
 }: {
   children: React.ReactNode;
   initialProducts: Product[];
+  suppressAutoApply?: boolean;
+  suppressUrlUpdate?: boolean;
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [attributes, setAttributes] = useState<Filter[]>([]);
@@ -216,8 +220,8 @@ export function FiltersLogicProvider({
       setTotalPages(productData.totalPages);
       setFilteredProducts(productData.docs);
       setAttributes(filterData.filters);
-      // Update URL without clearing parameters if autoApply is true.
-      if (combinedQueryString) {
+      // Only update the URL if suppressUrlUpdate is false
+      if (!suppressUrlUpdate && combinedQueryString) {
         if (autoApply) {
           window.history.replaceState(null, "", `?${combinedQueryString}`);
         } else {
@@ -232,9 +236,11 @@ export function FiltersLogicProvider({
 
   // Automatically apply filters whenever checkedItems or inStockOnly changes
   useEffect(() => {
-    applyFilters(true);
+    if (!suppressAutoApply) {
+      applyFilters(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkedItems, inStockOnly, searchParams]);
+  }, [checkedItems, inStockOnly, searchParams, suppressAutoApply]);
 
   const handleCheckAndFilterChange = (
     filterId: string,

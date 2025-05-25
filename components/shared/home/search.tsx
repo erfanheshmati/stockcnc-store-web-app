@@ -72,10 +72,10 @@ export default function Search() {
   };
 
   return (
-    <div className="flex w-[90%] md:w-[740px] lg:w-[995px] h-[75px] md:h-[92px] bg-white shadow-lg rounded-2xl absolute -bottom-8 md:-bottom-11 z-[1]">
+    <div className="flex w-[90%] md:w-[740px] lg:w-[995px] h-[65px] sm:h-[75px] md:h-[92px] bg-white shadow-lg rounded-2xl absolute -bottom-8 md:-bottom-11 z-[1]">
       <form
         onSubmit={handleSearch}
-        className="flex items-center justify-between gap-4 md:gap-14 xl:gap-16 w-full px-6 md:px-10"
+        className="flex items-center justify-between gap-4 md:gap-14 xl:gap-16 w-full px-4 md:px-6 lg:px-10"
       >
         <input
           type="text"
@@ -112,7 +112,7 @@ export default function Search() {
           <select
             onChange={handleCategoryChange}
             value={selectedCategory}
-            className="hidden md:flex px-4 focus:outline-none text-[14px] min-w-[150px] h-[55px] rounded-3xl border-l border-t text-[#536683] cursor-pointer appearance-none"
+            className="hidden md:flex px-4 focus:outline-none text-[14px] min-w-[160px] h-[55px] rounded-full border-l border-t text-[#536683] cursor-pointer appearance-none"
           >
             <option value="">دسته بندی</option>
 
@@ -131,7 +131,7 @@ export default function Search() {
           </select>
           {/* Custom Arrow Icon */}
           <div className="hidden md:block absolute top-1/2 left-4 transform -translate-y-1/2 pointer-events-none">
-            <BiChevronDown />
+            <BiChevronDown className="fill-[#536683]" />
           </div>
         </div>
         <button className="min-w-[62px]">
