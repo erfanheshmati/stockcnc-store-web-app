@@ -75,7 +75,7 @@ export default function Search() {
     <div className="flex w-[90%] md:w-[740px] lg:w-[995px] h-[65px] sm:h-[75px] md:h-[92px] bg-white shadow-lg rounded-2xl absolute -bottom-8 md:-bottom-11 z-[1]">
       <form
         onSubmit={handleSearch}
-        className="flex items-center justify-between gap-4 md:gap-14 xl:gap-16 w-full px-4 md:px-6 lg:px-10"
+        className="flex items-center justify-between gap-4 md:gap-14 xl:gap-16 w-full px-2 sm:px-4 md:px-6 lg:px-10"
       >
         <input
           type="text"
@@ -134,14 +134,14 @@ export default function Search() {
             <BiChevronDown className="fill-[#536683]" />
           </div>
         </div>
-        <button className="min-w-[62px]">
+        <button>
           <svg
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
             width="62"
             height="42"
             viewBox="0 0 115 32"
-            className="group"
+            className="w-[50px] sm:w-[62px] h-auto group"
           >
             <path
               fill="#8898af"
