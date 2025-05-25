@@ -91,7 +91,7 @@ export default function Consultation({ productId }: { productId: string }) {
               className="p-4 w-full rounded-xl border focus:outline-none bg-gradient-to-b from-secondary/10 to-white font-medium text-[14px]"
             />
             <input
-              type="text"
+              type="number"
               placeholder="* شماره تماس"
               name="phone"
               value={formData.phone}
