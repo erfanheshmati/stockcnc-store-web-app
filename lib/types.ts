@@ -4,6 +4,7 @@ export interface Category {
   seoTitle: string;
   metaData: string;
   title: string;
+  titleEn: string;
   description: string;
   sellerPhone: string;
   view: number;

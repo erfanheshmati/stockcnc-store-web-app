@@ -46,7 +46,11 @@ export default function Categories() {
       >
         {!error &&
           categoriesData.map((data) => (
-            <Link href={`/archiv?category=${data._id}`} key={data._id}>
+            // <Link href={`/archiv?category=${data._id}`} key={data._id}>
+            <Link
+              href={`/category/${data.titleEn}?category=${data._id}`}
+              key={data._id}
+            >
               <CategoryCard data={data} />
             </Link>
           ))}
