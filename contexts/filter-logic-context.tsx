@@ -181,10 +181,10 @@ export function FiltersLogicProvider({
   const applyFilters = async (autoApply = false) => {
     setIsLoading(true);
     const filterQueryString = buildQueryString();
-    // Retrieve default reserved parameters from the URL (q, category, sort)
+    // Retrieve default reserved parameters from the URL (q, category, sort, brand)
     const urlParams = new URLSearchParams(window.location.search);
     const defaultParams = new URLSearchParams();
-    const reservedKeys = ["q", "category", "sort"];
+    const reservedKeys = ["q", "category", "brand", "sort"];
     reservedKeys.forEach((key) => {
       let value = urlParams.get(key);
       if (key === "sort" && !value) {
@@ -291,7 +291,7 @@ export function FiltersLogicProvider({
     setInStockOnly(null);
     // Get current URL parameters
     const urlParams = new URLSearchParams(window.location.search);
-    const preservedKeys = ["category", "q", "sort"];
+    const preservedKeys = ["category", "brand", "q", "sort"];
     // Create a new URLSearchParams instance with only the preserved keys
     const newParams = new URLSearchParams();
     preservedKeys.forEach((key) => {
