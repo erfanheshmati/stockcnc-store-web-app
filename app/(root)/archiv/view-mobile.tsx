@@ -49,7 +49,7 @@ export default function ViewMobile() {
     setVisibleProducts(filteredProducts); // Sync with filtered products when filters change
   }, [filteredProducts]);
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Loading className="justify-start mt-28" />;
 
   return (
     <div>
@@ -60,6 +60,11 @@ export default function ViewMobile() {
           ))
         ) : (
           <div className="flex flex-col items-center justify-center text-secondary text-sm mt-6">
+            <img
+              src="/images/not-exist.png"
+              alt=""
+              className="w-[300px] sm:w-[400px] h-auto"
+            />
             محصولی با این مشخصات وجود ندارد
           </div>
         )}

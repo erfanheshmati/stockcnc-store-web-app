@@ -51,14 +51,14 @@ export default function ViewGrid() {
     setVisibleProducts(filteredProducts); // Sync with filtered products when filters change
   }, [filteredProducts]);
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Loading className="justify-start mt-28" />;
 
   return (
     <>
       {viewType === "grid" && (
         <div
           className={`flex flex-col gap-14 pt-6 ${
-            !visibleProducts.length && "h-full justify-center items-center"
+            !visibleProducts.length && "h-full justify-start items-center"
           }`}
         >
           <div
@@ -72,7 +72,12 @@ export default function ViewGrid() {
                 <ProductCardGrid key={data._id} data={data} />
               ))
             ) : (
-              <div className="text-secondary text-sm">
+              <div className="flex flex-col items-center justify-center text-secondary">
+                <img
+                  src="/images/not-exist.png"
+                  alt=""
+                  className="w-[400px] h-auto"
+                />
                 محصولی با این مشخصات وجود ندارد
               </div>
             )}
