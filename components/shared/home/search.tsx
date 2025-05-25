@@ -75,7 +75,7 @@ export default function Search() {
     <div className="flex w-[90%] md:w-[740px] lg:w-[995px] h-[65px] sm:h-[75px] md:h-[92px] bg-white shadow-lg rounded-2xl absolute -bottom-8 md:-bottom-11 z-[1]">
       <form
         onSubmit={handleSearch}
-        className="flex items-center justify-between gap-4 md:gap-14 xl:gap-16 w-full px-2 sm:px-4 md:px-6 lg:px-10"
+        className="flex items-center justify-between gap-4 md:gap-14 xl:gap-16 w-full px-4 md:px-6 lg:px-10"
       >
         <input
           type="text"

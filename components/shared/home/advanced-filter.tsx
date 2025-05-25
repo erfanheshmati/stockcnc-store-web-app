@@ -186,7 +186,7 @@ export default function AdvancedFilter({ className }: { className: string }) {
 
       <form
         onSubmit={handleSubmit}
-        className="flex items-center justify-between gap-1 w-full px-2 sm:px-4 md:px-6 lg:px-10 overflow-hidden"
+        className="flex items-center justify-between gap-1 w-full px-4 md:px-6 lg:px-10 overflow-hidden"
       >
         {/* Filter 1: نوع دستگاه */}
         <div className="relative">
