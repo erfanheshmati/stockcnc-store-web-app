@@ -140,7 +140,7 @@ export default async function ArchivePage({
                 )}
                 {/* Description */}
                 {category && (
-                  <div className="flex flex-col gap-4 bg-[#618FB61A] -mx-4 px-4 py-8">
+                  <div className="flex flex-col gap-4 bg-[#618FB61A] -mx-4 px-4 py-8 mt-auto">
                     <h2 className="text-primary font-bold text-[16px] text-center">
                       {category.title}
                     </h2>

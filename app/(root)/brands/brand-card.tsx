@@ -15,8 +15,8 @@ export default function BrandCard({ brand }: { brand: Brand }) {
         </figure>
         <h3 className="text-[#1F2329] font-bold text-[18px]">{brand.title}</h3>
         <Link
-          href={`/product/${brand._id}`}
-          target="_blank"
+          href={`/brand/${brand.enTitle}?brand=${brand._id}`}
+          // target="_blank"
           className="flex items-center justify-center w-full h-[45px] md:h-[55px] rounded-lg text-black hover:text-white border hover:border-none hover:bg-primary transition-colors duration-300 ease-in-out"
         >
           <span className="font-[500] text-[14px]">مشاهده محصولات برند</span>

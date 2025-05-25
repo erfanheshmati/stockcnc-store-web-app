@@ -10,8 +10,8 @@ import ViewMobile from "../../archiv/view-mobile";
 import DialogFilters from "../../archiv/dialog-filters";
 import ButtonsMobile from "../../archiv/buttons-mobile";
 import { FilterProvider } from "@/contexts/filter-popup-context";
-import { API_URL } from "@/lib/constants";
-import { Category } from "@/lib/types";
+import { API_URL, IMAGE_URL } from "@/lib/constants";
+import { Brand } from "@/lib/types";
 import { FiltersLogicProvider } from "@/contexts/filter-logic-context";
 import SortSwitch from "../../archiv/sort-switch";
 import { SortProvider } from "@/contexts/sort-popup-context";
@@ -23,7 +23,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
-  const res1 = await fetch(`${API_URL}/category`);
+  const res1 = await fetch(`${API_URL}/brand`);
   const res2 = await fetch(`${API_URL}/web-text-plans`);
 
   if (!res1.ok || !res2.ok) {
@@ -32,47 +32,44 @@ export async function generateMetadata({
     };
   }
 
-  const categoriesData = await res1.json();
+  const brandsData = await res1.json();
   const info = await res2.json();
 
-  const category = categoriesData.categories.find(
-    // (cat: Category) => cat._id === params.id
-    (cat: Category) => cat.titleEn === params.slug
+  const brand = brandsData.find(
+    (brand: Brand) => brand.enTitle === params.slug
   );
 
   return {
-    title: `${category?.seoTitle || info.archiveProductSeoTitle} - ${
-      info.title
-    }`,
-    description: category?.metaData || info.archiveProductMetaData,
+    title: `${brand?.seoTitle || info.archiveProductSeoTitle} - ${info.title}`,
+    description: brand?.metaData || info.archiveProductMetaData,
   };
 }
 
-export default async function CategoryPage({
+export default async function BrandPage({
   searchParams,
 }: {
   params: {
     slug: string;
   };
   searchParams: {
-    category?: string;
+    brand?: string;
     sort?: string;
   };
 }) {
-  const categoryQuery = searchParams?.category || "";
+  const brandQuery = searchParams?.brand || "";
   const sortQuery = searchParams?.sort || "";
 
   let error: string | null = null;
 
   const res1 = await fetch(`${API_URL}/web-text-plans`);
-  const res2 = await fetch(`${API_URL}/category`);
+  const res2 = await fetch(`${API_URL}/brand`);
   const res3 = await fetch(
-    `${API_URL}/product?category=${categoryQuery}&sort=${sortQuery}`,
+    `${API_URL}/product?brand=${brandQuery}&sort=${sortQuery}`,
     { cache: "no-store" }
   );
 
   const info = await res1.json();
-  const categoriesData = await res2.json();
+  const brandsData = await res2.json();
   const productsData = await res3.json();
 
   // Check redirection
@@ -87,9 +84,7 @@ export default async function CategoryPage({
   // If no data, return 404
   if (!productsData) return notFound();
 
-  const category = categoriesData?.categories.find(
-    (cat: Category) => cat._id === categoryQuery
-  );
+  const brand = brandsData?.find((brand: Brand) => brand._id === brandQuery);
 
   if (productsData.length === 0) {
     error = "جستجو بی نتیجه بود";
@@ -111,7 +106,7 @@ export default async function CategoryPage({
               {/* Heading */}
               <div className="absolute w-full flex justify-center top-10">
                 <h1 className="text-primary font-bold text-[20px]">
-                  {category.title}
+                  محصولات {brand.title}
                 </h1>
               </div>
               {/* Content */}
@@ -127,13 +122,13 @@ export default async function CategoryPage({
                   <ViewMobile />
                 )}
                 {/* Description */}
-                {category && (
+                {brand && (
                   <div className="flex flex-col gap-4 bg-[#618FB61A] -mx-4 px-4 py-8 mt-auto">
                     <h2 className="text-primary font-bold text-[16px] text-center">
-                      {category.title}
+                      درباره {brand.title}
                     </h2>
                     <p className="text-secondary font-medium text-[12px] leading-7 text-justify">
-                      {category.description}
+                      {brand.summary}
                     </p>
                   </div>
                 )}
@@ -148,57 +143,73 @@ export default async function CategoryPage({
               {/* Sitemap */}
               <div className="flex items-center justify-center">
                 <div className="wrapper flex items-center justify-between absolute -mt-12 z-10">
-                  <Sitemap category={category} />
+                  <Sitemap brand={brand} />
                 </div>
               </div>
               {/* Content */}
-              <div className="wrapper min-h-screen flex flex-row md:gap-10 xl:gap-20 py-12">
-                {/* Filters */}
-                <div className="flex flex-col gap-8 w-6/12 lg:w-4/12 xl:w-3/12">
-                  <h3 className="text-secondary font-semibold text-[20px]">
-                    فیلترها
-                  </h3>
-                  <Filters />
-                </div>
-                {/* Product View */}
-                <div className="flex flex-col w-9/12">
-                  {/* Heading */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <h1 className="text-primary font-bold text-[24px]">
-                        {category.title}
-                      </h1>
-                    </div>
-                    <SortSwitch sort={sortQuery} />
-                    <ViewSwitch />
+              <div className="wrapper flex flex-col py-12">
+                <div className="flex md:gap-10 xl:gap-20">
+                  {/* Filters */}
+                  <div className="flex flex-col gap-8 w-6/12 lg:w-4/12 xl:w-3/12">
+                    <h3 className="text-secondary font-semibold text-[20px]">
+                      فیلترها
+                    </h3>
+                    <Filters />
                   </div>
-                  {/* Contents */}
-                  <div className="flex flex-col justify-between h-full">
-                    {error ? (
-                      <div className="flex items-start justify-center pt-20 h-full text-secondary text-sm">
-                        {error}
+                  {/* Product View */}
+                  <div className="flex flex-col w-9/12">
+                    {/* Heading */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <h1 className="text-primary font-bold text-[24px]">
+                          محصولات {brand.title}
+                        </h1>
                       </div>
-                    ) : (
-                      <>
-                        {/* List */}
-                        <ViewList />
-                        {/* Grid */}
-                        <ViewGrid />
-                      </>
-                    )}
-                    {/* Description Card */}
-                    {category && (
-                      <div className="flex flex-col gap-4 border rounded-xl shadow-md p-8 mt-14">
+                      <SortSwitch sort={sortQuery} />
+                      <ViewSwitch />
+                    </div>
+                    {/* Contents */}
+                    <div className="flex flex-col justify-between h-full">
+                      {error ? (
+                        <div className="flex items-start justify-center pt-20 h-full text-secondary text-sm">
+                          {error}
+                        </div>
+                      ) : (
+                        <>
+                          {/* List */}
+                          <ViewList />
+                          {/* Grid */}
+                          <ViewGrid />
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Brand Card */}
+                {brand && (
+                  <div className="border rounded-xl shadow-md py-8 mt-16 2xl:mt-20 bg-gradient-to-l from-[#f2f3f5]/70 via-[#fff] via-40% to-[#fff]">
+                    <div className="flex md:gap-10 xl:gap-20">
+                      {/* Logo */}
+                      <div className="flex items-center justify-center w-6/12 lg:w-4/12 xl:w-3/12">
+                        <img
+                          src={`${IMAGE_URL}/${brand.logo}`}
+                          alt={brand.enTitle}
+                          className="w-[220px] h-auto"
+                        />
+                      </div>
+                      {/* Description */}
+                      <div className="flex flex-col gap-4 pl-6 w-9/12">
                         <h2 className="text-primary font-bold text-[20px]">
-                          {category?.title}
+                          درباره {brand.title}
                         </h2>
                         <p className="text-secondary font-medium text-[13px] leading-7 text-justify">
-                          {category?.description}
+                          {brand.summary}
                         </p>
                       </div>
-                    )}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </ViewProvider>

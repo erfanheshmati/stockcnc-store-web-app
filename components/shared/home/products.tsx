@@ -11,7 +11,7 @@ import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import ProductCard from "./product-card";
 import { API_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
-import { Product } from "@/lib/types";
+import { Brand, Product } from "@/lib/types";
 
 export default function Products({
   selectedBrand,
@@ -19,7 +19,7 @@ export default function Products({
   selectedBrand: string | null;
 }) {
   const [productsData, setProductsData] = useState<Product[]>([]);
-  const [brandName, setBrandName] = useState<string>("");
+  const [brandData, setBrandData] = useState<Brand>();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function Products({
   }, [selectedBrand]);
 
   useEffect(() => {
-    const fetchBrandName = async () => {
+    const fetchBrandData = async () => {
       if (selectedBrand) {
         try {
           const res = await fetch(`${API_URL}/brand`);
@@ -48,16 +48,16 @@ export default function Products({
           const brand = data.find(
             (brand: { _id: string }) => brand._id === selectedBrand
           );
-          setBrandName(brand ? brand.title : "");
+          setBrandData(brand);
         } catch (error) {
           console.error((error as Error).message);
-          setBrandName("");
+          setBrandData(undefined);
         }
       } else {
-        setBrandName("");
+        setBrandData(undefined);
       }
     };
-    fetchBrandName();
+    fetchBrandData();
   }, [selectedBrand]);
 
   return (
@@ -66,7 +66,7 @@ export default function Products({
       <div className="md:hidden">
         <div className="flex flex-col items-center">
           <h2 className="text-primary font-bold text-[22px]">
-            محصولات {brandName}
+            محصولات {brandData?.title}
           </h2>
           <div className="wrapper !px-0 relative pt-4">
             {/* Custom arrows */}
@@ -157,13 +157,13 @@ export default function Products({
       <div className="hidden md:flex flex-col md:w-7/12 lg:w-8/12 xl:w-9/12">
         <div className="flex items-center justify-between">
           <h2 className="text-primary font-bold text-[24px] mr-2">
-            محصولات {brandName}
+            محصولات {brandData?.title}
           </h2>
           <Link
-            href="/archiv"
+            href={`/brand/${brandData?.enTitle}?brand=${brandData?._id}`}
             className="flex items-center gap-4 hover:underline"
           >
-            <span className="pt-1">مشاهده همه محصولات</span>
+            <span className="pt-1">مشاهده محصولات {brandData?.title}</span>
             <span className="flex items-center justify-center bg-secondary">
               <BiChevronLeft size={18} color="white" />
             </span>
