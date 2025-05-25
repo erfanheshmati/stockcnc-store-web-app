@@ -20,6 +20,18 @@ export default function ProductImages({ data }: { data: Product }) {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [loadedUrls, setLoadedUrls] = useState<Set<string>>(new Set());
 
+  // Prevent scrolling when fullscreen or gallery is open
+  useEffect(() => {
+    if (isFullScreen || showGallery) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isFullScreen, showGallery]);
+
   // Reset loading state when current image changes
   useEffect(() => {
     const mainImageUrl = `${IMAGE_URL}/720${data.gallery[current]}`;
