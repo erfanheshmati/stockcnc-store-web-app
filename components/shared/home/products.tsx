@@ -25,9 +25,12 @@ export default function Products({
   useEffect(() => {
     const fetchProductsData = async () => {
       try {
-        const res = await fetch(`${API_URL}/product?brand=${selectedBrand}`, {
-          cache: "no-store",
-        });
+        const res = await fetch(
+          `${API_URL}/product?brand=${selectedBrand}&available=true`,
+          {
+            cache: "no-store",
+          }
+        );
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         setProductsData(data.docs);
@@ -78,9 +81,14 @@ export default function Products({
             </div>
             <div className="h-[362px]">
               {!error && productsData.length === 0 && (
-                <p className="flex items-center justify-center text-secondary text-sm h-full">
+                <div className="flex flex-col items-center justify-center text-secondary text-sm h-full">
+                  <img
+                    src="/images/not-exist.png"
+                    alt=""
+                    className="w-[300px] sm:w-[400px] h-auto"
+                  />
                   محصولی برای نمایش وجود ندارد
-                </p>
+                </div>
               )}
 
               <Swiper
@@ -172,15 +180,20 @@ export default function Products({
         <hr className="mt-6 mr-2" />
         <div className="h-[550px]">
           {!error && productsData.length === 0 && (
-            <p className="flex items-center justify-center text-secondary text-sm h-full">
+            <div className="flex flex-col items-center justify-center text-secondary h-full">
+              <img
+                src="/images/not-exist.png"
+                alt=""
+                className="w-[400px] h-auto"
+              />
               محصولی برای نمایش وجود ندارد
-            </p>
+            </div>
           )}
 
           <Swiper
             slidesPerView={3}
             spaceBetween={0}
-            grabCursor={true}
+            grabCursor={false}
             breakpoints={{
               768: {
                 slidesPerView: 1,

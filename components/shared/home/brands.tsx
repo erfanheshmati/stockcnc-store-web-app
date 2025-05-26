@@ -3,6 +3,7 @@
 import BrandCard from "./brand-card";
 import { Brand } from "@/lib/types";
 import { IMAGE_URL } from "@/lib/constants";
+import Link from "next/link";
 
 export default function Brands({
   brands,
@@ -58,7 +59,7 @@ export default function Brands({
           {brands.length === 0 ? (
             <p className="text-red-500 text-center w-full">برندی وجود ندارد</p>
           ) : (
-            brands.map((data) => (
+            brands.slice(0, 4).map((data) => (
               <div
                 key={data._id}
                 onClick={() => handleBrandClick(data._id)}
@@ -68,6 +69,14 @@ export default function Brands({
               </div>
             ))
           )}
+
+          {/* Link to brands page */}
+          <Link
+            href="/brands"
+            className="flex items-center justify-center w-[287px] min-h-[97px] rounded-2xl shadow border border-gray-200/70 hover:bg-gradient-to-tl from-[#f2f3f5] via-[#fff] to-[#fff] font-semibold"
+          >
+            مشاهده همه برندها
+          </Link>
         </div>
       </div>
     </>
