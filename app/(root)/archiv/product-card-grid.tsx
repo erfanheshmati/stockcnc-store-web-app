@@ -29,11 +29,13 @@ export default function ProductCardGrid({ data }: { data: Product }) {
             <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1 h-1 border-l-8 border-r-8 border-t-8 border-t-[#7888A0] border-l-transparent border-r-transparent"></div>
           </div>
         </span>
-        <img
-          src={`${IMAGE_URL}/${data?.brand?.logo}`}
-          alt={data?.brand?.enTitle}
-          className="max-w-16 max-h-8"
-        />
+        <Link href={`/brand/${data?.brand?.enTitle}?brand=${data?.brand?._id}`}>
+          <img
+            src={`${IMAGE_URL}/${data?.brand?.logo}`}
+            alt={data?.brand?.enTitle}
+            className="w-20 max-h-8"
+          />
+        </Link>
       </div>
       <div
         className={`flex items-center justify-center w-full h-auto bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${

@@ -10,6 +10,7 @@ import {
 import { useAccordion } from "@/contexts/accordion-context";
 import { Product } from "@/lib/types";
 import { IMAGE_URL } from "@/lib/constants";
+import Link from "next/link";
 
 export default function ProductIntroduce({
   index,
@@ -30,14 +31,18 @@ export default function ProductIntroduce({
             <h1 className="text-primary font-sans font-bold text-[18px] line-clamp-1 w-9/12">
               {data.enTitle}
             </h1>
+            <Link
+              href={`/brand/${data?.brand?.enTitle}?brand=${data?.brand?._id}`}
+            >
+              <img
+                src={`${IMAGE_URL}/${data.brand.logo}`}
+                alt={data.brand.title}
+                className="w-20"
+              />
+            </Link>
           </div>
           <div className="flex items-center justify-between">
             <h2 className="text-secondary/70 text-[12px]">{data.title}</h2>
-            <img
-              src={`${IMAGE_URL}/${data.brand.logo}`}
-              alt={data.brand.title}
-              className="w-20"
-            />
           </div>
         </div>
         {/* Product Specifications */}
@@ -155,11 +160,15 @@ export default function ProductIntroduce({
             <h1 className="text-primary font-sans font-bold text-[28px] line-clamp-1">
               {data.enTitle}
             </h1>
-            <img
-              src={`${IMAGE_URL}/${data.brand.logo}`}
-              alt={data.brand.title}
-              className="max-w-24 max-h-8"
-            />
+            <Link
+              href={`/brand/${data?.brand?.enTitle}?brand=${data?.brand?._id}`}
+            >
+              <img
+                src={`${IMAGE_URL}/${data.brand.logo}`}
+                alt={data.brand.title}
+                className="max-w-24 max-h-8"
+              />
+            </Link>
           </div>
           <div className="flex items-center justify-between">
             <h2 className="text-secondary/90 text-[14px]">{data.title}</h2>

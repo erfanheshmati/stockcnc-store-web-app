@@ -11,7 +11,7 @@ export default function ProductCard({ data }: { data: Product }) {
   return (
     <>
       {/* Mobile View */}
-      <div className="md:hidden flex flex-col justify-between w-[221px] h-[360px] px-4 py-2 mx-auto shadow-xl rounded-xl">
+      <div className="md:hidden flex flex-col justify-between gap-2 w-[221px] px-4 py-2 mx-auto shadow-xl rounded-xl">
         <div
           className={`flex items-center justify-between ${
             !data.available ? "opacity-70" : ""
@@ -24,11 +24,15 @@ export default function ProductCard({ data }: { data: Product }) {
               className="w-[18px] h-[18px]"
             />
           </span>
-          <img
-            src={`${IMAGE_URL}/${data.brand.logo}`}
-            alt={data.brand.enTitle}
-            className="w-16"
-          />
+          <Link
+            href={`/brand/${data?.brand?.enTitle}?brand=${data?.brand?._id}`}
+          >
+            <img
+              src={`${IMAGE_URL}/${data.brand.logo}`}
+              alt={data.brand.enTitle}
+              className="w-16"
+            />
+          </Link>
         </div>
         <div
           className={`flex items-center justify-center w-full h-auto rounded-xl bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${
@@ -131,11 +135,15 @@ export default function ProductCard({ data }: { data: Product }) {
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1 h-1 border-l-8 border-r-8 border-t-8 border-t-[#7888A0] border-l-transparent border-r-transparent"></div>
             </div>
           </span>
-          <img
-            src={`${IMAGE_URL}/${data.brand.logo}`}
-            alt={data.brand.enTitle}
-            className="w-20"
-          />
+          <Link
+            href={`/brand/${data?.brand?.enTitle}?brand=${data?.brand?._id}`}
+          >
+            <img
+              src={`${IMAGE_URL}/${data?.brand?.logo}`}
+              alt={data.brand.enTitle}
+              className="w-20"
+            />
+          </Link>
         </div>
         <div
           className={`flex items-center justify-center w-full h-auto bg-gradient-to-l from-[#e3e8ef] to-[#f3f7ff] ${

@@ -80,11 +80,15 @@ export default function ProductCardList({ data }: { data: Product }) {
           <div
             className={`hidden lg:block ${!data.available ? "opacity-70" : ""}`}
           >
-            <img
-              src={`${IMAGE_URL}/${data?.brand?.logo}`}
-              alt={data?.brand?.enTitle}
-              className="w-20"
-            />
+            <Link
+              href={`/brand/${data?.brand?.enTitle}?brand=${data?.brand?._id}`}
+            >
+              <img
+                src={`${IMAGE_URL}/${data?.brand?.logo}`}
+                alt={data?.brand?.enTitle}
+                className="w-20"
+              />
+            </Link>
           </div>
           <div className="flex items-center gap-4">
             <Link

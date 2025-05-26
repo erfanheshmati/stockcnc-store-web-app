@@ -26,12 +26,16 @@ export default function ProductCardMobile({ product }: { product: Product }) {
             />
           </Link>
         </div>
-        <div className="flex items-center justify-center gap-2">
-          <img
-            src={`${IMAGE_URL}/${product?.brand?.logo}`}
-            alt={product?.brand?.enTitle}
-            width={60}
-          />
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link
+            href={`/brand/${product?.brand?.enTitle}?brand=${product?.brand?._id}`}
+          >
+            <img
+              src={`${IMAGE_URL}/${product?.brand?.logo}`}
+              alt={product?.brand?.enTitle}
+              className="w-20"
+            />
+          </Link>
           <img
             src={`${IMAGE_URL}/${product.country.logo}`}
             alt={product.country.title}
