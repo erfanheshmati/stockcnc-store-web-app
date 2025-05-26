@@ -2,11 +2,12 @@
 
 import { API_URL } from "@/lib/constants";
 import { Category, MostSearch } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BiChevronDown, BiRotateLeft } from "react-icons/bi";
 
-export default function Search() {
+export default function Search({ className }: { className: string }) {
   const [categoriesData, setCategoriesData] = useState<Category[]>([]);
   const [mostSearchesData, setMostSearchesData] = useState<MostSearch[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -72,7 +73,12 @@ export default function Search() {
   };
 
   return (
-    <div className="flex w-[90%] md:w-[740px] lg:w-[995px] h-[65px] sm:h-[75px] md:h-[92px] bg-white shadow-lg rounded-2xl absolute -bottom-8 md:-bottom-11 z-[1]">
+    <div
+      className={cn(
+        "flex w-[90%] md:w-[740px] lg:w-[995px] h-[65px] sm:h-[75px] md:h-[92px] bg-white shadow-lg rounded-2xl",
+        className
+      )}
+    >
       <form
         onSubmit={handleSearch}
         className="flex items-center justify-between gap-4 md:gap-14 xl:gap-16 w-full px-4 md:px-6 lg:px-10"

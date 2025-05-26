@@ -1,6 +1,7 @@
 "use client";
 
 import DialogBoxInquiry from "@/components/shared/dialog-box-inquiry";
+import AdvancedFilter from "@/components/shared/home/advanced-filter";
 import Banner from "@/components/shared/home/banner";
 import Blogs from "@/components/shared/home/blogs";
 import Brands from "@/components/shared/home/brands";
@@ -11,6 +12,7 @@ import Inquire from "@/components/shared/home/inquire";
 import Products from "@/components/shared/home/products";
 import Search from "@/components/shared/home/search";
 import { useDialog } from "@/contexts/dialog-context";
+import { FiltersLogicProvider } from "@/contexts/filter-logic-context";
 import { API_URL } from "@/lib/constants";
 import { Brand } from "@/lib/types";
 import { useEffect, useState } from "react";
@@ -39,12 +41,19 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <FiltersLogicProvider
+      initialProducts={[]}
+      suppressAutoApply={true}
+      suppressUrlUpdate={true}
+    >
+      {/* Price Inquiry Pop-up */}
       <DialogBoxInquiry isOpen={isDialogOpen} onClose={closeDialog} />
 
+      {/* Main Page */}
       <div className="relative">
         <Banner>
-          <Search />
+          <AdvancedFilter className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" />
+          <Search className="absolute -bottom-8 md:-bottom-11 z-[1]" />
         </Banner>
         <div className="wrapper">
           <Categories />
@@ -60,6 +69,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </>
+    </FiltersLogicProvider>
   );
 }
