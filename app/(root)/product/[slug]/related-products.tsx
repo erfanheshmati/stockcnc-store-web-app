@@ -26,7 +26,9 @@ export default function RelatedProducts({
   useEffect(() => {
     const fetchProductsData = async () => {
       try {
-        const res = await fetch(`${API_URL}/product?category=${proCatId}`);
+        const res = await fetch(
+          `${API_URL}/product?category=${proCatId}&available=true`
+        );
         if (!res.ok) throw new Error("خطا در دریافت اطلاعات!");
         const data = await res.json();
         const filteredProducts = data.docs.filter(
@@ -98,7 +100,7 @@ export default function RelatedProducts({
           <Swiper
             slidesPerView={4}
             spaceBetween={0}
-            grabCursor={true}
+            grabCursor={false}
             breakpoints={{
               768: {
                 slidesPerView: 2,
