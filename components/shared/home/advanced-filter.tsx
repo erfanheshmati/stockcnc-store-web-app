@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { BiChevronDown } from "react-icons/bi";
 import { useFiltersLogic } from "@/contexts/filter-logic-context";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useMemo, ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { StringFilter } from "@/lib/types";
 
@@ -15,9 +15,10 @@ type CheckedItems = {
 };
 
 export default function AdvancedFilter({ className }: { className: string }) {
-  const { attributes, setCheckedItems, checkedItems } = useFiltersLogic();
+  const { attributes, setCheckedItems, checkedItems, applyFilters, isLoading } =
+    useFiltersLogic();
+
   const router = useRouter();
-  const pathname = usePathname();
 
   // Find the filter objects by their Persian titles
   const deviceTypeFilter = useMemo(
@@ -38,6 +39,9 @@ export default function AdvancedFilter({ className }: { className: string }) {
   const [selectedControl, setSelectedControl] = useState("");
   const [selectedAxisCount, setSelectedAxisCount] = useState("");
 
+  // Add a flag to trigger refetch after clearing filters
+  const [shouldRefetchAll, setShouldRefetchAll] = useState(false);
+
   // Get options from context (they will update as context state changes)
   const deviceTypeOptions =
     deviceTypeFilter?.type === "string" ? deviceTypeFilter.value : [];
@@ -45,6 +49,19 @@ export default function AdvancedFilter({ className }: { className: string }) {
     controlFilter?.type === "string" ? controlFilter.value : [];
   const axisCountOptions =
     axisCountFilter?.type === "string" ? axisCountFilter.value : [];
+
+  // Reset selectedDeviceType if not in deviceTypeOptions
+  useEffect(() => {
+    if (
+      selectedDeviceType &&
+      !deviceTypeOptions.some((opt) => opt.value === selectedDeviceType)
+    ) {
+      setSelectedDeviceType("");
+      setSelectedControl("");
+      setSelectedAxisCount("");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deviceTypeOptions]);
 
   // Reset selectedControl if not in controlOptions
   useEffect(() => {
@@ -69,40 +86,76 @@ export default function AdvancedFilter({ className }: { className: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axisCountOptions]);
 
-  // New: Set checkedItems for single-select filters
-  const handleSelectFilterChange = (
-    filterId: string,
-    value: string,
-    clearIds: string[] = []
-  ) => {
-    const newChecked: CheckedItems = { ...checkedItems };
-    newChecked[filterId] = { [value]: true };
-    clearIds.forEach((id) => {
-      delete newChecked[id];
-    });
-    setCheckedItems(newChecked);
-  };
+  // Add useEffect to trigger applyFilters after checkedItems is cleared
+  useEffect(() => {
+    if (shouldRefetchAll && Object.keys(checkedItems).length === 0) {
+      applyFilters();
+      setShouldRefetchAll(false);
+    }
+  }, [shouldRefetchAll, checkedItems, applyFilters]);
 
   // On each select, update context and local state
-  const handleDeviceTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handleDeviceTypeChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    setSelectedDeviceType(value);
     if (deviceTypeFilter) {
-      handleSelectFilterChange(deviceTypeFilter.id, value);
+      if (value === "") {
+        setCheckedItems({});
+        setShouldRefetchAll(true);
+        setSelectedDeviceType("");
+        setSelectedControl("");
+        setSelectedAxisCount("");
+        return;
+      }
+      const newChecked: CheckedItems = {
+        ...checkedItems,
+        [deviceTypeFilter.id]: { [value]: true },
+      };
+      setCheckedItems(newChecked);
+      await applyFilters();
+      setSelectedDeviceType(value);
+      setSelectedControl(""); // Reset dependent selects
+      setSelectedAxisCount("");
     }
   };
-  const handleControlChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handleControlChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    setSelectedControl(value);
     if (controlFilter) {
-      handleSelectFilterChange(controlFilter.id, value);
+      if (value === "") {
+        setCheckedItems({});
+        setShouldRefetchAll(true);
+        setSelectedDeviceType("");
+        setSelectedControl("");
+        setSelectedAxisCount("");
+        return;
+      }
+      const newChecked: CheckedItems = {
+        ...checkedItems,
+        [controlFilter.id]: { [value]: true },
+      };
+      setCheckedItems(newChecked);
+      await applyFilters();
+      setSelectedControl(value);
+      setSelectedAxisCount("");
     }
   };
-  const handleAxisCountChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handleAxisCountChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    setSelectedAxisCount(value);
     if (axisCountFilter) {
-      handleSelectFilterChange(axisCountFilter.id, value);
+      if (value === "") {
+        setCheckedItems({});
+        setShouldRefetchAll(true);
+        setSelectedDeviceType("");
+        setSelectedControl("");
+        setSelectedAxisCount("");
+        return;
+      }
+      const newChecked: CheckedItems = {
+        ...checkedItems,
+        [axisCountFilter.id]: { [value]: true },
+      };
+      setCheckedItems(newChecked);
+      await applyFilters();
+      setSelectedAxisCount(value);
     }
   };
 
@@ -118,24 +171,6 @@ export default function AdvancedFilter({ className }: { className: string }) {
       params.set(axisCountFilter.id, selectedAxisCount);
     router.push("/archiv?" + params.toString());
   };
-
-  useEffect(() => {
-    if (pathname === "/") {
-      // Only keep reserved params (q, category, sort)
-      const urlParams = new URLSearchParams(window.location.search);
-      const reservedKeys = ["q", "category", "sort"];
-      const newParams = new URLSearchParams();
-      reservedKeys.forEach((key) => {
-        if (urlParams.has(key)) {
-          newParams.set(key, urlParams.get(key)!);
-        }
-      });
-      const newUrl = `${window.location.pathname}${
-        newParams.toString() ? "?" + newParams.toString() : ""
-      }`;
-      window.history.replaceState(null, "", newUrl);
-    }
-  }, [pathname]);
 
   return (
     <div
@@ -174,8 +209,11 @@ export default function AdvancedFilter({ className }: { className: string }) {
             onChange={handleDeviceTypeChange}
             value={selectedDeviceType}
             className="flex px-6 outline-none text-[12px] md:text-[15px] w-full sm:min-w-[140px] md:min-w-[190px] lg:min-w-[220px] h-[45px] md:h-[55px] rounded-xl sm:rounded-full bg-[#F0F3F8] text-[#52637C] font-semibold cursor-pointer appearance-none"
+            disabled={isLoading}
           >
-            <option value="">نوع دستگاه</option>
+            <option value="">
+              {selectedDeviceType ? "تغییر دستگاه" : "نوع دستگاه"}
+            </option>
             {deviceTypeOptions.map((opt) => (
               <option value={opt.value} key={opt.value}>
                 {opt.value}
@@ -196,8 +234,11 @@ export default function AdvancedFilter({ className }: { className: string }) {
             onChange={handleControlChange}
             value={selectedControl}
             className="flex px-6 outline-none text-[12px] md:text-[15px] w-full sm:min-w-[140px] md:min-w-[190px] lg:min-w-[220px] h-[45px] md:h-[55px] rounded-xl sm:rounded-full bg-[#F0F3F8] text-[#52637C] font-semibold cursor-pointer appearance-none"
+            disabled={isLoading}
           >
-            <option value="">کنترل</option>
+            <option value="">
+              {selectedControl ? "تغییر کنترل" : "کنترل"}
+            </option>
             {controlOptions.map((opt) => (
               <option value={opt.value} key={opt.value}>
                 {opt.value}
@@ -218,8 +259,11 @@ export default function AdvancedFilter({ className }: { className: string }) {
             onChange={handleAxisCountChange}
             value={selectedAxisCount}
             className="flex px-6 outline-none text-[12px] md:text-[15px] w-full sm:min-w-[140px] md:min-w-[190px] lg:min-w-[220px] h-[45px] md:h-[55px] rounded-xl sm:rounded-full bg-[#F0F3F8] text-[#52637C] font-semibold cursor-pointer appearance-none"
+            disabled={isLoading}
           >
-            <option value="">تعداد محور</option>
+            <option value="">
+              {selectedAxisCount ? "تغییر تعداد محور" : "تعداد محور"}
+            </option>
             {axisCountOptions.map((opt) => (
               <option value={opt.value} key={opt.value}>
                 {opt.value}

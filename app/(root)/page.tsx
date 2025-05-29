@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <FiltersLogicProvider
       initialProducts={[]}
-      suppressAutoApply={true}
+      suppressAutoApply={false}
       suppressUrlUpdate={true}
     >
       {/* Price Inquiry Pop-up */}
