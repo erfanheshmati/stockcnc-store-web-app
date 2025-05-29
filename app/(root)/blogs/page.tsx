@@ -40,7 +40,7 @@ export default async function BlogsPage({
   };
 }) {
   const pageQuery = parseInt(searchParams?.page || "1", 10);
-  const limitQuery = parseInt(searchParams?.limit || "10", 10);
+  const limitQuery = parseInt(searchParams?.limit || "9", 10);
 
   const res1 = await fetch(`${API_URL}/web-text-plans`);
   const res2 = await fetch(`${API_URL}/blog?tutorial=true`, {
