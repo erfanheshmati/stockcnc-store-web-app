@@ -111,7 +111,7 @@ export default async function BlogsPage({
             <h3 className="text-secondary font-semibold text-[20px] pt-1">
               راهنمای خرید
             </h3>
-            <div className="flex flex-col gap-4 sticky top-24">
+            <div className="flex flex-col gap-4">
               {helpsData.map(
                 (blog: Blog, index: number, filteredBlogs: Blog[]) => (
                   <React.Fragment key={blog._id}>
