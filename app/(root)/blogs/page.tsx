@@ -107,23 +107,25 @@ export default async function BlogsPage({
         {/* Content */}
         <div className="wrapper flex gap-10 lg:gap-20 py-12">
           {/* Helps */}
-          <div className="hidden lg:flex flex-col gap-8 w-3/12">
-            <h3 className="text-secondary font-semibold text-[20px] pt-1">
-              راهنمای خرید
-            </h3>
-            <div className="flex flex-col gap-4">
-              {helpsData.map(
-                (blog: Blog, index: number, filteredBlogs: Blog[]) => (
-                  <React.Fragment key={blog._id}>
-                    <HelpCard data={blog} />
-                    <hr
-                      className={`${
-                        index === filteredBlogs.length - 1 ? "hidden" : ""
-                      } flex items-center justify-end mr-20`}
-                    />
-                  </React.Fragment>
-                )
-              )}
+          <div className="md:hidden lg:flex flex-col w-3/12">
+            <div className="flex flex-col gap-8 sticky top-24">
+              <h3 className="text-secondary font-semibold text-[20px] pt-1">
+                راهنمای خرید
+              </h3>
+              <div className="flex flex-col gap-4">
+                {helpsData.map(
+                  (blog: Blog, index: number, filteredBlogs: Blog[]) => (
+                    <React.Fragment key={blog._id}>
+                      <HelpCard data={blog} />
+                      <hr
+                        className={`${
+                          index === filteredBlogs.length - 1 ? "hidden" : ""
+                        } flex items-center justify-end mr-20`}
+                      />
+                    </React.Fragment>
+                  )
+                )}
+              </div>
             </div>
           </div>
           {/* Product View */}
