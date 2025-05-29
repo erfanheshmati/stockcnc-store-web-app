@@ -64,6 +64,7 @@ export default function ProductImages({ data }: { data: Product }) {
               pagination={{
                 clickable: true,
               }}
+              dir="ltr"
             >
               {data.gallery.map((image, index) => (
                 <SwiperSlide key={index}>
@@ -155,7 +156,7 @@ export default function ProductImages({ data }: { data: Product }) {
           )}
         </div>
 
-        {/* Fullscreen View */}
+        {/* Fullscreen Mode */}
         {isFullScreen && (
           <div className="flex flex-col h-screen fixed inset-0 bg-black z-50">
             <div className="flex items-center justify-between px-12 py-8">
@@ -175,15 +176,15 @@ export default function ProductImages({ data }: { data: Product }) {
             {/* Slideshow */}
             <div className="flex flex-col justify-center h-full relative product-swiper-container">
               {/* Custom arrows */}
-              <div className="custom-product-carousel-button-prev right-3 bg-neutral-400/80 hover:bg-neutral-300 transition-all duration-300 ease-in-out flex items-center justify-center rounded-full cursor-pointer w-9 h-9 z-[5]">
-                <BiChevronRight size={24} />
-              </div>
-              <div className="custom-product-carousel-button-next left-3 bg-neutral-400/80 hover:bg-neutral-300 transition-all duration-300 ease-in-out flex items-center justify-center rounded-full cursor-pointer w-9 h-9 z-[5]">
+              <div className="custom-product-carousel-button-prev left-3 bg-neutral-400/80 hover:bg-neutral-300 transition-all duration-300 ease-in-out flex items-center justify-center rounded-full cursor-pointer w-9 h-9 z-[5]">
                 <BiChevronLeft size={24} />
               </div>
+              <div className="custom-product-carousel-button-next right-3 bg-neutral-400/80 hover:bg-neutral-300 transition-all duration-300 ease-in-out flex items-center justify-center rounded-full cursor-pointer w-9 h-9 z-[5]">
+                <BiChevronRight size={24} />
+              </div>
               {/* Custom navigations */}
-              <div className="custom-product-carousel-button-prev custom-product-carousel-prev right-0 !top-[43%] 2xl:!top-[44%] w-[15%] 2xl:w-[17%] h-[70%] cursor-pointer z-[4]"></div>
-              <div className="custom-product-carousel-button-next custom-product-carousel-next left-0 !top-[43%] 2xl:!top-[44%] w-[15%] 2xl:w-[17%] h-[70%] cursor-pointer z-[4]"></div>
+              <div className="custom-product-carousel-button-prev custom-product-carousel-prev left-0 !top-[43%] 2xl:!top-[44%] w-[15%] 2xl:w-[17%] h-[70%] cursor-pointer z-[4]"></div>
+              <div className="custom-product-carousel-button-next custom-product-carousel-next right-0 !top-[43%] 2xl:!top-[44%] w-[15%] 2xl:w-[17%] h-[70%] cursor-pointer z-[4]"></div>
               {/* Swiper */}
               <div>
                 <Swiper
@@ -202,6 +203,7 @@ export default function ProductImages({ data }: { data: Product }) {
                     prevEl: ".custom-product-carousel-button-prev",
                     nextEl: ".custom-product-carousel-button-next",
                   }}
+                  dir="ltr"
                   breakpoints={{
                     768: {
                       // slidesPerView: 1,
@@ -245,7 +247,10 @@ export default function ProductImages({ data }: { data: Product }) {
                 </Swiper>
               </div>
               {/* Custom pagination container */}
-              <div className="custom-product-carousel-pagination"></div>
+              <div
+                className="custom-product-carousel-pagination"
+                dir="ltr"
+              ></div>
             </div>
           </div>
         )}
